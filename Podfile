@@ -1,0 +1,7 @@
+platform :ios, '7.0'
+pod 'MBProgressHUD', '~> 0.8'
+pod 'Reachability', '~> 3.1.1'
+pod 'AFNetworking', '~> 2.2'
+pod 'TPKeyboardAvoiding', '~> 1.2'
+pod 'PubNub', '~> 3.6'
+pod 'CrittercismSDK', '~> 4.3'
