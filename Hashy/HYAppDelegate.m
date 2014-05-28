@@ -12,7 +12,32 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+   
+    NSLog(@"App started");
+
+    CustomNavigationController *navController =[kStoryBoard instantiateViewControllerWithIdentifier:@"custom_nav"];
+    self.window.rootViewController =navController;
+    HYSignUpViewController *signUpVC = [kStoryBoard instantiateViewControllerWithIdentifier:@"signUp_vc"];
+    
+    [navController setViewControllers:[NSArray arrayWithObject:signUpVC] animated:YES];
+//
+//    if(1){
+//       HYSignUpViewController *signUpVC = [kStoryBoard instantiateViewControllerWithIdentifier:@"signUp_vc"];
+//        
+//        [navController setViewControllers:[NSArray arrayWithObject:signUpVC] animated:YES];
+//    }
+//    else {
+//       HYSignUpViewController * signUpVC = [kStoryBoard instantiateViewControllerWithIdentifier:@"signUp_vc"];
+//        
+//        navController.navigationBarHidden = YES;
+//        [navController setViewControllers:[NSArray arrayWithObject:signUpVC] animated:YES];
+//        
+//        
+//    }
+//
+//
+    
+   
     return YES;
 }
 							
