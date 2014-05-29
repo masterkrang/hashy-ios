@@ -1,9 +1,8 @@
 //
 //  PageTableView.h
-//  TrendStartr
+//  Hashy
 //
-//  Created by Amendeep Singh on 03/12/12.
-//  Copyright (c) 2012 Apptree Studio. All rights reserved.
+//  Created by Kurt on 5/28/14.
 //
 
 /*

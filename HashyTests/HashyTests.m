@@ -1,9 +1,9 @@
 //
 //  HashyTests.m
 //  HashyTests
+//  
 //
-//  Created by Sunny on 27/05/14.
-//  Copyright (c) 2014 Sunny. All rights reserved.
+//  Created by Kurt on 5/28/14.
 //
 
 #import <XCTest/XCTest.h>

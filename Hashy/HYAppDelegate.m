@@ -2,8 +2,7 @@
 //  HYAppDelegate.m
 //  Hashy
 //
-//  Created by Sunny on 27/05/14.
-//  Copyright (c) 2014 Sunny. All rights reserved.
+//  Created by Kurt on 5/28/14.
 //
 
 #import "HYAppDelegate.h"
@@ -17,9 +16,16 @@
 
     CustomNavigationController *navController =[kStoryBoard instantiateViewControllerWithIdentifier:@"custom_nav"];
     self.window.rootViewController =navController;
-    HYSignUpViewController *signUpVC = [kStoryBoard instantiateViewControllerWithIdentifier:@"signUp_vc"];
     
-    [navController setViewControllers:[NSArray arrayWithObject:signUpVC] animated:YES];
+    HYSignInViewController *signInVC = [kStoryBoard instantiateViewControllerWithIdentifier:@"signIn_vc"];
+    
+    [navController setViewControllers:[NSArray arrayWithObject:signInVC] animated:YES];
+    
+//    HYSignUpViewController *signUpVC = [kStoryBoard instantiateViewControllerWithIdentifier:@"signUp_vc"];
+//    
+//    [navController setViewControllers:[NSArray arrayWithObject:signUpVC] animated:YES];
+    
+    
 //
 //    if(1){
 //       HYSignUpViewController *signUpVC = [kStoryBoard instantiateViewControllerWithIdentifier:@"signUp_vc"];

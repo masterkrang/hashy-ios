@@ -2,8 +2,7 @@
 //  HYCreateChatViewController.m
 //  Hashy
 //
-//  Created by attmac107 on 5/28/14.
-//  Copyright (c) 2014 Sunny. All rights reserved.
+//  Created by Kurt on 5/29/14.
 //
 
 #import "HYCreateChatViewController.h"

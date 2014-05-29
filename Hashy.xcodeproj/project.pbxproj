@@ -17,10 +17,17 @@
 		2615F191193600D70079687C /* profile_green_dot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2615F18F193600D70079687C /* profile_green_dot@2x.png */; };
 		2615F19419360C880079687C /* HYListChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2615F19319360C870079687C /* HYListChatViewController.m */; };
 		2615F19719360C9E0079687C /* HYCreateChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2615F19619360C9E0079687C /* HYCreateChatViewController.m */; };
-		2615F19A19360D2A0079687C /* ListChatCustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2615F19919360D2A0079687C /* ListChatCustomCell.m */; };
 		2615F19F1936173F0079687C /* listChat_hashtag_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2615F19C1936173F0079687C /* listChat_hashtag_icon@2x.png */; };
 		2615F1A01936173F0079687C /* listChat_search_container@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2615F19D1936173F0079687C /* listChat_search_container@2x.png */; };
 		2615F1A11936173F0079687C /* listChat_search_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2615F19E1936173F0079687C /* listChat_search_icon@2x.png */; };
+		269347C31936FF150048CCA2 /* HYSignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 269347C21936FF150048CCA2 /* HYSignInViewController.m */; };
+		269347C61937067B0048CCA2 /* Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 269347C51937067B0048CCA2 /* Utility.m */; };
+		269347E519374CFF0048CCA2 /* GKCropBorderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 269347CA19374CFF0048CCA2 /* GKCropBorderView.m */; };
+		269347E619374CFF0048CCA2 /* GKImageCropOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 269347CC19374CFF0048CCA2 /* GKImageCropOverlayView.m */; };
+		269347E719374CFF0048CCA2 /* GKImageCropView.m in Sources */ = {isa = PBXBuildFile; fileRef = 269347CE19374CFF0048CCA2 /* GKImageCropView.m */; };
+		269347E819374CFF0048CCA2 /* GKImageCropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 269347D019374CFF0048CCA2 /* GKImageCropViewController.m */; };
+		269347E919374CFF0048CCA2 /* GKImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 269347D219374CFF0048CCA2 /* GKImagePicker.m */; };
+		269347EA19374CFF0048CCA2 /* GKResizeableCropOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 269347D419374CFF0048CCA2 /* GKResizeableCropOverlayView.m */; };
 		26ACF014193488F300C4BE9E /* HYSignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 26ACF013193488F300C4BE9E /* HYSignUpViewController.m */; };
 		26ACF0201934BE3F00C4BE9E /* NetworkEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 26ACF01D1934BE3F00C4BE9E /* NetworkEngine.m */; };
 		26ACF0211934BE3F00C4BE9E /* UpdateDataProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 26ACF01F1934BE3F00C4BE9E /* UpdateDataProcessor.m */; };
@@ -74,11 +81,25 @@
 		2615F19319360C870079687C /* HYListChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYListChatViewController.m; sourceTree = "<group>"; };
 		2615F19519360C9E0079687C /* HYCreateChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYCreateChatViewController.h; sourceTree = "<group>"; };
 		2615F19619360C9E0079687C /* HYCreateChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYCreateChatViewController.m; sourceTree = "<group>"; };
-		2615F19819360D2A0079687C /* ListChatCustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListChatCustomCell.h; sourceTree = "<group>"; };
-		2615F19919360D2A0079687C /* ListChatCustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListChatCustomCell.m; sourceTree = "<group>"; };
 		2615F19C1936173F0079687C /* listChat_hashtag_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "listChat_hashtag_icon@2x.png"; sourceTree = "<group>"; };
 		2615F19D1936173F0079687C /* listChat_search_container@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "listChat_search_container@2x.png"; sourceTree = "<group>"; };
 		2615F19E1936173F0079687C /* listChat_search_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "listChat_search_icon@2x.png"; sourceTree = "<group>"; };
+		269347C11936FF150048CCA2 /* HYSignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYSignInViewController.h; sourceTree = "<group>"; };
+		269347C21936FF150048CCA2 /* HYSignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYSignInViewController.m; sourceTree = "<group>"; };
+		269347C41937067B0048CCA2 /* Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utility.h; sourceTree = "<group>"; };
+		269347C51937067B0048CCA2 /* Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utility.m; sourceTree = "<group>"; };
+		269347C919374CFF0048CCA2 /* GKCropBorderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKCropBorderView.h; sourceTree = "<group>"; };
+		269347CA19374CFF0048CCA2 /* GKCropBorderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKCropBorderView.m; sourceTree = "<group>"; };
+		269347CB19374CFF0048CCA2 /* GKImageCropOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKImageCropOverlayView.h; sourceTree = "<group>"; };
+		269347CC19374CFF0048CCA2 /* GKImageCropOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKImageCropOverlayView.m; sourceTree = "<group>"; };
+		269347CD19374CFF0048CCA2 /* GKImageCropView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKImageCropView.h; sourceTree = "<group>"; };
+		269347CE19374CFF0048CCA2 /* GKImageCropView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKImageCropView.m; sourceTree = "<group>"; };
+		269347CF19374CFF0048CCA2 /* GKImageCropViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKImageCropViewController.h; sourceTree = "<group>"; };
+		269347D019374CFF0048CCA2 /* GKImageCropViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKImageCropViewController.m; sourceTree = "<group>"; };
+		269347D119374CFF0048CCA2 /* GKImagePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKImagePicker.h; sourceTree = "<group>"; };
+		269347D219374CFF0048CCA2 /* GKImagePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKImagePicker.m; sourceTree = "<group>"; };
+		269347D319374CFF0048CCA2 /* GKResizeableCropOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKResizeableCropOverlayView.h; sourceTree = "<group>"; };
+		269347D419374CFF0048CCA2 /* GKResizeableCropOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKResizeableCropOverlayView.m; sourceTree = "<group>"; };
 		26ACF012193488F300C4BE9E /* HYSignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYSignUpViewController.h; sourceTree = "<group>"; };
 		26ACF013193488F300C4BE9E /* HYSignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYSignUpViewController.m; sourceTree = "<group>"; };
 		26ACF016193489A700C4BE9E /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
@@ -165,14 +186,43 @@
 			path = "List Chat Screen";
 			sourceTree = "<group>";
 		};
+		269347C719374CFF0048CCA2 /* Custom Image Picker */ = {
+			isa = PBXGroup;
+			children = (
+				269347C819374CFF0048CCA2 /* GKClasses */,
+			);
+			path = "Custom Image Picker";
+			sourceTree = "<group>";
+		};
+		269347C819374CFF0048CCA2 /* GKClasses */ = {
+			isa = PBXGroup;
+			children = (
+				269347C919374CFF0048CCA2 /* GKCropBorderView.h */,
+				269347CA19374CFF0048CCA2 /* GKCropBorderView.m */,
+				269347CB19374CFF0048CCA2 /* GKImageCropOverlayView.h */,
+				269347CC19374CFF0048CCA2 /* GKImageCropOverlayView.m */,
+				269347CD19374CFF0048CCA2 /* GKImageCropView.h */,
+				269347CE19374CFF0048CCA2 /* GKImageCropView.m */,
+				269347CF19374CFF0048CCA2 /* GKImageCropViewController.h */,
+				269347D019374CFF0048CCA2 /* GKImageCropViewController.m */,
+				269347D119374CFF0048CCA2 /* GKImagePicker.h */,
+				269347D219374CFF0048CCA2 /* GKImagePicker.m */,
+				269347D319374CFF0048CCA2 /* GKResizeableCropOverlayView.h */,
+				269347D419374CFF0048CCA2 /* GKResizeableCropOverlayView.m */,
+			);
+			path = GKClasses;
+			sourceTree = "<group>";
+		};
 		26ACF0151934899900C4BE9E /* Shared */ = {
 			isa = PBXGroup;
 			children = (
 				26ACF016193489A700C4BE9E /* Constants.h */,
-				26ACF01C1934BE3F00C4BE9E /* NetworkEngine.h */,
-				26ACF01D1934BE3F00C4BE9E /* NetworkEngine.m */,
+				269347C41937067B0048CCA2 /* Utility.h */,
+				269347C51937067B0048CCA2 /* Utility.m */,
 				26ACF01E1934BE3F00C4BE9E /* UpdateDataProcessor.h */,
 				26ACF01F1934BE3F00C4BE9E /* UpdateDataProcessor.m */,
+				26ACF01C1934BE3F00C4BE9E /* NetworkEngine.h */,
+				26ACF01D1934BE3F00C4BE9E /* NetworkEngine.m */,
 				26ACF0251934C45700C4BE9E /* PageTableView.h */,
 				26ACF0261934C45700C4BE9E /* PageTableView.m */,
 			);
@@ -184,8 +234,6 @@
 			children = (
 				26ACF0291934C4CE00C4BE9E /* ProfileCustomCell.h */,
 				26ACF02A1934C4CE00C4BE9E /* ProfileCustomCell.m */,
-				2615F19819360D2A0079687C /* ListChatCustomCell.h */,
-				2615F19919360D2A0079687C /* ListChatCustomCell.m */,
 			);
 			path = "Custom Cell";
 			sourceTree = "<group>";
@@ -254,6 +302,7 @@
 		A380DF801934695100759039 /* Hashy */ = {
 			isa = PBXGroup;
 			children = (
+				269347C719374CFF0048CCA2 /* Custom Image Picker */,
 				2607A1D719346F8C000FBBDF /* TTTAttributedLabel */,
 				26ACF0151934899900C4BE9E /* Shared */,
 				26ACF0281934C4A500C4BE9E /* Custom Cell */,
@@ -264,6 +313,8 @@
 				A380DF901934695100759039 /* HYViewController.m */,
 				2607A1D319346F8C000FBBDF /* CustomNavigationController.h */,
 				2607A1D419346F8C000FBBDF /* CustomNavigationController.m */,
+				269347C11936FF150048CCA2 /* HYSignInViewController.h */,
+				269347C21936FF150048CCA2 /* HYSignInViewController.m */,
 				26ACF012193488F300C4BE9E /* HYSignUpViewController.h */,
 				26ACF013193488F300C4BE9E /* HYSignUpViewController.m */,
 				2607A1DE19346F8C000FBBDF /* AddImageViewController.h */,
@@ -456,19 +507,26 @@
 			files = (
 				A380DF911934695100759039 /* HYViewController.m in Sources */,
 				26ACF0271934C45700C4BE9E /* PageTableView.m in Sources */,
+				269347E719374CFF0048CCA2 /* GKImageCropView.m in Sources */,
+				269347EA19374CFF0048CCA2 /* GKResizeableCropOverlayView.m in Sources */,
 				A380DF871934695100759039 /* main.m in Sources */,
 				26ACF014193488F300C4BE9E /* HYSignUpViewController.m in Sources */,
+				269347E519374CFF0048CCA2 /* GKCropBorderView.m in Sources */,
 				2615F19419360C880079687C /* HYListChatViewController.m in Sources */,
 				26ACF02B1934C4CE00C4BE9E /* ProfileCustomCell.m in Sources */,
 				2607A1E419346F8C000FBBDF /* TTTAttributedLabel.m in Sources */,
+				269347E619374CFF0048CCA2 /* GKImageCropOverlayView.m in Sources */,
+				269347E819374CFF0048CCA2 /* GKImageCropViewController.m in Sources */,
 				2607A1E019346F8C000FBBDF /* CustomNavigationController.m in Sources */,
-				2615F19A19360D2A0079687C /* ListChatCustomCell.m in Sources */,
+				269347C61937067B0048CCA2 /* Utility.m in Sources */,
+				269347E919374CFF0048CCA2 /* GKImagePicker.m in Sources */,
 				26ACF0241934C37800C4BE9E /* HYProfileViewController.m in Sources */,
 				2607A1E519346F8C000FBBDF /* AddImageViewController.m in Sources */,
 				26ACF0211934BE3F00C4BE9E /* UpdateDataProcessor.m in Sources */,
 				2615F19719360C9E0079687C /* HYCreateChatViewController.m in Sources */,
 				26ACF0201934BE3F00C4BE9E /* NetworkEngine.m in Sources */,
 				2607A1E219346F8C000FBBDF /* NSAttributedString+Attributes.m in Sources */,
+				269347C31936FF150048CCA2 /* HYSignInViewController.m in Sources */,
 				2607A1E319346F8C000FBBDF /* OHParagraphStyle.m in Sources */,
 				A380DF8B1934695100759039 /* HYAppDelegate.m in Sources */,
 			);
@@ -598,7 +656,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Hashy/Hashy-Prefix.pch";
 				INFOPLIST_FILE = "Hashy/Hashy-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "82BFEE50-7FDF-4850-9606-0CA8D48ED5B0";
 				WRAPPER_EXTENSION = app;
@@ -613,7 +671,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Hashy/Hashy-Prefix.pch";
 				INFOPLIST_FILE = "Hashy/Hashy-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "82BFEE50-7FDF-4850-9606-0CA8D48ED5B0";
 				WRAPPER_EXTENSION = app;

@@ -2,8 +2,7 @@
 //  ProfileCustomCell.h
 //  Hashy
 //
-//  Created by attmac107 on 5/27/14.
-//  Copyright (c) 2014 Sunny. All rights reserved.
+//  Created by Kurt on 5/28/14.
 //
 
 #import <UIKit/UIKit.h>
@@ -17,8 +16,10 @@
 
 @property(nonatomic,strong)IBOutlet UILabel *hashTaglabel;
 @property(nonatomic,strong)IBOutlet TTTAttributedLabel *userNameLabel;
-@property(nonatomic,strong)IBOutlet UILabel *onlineUsersCount;
-@property(nonatomic,strong)IBOutlet UIButton *nextButton;
+@property(nonatomic,strong)IBOutlet UILabel *subscribersCount;
+//@property(nonatomic,strong)IBOutlet UIButton *nextButton;
+@property(nonatomic,strong)IBOutlet UIImageView *nextImageView;
+
 @property(nonatomic,strong)IBOutlet UIImageView *statusImageView;
 
 @end

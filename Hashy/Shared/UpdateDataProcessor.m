@@ -1,10 +1,10 @@
 //
 //  UpdateDataProcessor.m
-//  TrendStartr
+//  
 //
-//  Created by attmac104 on 24/10/12.
-//  Copyright (c) 2012 Apptree Studio. All rights reserved.
+//  Created by Kurt on 5/28/14.
 //
+
 
 #import "UpdateDataProcessor.h"
 

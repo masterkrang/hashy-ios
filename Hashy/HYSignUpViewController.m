@@ -2,8 +2,7 @@
 //  HYSignUpViewController.m
 //  Hashy
 //
-//  Created by attmac107 on 5/27/14.
-//  Copyright (c) 2014 Sunny. All rights reserved.
+//  Created by Kurt on 5/28/14.
 //
 
 #import "HYSignUpViewController.h"
@@ -61,6 +60,11 @@
     passwordtextField.leftView = paddingViewPassword;
     passwordtextField.leftViewMode = UITextFieldViewModeAlways;
     
+    userNameTextField.autocorrectionType=UITextAutocorrectionTypeNo;
+    emailTextField.autocorrectionType=UITextAutocorrectionTypeNo;
+    passwordtextField.autocorrectionType=UITextAutocorrectionTypeNo;
+
+    [passwordtextField setSecureTextEntry:YES];
 
 	// Do any additional setup after loading the view.
 }
@@ -111,13 +115,13 @@
     }
     else if (textField==emailTextField){
 //        NSString *searchString
-        textField.text = [NSString stringWithFormat:@"%@%@",textField.text,string];
+      //  NSString *searchString = [NSString stringWithFormat:@"%@%@",textField.text,string];
         return YES;
         
     }
     else if (textField==passwordtextField){
   //      NSString *searchString = [NSString stringWithFormat:@"%@%@",textField.text,string];
-        textField.text=[NSString stringWithFormat:@"%@%@",textField.text,string];
+      //  textField.text=[NSString stringWithFormat:@"%@%@",textField.text,string];
         
         return YES;
         
@@ -146,8 +150,31 @@
 
 -(IBAction)doneButtonPressed:(UIButton *)sender{
 
-    AddImageViewController *addImageVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"addImage_vc"];
-    [self.navigationController pushViewController:addImageVC animated:YES];
+    
+    if (userNameTextField.text.length<3 || userNameTextField.text.length>25) {
+        
+        
+        [self showAlertViewWithMessaage:@"Your username should lie between 3-25 characters and it should contain only alphanumeric characters. No special characters are allowed."];
+        return;
+        
+    
+    }
+    
+    
+    
+    if (passwordtextField.text.length<6) {
+        
+    [self showAlertViewWithMessaage:@"Your password must be at least 6 characters long."];
+        return;
+    }
+    
+    
+    
+//    [self registerUserOnServer];
+    
+    
+    
+ 
     
     
         
@@ -156,10 +183,44 @@
 -(IBAction)signInButtonPressed:(UIButton *)sender{
     
     
+    HYSignInViewController *signInVC = [kStoryBoard instantiateViewControllerWithIdentifier:@"signIn_vc"];
+    
+    [self.navigationController setViewControllers:[NSArray arrayWithObject:signInVC] animated:YES];
+    
+    
 }
 
 
+-(void)showAlertViewWithMessaage:(NSString *)message{
+    
+    
+    UIAlertView *alertView= [[UIAlertView alloc]initWithTitle:@"Error" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+    [alertView show];
+    
+    
+}
 
+-(void)registerUserOnServer{
+    
+    NSMutableDictionary *paramDict=[[NSMutableDictionary alloc]init];
+    [paramDict setValue:userNameTextField.text forKey:@"user_name"];
+    
+    [paramDict setValue:emailTextField.text forKey:@"email"];
+    [paramDict setValue:passwordtextField.text forKey:@"email"];
+
+    
+    
+    [[NetworkEngine sharedNetworkEngine]createNewUser:^(id object) {
+        
+        AddImageViewController *addImageVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"addImage_vc"];
+        [self.navigationController pushViewController:addImageVC animated:YES];
+        
+        
+    } onError:^(NSError *error) {
+        
+    } withParams:paramDict];
+    
+}
 
 - (void)didReceiveMemoryWarning
 {

@@ -1,10 +1,6 @@
-//
-//  OHParagraphStyle.h
-//  OHAttributedLabel
-//
-//  Created by Olivier Halligon on 05/01/13.
-//  Copyright (c) 2013 AliSoftware. All rights reserved.
-//
+
+//  Created by Kurt on 5/27/14.
+
 
 #import <Foundation/Foundation.h>
 #import <CoreText/CoreText.h>

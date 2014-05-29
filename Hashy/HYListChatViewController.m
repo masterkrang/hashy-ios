@@ -2,8 +2,7 @@
 //  HYListChatViewController.m
 //  Hashy
 //
-//  Created by attmac107 on 5/28/14.
-//  Copyright (c) 2014 Sunny. All rights reserved.
+//  Created by Kurt on 5/28/14.
 //
 
 #import "HYListChatViewController.h"
@@ -14,6 +13,7 @@
 
 @implementation HYListChatViewController
 @synthesize searchTextField;
+@synthesize hashTagListArray;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -64,6 +64,12 @@
     
     searchTextField.leftView = paddingView;
     searchTextField.leftViewMode = UITextFieldViewModeAlways;
+    if (!self.hashTagListArray) {
+        self.hashTagListArray=[[NSMutableArray alloc]init];
+        
+    }
+    
+    [self getListOfChats];
     
     
 	// Do any additional setup after loading the view.
@@ -74,34 +80,99 @@
     
     
     
+    [[NetworkEngine sharedNetworkEngine]getChatLists:^(id object) {
+        
+        NSLog(@"%@",object);
+        
+        if (![object isEqual:[NSNull null]] && [object isKindOfClass:[NSArray class]]) {
+         
+            
+            if (!self.hashTagListArray) {
+              
+                self.hashTagListArray=[[NSMutableArray alloc]init];
+                
+                
+            }
+            
+            [self.hashTagListArray addObjectsFromArray:[object mutableCopy]];
+            [self.listChatTableView reloadData];
+            
+            
+            
+        }
+        
+        
+    } onError:^(NSError *error) {
+        NSLog(@"%@",error);
+    } forPageNumber:1 forSearchedText:nil];
+    
+    
 }
 
 #pragma mark UItableView Delegate Methods
 
 -(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    return 10;
+    return self.hashTagListArray.count;
     
 }
 
 -(UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     ProfileCustomCell *cell=[tableView dequeueReusableCellWithIdentifier:@"ListChatCellIdentifier"];
-    NSMutableParagraphStyle *mutParaStyle=[[NSMutableParagraphStyle alloc] init];
-    
-    [mutParaStyle setAlignment:NSTextAlignmentLeft];
     
     
-    NSMutableAttributedString *liveShowString = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"cooldude69: what's up people"]];
-    //    [liveShowString addAttribute:NSFontAttributeName value:kRobotoFontRegular(125) range:[liveShowString.string rangeOfString:[NSString stringWithFormat:@"%d",loadedDataPercentage]]];
-    
-    //[liveShowString addAttribute:NSFontAttributeName value:kRobotoFontBold(40) range:[liveShowString.string rangeOfString:@"what's up people"]];
-    [liveShowString addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)[UIColor darkGrayColor].CGColor range:[liveShowString.string rangeOfString:@"what's up people"]];
-    [liveShowString addAttributes:[NSDictionary dictionaryWithObject:mutParaStyle
-                                                              forKey:NSParagraphStyleAttributeName]
-                            range:NSMakeRange(0,[[liveShowString string] length])];
-    [cell.userNameLabel setAttributedText:liveShowString];
+    if (self.hashTagListArray.count>indexPath.row) {
+        
+        NSMutableDictionary *channelDict=[self.hashTagListArray objectAtIndex:indexPath.row];
+        
+        
+        if ([channelDict valueForKey:@"channel"] && ![[channelDict valueForKey:@"channel"]isEqual:[NSNull null]]) {
+           
+            
+            
+            NSMutableDictionary *hashTagDict=[[channelDict valueForKey:@"channel"] mutableCopy];
+            
+            if ([hashTagDict valueForKey:@"name"] && ![[hashTagDict valueForKey:@"name"] isEqual:[NSNull null]]) {
+                cell.hashTaglabel.text=[NSString stringWithFormat:@"#%@",[hashTagDict valueForKey:@"name"]];
+            }
+            
+            
+            if ([hashTagDict valueForKey:@"subscribers_count"] && ![[hashTagDict valueForKey:@"subscribers_count"]isEqual:[NSNull null]] && [[hashTagDict valueForKey:@"subscribers_count"] length]>0) {
+                cell.subscribersCount.text=[hashTagDict valueForKey:@"subscribers_count"];
+                
+            }
+            
+            
+            
+            NSString *lastMessageUserName=[hashTagDict valueForKey:@"last_message_user_name"];
+            NSString *lastMessageString=[hashTagDict valueForKey:@"last_message"];
 
+            
+            if (lastMessageUserName && ![lastMessageUserName isEqual:[NSNull null]] &&lastMessageString && ![lastMessageString isEqual:[NSNull null]]) {
+
+                
+                NSMutableParagraphStyle *mutParaStyle=[[NSMutableParagraphStyle alloc] init];
+                
+                [mutParaStyle setAlignment:NSTextAlignmentLeft];
+                
+                
+                NSMutableAttributedString *liveShowString = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%@: %@",lastMessageUserName,lastMessageString]];
+                //    [liveShowString addAttribute:NSFontAttributeName value:kRobotoFontRegular(125) range:[liveShowString.string rangeOfString:[NSString stringWithFormat:@"%d",loadedDataPercentage]]];
+                
+                [liveShowString addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)[UIColor lightGrayColor].CGColor range:[liveShowString.string rangeOfString:lastMessageUserName]];
+                [liveShowString addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)[UIColor darkGrayColor].CGColor range:[liveShowString.string rangeOfString:lastMessageString]];
+                [liveShowString addAttributes:[NSDictionary dictionaryWithObject:mutParaStyle
+                                                                          forKey:NSParagraphStyleAttributeName]
+                                        range:NSMakeRange(0,[[liveShowString string] length])];
+                [cell.userNameLabel setAttributedText:liveShowString];
+
+            
+            
+        }
+        
+    }
+    }
     return cell;
     
     
@@ -126,6 +197,18 @@
     
     
 }
+
+-(UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+
+ 
+    UIView *headerView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen]bounds].size.width, 1)];
+    
+    headerView.backgroundColor=[Utility colorWithHexString:@"#000000"];
+    return headerView;
+    
+    
+}
+
 
 
 #pragma mark UITextField Deleagte Methods

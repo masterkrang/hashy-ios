@@ -1,9 +1,8 @@
 //
 //  CustomNavigationController.m
-//  FanOf
+//  Hashy
 //
-//  Created by attmac107 on 6/10/13.
-//  Copyright (c) 2013 Apptree Technologies. All rights reserved.
+//  Created by Kurt on 5/28/14.
 //
 
 #import "CustomNavigationController.h"

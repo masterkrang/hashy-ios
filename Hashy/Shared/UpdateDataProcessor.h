@@ -1,14 +1,10 @@
 //
 //  UpdateDataProcessor.h
-//  TrendStartr
+//  Hashy
 //
-//  Created by attmac104 on 24/10/12.
-//  Copyright (c) 2012 Apptree Studio. All rights reserved.
+//  Created by Kurt on 5/28/14.
 //
 
-/*
- Class for interacting with local database. It is sub class of NSObject.
- */
 
 
 #import <Foundation/Foundation.h>

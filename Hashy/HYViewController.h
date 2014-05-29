@@ -2,8 +2,8 @@
 //  HYViewController.h
 //  Hashy
 //
-//  Created by Sunny on 27/05/14.
-//  Copyright (c) 2014 Sunny. All rights reserved.
+//  Created by Kurt on 5/28/14.
+//
 //
 
 #import <UIKit/UIKit.h>
