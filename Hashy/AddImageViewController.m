@@ -15,6 +15,8 @@
 @synthesize avatarImageButton;
 @synthesize avatarImageView;
 @synthesize doneButton;
+@synthesize tapChangeLabel;
+@synthesize addYourImagelabel;
 
 
 
@@ -25,6 +27,63 @@
         // Custom initialization
     }
     return self;
+}
+
+
+
+-(void)setFontsAndFrames{
+    
+    [self.doneButton setTitleColor:[Utility colorWithHexString:@"157dfb"] forState:UIControlStateNormal];
+    [self.doneButton.titleLabel setFont:[UIFont fontWithName:kHelVeticaNeueLight size:17]];
+    
+    
+    self.addYourImagelabel.textColor=[Utility colorWithHexString:@"000000"];
+    self.addYourImagelabel.font=[UIFont fontWithName:kHelVeticaNeueUltralight size:31.5];
+   
+    
+    self.tapChangeLabel.textColor=[Utility colorWithHexString:@"000000"];
+    self.tapChangeLabel.font=[UIFont fontWithName:kHelVeticaNeueLight size:14];
+
+    
+    
+    
+    if (!IS_IPHONE_5) {
+        
+        CGRect addImageFrame=self.addYourImagelabel.frame;
+        addImageFrame.origin.y-=23;
+        self.addYourImagelabel.frame=addImageFrame;
+        
+        
+        CGRect tapChangeFrame=self.tapChangeLabel.frame;
+        tapChangeFrame.origin.y-=30;
+        self.tapChangeLabel.frame=tapChangeFrame;
+        
+        CGRect avatarImageFrame=self.avatarImageView.frame;
+        avatarImageFrame.origin.y-=48;
+        self.avatarImageView.frame=avatarImageFrame;
+        
+        CGRect avatarButtonFrame=self.avatarImageButton.frame;
+        avatarButtonFrame.origin.y-=48;
+        self.avatarImageButton.frame=avatarButtonFrame;
+        
+        
+        
+//        CGRect passwordFrame=self.passwordTextField.frame;
+//        passwordFrame.origin.y-=41;
+//        self.passwordTextField.frame=passwordFrame;
+//        
+//        
+//        CGRect signUpFrame=self.signUpButton.frame;
+//        ///        signUpFrame.origin.y-=41;
+//        signUpFrame.origin.y-=55;
+//        
+//        self.signUpButton.frame=signUpFrame;
+        
+        
+        
+    }
+    
+    
 }
 
 
@@ -40,7 +99,8 @@
 {
     [super viewDidLoad];
     doneButton.enabled=NO;
-
+    [self setFontsAndFrames];
+    
     [self getRandomImage];
     
 	// Do any additional setup after loading the view.

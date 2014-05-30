@@ -15,6 +15,19 @@
 #define kStoryBoard [UIStoryboard storyboardWithName:@"Main" bundle:nil]
 #define isIOSVersion7 [[UIDevice currentDevice].systemVersion floatValue]>=7
 #define IS_IPHONE_5 ( fabs( ( double )[ [ UIScreen mainScreen ] bounds ].size.height - ( double )568 ) < DBL_EPSILON )
+#define kHexValueLightGreenColor @"2fc81e"
+#define kHexValueInvalidSignUpColor @"ffbbbc"
+#define kHexValueValidSignUpColor @"bfeeba"
+#define kHexValueNonActiveSignUpColor @"eaeaea"
+
+#define kHelVeticaNeueUltralight @"HelveticaNeue-UltraLight"
+#define kHelVeticaNeueLight @"HelveticaNeue-Light"
+#define kHelVeticaNeueMedium @"HelveticaNeue-Medium"
+#define kHelVeticaNeueRegular @"HelveticaNeue-Regular"
+#define kHelVeticaLight @"Helvetica-Light"
+#define kHelVeticaBold @"Helvetica-Bold"
+
+#define kGetColor(x) [Utility colorWithHexString:@"x"]
 
 
 #endif

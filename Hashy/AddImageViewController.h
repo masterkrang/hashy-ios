@@ -25,6 +25,10 @@
 
 @property(nonatomic,strong) IBOutlet UIImageView *avatarImageView;
 @property(nonatomic,strong) IBOutlet UIButton *doneButton;
+@property(nonatomic,strong) IBOutlet UILabel *addYourImagelabel;
+@property(nonatomic,strong) IBOutlet UILabel *tapChangeLabel;
+
+
 
 -(IBAction)doneButtonPressed:(UIButton *)sender;
 -(IBAction)changeImageButtonPressed:(UIButton *)sender;

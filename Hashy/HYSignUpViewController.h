@@ -10,15 +10,18 @@
 #import "AddImageViewController.h"
 #import "HYSignInViewController.h"
 
-@interface HYSignUpViewController : UIViewController<UITextFieldDelegate>{
+@interface HYSignUpViewController : UIViewController<UITextFieldDelegate,TTTAttributedLabelDelegate>{
     
 }
 
-@property(strong,nonatomic)IBOutlet TTTAttributedLabel *alreadySignedUpAttributedLabel;
 @property(strong,nonatomic)IBOutlet UIButton *doneButton;
+@property(strong,nonatomic)IBOutlet UILabel *signUpLabel;
 @property(strong,nonatomic)IBOutlet UITextField *userNameTextField;
 @property(strong,nonatomic)IBOutlet UITextField *passwordtextField;
 @property(strong,nonatomic)IBOutlet UITextField *emailTextField;
+@property(strong,nonatomic)IBOutlet TTTAttributedLabel *alreadySignedUpAttributedLabel;
+@property(strong,nonatomic)IBOutlet UIButton *signInButton;
+
 
 -(IBAction)doneButtonPressed:(UIButton *)sender;
 -(IBAction)signInButtonPressed:(UIButton *)sender;

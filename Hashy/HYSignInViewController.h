@@ -7,6 +7,7 @@
 
 #import <UIKit/UIKit.h>
 #import "HYSignUpViewController.h"
+#import "HYSubscribersListViewController.h"
 
 @interface HYSignInViewController : UIViewController{
     
@@ -15,10 +16,15 @@
 
 @property(nonatomic,strong) IBOutlet UITextField *emailTextField;
 @property(nonatomic,strong) IBOutlet UITextField *passwordTextField;
+@property(nonatomic,strong) IBOutlet UIButton *doneButton;
+@property(nonatomic,strong) IBOutlet UILabel *loginLabel;
+@property(strong,nonatomic)IBOutlet TTTAttributedLabel *notAMemberAttributedLabel;
 @property(nonatomic,strong) IBOutlet UIButton *signUpButton;
 
+
+
 -(IBAction)signUpButtonPressed:(UIButton *)sender;
--(IBAction)forwardButtonPressed:(UIButton *)sender;
+-(IBAction)doneButtonPressed:(UIButton *)sender;
 
 
 @end

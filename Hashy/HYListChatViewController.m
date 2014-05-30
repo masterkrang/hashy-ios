@@ -34,10 +34,7 @@
     
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    self.title=@"#hashy";
+-(void) setBarButtonItems{
     
     UIBarButtonItem *leftBarButtonItem=[[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"profile_settings_button.png"] style:UIBarButtonItemStyleDone target:self action:@selector(settingsButtonPressed:)];
     self.navigationItem.leftBarButtonItem=leftBarButtonItem;
@@ -45,33 +42,47 @@
     
     UIBarButtonItem *rightBarButtonItem=[[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"listChat_hashtag_icon.png"] style:UIBarButtonItemStyleDone target:self action:@selector(hashTagButtonPressed:)];
     self.navigationItem.rightBarButtonItem=rightBarButtonItem;
-    
-    
-    [self.listChatTableView setupTablePaging];
-    self.listChatTableView.delegate=self;
+}
+
+
+-(void)setPaddingView{
     
     
     UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 25, 30)];
-    
     paddingView.backgroundColor = [UIColor clearColor];
-    
     
     UIImageView *searchIconImageView=[[UIImageView alloc]initWithFrame:CGRectMake(9,8, 12,12 )];
     searchIconImageView.image=[UIImage imageNamed:@"listChat_search_icon.png"];
     [paddingView addSubview:searchIconImageView];
     
-    
-    
     searchTextField.leftView = paddingView;
     searchTextField.leftViewMode = UITextFieldViewModeAlways;
+    
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    self.title=@"#hashy";
+    
+    [self setPaddingView];
+    [self setBarButtonItems];
+    
+    
+    [self.listChatTableView setupTablePaging];
+    self.listChatTableView.delegate=self;
+    self.listChatTableView.separatorColor=[Utility colorWithHexString:@"cbcbcb"];
+    
+
     if (!self.hashTagListArray) {
         self.hashTagListArray=[[NSMutableArray alloc]init];
         
     }
     
     [self getListOfChats];
-    
-    
+    self.view.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];
+    self.listChatTableView.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];
+
 	// Do any additional setup after loading the view.
 }
 
@@ -120,7 +131,16 @@
 -(UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     ProfileCustomCell *cell=[tableView dequeueReusableCellWithIdentifier:@"ListChatCellIdentifier"];
+   
+    cell.hashTaglabel.font=[UIFont fontWithName:kHelVeticaBold size:22.2];
+    cell.hashTaglabel.textColor=[Utility colorWithHexString:@"939393"];
     
+    cell.userNameLabel.font=[UIFont fontWithName:kHelVeticaNeueMedium size:10.6];
+    
+    
+    cell.subscribersCount.textColor=[Utility colorWithHexString:@"2fc81e"];
+    cell.subscribersCount.font=[UIFont fontWithName:kHelVeticaNeueMedium size:17];
+
     
     if (self.hashTagListArray.count>indexPath.row) {
         
@@ -160,8 +180,11 @@
                 NSMutableAttributedString *liveShowString = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%@: %@",lastMessageUserName,lastMessageString]];
                 //    [liveShowString addAttribute:NSFontAttributeName value:kRobotoFontRegular(125) range:[liveShowString.string rangeOfString:[NSString stringWithFormat:@"%d",loadedDataPercentage]]];
                 
-                [liveShowString addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)[UIColor lightGrayColor].CGColor range:[liveShowString.string rangeOfString:lastMessageUserName]];
-                [liveShowString addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)[UIColor darkGrayColor].CGColor range:[liveShowString.string rangeOfString:lastMessageString]];
+                [liveShowString addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)[Utility colorWithHexString:@"cecece"].CGColor range:[liveShowString.string rangeOfString:[NSString stringWithFormat:@"%@:",lastMessageUserName]]];
+                
+                [liveShowString addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)[Utility colorWithHexString:@"9a9a9a"].CGColor range:[liveShowString.string rangeOfString:lastMessageString]];
+                
+                
                 [liveShowString addAttributes:[NSDictionary dictionaryWithObject:mutParaStyle
                                                                           forKey:NSParagraphStyleAttributeName]
                                         range:NSMakeRange(0,[[liveShowString string] length])];
@@ -203,7 +226,7 @@
  
     UIView *headerView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen]bounds].size.width, 1)];
     
-    headerView.backgroundColor=[Utility colorWithHexString:@"#000000"];
+    headerView.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];
     return headerView;
     
     
@@ -214,29 +237,18 @@
 #pragma mark UITextField Deleagte Methods
 
 
-//- (BOOL) isIntegerNumber: (NSString*)input
-//{
-//    return [input integerValue] != 0 || [input isEqualToString:@"0"];
-//}
-
 
 -(BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
     
     textField.text = [NSString stringWithFormat:@"%@%@",textField.text,string];
     return YES;
-   
     
 }
 
 
-
-
-
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     
-    
     return [textField resignFirstResponder];
-    
     
 }
 

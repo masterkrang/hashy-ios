@@ -51,17 +51,13 @@
 //    [self.navigationBar setBackgroundImage:kNavigationBackground forBarMetrics:UIBarMetricsDefault];
 //    }
 //    self.navigationBar.tintColor=[UIColor orangeColor];
-//
-//    NSMutableDictionary *titleBarAttributes = [NSMutableDictionary dictionaryWithDictionary: [[UINavigationBar appearance] titleTextAttributes]];
-////    [titleBarAttributes setValue:[UIFont boldSystemFontOfSize:22] forKey: UITextAttributeFont];
-//    [titleBarAttributes setValue:[UIFont boldSystemFontOfSize:22] forKey: NSFontAttributeName];
-//
-//    [[UINavigationBar appearance] setTitleTextAttributes:titleBarAttributes];
-//    
-//    self.settingButton=[UIButton buttonWithType:UIButtonTypeCustom];
-//    self.settingButton.frame=CGRectMake(10,12,24,19);
-//    [self.settingButton setBackgroundImage:[UIImage imageNamed:@"feed_iphone5_List-Icon.png"] forState:UIControlStateNormal];
-//    
+
+    NSMutableDictionary *titleBarAttributes = [NSMutableDictionary dictionaryWithDictionary: [[UINavigationBar appearance] titleTextAttributes]];
+    [titleBarAttributes setValue:[UIFont fontWithName:kHelVeticaNeueMedium size:17] forKey: NSFontAttributeName];
+
+    [[UINavigationBar appearance] setTitleTextAttributes:titleBarAttributes];
+    
+
     
     
     self.navigationItem.leftBarButtonItem=nil;
