@@ -162,6 +162,11 @@
                 cell.subscribersCount.text=[hashTagDict valueForKey:@"subscribers_count"];
                 
             }
+            else{
+                
+                cell.subscribersCount.text=@"0";
+  
+            }
             
             
             
@@ -233,6 +238,14 @@
 }
 
 
+-(CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+
+    return 0.1;
+    
+    
+}
+
+
 
 #pragma mark UITextField Deleagte Methods
 
@@ -259,7 +272,7 @@
 -(IBAction)settingsButtonPressed:(UIButton *)sender
 {
     
-    [self.navigationController popViewControllerAnimated:YES];
+   // [self.navigationController popViewControllerAnimated:YES];
     
     
 }

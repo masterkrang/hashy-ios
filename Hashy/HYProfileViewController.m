@@ -108,6 +108,14 @@
 }
 
 
+-(CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    
+    return 0.1;
+    
+    
+}
+
+
 #pragma mark UIbutton Methods
 
 -(void)backButtonPressed:(UIButton *)sender {

@@ -8,10 +8,18 @@
 
 #import <UIKit/UIKit.h>
 #import "CustomNavigationController.h"
-#import "HYSignUpViewController.h"
+#import "HYListChatViewController.h"
 #import "HYSignInViewController.h"
+#import <CoreData/CoreData.h>
+#import "AddImageViewController.h"
+
 @interface HYAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
+@property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+
++ (NSString *)applicationDocumentsDirectory ;
 
 @end

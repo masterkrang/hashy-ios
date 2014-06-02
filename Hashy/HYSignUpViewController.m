@@ -21,6 +21,8 @@
 @synthesize emailTextField;
 @synthesize signUpLabel;
 @synthesize signInButton;
+@synthesize httpManager;
+
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -34,12 +36,7 @@
 
 
 
--(void)viewWillAppear:(BOOL)animated{
-    
-    [super viewWillAppear:animated];
-    self.navigationController.navigationBarHidden=YES;
 
-}
 
 
 -(void)setPaddingView{
@@ -71,15 +68,19 @@
 
 -(void)setFontsAndFrames{
     
+    NSString *hexColortexString=@"eaeaea";
+    self.emailTextField.backgroundColor=[Utility colorWithHexString:hexColortexString];
+    self.passwordtextField.backgroundColor=[Utility colorWithHexString:hexColortexString];
+    self.userNameTextField.backgroundColor=[Utility colorWithHexString:hexColortexString];
+    
+    
     
     [self.doneButton setTitleColor:[Utility colorWithHexString:@"157dfb"] forState:UIControlStateNormal];
     [self.doneButton.titleLabel setFont:[UIFont fontWithName:kHelVeticaNeueLight size:17]];
     
-    
     self.signUpLabel.textColor=[Utility colorWithHexString:@"000000"];
     self.signUpLabel.font=[UIFont fontWithName:kHelVeticaNeueUltralight size:38];
 
-    
     
     self.emailTextField.textColor=[Utility colorWithHexString:@"000000"];
     self.passwordtextField.textColor=[Utility colorWithHexString:@"000000"];
@@ -142,14 +143,26 @@
     
 }
 
+
+-(void)viewWillAppear:(BOOL)animated{
+    
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden=YES;
+    
+}
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
    // self.view.backgroundColor=[UIColor greenColor];
     
+    self.httpManager = [AFHTTPRequestOperationManager manager];
+    self.httpManager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"application/json", @"text/json", @"text/javascript", nil];
+    
     [self setPaddingView];
     [self setFontsAndFrames];
-    
+    self.doneButton.enabled=NO;
 
 
     
@@ -168,10 +181,43 @@
 }
 
 
--(void)checkForUsernameAvailability{
+-(void)checkForUsernameAvailability:(NSString *)userName{
     
     
+    //[self.httpManager cancel];
     
+        self.doneButton.enabled=NO;
+    [[NetworkEngine sharedNetworkEngine]checkForUserAvailablity:^(id object) {
+        
+        NSLog(@"%@",object);
+        
+        
+        if ([object valueForKey:@"status"] && ![[object valueForKey:@"status"]isEqual:[NSNull null]]) {
+            
+            BOOL status=[[object valueForKey:@"status"]boolValue];
+            
+            if (!status) {
+                doneButton.enabled=NO;
+                userNameTextField.backgroundColor=[Utility colorWithHexString:@"ffbbbc"];
+                
+            }
+            else{
+                doneButton.enabled=YES;
+                userNameTextField.backgroundColor=[Utility colorWithHexString:@"bfeeba"];
+
+                
+            }
+            
+            
+        }
+        
+        
+    } onError:^(NSError *error) {
+        
+        NSLog(@"%@",error);
+
+        
+    } userName:userName forRequestManager:self.httpManager];
     
     
     
@@ -192,14 +238,31 @@
     if (textField==userNameTextField) {
        
         
+        
+        
        // NSLog(@"Username text Field");
         
         NSCharacterSet *s = [NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"];
         NSRange r = [string rangeOfCharacterFromSet:s];
         if ((r.location != NSNotFound) || [string isEqualToString:@""]) {
-            [self checkForUsernameAvailability];
+           // NSString *searchString = [NSString stringWithFormat:@"%@%@",textField.text,string];
             
+            
+            NSString * searchString = [[textField text] stringByReplacingCharactersInRange:range withString:string];
+            
+            NSLog(@"%@",searchString);
+            
+            if (searchString && searchString.length>25) {
+                return NO;
+            }
+            
+            if (searchString && searchString.length>2) {
+                [self checkForUsernameAvailability:searchString];
+
+            }
             return YES;
+
+            
         }
         else{
             
@@ -247,30 +310,39 @@
 -(IBAction)doneButtonPressed:(UIButton *)sender{
 
     
-//    if (userNameTextField.text.length<3 || userNameTextField.text.length>25) {
-//        
-//        
-//        [self showAlertViewWithMessaage:@"Your username should lie between 3-25 characters and it should contain only alphanumeric characters. No special characters are allowed."];
-//        return;
-//        
-//    
-//    }
-//    
-//    
-//    
-//    if (passwordtextField.text.length<6) {
-//        
-//    [self showAlertViewWithMessaage:@"Your password must be at least 6 characters long."];
-//        return;
-//    }
+    if (userNameTextField.text.length<3 || userNameTextField.text.length>25) {
+        
+        
+        [self showAlertViewWithMessaage:@"Your username should be between 3-25 characters. No special characters are allowed."];
+        return;
+        
+    
+    }
     
     
     
-//    [self registerUserOnServer];
+    if (emailTextField.text.length<1) {
+        
+        [self showAlertViewWithMessaage:@"Please enter your email ID."];
+        return;
+    }
     
     
-    AddImageViewController *addImageVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"addImage_vc"];
-    [self.navigationController pushViewController:addImageVC animated:YES];
+    
+    
+    if (passwordtextField.text.length<6) {
+        
+    [self showAlertViewWithMessaage:@"Your password must be at least 6 characters long."];
+        return;
+    }
+    
+    
+    
+    [self registerUserOnServer];
+    
+    
+//    AddImageViewController *addImageVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"addImage_vc"];
+//    [self.navigationController pushViewController:addImageVC animated:YES];
 
  
     
@@ -304,19 +376,43 @@
     [paramDict setValue:userNameTextField.text forKey:@"user_name"];
     
     [paramDict setValue:emailTextField.text forKey:@"email"];
-    [paramDict setValue:passwordtextField.text forKey:@"email"];
+    [paramDict setValue:passwordtextField.text forKey:@"password"];
+    
+    NSMutableDictionary *userDict=[[NSMutableDictionary alloc]init];
+    [userDict setValue:paramDict forKey:@"user"];
 
     
     
     [[NetworkEngine sharedNetworkEngine]createNewUser:^(id object) {
         
-        AddImageViewController *addImageVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"addImage_vc"];
-        [self.navigationController pushViewController:addImageVC animated:YES];
+        NSLog(@"%@",object);
+        
+        id dataDict=[[object valueForKey:@"user"] mutableCopy];
+        
+        if (dataDict &&  ![dataDict isEqual:[NSNull null]]) {
+            
+//            [kUserDefaults setValue:dataDict forKey:@"user_dict"];
+//            
+//            [kUserDefaults synchronize];
+            
+            [[UpdateDataProcessor sharedProcessor]saveUserDetails:dataDict];
+            
+            AddImageViewController *addImageVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"addImage_vc"];
+            [self.navigationController pushViewController:addImageVC animated:YES];
+            
+
+        }
+       
+        
+        
+        
         
         
     } onError:^(NSError *error) {
         
-    } withParams:paramDict];
+        NSLog(@"%@",error);
+        
+    } withParams:userDict];
     
 }
 

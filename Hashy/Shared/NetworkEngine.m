@@ -9,8 +9,16 @@
 #import <Foundation/Foundation.h>
 
 #define kGetRandomAvatar @"/random_avatar.json"
-#define kCreateNewUser @"/users/sign_up.json"
+#define kCreateNewUser @"/users.json"
+
+//#define kCreateNewUser @"/users/sign_up.json"
+
 #define kGetChats @"/chats.json"
+#define kGetUsernameAvailability @"/user_name_available.json"
+#define kLoginHashy @"/login.json"
+
+
+
 static NetworkEngine *sharedNetworkEngine=nil;
 
 
@@ -73,21 +81,38 @@ static NetworkEngine *sharedNetworkEngine=nil;
 
 
 
--(void)checkForUserAvailablity:(completion_block)completionBlock onError:(error_block)errorBlock userID:(NSString *)user_id{
+-(void)checkForUserAvailablity:(completion_block)completionBlock onError:(error_block)errorBlock userName:(NSString *)user_name forRequestManager:(AFHTTPRequestOperationManager *)manager{
+    
+    //user_name_available.json
+    ///user_name_available.json?user_name=bobby
+    NSString *urlString=[NSString stringWithFormat:@"%@%@?user_name=%@",kServerHostName,kGetUsernameAvailability,user_name];
+//
+//    NSString *urlString=[NSString stringWithFormat:@"%@%@",kServerHostName,kGetUsernameAvailability];
+//
+//    
+//    NSMutableDictionary *dict=[[NSMutableDictionary alloc]init];
+//    [dict setObject:user_name forKey:@"user_name"];
     
     
-    [self.httpManager checkUsername:@"" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self.httpManager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"JSON: %@", responseObject);
         
         if([responseObject objectForKey:@"status"] &&![[responseObject objectForKey:@"status"]isEqual:[NSNull null]])
         {
-            if([[responseObject objectForKey:@"status"]isEqualToString:@"failed"])
-            {
-                // [theAppDelegate hideProgressHUD];
-                // [Utility showAlertWithString:[responseObject valueForKey:@"error_string"]];
-                
-            }
-            else  completionBlock(responseObject);
+            
+                        
+            completionBlock(responseObject);
+//            BOOL status=[[responseObject valueForKey:@"status"]boolValue] ;
+//            
+//            
+//            if(!status)
+//            {
+//                errorBlock(nil);
+//                // [theAppDelegate hideProgressHUD];
+//                // [Utility showAlertWithString:[responseObject valueForKey:@"error_string"]];
+//                
+//            }
+//            else  completionBlock(responseObject);
         }
         else errorBlock(nil);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -97,32 +122,102 @@ static NetworkEngine *sharedNetworkEngine=nil;
     }];
     
     
+//    [manager checkUsername:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//        NSLog(@"JSON: %@", responseObject);
+//        
+//        if([responseObject objectForKey:@"status"] &&![[responseObject objectForKey:@"status"]isEqual:[NSNull null]])
+//        {
+//            if([[responseObject objectForKey:@"status"]isEqualToString:@"failed"])
+//            {
+//                // [theAppDelegate hideProgressHUD];
+//                // [Utility showAlertWithString:[responseObject valueForKey:@"error_string"]];
+//                
+//            }
+//            else  completionBlock(responseObject);
+//        }
+//        else errorBlock(nil);
+//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//        //[Utility showAlertWithString:@"Network problem \n try again later"];
+//        //[theAppDelegate hideProgressHUD];
+//        errorBlock(error);
+//    }];
+    
+    
 }
 
 
 
 -(void)loginHashy:(completion_block)completionBlock onError:(error_block)errorBlock withParams:(NSMutableDictionary *)params{
 
-    NSString *urlString=[NSString stringWithFormat:@"%@%@",kServerHostName,kGetRandomAvatar];
+    NSString *urlString=[NSString stringWithFormat:@"%@%@",kServerHostName,kLoginHashy];
     
-    [self.httpManager GET:urlString parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    
+    [self.httpManager POST:urlString parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"JSON: %@", responseObject);
         
-        if([responseObject objectForKey:@"avatar_url"] &&![[responseObject objectForKey:@"avatar_url"]isEqual:[NSNull null]])
+        if([responseObject objectForKey:@"session"] &&![[responseObject objectForKey:@"session"]isEqual:[NSNull null]])
         {
-            if([[responseObject objectForKey:@"avatar_url"]isEqualToString:@"failed"])
-            {
-                // [theAppDelegate hideProgressHUD];
-                // [Utility showAlertWithString:[responseObject valueForKey:@"error_string"]];
+            
+            NSHTTPURLResponse *response=operation.response;
+            
+            if (response.statusCode == 200 ) {
+                completionBlock(responseObject);
                 
             }
-            else  completionBlock(responseObject);
-        }
+            else{
+                errorBlock(nil);
+            }
+            
+               }
         else errorBlock(nil);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        NSHTTPURLResponse *response= operation.response;
+        NSLog(@"%@",response);
         //[Utility showAlertWithString:@"Network problem \n try again later"];
         //[theAppDelegate hideProgressHUD];
         errorBlock(error);
+    }];
+    
+    //[self.httpManager GET:urlString parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject)  failure:^(AFHTTPRequestOperation *operation, NSError *error) ];
+    
+}
+
+
+-(void)putRequestForNewUser:(completion_block)completionBlock onError:(error_block)errorBlock withParams:(NSMutableDictionary *)params {
+    
+    NSString *urlString=[NSString stringWithFormat:@"%@%@",kServerHostName,kCreateNewUser];
+    
+    NSLog(@"%@",[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_authentication_token);
+    
+   // [manager.requestSerializer
+ //   [self.httpManager.requestSerializer setValue:[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_authentication_token forHTTPHeaderField:@"authentication_token"];
+    [self.httpManager.requestSerializer setValue:[NSString stringWithFormat:@"Token token=\"%@\"", [[UpdateDataProcessor sharedProcessor]currentUserInfo].user_authentication_token] forHTTPHeaderField:@"Authorization"];
+
+    [self.httpManager PUT:urlString parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"JSON: %@", responseObject);
+        
+        if(responseObject && ![responseObject isEqual:[NSNull null]])
+        {
+            
+            NSHTTPURLResponse *response=operation.response;
+            
+            if (response.statusCode == 200 ) {
+                completionBlock(responseObject);
+                
+            }
+            else{
+                errorBlock(nil);
+            }
+            
+   
+        }
+        else errorBlock(nil);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+       
+        errorBlock(error);
+        
+        
     }];
     
 }
@@ -135,15 +230,26 @@ static NetworkEngine *sharedNetworkEngine=nil;
     [self.httpManager POST:urlString parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"JSON: %@", responseObject);
         
-        if([responseObject objectForKey:@"avatar_url"] &&![[responseObject objectForKey:@"avatar_url"]isEqual:[NSNull null]])
+        if([responseObject objectForKey:@"user"] &&![[responseObject objectForKey:@"user"]isEqual:[NSNull null]])
         {
-            if([[responseObject objectForKey:@"avatar_url"]isEqualToString:@"failed"])
-            {
-                // [theAppDelegate hideProgressHUD];
-                // [Utility showAlertWithString:[responseObject valueForKey:@"error_string"]];
-                
+            
+            NSHTTPURLResponse *response=operation.response;
+            
+            if (response.statusCode == 200 ) {
+                completionBlock(responseObject);
+
             }
-            else  completionBlock(responseObject);
+            else{
+                errorBlock(nil);
+            }
+            
+//            if([[responseObject objectForKey:@"user"]isEqualToString:@"failed"])
+//            {
+//                // [theAppDelegate hideProgressHUD];
+//                // [Utility showAlertWithString:[responseObject valueForKey:@"error_string"]];
+//                
+//            }
+//            else
         }
         else errorBlock(nil);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

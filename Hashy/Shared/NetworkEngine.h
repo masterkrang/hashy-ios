@@ -25,14 +25,15 @@ typedef void (^upload_completeBlock)(NSString *url);
 @property(nonatomic,strong) AFHTTPRequestOperationManager *httpManager;
 
 
--(void) loginViaFacebook:(completion_block) completionBlock onError:(error_block)errorBlock params:(NSArray *)dict;
 
--(void)checkForUserAvailablity:(completion_block)completionBlock onError:(error_block)errorBlock userID:(NSString *)user_id;
+-(void)checkForUserAvailablity:(completion_block)completionBlock onError:(error_block)errorBlock userName:(NSString *)user_name forRequestManager:(AFHTTPRequestOperationManager *)manager;
+
 -(void)getRandomAvatar:(completion_block)completionBlock onError:(error_block)errorBlock;
 -(void)loginHashy:(completion_block)completionBlock onError:(error_block)errorBlock withParams:(NSMutableDictionary *)params;
 -(void)createNewUser:(completion_block)completionBlock onError:(error_block)errorBlock withParams:(NSMutableDictionary *)params;
 
 -(void)getChatLists:(completion_block)completionBlock onError:(error_block)errorBlock forPageNumber:(int) pageNumber forSearchedText:(NSString *)searchedText;
+-(void)putRequestForNewUser:(completion_block)completionBlock onError:(error_block)errorBlock withParams:(NSMutableDictionary *)params;
 
 
 @end

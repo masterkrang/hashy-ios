@@ -99,6 +99,11 @@
 {
     [super viewDidLoad];
     doneButton.enabled=NO;
+    NSLog(@"%@",[kUserDefaults valueForKey:@"user_dict"]);
+    
+    
+    
+
     [self setFontsAndFrames];
     
     [self getRandomImage];
@@ -144,6 +149,59 @@
 
 -(void)postRandomAvatarImage{
     
+//    {
+//        "user": {
+//            "avatar_url": "amzon.com/picture.jpg"
+//        }
+//    }
+    
+    
+    
+    NSMutableDictionary *imageDict=[[NSMutableDictionary alloc]init];
+    
+    if (randomAvatarImageURL) {
+        [imageDict setValue:randomAvatarImageURL forKey:@"avatar_url"];
+
+    }
+   // [imageDict setValue: forKey:@"authentication_token"];
+    
+    
+    
+    NSMutableDictionary *userDict=[[NSMutableDictionary alloc]init];
+    [userDict setValue:imageDict forKey:@"user"];
+    
+    [[NetworkEngine sharedNetworkEngine]putRequestForNewUser:^(id object) {
+        
+        
+        NSLog(@"%@",object);
+        
+        
+        if (object && ![object isEqual:[NSNull null]]) {
+            
+            
+            
+            if ([object valueForKey:@"avatar_url"] && ![[object valueForKey:@"avatar_url"]isEqual:[NSNull null]] ) {
+                [[UpdateDataProcessor sharedProcessor]currentUserInfo].user_profile_image_url=[object valueForKey:@"avatar_url"];
+                [[kAppDelegate managedObjectContext]save:nil];
+
+            }
+            
+        }
+        
+        
+        
+        
+        
+        HYListChatViewController *listChatVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"listChat_vc"];
+        [self.navigationController pushViewController:listChatVC animated:YES];
+        
+        
+        
+    } onError:^(NSError *error) {
+        
+    } withParams:userDict];
+    
+    
     
 }
 
@@ -162,17 +220,31 @@
 -(IBAction)doneButtonPressed:(UIButton *)sender{
     
     
-    if (isImageSelectedFromDevice) {
-        
-        [self postMultipartImage];
-        
+    if (!isImageSelectedFromDevice) {
+        [self postRandomAvatarImage];
         
     }
     else{
+        [self postMultipartImage];
         
-        [self postRandomAvatarImage];
- 
     }
+    
+    
+//        HYSubscribersListViewController *subscribersVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"subscribers_vc"];
+//        [self.navigationController pushViewController:subscribersVC animated:YES];
+    
+//    
+//    if (isImageSelectedFromDevice) {
+//        
+//        [self postMultipartImage];
+//        
+//        
+//    }
+//    else{
+//        
+//        [self postRandomAvatarImage];
+// 
+//    }
     
     
 //    HYProfileViewController *profileVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"profile_vc"];

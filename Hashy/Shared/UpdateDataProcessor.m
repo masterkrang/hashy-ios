@@ -13,7 +13,7 @@ static UpdateDataProcessor *_sharedProcessor=nil;
 
 @implementation UpdateDataProcessor
 //@synthesize dataContext=_dataContext;
-//@synthesize currentUserInfo=_currentUserInfo;
+@synthesize currentUserInfo=_currentUserInfo;
 
 
 +(id) sharedProcessor{
@@ -35,6 +35,145 @@ static UpdateDataProcessor *_sharedProcessor=nil;
 return _sharedProcessor;
                               
 }
+
+
+-(UserInfo*)currentUserInfo {
+    if(_currentUserInfo)
+        return _currentUserInfo;
+    
+    NSFetchRequest * fetchRequest = [[NSFetchRequest alloc] init];
+    
+    
+    
+    NSEntityDescription * entity = [NSEntityDescription entityForName:@"UserInfo" inManagedObjectContext:[kAppDelegate managedObjectContext]];
+    [fetchRequest setEntity:entity];
+    
+    NSError * error;
+    NSArray * items = [[kAppDelegate managedObjectContext] executeFetchRequest:fetchRequest error:&error];
+    return [items lastObject];
+}
+
+
+
+
+- (void) deleteAllObjects: (NSString *) entityDescription {
+    
+    NSFetchRequest * fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription * entity = [NSEntityDescription entityForName:entityDescription inManagedObjectContext:[kAppDelegate managedObjectContext]];
+    [fetchRequest setEntity:entity];
+    
+    NSError * error;
+    NSArray * items = [[kAppDelegate managedObjectContext] executeFetchRequest:fetchRequest error:&error];
+    
+    for (NSManagedObject *managedObject in items) {
+        
+        [[kAppDelegate managedObjectContext] deleteObject:managedObject];
+    }
+    if (![[kAppDelegate managedObjectContext] save:&error]) {
+        NSLog(@"Error deleting %@ - error:%@",entityDescription,error);
+    }
+    self.currentUserInfo = nil;
+}
+
+
+-(void) saveUserDetails:(NSDictionary *)userDict {
+    [self deleteAllObjects:@"UserInfo"];
+    
+    
+    UserInfo *userInfo=[NSEntityDescription insertNewObjectForEntityForName:@"UserInfo" inManagedObjectContext:[kAppDelegate managedObjectContext]];
+    
+    
+    if([userDict valueForKey:@"user_id"] && ![[userDict valueForKey:@"user_id"] isEqual:[NSNull null]])
+        userInfo.user_id=[userDict valueForKey:@"user_id"];
+    
+    
+    if([userDict valueForKey:@"user_name"] && ![[userDict valueForKey:@"user_name"] isEqual:[NSNull null]])
+        userInfo.userName=[userDict valueForKey:@"user_name"];
+    
+    if([userDict valueForKey:@"email"] && ![[userDict valueForKey:@"email"] isEqual:[NSNull null]])
+        userInfo.user_email=[userDict valueForKey:@"email"];
+    
+
+    if([userDict valueForKey:@"authentication_token"] && ![[userDict valueForKey:@"authentication_token"] isEqual:[NSNull null]])
+        userInfo.user_authentication_token=[userDict valueForKey:@"authentication_token"];
+    
+    if([userDict valueForKey:@"avatar_url"] && ![[userDict valueForKey:@"avatar_url"] isEqual:[NSNull null]])
+        userInfo.user_profile_image_url=[userDict valueForKey:@"avatar_url"];
+    
+    
+
+    
+    
+    [userInfo.managedObjectContext save:nil];
+    [[kAppDelegate managedObjectContext]save:nil];
+    
+    
+    
+}
+
+
+-(void)updateUserDetails:(NSDictionary *)userDict{
+    
+    
+    NSPredicate *predicate=[NSPredicate predicateWithFormat:@"user_id == %@",[userDict valueForKey:@"user_id"]];
+    
+    UserInfo *userInfo;
+    NSArray *array=[self fetchMultipleEntitiesByName:@"UserInfo" withPredicate:predicate] ;
+    
+    if (array.count) {
+        userInfo=[array objectAtIndex:0];
+        
+    }
+    
+    
+    if (userInfo) {
+        if([userDict valueForKey:@"user_id"] && ![[userDict valueForKey:@"user_id"] isEqual:[NSNull null]])
+            userInfo.user_id=[userDict valueForKey:@"user_id"];
+        
+        
+        if([userDict valueForKey:@"user_name"] && ![[userDict valueForKey:@"user_name"] isEqual:[NSNull null]])
+            userInfo.userName=[userDict valueForKey:@"user_name"];
+        
+        if([userDict valueForKey:@"email"] && ![[userDict valueForKey:@"email"] isEqual:[NSNull null]])
+            userInfo.user_email=[userDict valueForKey:@"email"];
+        
+        
+        if([userDict valueForKey:@"authentication_token"] && ![[userDict valueForKey:@"authentication_token"] isEqual:[NSNull null]])
+            userInfo.user_authentication_token=[userDict valueForKey:@"authentication_token"];
+        
+        if([userDict valueForKey:@"avatar_url"] && ![[userDict valueForKey:@"avatar_url"] isEqual:[NSNull null]])
+            userInfo.user_profile_image_url=[userDict valueForKey:@"avatar_url"];
+        
+        
+        
+        
+        
+        [userInfo.managedObjectContext save:nil];
+        [[kAppDelegate managedObjectContext]save:nil];
+
+    }
+    
+  
+    
+    
+}
+
+#pragma mark fetch Entities
+
+-(NSArray *) fetchMultipleEntitiesByName:(NSString *)entityName withPredicate:(NSPredicate *)predicate{
+
+    NSFetchRequest *fetchRequest=[[NSFetchRequest alloc]init];
+    [fetchRequest setEntity:[NSEntityDescription entityForName:entityName inManagedObjectContext:[kAppDelegate managedObjectContext]]];
+
+    if (predicate)
+        [fetchRequest setPredicate:predicate];
+        NSError *error=nil;
+
+    return [[kAppDelegate managedObjectContext] executeFetchRequest:fetchRequest error:&error];
+
+}
+
+
 
 
 

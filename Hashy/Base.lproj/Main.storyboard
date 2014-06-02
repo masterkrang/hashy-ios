@@ -113,14 +113,14 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5981" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="j7M-7S-WVT">
-                                                    <rect key="frame" x="282" y="38" width="40" height="20"/>
+                                                    <rect key="frame" x="287" y="38" width="40" height="20"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile_green_dot.png" id="XFR-th-YQG">
-                                                    <rect key="frame" x="266" y="43" width="10" height="10"/>
+                                                    <rect key="frame" x="271" y="43" width="10" height="10"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile_forward_icon.png" id="6aJ-b0-XYF">
@@ -181,19 +181,7 @@
                                     <action selector="doneButtonPressed:" destination="fWD-H6-fl9" eventType="touchUpInside" id="E10-wr-OF1"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="s7m-Qn-ynx">
-                                <rect key="frame" x="126" y="290" width="68" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <state key="normal" title="Sign Up">
-                                    <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="signUpButtonPressed:" destination="fWD-H6-fl9" eventType="touchUpInside" id="fZj-lq-9xd"/>
-                                </connections>
-                            </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Example@example.com" minimumFontSize="17" id="8cK-FS-enZ">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username" minimumFontSize="17" id="8cK-FS-enZ">
                                 <rect key="frame" x="15" y="172" width="290" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.87058830261230469" green="0.87058830261230469" blue="0.87058830261230469" alpha="1" colorSpace="deviceRGB"/>
@@ -213,6 +201,25 @@
                                     <outlet property="delegate" destination="fWD-H6-fl9" id="NI5-da-8K9"/>
                                 </connections>
                             </textField>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Not a member?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Qa8-CM-Cii">
+                                <rect key="frame" x="67" y="290" width="134" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="s7m-Qn-ynx">
+                                <rect key="frame" x="169" y="290" width="68" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <state key="normal" title="Sign Up">
+                                    <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="signUpButtonPressed:" destination="fWD-H6-fl9" eventType="touchUpInside" id="fZj-lq-9xd"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -220,6 +227,7 @@
                         <outlet property="doneButton" destination="JbZ-Jx-BjG" id="oMH-SN-7c7"/>
                         <outlet property="emailTextField" destination="8cK-FS-enZ" id="wgN-78-Oob"/>
                         <outlet property="loginLabel" destination="7Tt-DH-KuI" id="0MC-xD-447"/>
+                        <outlet property="notAMemberAttributedLabel" destination="Qa8-CM-Cii" id="M7u-PA-2m8"/>
                         <outlet property="passwordTextField" destination="Zfu-s3-dSP" id="veT-YA-3EH"/>
                         <outlet property="signUpButton" destination="s7m-Qn-ynx" id="vjm-y1-Zck"/>
                     </connections>
@@ -397,7 +405,7 @@
                                     <outlet property="delegate" destination="fGE-Wa-GLl" id="ZN9-vz-vNq"/>
                                 </connections>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="example@example.com" minimumFontSize="17" id="1ET-MC-tzu">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" id="1ET-MC-tzu">
                                 <rect key="frame" x="13" y="204" width="294" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.89411771297454834" green="0.89411771297454834" blue="0.89411771297454834" alpha="1" colorSpace="deviceRGB"/>
@@ -407,7 +415,7 @@
                                     <outlet property="delegate" destination="fGE-Wa-GLl" id="OAY-co-4fB"/>
                                 </connections>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="password" minimumFontSize="17" id="hi3-2Y-wMd">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" id="hi3-2Y-wMd">
                                 <rect key="frame" x="13" y="259" width="294" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.89411771297454834" green="0.89411771297454834" blue="0.89411771297454834" alpha="1" colorSpace="deviceRGB"/>
@@ -532,10 +540,7 @@
     </scenes>
     <resources>
         <image name="listChat_search_container.png" width="305" height="30"/>
-        <image name="listChat_search_container.png" width="305" height="30"/>
         <image name="profile_forward_icon.png" width="11" height="20"/>
-        <image name="profile_forward_icon.png" width="11" height="20"/>
-        <image name="profile_green_dot.png" width="9" height="9"/>
         <image name="profile_green_dot.png" width="9" height="9"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

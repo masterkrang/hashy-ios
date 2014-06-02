@@ -53,6 +53,8 @@
 		26ACF02B1934C4CE00C4BE9E /* ProfileCustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 26ACF02A1934C4CE00C4BE9E /* ProfileCustomCell.m */; };
 		26ACF0311934CB9F00C4BE9E /* profile_back_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 26ACF02E1934CB9F00C4BE9E /* profile_back_button@2x.png */; };
 		26ACF0321934CB9F00C4BE9E /* profile_settings_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 26ACF02F1934CB9F00C4BE9E /* profile_settings_button@2x.png */; };
+		26EB89C6193C9475005258AB /* Hashy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 26EB89C4193C9475005258AB /* Hashy.xcdatamodeld */; };
+		26EB89C9193C963C005258AB /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 26EB89C8193C963C005258AB /* UserInfo.m */; };
 		26F870E119386BC8001A6413 /* SubscribersCustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 26F870E019386BC8001A6413 /* SubscribersCustomCell.m */; };
 		2BA6D17E237F448382EBEC5C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C1C2195DC8E4CFBBE584936 /* libPods.a */; };
 		A380DF7B1934695100759039 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A380DF7A1934695100759039 /* Foundation.framework */; };
@@ -151,6 +153,9 @@
 		26ACF02A1934C4CE00C4BE9E /* ProfileCustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileCustomCell.m; sourceTree = "<group>"; };
 		26ACF02E1934CB9F00C4BE9E /* profile_back_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profile_back_button@2x.png"; sourceTree = "<group>"; };
 		26ACF02F1934CB9F00C4BE9E /* profile_settings_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profile_settings_button@2x.png"; sourceTree = "<group>"; };
+		26EB89C5193C9475005258AB /* Hashy.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Hashy.xcdatamodel; sourceTree = "<group>"; };
+		26EB89C7193C963C005258AB /* UserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfo.h; sourceTree = "<group>"; };
+		26EB89C8193C963C005258AB /* UserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfo.m; sourceTree = "<group>"; };
 		26F870DF19386BC8001A6413 /* SubscribersCustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubscribersCustomCell.h; sourceTree = "<group>"; };
 		26F870E019386BC8001A6413 /* SubscribersCustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubscribersCustomCell.m; sourceTree = "<group>"; };
 		60E69364A15E4105A48EFB66 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
@@ -286,6 +291,8 @@
 				26ACF01D1934BE3F00C4BE9E /* NetworkEngine.m */,
 				26ACF0251934C45700C4BE9E /* PageTableView.h */,
 				26ACF0261934C45700C4BE9E /* PageTableView.m */,
+				26EB89C7193C963C005258AB /* UserInfo.h */,
+				26EB89C8193C963C005258AB /* UserInfo.m */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -402,6 +409,7 @@
 			children = (
 				26ACF02C1934CB9F00C4BE9E /* Images */,
 				A380DF821934695100759039 /* Hashy-Info.plist */,
+				26EB89C4193C9475005258AB /* Hashy.xcdatamodeld */,
 				A380DF831934695100759039 /* InfoPlist.strings */,
 				A380DF861934695100759039 /* main.m */,
 				A380DF881934695100759039 /* Hashy-Prefix.pch */,
@@ -478,7 +486,7 @@
 				ORGANIZATIONNAME = Sunny;
 				TargetAttributes = {
 					A380DF761934695100759039 = {
-						DevelopmentTeam = V4ZGW53G3W;
+						DevelopmentTeam = PD95BY7HF9;
 					};
 					A380DF971934695100759039 = {
 						TestTargetID = A380DF761934695100759039;
@@ -598,6 +606,7 @@
 				2615F19419360C880079687C /* HYListChatViewController.m in Sources */,
 				26ACF02B1934C4CE00C4BE9E /* ProfileCustomCell.m in Sources */,
 				2607A1E419346F8C000FBBDF /* TTTAttributedLabel.m in Sources */,
+				26EB89C6193C9475005258AB /* Hashy.xcdatamodeld in Sources */,
 				26674ED119384D1E00A032B3 /* HYSubscribersListViewController.m in Sources */,
 				269347E619374CFF0048CCA2 /* GKImageCropOverlayView.m in Sources */,
 				269347E819374CFF0048CCA2 /* GKImageCropViewController.m in Sources */,
@@ -606,6 +615,7 @@
 				269347E919374CFF0048CCA2 /* GKImagePicker.m in Sources */,
 				26ACF0241934C37800C4BE9E /* HYProfileViewController.m in Sources */,
 				2607A1E519346F8C000FBBDF /* AddImageViewController.m in Sources */,
+				26EB89C9193C963C005258AB /* UserInfo.m in Sources */,
 				26ACF0211934BE3F00C4BE9E /* UpdateDataProcessor.m in Sources */,
 				2615F19719360C9E0079687C /* HYCreateChatViewController.m in Sources */,
 				26ACF0201934BE3F00C4BE9E /* NetworkEngine.m in Sources */,
@@ -736,13 +746,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 60E69364A15E4105A48EFB66 /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Sean Barker (V7APBQ3938)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: kurtis Braget (X783V48JKA)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Hashy/Hashy-Prefix.pch";
 				INFOPLIST_FILE = "Hashy/Hashy-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "82BFEE50-7FDF-4850-9606-0CA8D48ED5B0";
+				PROVISIONING_PROFILE = "4EE34F9C-C6EF-43AE-8939-B9ACECD5E6AD";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -751,13 +761,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 60E69364A15E4105A48EFB66 /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Sean Barker (V7APBQ3938)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: kurtis Braget (X783V48JKA)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Hashy/Hashy-Prefix.pch";
 				INFOPLIST_FILE = "Hashy/Hashy-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "82BFEE50-7FDF-4850-9606-0CA8D48ED5B0";
+				PROVISIONING_PROFILE = "4EE34F9C-C6EF-43AE-8939-B9ACECD5E6AD";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -833,6 +843,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		26EB89C4193C9475005258AB /* Hashy.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				26EB89C5193C9475005258AB /* Hashy.xcdatamodel */,
+			);
+			currentVersion = 26EB89C5193C9475005258AB /* Hashy.xcdatamodel */;
+			path = Hashy.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = A380DF6F1934695100759039 /* Project object */;
 }

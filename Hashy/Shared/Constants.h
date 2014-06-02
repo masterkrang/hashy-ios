@@ -8,7 +8,7 @@
 #ifndef Hashy_Constants_h
 #define Hashy_Constants_h
 
-#define kAppDelegate (AppDelegate*)[[UIApplication sharedApplication]delegate]
+#define kAppDelegate (HYAppDelegate *)[[UIApplication sharedApplication]delegate]
 //#define kServerHostName @"www.hashy.co"
 #define kServerHostName @"http://www.hashy.co"
 
@@ -28,6 +28,6 @@
 #define kHelVeticaBold @"Helvetica-Bold"
 
 #define kGetColor(x) [Utility colorWithHexString:@"x"]
-
+#define kUserDefaults [NSUserDefaults standardUserDefaults]
 
 #endif

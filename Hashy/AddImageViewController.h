@@ -10,7 +10,8 @@
 #import "NetworkEngine.h"
 #import <UIImageView+AFNetworking.h>
 #import "GKImagePicker.h"
-
+#import "HYSubscribersListViewController.h"
+#import "UpdateDataProcessor.h"
 
 @interface AddImageViewController : UIViewController<UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,GKImagePickerDelegate>
 {

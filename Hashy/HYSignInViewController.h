@@ -18,7 +18,7 @@
 @property(nonatomic,strong) IBOutlet UITextField *passwordTextField;
 @property(nonatomic,strong) IBOutlet UIButton *doneButton;
 @property(nonatomic,strong) IBOutlet UILabel *loginLabel;
-@property(strong,nonatomic)IBOutlet TTTAttributedLabel *notAMemberAttributedLabel;
+@property(strong,nonatomic)IBOutlet UILabel *notAMemberAttributedLabel;
 @property(nonatomic,strong) IBOutlet UIButton *signUpButton;
 
 

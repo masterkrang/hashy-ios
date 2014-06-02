@@ -62,12 +62,12 @@
     return [self.pagingDelegate tableView:self viewForHeaderInSection:section];
     
 }
-//
-//-(CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-//    return [self.pagingDelegate tableView:self heightForHeaderInSection:section];
-//    
-//    
-//}
+
+-(CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return [self.pagingDelegate tableView:self heightForHeaderInSection:section];
+    
+    
+}
 //
 //-(CGFloat) tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
 //    

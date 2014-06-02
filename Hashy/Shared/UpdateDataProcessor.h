@@ -9,11 +9,18 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
+#import "UserInfo.h"
+#import "HYAppDelegate.h"
 
 @interface UpdateDataProcessor : NSObject{
     
 }
 +(id) sharedProcessor;
+@property(strong, nonatomic) UserInfo *currentUserInfo;
+-(void) saveUserDetails:(NSDictionary *)userDict ;
+-(void)updateUserDetails:(NSDictionary *)userDict;
+-(NSArray *) fetchMultipleEntitiesByName:(NSString *)entityName withPredicate:(NSPredicate *)predicate;
+
 //-(void) checkAndSave:(NSManagedObject *) managedObject;
 //-(NSManagedObject *) fetchEntityByName:(NSString *) entityName forAttribute:(NSString *) attribute Value:(NSString *) value;
 //-(NSArray *) fetchMultipleEntitiesByName:(NSString *) entityName withPredicate:(NSPredicate *) predicate;

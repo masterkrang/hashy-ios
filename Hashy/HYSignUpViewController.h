@@ -9,6 +9,8 @@
 #import "TTTAttributedLabel.h"
 #import "AddImageViewController.h"
 #import "HYSignInViewController.h"
+#import <AFNetworking/AFNetworking.h>
+#import "UpdateDataProcessor.h"
 
 @interface HYSignUpViewController : UIViewController<UITextFieldDelegate,TTTAttributedLabelDelegate>{
     
@@ -21,6 +23,7 @@
 @property(strong,nonatomic)IBOutlet UITextField *emailTextField;
 @property(strong,nonatomic)IBOutlet TTTAttributedLabel *alreadySignedUpAttributedLabel;
 @property(strong,nonatomic)IBOutlet UIButton *signInButton;
+@property(nonatomic,strong) AFHTTPRequestOperationManager *httpManager;
 
 
 -(IBAction)doneButtonPressed:(UIButton *)sender;
