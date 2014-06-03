@@ -40,12 +40,18 @@
     self.window.rootViewController =navController;
     
     
-    HYSignInViewController *signInVC = [kStoryBoard instantiateViewControllerWithIdentifier:@"signIn_vc"];
+    AddImageViewController *imageVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"addImage_vc"];
     
-    [navController setViewControllers:[NSArray arrayWithObject:signInVC] animated:YES];
+    [navController setViewControllers:[NSArray arrayWithObject:imageVC] animated:YES];
+
+    
+    
+//    HYSignInViewController *signInVC = [kStoryBoard instantiateViewControllerWithIdentifier:@"signIn_vc"];
+//    
+//    [navController setViewControllers:[NSArray arrayWithObject:signInVC] animated:YES];
     
     // add bugsnag bug tracking
-    [Bugsnag startBugsnagWithApiKey:@"a74e21a5a5aba85cd06a66257cc22c27"];
+    [Bugsnag startBugsnagWithApiKey:kBugSnagAPIKey];
 
     
     
@@ -221,5 +227,51 @@
     NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
     return basePath;
 }
+
+#pragma mark HUD methods
+-(void)showProgressHUD  {
+    if(HUD)
+        HUD = nil;
+    
+    HUD = [[MBProgressHUD alloc] initWithWindow:self.window];
+    
+    HUD.delegate = self;
+    HUD.labelText = @"Loading";
+    
+	[HUD show:YES];
+    
+    //[self showProgressHUDWithText:@"Loading" inView:self.window];
+    
+}
+
+-(void)showProgressHUDWithText:(NSString*)labelText inView:(UIView*)view{
+    if(HUD){
+        [HUD removeFromSuperview];
+        HUD = nil;
+    }
+    
+    HUD = [[MBProgressHUD alloc] initWithView:view];
+    [view addSubview:HUD];
+    
+    HUD.delegate = self;
+    HUD.labelText = labelText;
+    
+	[HUD show:YES];
+    
+}
+
+-(void)showProgressHUD:(UIView*)view {
+    
+    [self showProgressHUDWithText:@"Loading" inView:view];
+}
+
+
+-(void)hideProgressHUD {
+    if(HUD){
+        
+        [HUD hide:YES];
+    }
+}
+
 
 @end

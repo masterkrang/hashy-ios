@@ -108,6 +108,12 @@
     
     [self getRandomImage];
     
+    activityIndicatorView=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake((avatarImageView.frame.size.width-20)/2, (avatarImageView.frame.size.width-20)/2, 20, 20)];
+    activityIndicatorView.activityIndicatorViewStyle=UIActivityIndicatorViewStyleWhiteLarge;
+    [avatarImageView addSubview:activityIndicatorView];
+    [activityIndicatorView startAnimating];
+
+    
 	// Do any additional setup after loading the view.
 }
 
@@ -123,14 +129,32 @@
         
         NSLog(@"%@",object);
         
+//        [activityIndicatorView startAnimating];
         
         if ([object valueForKey:@"avatar_url"] && ![[object valueForKey:@"avatar_url"]isEqual:[NSNull null]]) {
             
             randomAvatarImageURL=[object valueForKey:@"avatar_url"];
             
             //  UIImageView *imageView;
-            [avatarImageView setImageWithURL:[NSURL URLWithString:[object valueForKey:@"avatar_url"]] placeholderImage:nil];
-            
+          //  [avatarImageView setImageWithURL:[NSURL URLWithString:[object valueForKey:@"avatar_url"]] placeholderImage:nil];
+            __weak typeof(avatarImageView) weakSelf = avatarImageView;
+            __weak typeof(activityIndicatorView) weakSelfActivityIndicator = activityIndicatorView;
+
+            NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:[object valueForKey:@"avatar_url"]]];
+            [avatarImageView setImageWithURLRequest:request placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+               
+                weakSelf.image=image;
+                [weakSelfActivityIndicator stopAnimating];
+
+                
+                NSLog(@"SUccess");
+                
+            } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                NSLog(@"Failure");
+                [weakSelfActivityIndicator stopAnimating];
+
+                
+            }];
             
         }
         
@@ -138,6 +162,7 @@
         
     } onError:^(NSError *error) {
         doneButton.enabled=YES;
+        [activityIndicatorView stopAnimating];
 
     }];
     
@@ -311,7 +336,7 @@
     imagePicker.imagePickerController.sourceType= UIImagePickerControllerSourceTypeCamera;
     imagePicker.resizeableCropArea = YES;
 
-    imagePicker.cropSize = CGSizeMake(300 ,300);
+   // imagePicker.cropSize = CGSizeMake(300 ,300);
 
     imagePicker.delegate = self;
     [self presentViewController:imagePicker.imagePickerController animated:YES completion:nil];

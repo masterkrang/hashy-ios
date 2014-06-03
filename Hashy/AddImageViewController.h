@@ -20,6 +20,7 @@
     BOOL isImageSelectedFromDevice;
     UIImage *editedImage;
     NSString *randomAvatarImageURL;
+    UIActivityIndicatorView *activityIndicatorView;
     
 }
 @property(nonatomic,strong) IBOutlet UIButton *avatarImageButton;

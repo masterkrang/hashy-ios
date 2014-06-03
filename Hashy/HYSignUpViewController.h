@@ -14,6 +14,10 @@
 
 @interface HYSignUpViewController : UIViewController<UITextFieldDelegate,TTTAttributedLabelDelegate>{
     
+    UIActivityIndicatorView *activityIndicator;
+    BOOL isUserNameAvailable;
+    
+    
 }
 
 @property(strong,nonatomic)IBOutlet UIButton *doneButton;

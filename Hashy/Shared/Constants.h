@@ -29,5 +29,7 @@
 
 #define kGetColor(x) [Utility colorWithHexString:@"x"]
 #define kUserDefaults [NSUserDefaults standardUserDefaults]
+#define kBugSnagAPIKey @"a74e21a5a5aba85cd06a66257cc22c27"
+
 
 #endif
