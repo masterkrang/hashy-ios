@@ -30,6 +30,7 @@
 #define kGetColor(x) [Utility colorWithHexString:@"x"]
 #define kUserDefaults [NSUserDefaults standardUserDefaults]
 #define kBugSnagAPIKey @"a74e21a5a5aba85cd06a66257cc22c27"
-
+#define AWSAccessKeyId @"AKIAJGVJQYYLQOVZGJWQ"
+#define AWSSecretKey   @"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"
 
 #endif

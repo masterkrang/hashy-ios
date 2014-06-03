@@ -59,6 +59,7 @@
                     </view>
                     <connections>
                         <outlet property="addYourImagelabel" destination="daL-l9-zHf" id="mdj-R0-3AW"/>
+                        <outlet property="avatarImageButton" destination="wfQ-VY-g85" id="RRZ-0v-u7M"/>
                         <outlet property="avatarImageView" destination="2iw-Ej-CO6" id="EdR-MP-wbW"/>
                         <outlet property="doneButton" destination="NOE-5b-qol" id="fXA-pJ-INn"/>
                         <outlet property="tapChangeLabel" destination="RoU-of-Z5T" id="yqz-Nm-I1g"/>

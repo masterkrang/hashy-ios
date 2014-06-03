@@ -47,8 +47,23 @@
     profilePageTableView.pagingDelegate=self;
 
     NSLog(@"%@",profilePageTableView);
+    [self getProfileDetails];
     
 	// Do any additional setup after loading the view.
+}
+
+-(void)getProfileDetails{
+    
+    
+    NSString *userID=[NSString stringWithFormat:@"%d",[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id.intValue];
+    
+    
+    [[NetworkEngine sharedNetworkEngine]getUserProfile:^(id object) {
+        
+    } onError:^(NSError *error) {
+        
+    } forUserID:userID];
+    
 }
 
 #pragma mark UItableView Delegate Methods
@@ -114,6 +129,19 @@
     
     
 }
+
+
+-(UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    
+    
+    UIView *headerView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen]bounds].size.width, 1)];
+    
+    headerView.backgroundColor=[UIColor clearColor];
+    return headerView;
+    
+    
+}
+
 
 
 #pragma mark UIbutton Methods

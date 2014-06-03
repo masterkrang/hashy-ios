@@ -10,6 +10,8 @@
 #import <Accounts/Accounts.h>
 #import <Foundation/Foundation.h>
 #import <AFNetworking/AFNetworking.h>
+#import <AWSS3/AWSS3.h>
+
 typedef void (^completion_block)(id object);
 typedef void (^error_block)(NSError *error);
 typedef void (^upload_completeBlock)(NSString *url);
@@ -35,5 +37,9 @@ typedef void (^upload_completeBlock)(NSString *url);
 -(void)getChatLists:(completion_block)completionBlock onError:(error_block)errorBlock forPageNumber:(int) pageNumber forSearchedText:(NSString *)searchedText;
 -(void)putRequestForNewUser:(completion_block)completionBlock onError:(error_block)errorBlock withParams:(NSMutableDictionary *)params;
 -(void)getChatForChatRoom:(completion_block)completionBlock onError:(error_block)errorBlock forChatID:(NSString *)chat_id forPageNumber:(int) pageNumber;
+- (void)saveAmazoneURLImage:(UIImage*)image completionBlock:(upload_completeBlock)completionBlock onError:(error_block)errorBlock;
+-(void)getUserProfile:(completion_block)completionBlock onError:(error_block)errorBlock forUserID:(NSString *)user_id;
+
+
 
 @end

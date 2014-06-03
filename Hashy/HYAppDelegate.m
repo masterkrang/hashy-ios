@@ -39,7 +39,10 @@
     CustomNavigationController *navController =[kStoryBoard instantiateViewControllerWithIdentifier:@"custom_nav"];
     self.window.rootViewController =navController;
     
+//    HYProfileViewController *profileVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"profile_vc"];
 //    
+//    [navController setViewControllers:[NSArray arrayWithObject:profileVC] animated:YES];
+    
 //    AddImageViewController *imageVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"addImage_vc"];
 //    
 //    [navController setViewControllers:[NSArray arrayWithObject:imageVC] animated:YES];
@@ -51,10 +54,10 @@
 //    [navController setViewControllers:[NSArray arrayWithObject:signInVC] animated:YES];
     
     // add bugsnag bug tracking
-    [Bugsnag startBugsnagWithApiKey:kBugSnagAPIKey];
+  //  [Bugsnag startBugsnagWithApiKey:kBugSnagAPIKey];
 
     
-    
+     
     
     if ([[UpdateDataProcessor sharedProcessor]currentUserInfo]) {
         

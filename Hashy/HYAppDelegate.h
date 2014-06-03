@@ -14,6 +14,9 @@
 #import "AddImageViewController.h"
 #import "Bugsnag.h"
 #import "MBProgressHUD.h"
+#import "HYProfileViewController.h"
+
+
 @interface HYAppDelegate : UIResponder <UIApplicationDelegate,MBProgressHUDDelegate>
 {
     MBProgressHUD *HUD;

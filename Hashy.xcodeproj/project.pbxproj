@@ -13,6 +13,9 @@
 		2607A1E419346F8C000FBBDF /* TTTAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2607A1DD19346F8C000FBBDF /* TTTAttributedLabel.m */; };
 		2607A1E519346F8C000FBBDF /* AddImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2607A1DF19346F8C000FBBDF /* AddImageViewController.m */; };
 		261365A0193DC20300655A7B /* add_image_avatar_container@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2613659F193DC20300655A7B /* add_image_avatar_container@2x.png */; };
+		261365A9193DF0FC00655A7B /* AWSS3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 261365A8193DF0FC00655A7B /* AWSS3.framework */; };
+		261365AF193DF42600655A7B /* AWSRuntime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 261365AE193DF42600655A7B /* AWSRuntime.framework */; };
+		261365B2193DFDB000655A7B /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 261365B1193DFDB000655A7B /* UserInfo.m */; };
 		2615F1881935F1990079687C /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2615F1871935F1990079687C /* Default-568h@2x.png */; };
 		2615F190193600D70079687C /* profile_forward_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2615F18E193600D70079687C /* profile_forward_icon@2x.png */; };
 		2615F191193600D70079687C /* profile_green_dot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2615F18F193600D70079687C /* profile_green_dot@2x.png */; };
@@ -55,7 +58,6 @@
 		26ACF0311934CB9F00C4BE9E /* profile_back_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 26ACF02E1934CB9F00C4BE9E /* profile_back_button@2x.png */; };
 		26ACF0321934CB9F00C4BE9E /* profile_settings_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 26ACF02F1934CB9F00C4BE9E /* profile_settings_button@2x.png */; };
 		26EB89C6193C9475005258AB /* Hashy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 26EB89C4193C9475005258AB /* Hashy.xcdatamodeld */; };
-		26EB89C9193C963C005258AB /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 26EB89C8193C963C005258AB /* UserInfo.m */; };
 		26F870E119386BC8001A6413 /* SubscribersCustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 26F870E019386BC8001A6413 /* SubscribersCustomCell.m */; };
 		2BA6D17E237F448382EBEC5C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C1C2195DC8E4CFBBE584936 /* libPods.a */; };
 		A380DF7B1934695100759039 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A380DF7A1934695100759039 /* Foundation.framework */; };
@@ -96,6 +98,10 @@
 		2607A1DE19346F8C000FBBDF /* AddImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddImageViewController.h; sourceTree = "<group>"; };
 		2607A1DF19346F8C000FBBDF /* AddImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddImageViewController.m; sourceTree = "<group>"; };
 		2613659F193DC20300655A7B /* add_image_avatar_container@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_image_avatar_container@2x.png"; sourceTree = "<group>"; };
+		261365A8193DF0FC00655A7B /* AWSS3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSS3.framework; path = Hashy/AWSS3.framework; sourceTree = "<group>"; };
+		261365AE193DF42600655A7B /* AWSRuntime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSRuntime.framework; path = Hashy/AWSRuntime.framework; sourceTree = "<group>"; };
+		261365B0193DFDB000655A7B /* UserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfo.h; sourceTree = "<group>"; };
+		261365B1193DFDB000655A7B /* UserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfo.m; sourceTree = "<group>"; };
 		2615F1871935F1990079687C /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		2615F18E193600D70079687C /* profile_forward_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profile_forward_icon@2x.png"; sourceTree = "<group>"; };
 		2615F18F193600D70079687C /* profile_green_dot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profile_green_dot@2x.png"; sourceTree = "<group>"; };
@@ -156,8 +162,6 @@
 		26ACF02E1934CB9F00C4BE9E /* profile_back_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profile_back_button@2x.png"; sourceTree = "<group>"; };
 		26ACF02F1934CB9F00C4BE9E /* profile_settings_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profile_settings_button@2x.png"; sourceTree = "<group>"; };
 		26EB89C5193C9475005258AB /* Hashy.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Hashy.xcdatamodel; sourceTree = "<group>"; };
-		26EB89C7193C963C005258AB /* UserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfo.h; sourceTree = "<group>"; };
-		26EB89C8193C963C005258AB /* UserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfo.m; sourceTree = "<group>"; };
 		26F870DF19386BC8001A6413 /* SubscribersCustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubscribersCustomCell.h; sourceTree = "<group>"; };
 		26F870E019386BC8001A6413 /* SubscribersCustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubscribersCustomCell.m; sourceTree = "<group>"; };
 		60E69364A15E4105A48EFB66 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
@@ -188,6 +192,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				261365AF193DF42600655A7B /* AWSRuntime.framework in Frameworks */,
+				261365A9193DF0FC00655A7B /* AWSS3.framework in Frameworks */,
 				A380DF7D1934695100759039 /* CoreGraphics.framework in Frameworks */,
 				A380DF7F1934695100759039 /* UIKit.framework in Frameworks */,
 				A380DF7B1934695100759039 /* Foundation.framework in Frameworks */,
@@ -301,8 +307,8 @@
 				26ACF01D1934BE3F00C4BE9E /* NetworkEngine.m */,
 				26ACF0251934C45700C4BE9E /* PageTableView.h */,
 				26ACF0261934C45700C4BE9E /* PageTableView.m */,
-				26EB89C7193C963C005258AB /* UserInfo.h */,
-				26EB89C8193C963C005258AB /* UserInfo.m */,
+				261365B0193DFDB000655A7B /* UserInfo.h */,
+				261365B1193DFDB000655A7B /* UserInfo.m */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -372,6 +378,8 @@
 		A380DF791934695100759039 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				261365AE193DF42600655A7B /* AWSRuntime.framework */,
+				261365A8193DF0FC00655A7B /* AWSS3.framework */,
 				A380DF7A1934695100759039 /* Foundation.framework */,
 				A380DF7C1934695100759039 /* CoreGraphics.framework */,
 				A380DF7E1934695100759039 /* UIKit.framework */,
@@ -627,7 +635,7 @@
 				269347E919374CFF0048CCA2 /* GKImagePicker.m in Sources */,
 				26ACF0241934C37800C4BE9E /* HYProfileViewController.m in Sources */,
 				2607A1E519346F8C000FBBDF /* AddImageViewController.m in Sources */,
-				26EB89C9193C963C005258AB /* UserInfo.m in Sources */,
+				261365B2193DFDB000655A7B /* UserInfo.m in Sources */,
 				26ACF0211934BE3F00C4BE9E /* UpdateDataProcessor.m in Sources */,
 				2615F19719360C9E0079687C /* HYCreateChatViewController.m in Sources */,
 				26ACF0201934BE3F00C4BE9E /* NetworkEngine.m in Sources */,
@@ -759,6 +767,10 @@
 			baseConfigurationReference = 60E69364A15E4105A48EFB66 /* Pods.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer: kurtis Braget (X783V48JKA)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/attmac107/Documents/projects/Hashy/Hashy\\ Kurt\\ Branch\\ /hashy-ios/Hashy",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Hashy/Hashy-Prefix.pch";
 				INFOPLIST_FILE = "Hashy/Hashy-Info.plist";
@@ -774,6 +786,10 @@
 			baseConfigurationReference = 60E69364A15E4105A48EFB66 /* Pods.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer: kurtis Braget (X783V48JKA)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/attmac107/Documents/projects/Hashy/Hashy\\ Kurt\\ Branch\\ /hashy-ios/Hashy",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Hashy/Hashy-Prefix.pch";
 				INFOPLIST_FILE = "Hashy/Hashy-Info.plist";

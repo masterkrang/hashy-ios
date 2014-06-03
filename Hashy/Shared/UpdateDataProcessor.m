@@ -83,8 +83,8 @@ return _sharedProcessor;
     UserInfo *userInfo=[NSEntityDescription insertNewObjectForEntityForName:@"UserInfo" inManagedObjectContext:[kAppDelegate managedObjectContext]];
     
     
-    if([userDict valueForKey:@"user_id"] && ![[userDict valueForKey:@"user_id"] isEqual:[NSNull null]])
-        userInfo.user_id=[userDict valueForKey:@"user_id"];
+    if([userDict valueForKey:@"id"] && ![[userDict valueForKey:@"id"] isEqual:[NSNull null]])
+        userInfo.user_id=[NSNumber numberWithInt:[[userDict valueForKey:@"id"]intValue]];
     
     
     if([userDict valueForKey:@"user_name"] && ![[userDict valueForKey:@"user_name"] isEqual:[NSNull null]])
@@ -112,6 +112,7 @@ return _sharedProcessor;
 }
 
 
+
 -(void)updateUserDetails:(NSDictionary *)userDict{
     
     
@@ -126,37 +127,89 @@ return _sharedProcessor;
     }
     
     
-    if (userInfo) {
-        if([userDict valueForKey:@"user_id"] && ![[userDict valueForKey:@"user_id"] isEqual:[NSNull null]])
-            userInfo.user_id=[userDict valueForKey:@"user_id"];
+    if (!userInfo) {
+        
+        userInfo=[NSEntityDescription insertNewObjectForEntityForName:@"UserInfo" inManagedObjectContext:[kAppDelegate managedObjectContext]];
         
         
-        if([userDict valueForKey:@"user_name"] && ![[userDict valueForKey:@"user_name"] isEqual:[NSNull null]])
-            userInfo.userName=[userDict valueForKey:@"user_name"];
-        
-        if([userDict valueForKey:@"email"] && ![[userDict valueForKey:@"email"] isEqual:[NSNull null]])
-            userInfo.user_email=[userDict valueForKey:@"email"];
-        
-        
-        if([userDict valueForKey:@"authentication_token"] && ![[userDict valueForKey:@"authentication_token"] isEqual:[NSNull null]])
-            userInfo.user_authentication_token=[userDict valueForKey:@"authentication_token"];
-        
-        if([userDict valueForKey:@"avatar_url"] && ![[userDict valueForKey:@"avatar_url"] isEqual:[NSNull null]])
-            userInfo.user_profile_image_url=[userDict valueForKey:@"avatar_url"];
-        
-        
-        
-        
-        
-        [userInfo.managedObjectContext save:nil];
-        [[kAppDelegate managedObjectContext]save:nil];
-
     }
+    if([userDict valueForKey:@"id"] && ![[userDict valueForKey:@"id"] isEqual:[NSNull null]])
+        userInfo.user_id=[NSNumber numberWithInt:[[userDict valueForKey:@"id"]intValue]];
     
-  
+    
+    if([userDict valueForKey:@"user_name"] && ![[userDict valueForKey:@"user_name"] isEqual:[NSNull null]])
+        userInfo.userName=[userDict valueForKey:@"user_name"];
+    
+    if([userDict valueForKey:@"email"] && ![[userDict valueForKey:@"email"] isEqual:[NSNull null]])
+        userInfo.user_email=[userDict valueForKey:@"email"];
+    
+    
+    if([userDict valueForKey:@"authentication_token"] && ![[userDict valueForKey:@"authentication_token"] isEqual:[NSNull null]])
+        userInfo.user_authentication_token=[userDict valueForKey:@"authentication_token"];
+    
+    if([userDict valueForKey:@"avatar_url"] && ![[userDict valueForKey:@"avatar_url"] isEqual:[NSNull null]])
+        userInfo.user_profile_image_url=[userDict valueForKey:@"avatar_url"];
+    
+    
+    
+    
+    
+    [userInfo.managedObjectContext save:nil];
+    [[kAppDelegate managedObjectContext]save:nil];
+    
+    
+    
+    
     
     
 }
+
+//
+//-(void)updateUserDetails:(NSDictionary *)userDict{
+//    
+//    
+//    NSPredicate *predicate=[NSPredicate predicateWithFormat:@"user_id == %@",[userDict valueForKey:@"user_id"]];
+//    
+//    UserInfo *userInfo;
+//    NSArray *array=[self fetchMultipleEntitiesByName:@"UserInfo" withPredicate:predicate] ;
+//    
+//    if (array.count) {
+//        userInfo=[array objectAtIndex:0];
+//        
+//    }
+//    
+//    
+//    if (userInfo) {
+//        if([userDict valueForKey:@"user_id"] && ![[userDict valueForKey:@"user_id"] isEqual:[NSNull null]])
+//            userInfo.user_id=[userDict valueForKey:@"user_id"];
+//        
+//        
+//        if([userDict valueForKey:@"user_name"] && ![[userDict valueForKey:@"user_name"] isEqual:[NSNull null]])
+//            userInfo.userName=[userDict valueForKey:@"user_name"];
+//        
+//        if([userDict valueForKey:@"email"] && ![[userDict valueForKey:@"email"] isEqual:[NSNull null]])
+//            userInfo.user_email=[userDict valueForKey:@"email"];
+//        
+//        
+//        if([userDict valueForKey:@"authentication_token"] && ![[userDict valueForKey:@"authentication_token"] isEqual:[NSNull null]])
+//            userInfo.user_authentication_token=[userDict valueForKey:@"authentication_token"];
+//        
+//        if([userDict valueForKey:@"avatar_url"] && ![[userDict valueForKey:@"avatar_url"] isEqual:[NSNull null]])
+//            userInfo.user_profile_image_url=[userDict valueForKey:@"avatar_url"];
+//        
+//        
+//        
+//        
+//        
+//        [userInfo.managedObjectContext save:nil];
+//        [[kAppDelegate managedObjectContext]save:nil];
+//
+//    }
+//    
+//  
+//    
+//    
+//}
 
 #pragma mark fetch Entities
 

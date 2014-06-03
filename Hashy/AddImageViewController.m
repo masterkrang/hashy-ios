@@ -198,7 +198,7 @@
         
         
         NSLog(@"%@",object);
-        
+            [kAppDelegate hideProgressHUD];
         
         if (object && ![object isEqual:[NSNull null]]) {
             
@@ -222,7 +222,7 @@
         
         
     } onError:^(NSError *error) {
-        
+            [kAppDelegate hideProgressHUD];
     } withParams:userDict];
     
     
@@ -230,6 +230,30 @@
 }
 
 -(void)postMultipartImage{
+    
+    UIImage *image=editedImage;
+    if (!isImageSelectedFromDevice || !image || [image isEqual:[NSNull null]]) {
+        return;
+    }
+    
+    [kAppDelegate showProgressHUD:self.view];
+
+    [[NetworkEngine sharedNetworkEngine]saveAmazoneURLImage:image completionBlock:^(NSString *url) {
+        
+        
+        NSLog(@"%@",url);
+        randomAvatarImageURL=url;
+        
+        
+        [self postRandomAvatarImage];
+        
+        
+    } onError:^(NSError *error) {
+            [kAppDelegate hideProgressHUD];
+        
+        NSLog(@"%@",error);
+        
+    }];
     
     
 }
@@ -311,6 +335,9 @@
 
 - (void)imagePicker:(GKImagePicker *)imagePicker pickedImage:(UIImage *)image{
     avatarImageView.image = image;
+    editedImage=image;
+    isImageSelectedFromDevice=YES;
+    
     [self hideImagePicker];
 }
 

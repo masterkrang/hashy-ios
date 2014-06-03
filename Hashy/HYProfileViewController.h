@@ -9,6 +9,7 @@
 #import "PageTableView.h"
 #import "ProfileCustomCell.h"
 #import "HYListChatViewController.h"
+#import "UpdateDataProcessor.h"
 
 @interface HYProfileViewController : UIViewController<UITableViewDataSource,PagingDelegate>{
     

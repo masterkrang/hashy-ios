@@ -221,7 +221,7 @@
             NSLog(@"%@",detailChannelDict);
             
             
-            [self getChatWithID:[detailChannelDict valueForKey:@"id"]];
+           // [self getChatWithID:[detailChannelDict valueForKey:@"id"]];
             
             
         }
