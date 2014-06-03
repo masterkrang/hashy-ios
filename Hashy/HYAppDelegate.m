@@ -44,7 +44,8 @@
     
     [navController setViewControllers:[NSArray arrayWithObject:signInVC] animated:YES];
     
-    
+    // add bugsnag bug tracking
+    [Bugsnag startBugsnagWithApiKey:@"a74e21a5a5aba85cd06a66257cc22c27"];
 
     
     

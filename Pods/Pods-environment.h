@@ -48,11 +48,11 @@
 #define COCOAPODS_VERSION_MINOR_AFNetworking_UIKit 2
 #define COCOAPODS_VERSION_PATCH_AFNetworking_UIKit 4
 
-// CrittercismSDK
-#define COCOAPODS_POD_AVAILABLE_CrittercismSDK
-#define COCOAPODS_VERSION_MAJOR_CrittercismSDK 4
-#define COCOAPODS_VERSION_MINOR_CrittercismSDK 3
-#define COCOAPODS_VERSION_PATCH_CrittercismSDK 3
+// Bugsnag
+#define COCOAPODS_POD_AVAILABLE_Bugsnag
+#define COCOAPODS_VERSION_MAJOR_Bugsnag 3
+#define COCOAPODS_VERSION_MINOR_Bugsnag 1
+#define COCOAPODS_VERSION_PATCH_Bugsnag 2
 
 // MBProgressHUD
 #define COCOAPODS_POD_AVAILABLE_MBProgressHUD

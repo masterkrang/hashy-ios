@@ -18,7 +18,7 @@ PODS:
   - AFNetworking/UIKit (2.2.4):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - CrittercismSDK (4.3.3)
+  - Bugsnag (3.1.2)
   - MBProgressHUD (0.8)
   - PubNub (3.6.2)
   - Reachability (3.1.1)
@@ -26,7 +26,7 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking (~> 2.2)
-  - CrittercismSDK (~> 4.3)
+  - Bugsnag (~> 3.1)
   - MBProgressHUD (~> 0.8)
   - PubNub (~> 3.6)
   - Reachability (~> 3.1.1)
@@ -34,10 +34,10 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   AFNetworking: ab63e259fe91eef4519b371ef0a4955af0e73e64
-  CrittercismSDK: 9f19db3a1f0c16b35d8c29c69406852d184a7650
+  Bugsnag: 74d109dfa41b55d16890c987c7551ca071afd3d2
   MBProgressHUD: c356980b0cd097f19acec959b49dca5eb8ec31be
   PubNub: 8e392a5458383e394e0c6be7e11cb2c478422bf1
   Reachability: 8e9635e3cb4f98e7f825e51147f677ecc694d0e7
   TPKeyboardAvoiding: ca26afa683d829cb96fe69b887fc8be4178f0b9a
 
-COCOAPODS: 0.32.1
+COCOAPODS: 0.33.1

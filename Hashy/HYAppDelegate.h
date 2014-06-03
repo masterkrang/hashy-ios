@@ -12,6 +12,7 @@
 #import "HYSignInViewController.h"
 #import <CoreData/CoreData.h>
 #import "AddImageViewController.h"
+#import "Bugsnag.h"
 
 @interface HYAppDelegate : UIResponder <UIApplicationDelegate>
 
