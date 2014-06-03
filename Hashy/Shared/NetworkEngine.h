@@ -34,6 +34,6 @@ typedef void (^upload_completeBlock)(NSString *url);
 
 -(void)getChatLists:(completion_block)completionBlock onError:(error_block)errorBlock forPageNumber:(int) pageNumber forSearchedText:(NSString *)searchedText;
 -(void)putRequestForNewUser:(completion_block)completionBlock onError:(error_block)errorBlock withParams:(NSMutableDictionary *)params;
-
+-(void)getChatForChatRoom:(completion_block)completionBlock onError:(error_block)errorBlock forChatID:(NSString *)chat_id forPageNumber:(int) pageNumber;
 
 @end

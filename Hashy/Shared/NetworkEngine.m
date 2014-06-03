@@ -17,6 +17,8 @@
 #define kGetUsernameAvailability @"/user_name_available.json"
 #define kLoginHashy @"/login.json"
 
+#define kGetChatIDChatRoom @"/chats/"
+
 
 
 static NetworkEngine *sharedNetworkEngine=nil;
@@ -292,6 +294,39 @@ static NetworkEngine *sharedNetworkEngine=nil;
 }
 
 
+
+
+-(void)getChatForChatRoom:(completion_block)completionBlock onError:(error_block)errorBlock forChatID:(NSString *)chat_id forPageNumber:(int) pageNumber
+{
+    NSString *urlString=[NSString stringWithFormat:@"%@%@%@",kServerHostName,kGetChatIDChatRoom,chat_id];
+    
+    [self.httpManager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"JSON: %@", responseObject);
+        
+        NSHTTPURLResponse *response= operation.response;
+        
+        if (response.statusCode==200) {
+            
+            if(responseObject &&![responseObject isEqual:[NSNull null]])
+            {
+                completionBlock(responseObject);
+            }
+            else errorBlock(nil);
+            
+            
+        }
+        else{
+            errorBlock(nil);
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        //[Utility showAlertWithString:@"Network problem \n try again later"];
+        //[theAppDelegate hideProgressHUD];
+        errorBlock(error);
+    }];
+    
+    
+}
 
 -(void) postSubCategory:(completion_block)completionBlock onError:(error_block)errorBlock categoryName:(NSArray *)categoryNameArray{
     

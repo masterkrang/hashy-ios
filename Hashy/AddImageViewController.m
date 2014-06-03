@@ -135,7 +135,6 @@
             
             randomAvatarImageURL=[object valueForKey:@"avatar_url"];
             
-            //  UIImageView *imageView;
           //  [avatarImageView setImageWithURL:[NSURL URLWithString:[object valueForKey:@"avatar_url"]] placeholderImage:nil];
             __weak typeof(avatarImageView) weakSelf = avatarImageView;
             __weak typeof(activityIndicatorView) weakSelfActivityIndicator = activityIndicatorView;

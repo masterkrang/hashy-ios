@@ -209,6 +209,27 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     
+    
+    if (self.hashTagListArray.count>indexPath.row) {
+        
+        
+        NSMutableDictionary *channelDict=[self.hashTagListArray objectAtIndex:indexPath.row];
+        
+        if (channelDict && ![channelDict isEqual:[NSNull null]]) {
+            
+            NSMutableDictionary *detailChannelDict=[channelDict valueForKey:@"channel"];
+            NSLog(@"%@",detailChannelDict);
+            
+            
+            [self getChatWithID:[detailChannelDict valueForKey:@"id"]];
+            
+            
+        }
+        
+        
+    }
+    
+    
 }
 
 
@@ -283,6 +304,16 @@
     
 }
 
+
+-(void)getChatWithID:(NSString *)chatIDString{
+    
+    [[NetworkEngine sharedNetworkEngine]getChatForChatRoom:^(id object) {
+        
+    } onError:^(NSError *error) {
+        
+    } forChatID:chatIDString forPageNumber:1];
+    
+}
 
 - (void)didReceiveMemoryWarning
 {

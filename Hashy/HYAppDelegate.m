@@ -39,13 +39,13 @@
     CustomNavigationController *navController =[kStoryBoard instantiateViewControllerWithIdentifier:@"custom_nav"];
     self.window.rootViewController =navController;
     
-    
-    AddImageViewController *imageVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"addImage_vc"];
-    
-    [navController setViewControllers:[NSArray arrayWithObject:imageVC] animated:YES];
+//    
+//    AddImageViewController *imageVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"addImage_vc"];
+//    
+//    [navController setViewControllers:[NSArray arrayWithObject:imageVC] animated:YES];
 
     
-    
+//    
 //    HYSignInViewController *signInVC = [kStoryBoard instantiateViewControllerWithIdentifier:@"signIn_vc"];
 //    
 //    [navController setViewControllers:[NSArray arrayWithObject:signInVC] animated:YES];
@@ -55,21 +55,21 @@
 
     
     
-//    
-//    if ([[UpdateDataProcessor sharedProcessor]currentUserInfo]) {
-//        
-//        HYListChatViewController *listChatVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"listChat_vc"];
-//        [navController setViewControllers:[NSArray arrayWithObject:listChatVC] animated:YES];
-//        
-//    }
-//    else{
-//       
-//        HYSignInViewController *signInVC = [kStoryBoard instantiateViewControllerWithIdentifier:@"signIn_vc"];
-//        
-//        [navController setViewControllers:[NSArray arrayWithObject:signInVC] animated:YES];
-//
-//        
-//    }
+    
+    if ([[UpdateDataProcessor sharedProcessor]currentUserInfo]) {
+        
+        HYListChatViewController *listChatVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"listChat_vc"];
+        [navController setViewControllers:[NSArray arrayWithObject:listChatVC] animated:YES];
+        
+    }
+    else{
+       
+        HYSignInViewController *signInVC = [kStoryBoard instantiateViewControllerWithIdentifier:@"signIn_vc"];
+        
+        [navController setViewControllers:[NSArray arrayWithObject:signInVC] animated:YES];
+
+        
+    }
     
 //    HYSignUpViewController *signUpVC = [kStoryBoard instantiateViewControllerWithIdentifier:@"signUp_vc"];
 //    
