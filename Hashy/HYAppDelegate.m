@@ -35,7 +35,7 @@
 {
    
     NSLog(@"App started");
-
+    [PubNub setDelegate:self];
     CustomNavigationController *navController =[kStoryBoard instantiateViewControllerWithIdentifier:@"custom_nav"];
     self.window.rootViewController =navController;
     
@@ -48,13 +48,13 @@
 //    [navController setViewControllers:[NSArray arrayWithObject:imageVC] animated:YES];
 
     
-//    
+    
 //    HYSignInViewController *signInVC = [kStoryBoard instantiateViewControllerWithIdentifier:@"signIn_vc"];
 //    
 //    [navController setViewControllers:[NSArray arrayWithObject:signInVC] animated:YES];
     
     // add bugsnag bug tracking
-    [Bugsnag startBugsnagWithApiKey:kBugSnagAPIKey];
+  //  [Bugsnag startBugsnagWithApiKey:kBugSnagAPIKey];
 
     
      

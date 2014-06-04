@@ -281,6 +281,32 @@ else formatted_number = [NSString stringWithFormat:@"%dK", (number/1000)];
 }
 
 
+
++(CGSize)heightOfTextString:(NSString *)aString andFont:(UIFont *)aFont maxSize:(CGSize)aSize
+{
+    // iOS7
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)
+    {
+        CGSize sizeOfText = [aString boundingRectWithSize: aSize
+                                                  options: (NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading)
+                                               attributes: [NSDictionary dictionaryWithObject:aFont
+                                                                                       forKey:NSFontAttributeName]
+                                                  context: nil].size;
+        
+        return sizeOfText;
+    }
+    
+    // iOS6
+    CGSize textSize = [aString sizeWithFont:aFont
+                          constrainedToSize:aSize
+                              lineBreakMode:NSLineBreakByWordWrapping];
+    return textSize;
+    
+    
+}
+
+
+
 + (NSMutableURLRequest*) makeMultipartDataForParams:(NSDictionary*)paramDict path:(NSString *)service httpMethod:(NSString *)method{
     
     

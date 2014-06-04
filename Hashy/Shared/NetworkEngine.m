@@ -17,7 +17,6 @@
 #define kGetUsernameAvailability @"/user_name_available.json"
 #define kLoginHashy @"/login.json"
 
-#define kGetChatIDChatRoom @"/chats/"
 //#define bucketName @"Hashy_Bucket"
 #define bucketName @"hashyimages"
 
@@ -270,8 +269,8 @@ static NetworkEngine *sharedNetworkEngine=nil;
     
     NSLog(@"%@",[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_authentication_token);
     
-    NSString *urlString=[NSString stringWithFormat:@"%@/users/%@/profile",kServerHostName,user_id];
-    [self.httpManager.requestSerializer setValue:[NSString stringWithFormat:@"Token token=\"%@\"", [[UpdateDataProcessor sharedProcessor]currentUserInfo].user_authentication_token] forHTTPHeaderField:@"Authorization"];
+    NSString *urlString=[NSString stringWithFormat:@"%@/users/%@/profile.json",kServerHostName,user_id];
+   // [self.httpManager.requestSerializer setValue:[NSString stringWithFormat:@"Token token=\"%@\"", [[UpdateDataProcessor sharedProcessor]currentUserInfo].user_authentication_token] forHTTPHeaderField:@"Authorization"];
 
     [self.httpManager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"JSON: %@", responseObject);
@@ -335,9 +334,9 @@ static NetworkEngine *sharedNetworkEngine=nil;
 
 
 
--(void)getChatForChatRoom:(completion_block)completionBlock onError:(error_block)errorBlock forChatID:(NSString *)chat_id forPageNumber:(int) pageNumber
+-(void)getChatMessagesForChatRoom:(completion_block)completionBlock onError:(error_block)errorBlock forChatID:(NSString *)chat_id forPageNumber:(int) pageNumber
 {
-    NSString *urlString=[NSString stringWithFormat:@"%@%@%@",kServerHostName,kGetChatIDChatRoom,chat_id];
+    NSString *urlString=[NSString stringWithFormat:@"%@/chats/%@/messages.json",kServerHostName,chat_id];
     
     [self.httpManager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"JSON: %@", responseObject);
@@ -369,6 +368,71 @@ static NetworkEngine *sharedNetworkEngine=nil;
 
 
 
+
+-(void)getChatForChatRoom:(completion_block)completionBlock onError:(error_block)errorBlock forChatID:(NSString *)chat_id forPageNumber:(int) pageNumber
+{
+    NSString *urlString=[NSString stringWithFormat:@"%@/chats/%@.json",kServerHostName,chat_id];
+    
+    [self.httpManager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"JSON: %@", responseObject);
+        
+        NSHTTPURLResponse *response= operation.response;
+        
+        if (response.statusCode==200) {
+            
+            if(responseObject &&![responseObject isEqual:[NSNull null]])
+            {
+                completionBlock(responseObject);
+            }
+            else errorBlock(nil);
+            
+            
+        }
+        else{
+            errorBlock(nil);
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        //[Utility showAlertWithString:@"Network problem \n try again later"];
+        //[theAppDelegate hideProgressHUD];
+        errorBlock(error);
+    }];
+    
+    
+}
+
+
+
+-(void)getSubscribersList:(completion_block)completionBlock onError:(error_block)errorBlock forChatID:(NSString *)chat_id forPageNumber:(int) pageNumber{
+    NSString *urlString=[NSString stringWithFormat:@"%@/chats/%@/subscribers.json",kServerHostName,chat_id];
+    
+    [self.httpManager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"JSON: %@", responseObject);
+        
+        NSHTTPURLResponse *response= operation.response;
+        
+        if (response.statusCode==200) {
+            
+            if(responseObject &&![responseObject isEqual:[NSNull null]])
+            {
+                completionBlock(responseObject);
+            }
+            else errorBlock(nil);
+            
+            
+        }
+        else{
+            errorBlock(nil);
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        //[Utility showAlertWithString:@"Network problem \n try again later"];
+        //[theAppDelegate hideProgressHUD];
+        errorBlock(error);
+    }];
+    
+    
+}
 
 
 - (void)saveAmazoneURLImage:(UIImage*)image completionBlock:(upload_completeBlock)completionBlock onError:(error_block)errorBlock{

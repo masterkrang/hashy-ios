@@ -23,7 +23,9 @@
 #define kHelVeticaNeueUltralight @"HelveticaNeue-UltraLight"
 #define kHelVeticaNeueLight @"HelveticaNeue-Light"
 #define kHelVeticaNeueMedium @"HelveticaNeue-Medium"
-#define kHelVeticaNeueRegular @"HelveticaNeue-Regular"
+//#define kHelVeticaNeueRegular @"HelveticaNeue-Regular"
+#define kHelVeticaNeueRegular @"HelveticaNeue"
+
 #define kHelVeticaLight @"Helvetica-Light"
 #define kHelVeticaBold @"Helvetica-Bold"
 
@@ -32,5 +34,9 @@
 #define kBugSnagAPIKey @"a74e21a5a5aba85cd06a66257cc22c27"
 #define AWSAccessKeyId @"AKIAJGVJQYYLQOVZGJWQ"
 #define AWSSecretKey   @"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"
+
+#define kPubNubSubscribeKey   @"sub-c-815bc3d0-ebb3-11e3-b0c6-02ee2ddab7fe"
+#define kPubNubPublishKey   @"sub-c-815bc3d0-ebb3-11e3-b0c6-02ee2ddab7fe"
+#define kPubNubSecretKey   @"sec-c-MTE3MmFjNzEtN2Q4NC00Y2MxLWJlODYtNGMwMTE1ZGZlMzFh"
 
 #endif

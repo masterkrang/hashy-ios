@@ -39,7 +39,9 @@ typedef void (^upload_completeBlock)(NSString *url);
 -(void)getChatForChatRoom:(completion_block)completionBlock onError:(error_block)errorBlock forChatID:(NSString *)chat_id forPageNumber:(int) pageNumber;
 - (void)saveAmazoneURLImage:(UIImage*)image completionBlock:(upload_completeBlock)completionBlock onError:(error_block)errorBlock;
 -(void)getUserProfile:(completion_block)completionBlock onError:(error_block)errorBlock forUserID:(NSString *)user_id;
+-(void)getChatMessagesForChatRoom:(completion_block)completionBlock onError:(error_block)errorBlock forChatID:(NSString *)chat_id forPageNumber:(int) pageNumber;
 
+-(void)getSubscribersList:(completion_block)completionBlock onError:(error_block)errorBlock forChatID:(NSString *)chat_id forPageNumber:(int) pageNumber;
 
 
 @end

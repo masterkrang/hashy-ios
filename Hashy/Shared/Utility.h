@@ -22,6 +22,7 @@
 + (CGFloat) colorComponentFrom: (NSString *) string start: (NSUInteger) start length: (NSUInteger) length;
 +(CGFloat)heightOfTextForString:(NSString *)aString andFont:(UIFont *)aFont maxSize:(CGSize)aSize;
 +(void)showAlertWithString:(NSString * )message ;
++(CGSize)heightOfTextString:(NSString *)aString andFont:(UIFont *)aFont maxSize:(CGSize)aSize;
 
 //+(void)setGridImage:(UIImage*)image forButton:(UIButton *)button ;
 //+(void)loadAudioForURL:(NSString*)sound_url inView:(UIView*)view ;

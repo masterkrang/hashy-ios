@@ -17,7 +17,7 @@
 #import "HYProfileViewController.h"
 
 
-@interface HYAppDelegate : UIResponder <UIApplicationDelegate,MBProgressHUDDelegate>
+@interface HYAppDelegate : UIResponder <UIApplicationDelegate,MBProgressHUDDelegate,PNDelegate>
 {
     MBProgressHUD *HUD;
 

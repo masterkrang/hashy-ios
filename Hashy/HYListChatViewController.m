@@ -214,17 +214,100 @@
         
         
         NSMutableDictionary *channelDict=[self.hashTagListArray objectAtIndex:indexPath.row];
+//        NSMutableDictionary *detailChannelDict=[channelDict valueForKey:@"channel"];
+//
+//         [self getChatWithID:[detailChannelDict valueForKey:@"id"]];
+
+        
+//        if (channelDict && ![channelDict isEqual:[NSNull null]]) {
+//            
+//            NSMutableDictionary *detailChannelDict=[channelDict valueForKey:@"channel"];
+//            NSLog(@"%@",detailChannelDict);
+//            
+//            HYChatRoomViewController *chatVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"chatRoom_vc"];
+//            
+//            
+//            if ([detailChannelDict valueForKey:@"name"] && ![[detailChannelDict valueForKey:@"name"]isEqual:[NSNull null]] && [[detailChannelDict valueForKey:@"name"] length]>0){
+//                
+//                chatVC.chatNameString=[detailChannelDict valueForKey:@"name"];
+//                
+//            }
+//            else{
+//                chatVC.chatNameString=@"name";
+//                
+//            }
+//            
+//            if ([detailChannelDict valueForKey:@"subscribers_count"] && ![[detailChannelDict valueForKey:@"subscribers_count"]isEqual:[NSNull null]] && [[detailChannelDict valueForKey:@"subscribers_count"] length]>0) {
+//                
+//                chatVC.subscribersCountString=[detailChannelDict valueForKey:@"subscribers_count"];
+//                
+//                
+//            }
+//            else{
+//                
+//                chatVC.subscribersCountString=@"0";
+//                
+//            }
+//            chatVC.chatDict=detailChannelDict;
+//            
+//            
+//            
+//            [self.navigationController pushViewController:chatVC animated:YES];
+//            // [self getChatWithID:[detailChannelDict valueForKey:@"id"]];
+//            
+//            
+//            
+//            
+//            
+//            
+//        }
+        
         
         if (channelDict && ![channelDict isEqual:[NSNull null]]) {
             
             NSMutableDictionary *detailChannelDict=[channelDict valueForKey:@"channel"];
             NSLog(@"%@",detailChannelDict);
             
+            HYChatRoomDetailsViewController *chatVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"chatRoomDetails_vc"];
             
-           // [self getChatWithID:[detailChannelDict valueForKey:@"id"]];
+            
+            if ([detailChannelDict valueForKey:@"name"] && ![[detailChannelDict valueForKey:@"name"]isEqual:[NSNull null]] && [[detailChannelDict valueForKey:@"name"] length]>0){
+                
+                chatVC.chatNameString=[detailChannelDict valueForKey:@"name"];
+                
+            }
+            else{
+                chatVC.chatNameString=@"name";
+                
+            }
+            
+            if ([detailChannelDict valueForKey:@"subscribers_count"] && ![[detailChannelDict valueForKey:@"subscribers_count"]isEqual:[NSNull null]] && [[detailChannelDict valueForKey:@"subscribers_count"] length]>0) {
+                
+                chatVC.subscribersCountString=[detailChannelDict valueForKey:@"subscribers_count"];
+                
+                
+            }
+            else{
+                
+                chatVC.subscribersCountString=@"0";
+                
+            }
+            chatVC.chatDict=detailChannelDict;
+            
+            
+            
+            [self.navigationController pushViewController:chatVC animated:YES];
+            // [self getChatWithID:[detailChannelDict valueForKey:@"id"]];
+            
+            
+            
+            
             
             
         }
+
+        
+        
         
         
     }
@@ -309,7 +392,22 @@
     
     [[NetworkEngine sharedNetworkEngine]getChatForChatRoom:^(id object) {
         
+        NSLog(@"%@",object);
+        
+        
+       [[NetworkEngine sharedNetworkEngine]getChatMessagesForChatRoom:^(id object) {
+           
+           NSLog(@"%@",object);
+
+       } onError:^(NSError *error) {
+           NSLog(@"%@",error);
+
+       } forChatID:@"11" forPageNumber:1];
+        
+        
+        
     } onError:^(NSError *error) {
+        NSLog(@"%@",error);
         
     } forChatID:chatIDString forPageNumber:1];
     

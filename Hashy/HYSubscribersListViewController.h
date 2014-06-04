@@ -10,6 +10,7 @@
 #import "PageTableView.h"
 #import "Utility.h"
 #import "SubscribersCustomCell.h"
+#import "NetworkEngine.h"
 
 @interface HYSubscribersListViewController : UIViewController<UITableViewDataSource,PagingDelegate>
 {

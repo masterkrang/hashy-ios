@@ -24,6 +24,7 @@
 		2615F19F1936173F0079687C /* listChat_hashtag_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2615F19C1936173F0079687C /* listChat_hashtag_icon@2x.png */; };
 		2615F1A01936173F0079687C /* listChat_search_container@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2615F19D1936173F0079687C /* listChat_search_container@2x.png */; };
 		2615F1A11936173F0079687C /* listChat_search_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2615F19E1936173F0079687C /* listChat_search_icon@2x.png */; };
+		2625DF39193EE75800206441 /* HYChatRoomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2625DF38193EE75800206441 /* HYChatRoomViewController.m */; };
 		26674EBF19384BD700A032B3 /* AppIcon29x29.png in Resources */ = {isa = PBXBuildFile; fileRef = 26674EAF19384BD700A032B3 /* AppIcon29x29.png */; };
 		26674EC019384BD700A032B3 /* AppIcon29x29@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 26674EB019384BD700A032B3 /* AppIcon29x29@2x.png */; };
 		26674EC119384BD700A032B3 /* AppIcon40x40.png in Resources */ = {isa = PBXBuildFile; fileRef = 26674EB119384BD700A032B3 /* AppIcon40x40.png */; };
@@ -49,6 +50,19 @@
 		269347E819374CFF0048CCA2 /* GKImageCropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 269347D019374CFF0048CCA2 /* GKImageCropViewController.m */; };
 		269347E919374CFF0048CCA2 /* GKImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 269347D219374CFF0048CCA2 /* GKImagePicker.m */; };
 		269347EA19374CFF0048CCA2 /* GKResizeableCropOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 269347D419374CFF0048CCA2 /* GKResizeableCropOverlayView.m */; };
+		2694CB27193F387000283DFA /* HYChatRoomDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2694CB26193F387000283DFA /* HYChatRoomDetailsViewController.m */; };
+		2694CB2A193F391700283DFA /* ChatCustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2694CB29193F391700283DFA /* ChatCustomCell.m */; };
+		2694CB37193F3E7F00283DFA /* chat_room_back_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2694CB2C193F3E7F00283DFA /* chat_room_back_icon@2x.png */; };
+		2694CB38193F3E7F00283DFA /* chat_room_other_bottom_left@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2694CB2D193F3E7F00283DFA /* chat_room_other_bottom_left@2x.png */; };
+		2694CB39193F3E7F00283DFA /* chat_room_other_bottom_right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2694CB2E193F3E7F00283DFA /* chat_room_other_bottom_right@2x.png */; };
+		2694CB3A193F3E7F00283DFA /* chat_room_other_top_left@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2694CB2F193F3E7F00283DFA /* chat_room_other_top_left@2x.png */; };
+		2694CB3B193F3E7F00283DFA /* chat_room_other_top_right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2694CB30193F3E7F00283DFA /* chat_room_other_top_right@2x.png */; };
+		2694CB3C193F3E7F00283DFA /* chat_room_paper_clip _icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2694CB31193F3E7F00283DFA /* chat_room_paper_clip _icon.png */; };
+		2694CB3D193F3E7F00283DFA /* chat_room_text_conatiner@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2694CB32193F3E7F00283DFA /* chat_room_text_conatiner@2x.png */; };
+		2694CB3E193F3E7F00283DFA /* chat_room_user_bottom_left@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2694CB33193F3E7F00283DFA /* chat_room_user_bottom_left@2x.png */; };
+		2694CB3F193F3E7F00283DFA /* chat_room_user_bottom_right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2694CB34193F3E7F00283DFA /* chat_room_user_bottom_right@2x.png */; };
+		2694CB40193F3E7F00283DFA /* chat_room_user_top_left@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2694CB35193F3E7F00283DFA /* chat_room_user_top_left@2x.png */; };
+		2694CB41193F3E7F00283DFA /* chat_room_user_top_right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2694CB36193F3E7F00283DFA /* chat_room_user_top_right@2x.png */; };
 		26ACF014193488F300C4BE9E /* HYSignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 26ACF013193488F300C4BE9E /* HYSignUpViewController.m */; };
 		26ACF0201934BE3F00C4BE9E /* NetworkEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 26ACF01D1934BE3F00C4BE9E /* NetworkEngine.m */; };
 		26ACF0211934BE3F00C4BE9E /* UpdateDataProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 26ACF01F1934BE3F00C4BE9E /* UpdateDataProcessor.m */; };
@@ -112,6 +126,8 @@
 		2615F19C1936173F0079687C /* listChat_hashtag_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "listChat_hashtag_icon@2x.png"; sourceTree = "<group>"; };
 		2615F19D1936173F0079687C /* listChat_search_container@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "listChat_search_container@2x.png"; sourceTree = "<group>"; };
 		2615F19E1936173F0079687C /* listChat_search_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "listChat_search_icon@2x.png"; sourceTree = "<group>"; };
+		2625DF37193EE75800206441 /* HYChatRoomViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYChatRoomViewController.h; sourceTree = "<group>"; };
+		2625DF38193EE75800206441 /* HYChatRoomViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYChatRoomViewController.m; sourceTree = "<group>"; };
 		26674EAF19384BD700A032B3 /* AppIcon29x29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AppIcon29x29.png; sourceTree = "<group>"; };
 		26674EB019384BD700A032B3 /* AppIcon29x29@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon29x29@2x.png"; sourceTree = "<group>"; };
 		26674EB119384BD700A032B3 /* AppIcon40x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AppIcon40x40.png; sourceTree = "<group>"; };
@@ -146,6 +162,21 @@
 		269347D219374CFF0048CCA2 /* GKImagePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKImagePicker.m; sourceTree = "<group>"; };
 		269347D319374CFF0048CCA2 /* GKResizeableCropOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKResizeableCropOverlayView.h; sourceTree = "<group>"; };
 		269347D419374CFF0048CCA2 /* GKResizeableCropOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKResizeableCropOverlayView.m; sourceTree = "<group>"; };
+		2694CB25193F387000283DFA /* HYChatRoomDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYChatRoomDetailsViewController.h; sourceTree = "<group>"; };
+		2694CB26193F387000283DFA /* HYChatRoomDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYChatRoomDetailsViewController.m; sourceTree = "<group>"; };
+		2694CB28193F391700283DFA /* ChatCustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatCustomCell.h; sourceTree = "<group>"; };
+		2694CB29193F391700283DFA /* ChatCustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatCustomCell.m; sourceTree = "<group>"; };
+		2694CB2C193F3E7F00283DFA /* chat_room_back_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chat_room_back_icon@2x.png"; sourceTree = "<group>"; };
+		2694CB2D193F3E7F00283DFA /* chat_room_other_bottom_left@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chat_room_other_bottom_left@2x.png"; sourceTree = "<group>"; };
+		2694CB2E193F3E7F00283DFA /* chat_room_other_bottom_right@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chat_room_other_bottom_right@2x.png"; sourceTree = "<group>"; };
+		2694CB2F193F3E7F00283DFA /* chat_room_other_top_left@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chat_room_other_top_left@2x.png"; sourceTree = "<group>"; };
+		2694CB30193F3E7F00283DFA /* chat_room_other_top_right@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chat_room_other_top_right@2x.png"; sourceTree = "<group>"; };
+		2694CB31193F3E7F00283DFA /* chat_room_paper_clip _icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chat_room_paper_clip _icon.png"; sourceTree = "<group>"; };
+		2694CB32193F3E7F00283DFA /* chat_room_text_conatiner@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chat_room_text_conatiner@2x.png"; sourceTree = "<group>"; };
+		2694CB33193F3E7F00283DFA /* chat_room_user_bottom_left@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chat_room_user_bottom_left@2x.png"; sourceTree = "<group>"; };
+		2694CB34193F3E7F00283DFA /* chat_room_user_bottom_right@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chat_room_user_bottom_right@2x.png"; sourceTree = "<group>"; };
+		2694CB35193F3E7F00283DFA /* chat_room_user_top_left@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chat_room_user_top_left@2x.png"; sourceTree = "<group>"; };
+		2694CB36193F3E7F00283DFA /* chat_room_user_top_right@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chat_room_user_top_right@2x.png"; sourceTree = "<group>"; };
 		26ACF012193488F300C4BE9E /* HYSignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYSignUpViewController.h; sourceTree = "<group>"; };
 		26ACF013193488F300C4BE9E /* HYSignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYSignUpViewController.m; sourceTree = "<group>"; };
 		26ACF016193489A700C4BE9E /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
@@ -295,6 +326,24 @@
 			path = GKClasses;
 			sourceTree = "<group>";
 		};
+		2694CB2B193F3E7F00283DFA /* Chat Room Screen */ = {
+			isa = PBXGroup;
+			children = (
+				2694CB2C193F3E7F00283DFA /* chat_room_back_icon@2x.png */,
+				2694CB2D193F3E7F00283DFA /* chat_room_other_bottom_left@2x.png */,
+				2694CB2E193F3E7F00283DFA /* chat_room_other_bottom_right@2x.png */,
+				2694CB2F193F3E7F00283DFA /* chat_room_other_top_left@2x.png */,
+				2694CB30193F3E7F00283DFA /* chat_room_other_top_right@2x.png */,
+				2694CB31193F3E7F00283DFA /* chat_room_paper_clip _icon.png */,
+				2694CB32193F3E7F00283DFA /* chat_room_text_conatiner@2x.png */,
+				2694CB33193F3E7F00283DFA /* chat_room_user_bottom_left@2x.png */,
+				2694CB34193F3E7F00283DFA /* chat_room_user_bottom_right@2x.png */,
+				2694CB35193F3E7F00283DFA /* chat_room_user_top_left@2x.png */,
+				2694CB36193F3E7F00283DFA /* chat_room_user_top_right@2x.png */,
+			);
+			path = "Chat Room Screen";
+			sourceTree = "<group>";
+		};
 		26ACF0151934899900C4BE9E /* Shared */ = {
 			isa = PBXGroup;
 			children = (
@@ -320,6 +369,8 @@
 				26ACF02A1934C4CE00C4BE9E /* ProfileCustomCell.m */,
 				26F870DF19386BC8001A6413 /* SubscribersCustomCell.h */,
 				26F870E019386BC8001A6413 /* SubscribersCustomCell.m */,
+				2694CB28193F391700283DFA /* ChatCustomCell.h */,
+				2694CB29193F391700283DFA /* ChatCustomCell.m */,
 			);
 			path = "Custom Cell";
 			sourceTree = "<group>";
@@ -327,6 +378,7 @@
 		26ACF02C1934CB9F00C4BE9E /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				2694CB2B193F3E7F00283DFA /* Chat Room Screen */,
 				2613659E193DC20300655A7B /* Add Image Screen */,
 				26674EAE19384BD700A032B3 /* App Icon */,
 				2615F19B1936173F0079687C /* List Chat Screen */,
@@ -417,6 +469,10 @@
 				2615F19619360C9E0079687C /* HYCreateChatViewController.m */,
 				26674ECF19384D1E00A032B3 /* HYSubscribersListViewController.h */,
 				26674ED019384D1E00A032B3 /* HYSubscribersListViewController.m */,
+				2625DF37193EE75800206441 /* HYChatRoomViewController.h */,
+				2625DF38193EE75800206441 /* HYChatRoomViewController.m */,
+				2694CB25193F387000283DFA /* HYChatRoomDetailsViewController.h */,
+				2694CB26193F387000283DFA /* HYChatRoomDetailsViewController.m */,
 				A380DF921934695100759039 /* Images.xcassets */,
 				A380DF811934695100759039 /* Supporting Files */,
 			);
@@ -537,8 +593,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				A380DF931934695100759039 /* Images.xcassets in Resources */,
+				2694CB40193F3E7F00283DFA /* chat_room_user_top_left@2x.png in Resources */,
 				26674EC919384BD700A032B3 /* AppIcon72x72.png in Resources */,
+				2694CB41193F3E7F00283DFA /* chat_room_user_top_right@2x.png in Resources */,
 				26674EC619384BD700A032B3 /* AppIcon57x57@2x.png in Resources */,
+				2694CB3C193F3E7F00283DFA /* chat_room_paper_clip _icon.png in Resources */,
 				26674EC519384BD700A032B3 /* AppIcon57x57.png in Resources */,
 				2615F1A11936173F0079687C /* listChat_search_icon@2x.png in Resources */,
 				A380DF851934695100759039 /* InfoPlist.strings in Resources */,
@@ -552,17 +611,25 @@
 				2615F1881935F1990079687C /* Default-568h@2x.png in Resources */,
 				26ACF0311934CB9F00C4BE9E /* profile_back_button@2x.png in Resources */,
 				26674ECB19384BD700A032B3 /* AppIcon76x76.png in Resources */,
+				2694CB38193F3E7F00283DFA /* chat_room_other_bottom_left@2x.png in Resources */,
 				26674EC019384BD700A032B3 /* AppIcon29x29@2x.png in Resources */,
 				26674EC419384BD700A032B3 /* AppIcon50x50@2x.png in Resources */,
 				2615F190193600D70079687C /* profile_forward_icon@2x.png in Resources */,
+				2694CB3F193F3E7F00283DFA /* chat_room_user_bottom_right@2x.png in Resources */,
+				2694CB3D193F3E7F00283DFA /* chat_room_text_conatiner@2x.png in Resources */,
 				2615F19F1936173F0079687C /* listChat_hashtag_icon@2x.png in Resources */,
+				2694CB37193F3E7F00283DFA /* chat_room_back_icon@2x.png in Resources */,
 				26674ECD19384BD700A032B3 /* iTunesArtwork.png in Resources */,
 				26674EBF19384BD700A032B3 /* AppIcon29x29.png in Resources */,
 				26674ECE19384BD700A032B3 /* iTunesArtwork@2x.png in Resources */,
 				261365A0193DC20300655A7B /* add_image_avatar_container@2x.png in Resources */,
+				2694CB39193F3E7F00283DFA /* chat_room_other_bottom_right@2x.png in Resources */,
+				2694CB3A193F3E7F00283DFA /* chat_room_other_top_left@2x.png in Resources */,
 				26674EC119384BD700A032B3 /* AppIcon40x40.png in Resources */,
+				2694CB3B193F3E7F00283DFA /* chat_room_other_top_right@2x.png in Resources */,
 				26674ECC19384BD700A032B3 /* AppIcon76x76@2x.png in Resources */,
 				26674ECA19384BD700A032B3 /* AppIcon72x72@2x.png in Resources */,
+				2694CB3E193F3E7F00283DFA /* chat_room_user_bottom_left@2x.png in Resources */,
 				26674EC319384BD700A032B3 /* AppIcon50x50.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -624,7 +691,9 @@
 				26ACF014193488F300C4BE9E /* HYSignUpViewController.m in Sources */,
 				269347E519374CFF0048CCA2 /* GKCropBorderView.m in Sources */,
 				2615F19419360C880079687C /* HYListChatViewController.m in Sources */,
+				2625DF39193EE75800206441 /* HYChatRoomViewController.m in Sources */,
 				26ACF02B1934C4CE00C4BE9E /* ProfileCustomCell.m in Sources */,
+				2694CB2A193F391700283DFA /* ChatCustomCell.m in Sources */,
 				2607A1E419346F8C000FBBDF /* TTTAttributedLabel.m in Sources */,
 				26EB89C6193C9475005258AB /* Hashy.xcdatamodeld in Sources */,
 				26674ED119384D1E00A032B3 /* HYSubscribersListViewController.m in Sources */,
@@ -632,6 +701,7 @@
 				269347E819374CFF0048CCA2 /* GKImageCropViewController.m in Sources */,
 				2607A1E019346F8C000FBBDF /* CustomNavigationController.m in Sources */,
 				269347C61937067B0048CCA2 /* Utility.m in Sources */,
+				2694CB27193F387000283DFA /* HYChatRoomDetailsViewController.m in Sources */,
 				269347E919374CFF0048CCA2 /* GKImagePicker.m in Sources */,
 				26ACF0241934C37800C4BE9E /* HYProfileViewController.m in Sources */,
 				2607A1E519346F8C000FBBDF /* AddImageViewController.m in Sources */,
@@ -776,7 +846,7 @@
 				INFOPLIST_FILE = "Hashy/Hashy-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "4EE34F9C-C6EF-43AE-8939-B9ACECD5E6AD";
+				PROVISIONING_PROFILE = "AB8660E6-19C0-4918-847C-9F696E5A7740";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -795,7 +865,7 @@
 				INFOPLIST_FILE = "Hashy/Hashy-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "4EE34F9C-C6EF-43AE-8939-B9ACECD5E6AD";
+				PROVISIONING_PROFILE = "AB8660E6-19C0-4918-847C-9F696E5A7740";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

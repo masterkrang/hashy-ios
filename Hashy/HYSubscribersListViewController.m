@@ -113,7 +113,24 @@
         
     }
     
+    [self getSubscribersListForChatID:@"12"];
+    
+    
 	// Do any additional setup after loading the view.
+}
+
+-(void)getSubscribersListForChatID:(NSString *)chat_id{
+    
+    
+    [[NetworkEngine sharedNetworkEngine]getSubscribersList:^(id object) {
+        
+        NSLog(@"%@",object);
+        
+    } onError:^(NSError *error) {
+        NSLog(@"%@",error);
+
+    } forChatID:chat_id forPageNumber:1];
+    
 }
 
 
