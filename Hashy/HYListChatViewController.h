@@ -12,6 +12,8 @@
 #import "Utility.h"
 #import "HYChatRoomViewController.h"
 #import "HYChatRoomDetailsViewController.h"
+#import "HYCreateChatViewController.h"
+
 @interface HYListChatViewController : UIViewController<UITableViewDataSource,PagingDelegate,UITextFieldDelegate>
 {
     

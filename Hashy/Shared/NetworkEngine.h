@@ -42,6 +42,9 @@ typedef void (^upload_completeBlock)(NSString *url);
 -(void)getChatMessagesForChatRoom:(completion_block)completionBlock onError:(error_block)errorBlock forChatID:(NSString *)chat_id forPageNumber:(int) pageNumber;
 
 -(void)getSubscribersList:(completion_block)completionBlock onError:(error_block)errorBlock forChatID:(NSString *)chat_id forPageNumber:(int) pageNumber;
+-(void)createNewHashTag:(completion_block)completionBlock onError:(error_block)errorBlock forHashTag:(NSString *)hash_tag;
+-(void)getAllHashTags:(completion_block)completionBlock onError:(error_block)errorBlock forSearchedText:(NSString *)searchedText forPageNumber:(int) pageNumber;
+-(void)getRecentChatsForAUser:(completion_block)completionBlock onError:(error_block)errorBlock forUserID:(NSString *)user_id forPageNumber:(int) pageNumber;
 
 
 @end

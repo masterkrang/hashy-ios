@@ -18,6 +18,9 @@
 @synthesize userNameLabel;
 @synthesize userStatusImageView;
 @synthesize profileHeaderView;
+@synthesize userDetailDict;
+@synthesize recentChatArray;
+@synthesize profileAvatarImageView;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -29,13 +32,7 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    self.title=@"Profile";
-    self.navigationController.navigationBarHidden=NO;
-    self.navigationItem.hidesBackButton=YES;
-    
+-(void)setBarButtonItems{
     UIBarButtonItem *leftBarButtonItem=[[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"profile_back_button.png"] style:UIBarButtonItemStyleDone target:self action:@selector(backButtonPressed:)];
     self.navigationItem.leftBarButtonItem=leftBarButtonItem;
     
@@ -43,10 +40,24 @@
     UIBarButtonItem *rightBarButtonItem=[[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"profile_settings_button.png"] style:UIBarButtonItemStyleDone target:self action:@selector(settingsButtonPressed:)];
     self.navigationItem.rightBarButtonItem=rightBarButtonItem;
 
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    self.title=@"Profile";
+    self.navigationController.navigationBarHidden=NO;
+    self.navigationItem.hidesBackButton=YES;
+    [self setBarButtonItems];
+    activityIndicatorView=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake((userProfileImageButton.frame.size.width/2)-5,(userProfileImageButton.frame.size.height/2)-5,10,10)];
+    activityIndicatorView.activityIndicatorViewStyle=UIActivityIndicatorViewStyleGray;
+    [userProfileImageButton addSubview:activityIndicatorView];
+
+   
     [profilePageTableView setupTablePaging];
     profilePageTableView.pagingDelegate=self;
 
-    NSLog(@"%@",profilePageTableView);
+  //  NSLog(@"%@",profilePageTableView);
     [self getProfileDetails];
     
 	// Do any additional setup after loading the view.
@@ -59,6 +70,45 @@
     
     
     [[NetworkEngine sharedNetworkEngine]getUserProfile:^(id object) {
+        
+        if ([object valueForKey:@"user"] && ![[object valueForKey:@"user"]isEqual:[NSNull null]]) {
+            
+            self.userDetailDict=[object valueForKey:@"user"];
+            
+            
+            if ([self.userDetailDict valueForKey:@"avatar_url"] && ![[self.userDetailDict valueForKey:@"avatar_url"]isEqual:[NSNull null]]) {
+                NSURLRequest *request=[NSURLRequest requestWithURL:[NSURL URLWithString:[self.userDetailDict valueForKey:@"avatar_url"]]];
+               __weak typeof (profileAvatarImageView) weakSelf=profileAvatarImageView;
+                __weak typeof (activityIndicatorView) weakSelfActivityIndocator=activityIndicatorView;
+
+                [activityIndicatorView startAnimating];
+
+                [self.profileAvatarImageView setImageWithURLRequest:request placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                    
+                    [weakSelfActivityIndocator stopAnimating];
+ 
+                    weakSelf.image=image;
+                    
+                } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                    [weakSelfActivityIndocator stopAnimating];
+
+                    
+                    NSLog(@"%@",error);
+                    
+                    
+                }];
+
+            }
+            
+            if ([self.userDetailDict valueForKey:@"user_name"] && ![[self.userDetailDict valueForKey:@"user_name"]isEqual:[NSNull null]]) {
+                self.userNameLabel.text=[self.userDetailDict valueForKey:@"user_name"];
+                
+            }
+            
+            
+        }
+        
+        
         
     } onError:^(NSError *error) {
         
@@ -141,6 +191,51 @@
     
     
 }
+
+
+#pragma mark Set cell
+
+-(void)setCell:(ProfileCustomCell *)cell forIndexPath:(NSIndexPath *)indexPath forDict:(NSMutableDictionary *)hashTagDict{
+    
+    NSString *count=@"1,123";
+    
+    CGSize labelSize=[Utility heightOfTextString:count andFont:cell.subscribersCount.font maxSize:CGSizeMake(300, 999)];
+    
+    
+    CGRect subCountFrame=cell.subscribersCount.frame;
+    
+    subCountFrame.origin.x=305-labelSize.width;
+    subCountFrame.size.width=labelSize.width+3;
+    cell.subscribersCount.frame=subCountFrame;
+    
+    
+    CGRect onlineImageFrame=cell.statusImageView.frame;
+    onlineImageFrame.origin.x=cell.subscribersCount.frame.origin.x-14;
+    cell.statusImageView.frame=onlineImageFrame;
+    
+    
+    
+    cell.subscribersCount.text=count;
+    
+    
+    CGRect userFrame=cell.userNameLabel.frame;
+    userFrame.size.width=cell.statusImageView.frame.origin.x-userFrame.origin.x-2;
+    cell.userNameLabel.frame=userFrame;
+    
+    // cell.userNameLabel.backgroundColor=[UIColor orangeColor];
+    
+    
+    
+    if ([hashTagDict valueForKey:@"subscribers_count"] && ![[hashTagDict valueForKey:@"subscribers_count"]isEqual:[NSNull null]]) {
+        
+        
+        
+    }
+    
+    
+}
+
+
 
 
 

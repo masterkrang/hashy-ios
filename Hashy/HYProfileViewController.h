@@ -14,6 +14,8 @@
 @interface HYProfileViewController : UIViewController<UITableViewDataSource,PagingDelegate>{
     
     IBOutlet PageTableView *profilePageTableView;
+    UIActivityIndicatorView *activityIndicatorView;
+    
     
 }
 
@@ -22,7 +24,11 @@
 @property(nonatomic,strong)    IBOutlet UIButton *editUserProfileImageButton;
 @property(nonatomic,strong)    IBOutlet UILabel *userNameLabel;
 @property(nonatomic,strong)    IBOutlet UIImageView *userStatusImageView;
+@property(nonatomic,strong)    IBOutlet UIImageView *profileAvatarImageView;
+
 @property(nonatomic,strong)    IBOutlet UIView *profileHeaderView;
+@property(nonatomic,strong)NSMutableArray *recentChatArray;
+@property(nonatomic,strong)NSMutableDictionary *userDetailDict;
 
 -(IBAction)editButtonPressed:(UIButton *)sender;
 

@@ -17,6 +17,7 @@
 @synthesize doneButton;
 @synthesize tapChangeLabel;
 @synthesize addYourImagelabel;
+@synthesize maskImageView;
 
 
 
@@ -67,6 +68,12 @@
         self.avatarImageButton.frame=avatarButtonFrame;
         
         
+        CGRect maskImageFrame=self.maskImageView.frame;
+        maskImageFrame.origin.y-=48;
+        self.maskImageView.frame=maskImageFrame;
+        
+
+        
         
 //        CGRect passwordFrame=self.passwordTextField.frame;
 //        passwordFrame.origin.y-=41;
@@ -101,6 +108,7 @@
     doneButton.enabled=NO;
     NSLog(@"%@",[kUserDefaults valueForKey:@"user_dict"]);
     
+    [avatarImageButton setBackgroundImage:nil forState:UIControlStateHighlighted];
     
     
 
@@ -109,7 +117,7 @@
     [self getRandomImage];
     
     activityIndicatorView=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake((avatarImageView.frame.size.width-20)/2, (avatarImageView.frame.size.width-20)/2, 20, 20)];
-    activityIndicatorView.activityIndicatorViewStyle=UIActivityIndicatorViewStyleWhiteLarge;
+    activityIndicatorView.activityIndicatorViewStyle=UIActivityIndicatorViewStyleGray;
     [avatarImageView addSubview:activityIndicatorView];
     [activityIndicatorView startAnimating];
 

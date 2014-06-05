@@ -74,27 +74,9 @@
         
     }
     
-//    HYSignUpViewController *signUpVC = [kStoryBoard instantiateViewControllerWithIdentifier:@"signUp_vc"];
-//    
-//    [navController setViewControllers:[NSArray arrayWithObject:signUpVC] animated:YES];
+
     
-    
-//
-//    if(1){
-//       HYSignUpViewController *signUpVC = [kStoryBoard instantiateViewControllerWithIdentifier:@"signUp_vc"];
-//        
-//        [navController setViewControllers:[NSArray arrayWithObject:signUpVC] animated:YES];
-//    }
-//    else {
-//       HYSignUpViewController * signUpVC = [kStoryBoard instantiateViewControllerWithIdentifier:@"signUp_vc"];
-//        
-//        navController.navigationBarHidden = YES;
-//        [navController setViewControllers:[NSArray arrayWithObject:signUpVC] animated:YES];
-//        
-//        
-//    }
-//
-//
+
     
    
     return YES;
@@ -217,6 +199,11 @@
 }
 
 
+
+#pragma mark Pub Nub Delegate Methods
+- (void)pubnubClient:(PubNub *)client didReceiveMessage:(PNMessage *)message {
+    PNLog(PNLogGeneralLevel, self, @"PubNub client received message: %@", message);
+}
 
 
 #pragma mark - Application's Documents directory

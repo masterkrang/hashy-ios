@@ -26,6 +26,11 @@
 @synthesize chatRoomMessageArray;
 @synthesize subscribersCountString;
 @synthesize chatNameString;
+@synthesize messageConatinerView;
+@synthesize messagetextField;
+@synthesize sendMessageButton;
+@synthesize attachFileButton;
+@synthesize masterChannel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -34,6 +39,23 @@
         // Custom initialization
     }
     return self;
+}
+
+
+
+-(void)setPaddingView{
+    
+    
+    UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 5, 30)];
+    paddingView.backgroundColor = [UIColor clearColor];
+    
+//    UIImageView *searchIconImageView=[[UIImageView alloc]initWithFrame:CGRectMake(9,8, 12,12 )];
+//    searchIconImageView.image=[UIImage imageNamed:@"listChat_search_icon.png"];
+//    [paddingView addSubview:searchIconImageView];
+    
+    messagetextField.leftView = paddingView;
+    messagetextField.leftViewMode = UITextFieldViewModeAlways;
+    
 }
 
 
@@ -73,6 +95,7 @@
     chatRoomTableView.pagingDelegate=self;
     self.title=[NSString stringWithFormat:@"#%@",chatNameString];
     [self setBarButtonItems];
+    [self setPaddingView];
     [self getChatWithID:[chatDict valueForKey:@"id"]];
 
     
@@ -101,7 +124,7 @@
                 // [chatRoomBubbleTableView reload];
                 [chatRoomTableView reloadData];
                 
-                
+                [self subscribeToPubNubChannel:[chatDict valueForKey:@"name"]];
                 
             }
             
@@ -119,6 +142,105 @@
     } forChatID:chatIDString forPageNumber:1];
     
 }
+
+#pragma mark Pub Nub Methods
+
+-(void)subscribeToPubNubChannel:(NSString *)channelName{
+    
+    NSLog(@"Channel Name %@",channelName);
+    
+    [PubNub setConfiguration:[PNConfiguration defaultConfiguration]];
+    
+    [PubNub connectWithSuccessBlock:^(NSString *origin) {
+        
+        
+        // wait 1 second
+        int64_t delayInSeconds = 1.0;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC); dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            [PubNub subscribeOnChannel:[PNChannel channelWithName:channelName shouldObservePresence:YES]];
+        
+        });
+    } errorBlock:^(PNError *error) {
+        
+        UIAlertView *connectionErrorAlert = [UIAlertView new]; connectionErrorAlert.title = [NSString stringWithFormat:@"%@(%@)",
+                                                                                             [error localizedDescription],
+                                                                                             NSStringFromClass([self class])];
+        connectionErrorAlert.message = [NSString stringWithFormat:@"Reason:\n%@\n\nSuggestion:\n%@",
+                                        [error localizedFailureReason],
+                                        [error localizedRecoverySuggestion]]; [connectionErrorAlert addButtonWithTitle:@"OK"];
+        [connectionErrorAlert show];
+    }];
+    
+    
+//    [PubNub setConfiguration: [PNConfiguration configurationForOrigin:@"pubsub.pubnub.com"
+//                                                           publishKey:kPubNubPublishKey
+//                                                         subscribeKey:kPubNubSubscribeKey
+//                                                            secretKey:kPubNubSecretKey]];
+//    
+//    [PubNub connect];
+//    
+//    masterChannel = [PNChannel channelWithName:channelName shouldObservePresence:YES];
+//    
+//    [PubNub subscribeOnChannel:masterChannel];
+    
+    //[PubNub sendMessage:@"my_unique_channel_name" toChannel:masterChannel];
+    
+    
+}
+
+
+#pragma mark UITextField Deleagte Methods
+
+-(void)textFieldDidBeginEditing:(UITextField *)textField{
+    
+   
+    
+    
+    [UIView animateWithDuration:0.4 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        CGRect messageContainerFrame=self.messageConatinerView.frame;
+        messageContainerFrame.origin.y-=217;
+        self.messageConatinerView.frame=messageContainerFrame;
+        
+//        CGRect tableFrame=self.chatRoomTableView.frame;
+//        tableFrame.origin.y-=153;
+//        self.chatRoomTableView.frame=tableFrame;
+    } completion:nil];
+    
+    
+    
+}
+
+
+-(void)textFieldDidEndEditing:(UITextField *)textField{
+    
+    [UIView animateWithDuration:0.4 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        CGRect messageContainerFrame=self.messageConatinerView.frame;
+        messageContainerFrame.origin.y+=217;
+        self.messageConatinerView.frame=messageContainerFrame;
+        
+//        CGRect tableFrame=self.chatRoomTableView.frame;
+//        tableFrame.origin.y-=153;
+//        self.chatRoomTableView.frame=tableFrame;
+    } completion:nil];
+
+}
+
+-(BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    
+   // textField.text = [NSString stringWithFormat:@"%@%@",textField.text,string];
+    return YES;
+    
+}
+
+
+
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    
+    return [textField resignFirstResponder];
+    
+}
+
 
 
 #pragma mark UItableView Delegate Methods
@@ -226,57 +348,57 @@
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    
-//    CGFloat height=0;
-//    
-//    
-//    NSMutableDictionary *dict=[self.chatRoomMessageArray objectAtIndex:indexPath.row];
-//    
-//    if ([dict valueForKey:@"message"] && ![[dict valueForKey:@"message"]isEqual:[NSNull null]]) {
-//        
-//        NSMutableDictionary *messageDict=[dict valueForKey:@"message"];
-//        
-////        
-////        if ([messageDict valueForKey:@"body"] && ![[messageDict valueForKey:@"body"]isEqual:[NSNull null]]) {
-////            cell.messageLabel.text=[messageDict valueForKey:@"body"];
-////            
-////        }
-//        
-//        NSNumber *userIDNum=[messageDict valueForKey:@"id"];
-//        BOOL isFromLoginUser=NO;
-//        
-//        NSLog(@"%@",[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id);
-//        
-////        if(userIDNum && userIDNum.intValue== [[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id.intValue){
-////            isFromLoginUser=YES;
-////            
-////            
-////        }
-//        
-//        if (!isFromLoginUser) {
-//            height+=18;
-//        }
-//        CGSize messageSize=CGSizeMake(300, 999);
-//        NSString *messageString=[messageDict valueForKey:@"body"];
-//        
-//        if (!messageString || messageString.length<1) {
-//            messageString=@".";
-//        }
-//       
-//
-//
-//        CGSize labelSize=[Utility heightOfTextString:messageString andFont:[UIFont fontWithName:kHelVeticaNeueRegular size:16] maxSize:messageSize];
-//        height+=labelSize.height+18;
-//        
-//        
-//        
-//        
-//    }
-//    
-//    return height;
+    
+    CGFloat height=0;
     
     
-    return 67;
+    NSMutableDictionary *dict=[self.chatRoomMessageArray objectAtIndex:indexPath.row];
+    
+    if ([dict valueForKey:@"message"] && ![[dict valueForKey:@"message"]isEqual:[NSNull null]]) {
+        
+        NSMutableDictionary *messageDict=[dict valueForKey:@"message"];
+        
+//        
+//        if ([messageDict valueForKey:@"body"] && ![[messageDict valueForKey:@"body"]isEqual:[NSNull null]]) {
+//            cell.messageLabel.text=[messageDict valueForKey:@"body"];
+//            
+//        }
+        
+        NSNumber *userIDNum=[messageDict valueForKey:@"id"];
+        BOOL isFromLoginUser=NO;
+        
+        NSLog(@"%@",[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id);
+        
+//        if(userIDNum && userIDNum.intValue== [[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id.intValue){
+//            isFromLoginUser=YES;
+//            
+//            
+//        }
+        
+        if (!isFromLoginUser) {
+            height+=18;
+        }
+        CGSize messageSize=CGSizeMake(300, 999);
+        NSString *messageString=[messageDict valueForKey:@"body"];
+        
+        if (!messageString || messageString.length<1) {
+            messageString=@".";
+        }
+       
+
+
+        CGSize labelSize=[Utility heightOfTextString:messageString andFont:[UIFont fontWithName:kHelVeticaNeueRegular size:16] maxSize:messageSize];
+        height+=labelSize.height+18;
+        
+        
+        
+        
+    }
+    
+    return height;
+    
+    
+    //return 67;
     
 }
 
@@ -447,6 +569,23 @@
     
     
 }
+
+
+-(IBAction)attachFileButtonPressed:(UIButton *)sender{
+    
+    
+}
+
+
+
+-(IBAction)sendMessageButtonPressed:(UIButton *)sender{
+    
+    
+    [messagetextField resignFirstResponder];
+    
+    
+}
+
 
 - (void)didReceiveMemoryWarning
 {

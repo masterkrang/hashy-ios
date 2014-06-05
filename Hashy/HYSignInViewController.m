@@ -235,7 +235,8 @@
         
     }
     
-    
+    [emailTextField resignFirstResponder];
+    [passwordTextField resignFirstResponder];
     [kAppDelegate showProgressHUD:self.view];
 
     [self checkLoginCredentials];

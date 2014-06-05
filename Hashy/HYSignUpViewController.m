@@ -375,7 +375,9 @@
         return;
     }
     
-    
+    [emailTextField resignFirstResponder];
+    [passwordtextField resignFirstResponder];
+    [userNameTextField resignFirstResponder];
     [kAppDelegate showProgressHUD:self.view];
     
     [self registerUserOnServer];

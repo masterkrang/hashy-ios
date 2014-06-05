@@ -29,6 +29,7 @@
 @property(nonatomic,strong) IBOutlet UIButton *doneButton;
 @property(nonatomic,strong) IBOutlet UILabel *addYourImagelabel;
 @property(nonatomic,strong) IBOutlet UILabel *tapChangeLabel;
+@property(nonatomic,strong) IBOutlet UIImageView *maskImageView;
 
 
 

@@ -435,6 +435,123 @@ static NetworkEngine *sharedNetworkEngine=nil;
 }
 
 
+
+-(void)getRecentChatsForAUser:(completion_block)completionBlock onError:(error_block)errorBlock forUserID:(NSString *)user_id forPageNumber:(int) pageNumber{
+    
+    
+    NSString *urlString=[NSString stringWithFormat:@"%@/users/%@/chats.json",kServerHostName,user_id];
+    
+    [self.httpManager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"JSON: %@", responseObject);
+        
+        NSHTTPURLResponse *response= operation.response;
+        
+        if (response.statusCode==200) {
+            
+            if(responseObject &&![responseObject isEqual:[NSNull null]])
+            {
+                completionBlock(responseObject);
+            }
+            else errorBlock(nil);
+            
+            
+        }
+        else{
+            errorBlock(nil);
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        //[Utility showAlertWithString:@"Network problem \n try again later"];
+        //[theAppDelegate hideProgressHUD];
+        errorBlock(error);
+    }];
+    
+    
+    
+    
+}
+
+
+
+-(void)getAllHashTags:(completion_block)completionBlock onError:(error_block)errorBlock forSearchedText:(NSString *)searchedText forPageNumber:(int) pageNumber{
+
+    
+    NSString *urlString=[NSString stringWithFormat:@"%@/chats/%@/subscribers.json",kServerHostName,searchedText];
+    
+    [self.httpManager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"JSON: %@", responseObject);
+        
+        NSHTTPURLResponse *response= operation.response;
+        
+        if (response.statusCode==200) {
+            
+            if(responseObject &&![responseObject isEqual:[NSNull null]])
+            {
+                completionBlock(responseObject);
+            }
+            else errorBlock(nil);
+            
+            
+        }
+        else{
+            errorBlock(nil);
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        //[Utility showAlertWithString:@"Network problem \n try again later"];
+        //[theAppDelegate hideProgressHUD];
+        errorBlock(error);
+    }];
+    
+
+    
+    
+}
+
+
+
+-(void)createNewHashTag:(completion_block)completionBlock onError:(error_block)errorBlock params:(NSString *)param {
+    
+    
+    NSString *urlString=[NSString stringWithFormat:@"%@%@",kServerHostName,kGetChats];
+    
+    [self.httpManager POST:urlString parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"JSON: %@", responseObject);
+        
+        if([responseObject objectForKey:@"user"] &&![[responseObject objectForKey:@"user"]isEqual:[NSNull null]])
+        {
+            
+            NSHTTPURLResponse *response=operation.response;
+            
+            if (response.statusCode == 200 ) {
+                completionBlock(responseObject);
+                
+            }
+            else{
+                errorBlock(nil);
+            }
+            
+            //            if([[responseObject objectForKey:@"user"]isEqualToString:@"failed"])
+            //            {
+            //                // [theAppDelegate hideProgressHUD];
+            //                // [Utility showAlertWithString:[responseObject valueForKey:@"error_string"]];
+            //
+            //            }
+            //            else
+        }
+        else errorBlock(nil);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        //[Utility showAlertWithString:@"Network problem \n try again later"];
+        //[theAppDelegate hideProgressHUD];
+        errorBlock(error);
+    }];
+    
+    
+    
+}
+
+
+
 - (void)saveAmazoneURLImage:(UIImage*)image completionBlock:(upload_completeBlock)completionBlock onError:(error_block)errorBlock{
     
     NSString* idName=[NSString stringWithFormat:@"%@.jpg", [[NSProcessInfo processInfo] globallyUniqueString]];

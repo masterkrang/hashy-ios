@@ -60,6 +60,13 @@
     
 }
 
+-(void)numberFormatter{
+    
+    NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+    [numberFormatter setGroupingSize:3];
+    [numberFormatter setGroupingSeparator:@","];
+    [numberFormatter setUsesGroupingSeparator:YES];
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -199,6 +206,10 @@
             
         }
         
+            
+            [self setCell:cell forIndexPath:indexPath forDict:hashTagDict];
+            
+            
     }
     }
     return cell;
@@ -350,6 +361,46 @@
 }
 
 
+-(void)setCell:(ProfileCustomCell *)cell forIndexPath:(NSIndexPath *)indexPath forDict:(NSMutableDictionary *)hashTagDict{
+    
+    NSString *count=@"1,123";
+
+    CGSize labelSize=[Utility heightOfTextString:count andFont:cell.subscribersCount.font maxSize:CGSizeMake(300, 999)];
+    
+    
+    CGRect subCountFrame=cell.subscribersCount.frame;
+    
+    subCountFrame.origin.x=305-labelSize.width;
+    subCountFrame.size.width=labelSize.width+3;
+    cell.subscribersCount.frame=subCountFrame;
+    
+    
+    CGRect onlineImageFrame=cell.statusImageView.frame;
+    onlineImageFrame.origin.x=cell.subscribersCount.frame.origin.x-14;
+    cell.statusImageView.frame=onlineImageFrame;
+    
+    
+    
+    cell.subscribersCount.text=count;
+    
+    
+    CGRect userFrame=cell.userNameLabel.frame;
+    userFrame.size.width=cell.statusImageView.frame.origin.x-userFrame.origin.x-2;
+    cell.userNameLabel.frame=userFrame;
+    
+   // cell.userNameLabel.backgroundColor=[UIColor orangeColor];
+    
+    
+    
+    if ([hashTagDict valueForKey:@"subscribers_count"] && ![[hashTagDict valueForKey:@"subscribers_count"]isEqual:[NSNull null]]) {
+        
+        
+        
+    }
+    
+    
+}
+
 
 #pragma mark UITextField Deleagte Methods
 
@@ -384,6 +435,14 @@
 
 -(IBAction)hashTagButtonPressed:(UIButton *)sender{
     
+    
+//    HYCreateChatViewController *createChatVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"createChat_vc"];
+//    [self.navigationController pushViewController:createChatVC animated:YES];
+    
+    
+    HYProfileViewController *profileVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"profile_vc"];
+    
+    [self.navigationController pushViewController:profileVC animated:YES];
     
 }
 
