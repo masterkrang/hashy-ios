@@ -50,7 +50,7 @@
     if([self.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] ) {
         //        //iOS 5 new UINavigationBar custom background
   //  [self.navigationBar setBackgroundImage:kNavigationBackground forBarMetrics:UIBarMetricsDefault];
-        [self.navigationBar setBackgroundImage:[UIColor colorWithPatternImage: [UIImage imageNamed: @"red.png"]] forBarMetrics:UIBarMetricsDefault];
+      //  [self.navigationBar setBackgroundImage:[UIColor colorWithPatternImage: [UIImage imageNamed: @"red.png"]] forBarMetrics:UIBarMetricsDefault];
 
         ;
     }

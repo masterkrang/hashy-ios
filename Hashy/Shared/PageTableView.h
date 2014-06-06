@@ -38,6 +38,6 @@
 @property(nonatomic,assign)  int pageLimit;
 
 @property(strong,nonatomic)     UIActivityIndicatorView *activityIndicator;
-
+@property(nonatomic,assign)  BOOL isScrolling;
 -(void)setupTablePaging;
 @end

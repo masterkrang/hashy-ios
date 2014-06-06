@@ -15,7 +15,7 @@
 @interface HYCreateChatViewController : UIViewController<UITableViewDataSource,PagingDelegate,UITextFieldDelegate>
 {
     BOOL resultsObtained;
-    
+    UIButton *createButton;
     
 }
 

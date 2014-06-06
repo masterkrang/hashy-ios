@@ -100,7 +100,7 @@
     
     [[NetworkEngine sharedNetworkEngine]getChatLists:^(id object) {
         
-        NSLog(@"%@",object);
+       // NSLog(@"%@",object);
         
         if (![object isEqual:[NSNull null]] && [object isKindOfClass:[NSArray class]]) {
          
@@ -363,7 +363,7 @@
 
 -(void)setCell:(ProfileCustomCell *)cell forIndexPath:(NSIndexPath *)indexPath forDict:(NSMutableDictionary *)hashTagDict{
     
-    NSString *count=@"1,123";
+    NSString *count=@"0";
 
     CGSize labelSize=[Utility heightOfTextString:count andFont:cell.subscribersCount.font maxSize:CGSizeMake(300, 999)];
     
@@ -428,7 +428,10 @@
 {
     
    // [self.navigationController popViewControllerAnimated:YES];
+    HYProfileViewController *profileVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"profile_vc"];
     
+    [self.navigationController pushViewController:profileVC animated:YES];
+
     
 }
 
@@ -436,13 +439,15 @@
 -(IBAction)hashTagButtonPressed:(UIButton *)sender{
     
     
-//    HYCreateChatViewController *createChatVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"createChat_vc"];
-//    [self.navigationController pushViewController:createChatVC animated:YES];
+//    HYSubscribersListViewController *subscribersVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"subscribers_vc"];
+//    [self.navigationController pushViewController:subscribersVC animated:YES];
     
     
-    HYProfileViewController *profileVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"profile_vc"];
+    HYCreateChatViewController *createChatVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"createChat_vc"];
+    [self.navigationController pushViewController:createChatVC animated:YES];
     
-    [self.navigationController pushViewController:profileVC animated:YES];
+    
+ 
     
 }
 

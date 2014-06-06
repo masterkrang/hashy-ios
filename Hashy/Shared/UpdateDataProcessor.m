@@ -133,8 +133,8 @@ return _sharedProcessor;
         
         
     }
-    if([userDict valueForKey:@"user_id"] && ![[userDict valueForKey:@"user_id"] isEqual:[NSNull null]])
-        userInfo.user_id=[NSNumber numberWithInt:[[userDict valueForKey:@"user_id"]intValue]];
+    if([userDict valueForKey:@"id"] && ![[userDict valueForKey:@"id"] isEqual:[NSNull null]])
+        userInfo.user_id=[NSNumber numberWithInt:[[userDict valueForKey:@"id"]intValue]];
     
     
     if([userDict valueForKey:@"user_name"] && ![[userDict valueForKey:@"user_name"] isEqual:[NSNull null]])

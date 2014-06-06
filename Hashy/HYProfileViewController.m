@@ -48,6 +48,7 @@
     self.title=@"Profile";
     self.navigationController.navigationBarHidden=NO;
     self.navigationItem.hidesBackButton=YES;
+    [userProfileImageButton setBackgroundImage:nil forState:UIControlStateHighlighted];
     [self setBarButtonItems];
     activityIndicatorView=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake((userProfileImageButton.frame.size.width/2)-5,(userProfileImageButton.frame.size.height/2)-5,10,10)];
     activityIndicatorView.activityIndicatorViewStyle=UIActivityIndicatorViewStyleGray;
@@ -63,6 +64,45 @@
 	// Do any additional setup after loading the view.
 }
 
+-(void)getUserRecentChats:(NSString *)user_id{
+    
+    [[NetworkEngine sharedNetworkEngine]getRecentChatsForAUser:^(id object) {
+        
+        NSLog(@"%@",object);
+        
+//        if (!recentChatArray) {
+//            recentChatArray=[[NSMutableArray alloc]init];
+//            
+//        }
+//        
+//        if (object && [object isKindOfClass:[NSArray class]]) {
+//            
+//            
+//            recentChatArray= [object mutableCopy];
+//            
+//            
+//            if (recentChatArray.count) {
+//                
+////               / [profilePageTableView reloadData];
+//                
+//                
+//            }
+//            
+//        }
+        
+        
+        
+        
+    } onError:^(NSError *error) {
+        
+        NSLog(@"%@",error);
+
+        
+    } forUserID:@"41" forPageNumber:1];
+    
+}
+
+
 -(void)getProfileDetails{
     
     
@@ -75,6 +115,12 @@
             
             self.userDetailDict=[object valueForKey:@"user"];
             
+            if ([self.userDetailDict valueForKey:@"id"] && ![[self.userDetailDict valueForKey:@"id"]isEqual:[NSNull null]]) {
+                
+                NSString *userID=[[self.userDetailDict valueForKey:@"id"]stringValue ];
+                [self getUserRecentChats:userID];
+
+            }
             
             if ([self.userDetailDict valueForKey:@"avatar_url"] && ![[self.userDetailDict valueForKey:@"avatar_url"]isEqual:[NSNull null]]) {
                 NSURLRequest *request=[NSURLRequest requestWithURL:[NSURL URLWithString:[self.userDetailDict valueForKey:@"avatar_url"]]];
@@ -120,7 +166,7 @@
 
 -(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    return 10;
+    return recentChatArray.count;
     
 }
 
@@ -252,8 +298,8 @@
 -(IBAction)settingsButtonPressed:(UIButton *)sender
 {
     
-    HYListChatViewController *listChatVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"listChat_vc"];
-    [self.navigationController pushViewController:listChatVC animated:YES];
+//    HYListChatViewController *listChatVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"listChat_vc"];
+//    [self.navigationController pushViewController:listChatVC animated:YES];
     
     
     

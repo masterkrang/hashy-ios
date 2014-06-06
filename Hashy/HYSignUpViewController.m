@@ -455,6 +455,7 @@
         
         NSLog(@"%@",error);
         [kAppDelegate hideProgressHUD];
+        [Utility showAlertWithString:@"Error while registering the user."];
 
     } withParams:userDict];
     

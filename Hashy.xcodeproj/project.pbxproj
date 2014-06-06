@@ -41,6 +41,9 @@
 		26674ECD19384BD700A032B3 /* iTunesArtwork.png in Resources */ = {isa = PBXBuildFile; fileRef = 26674EBD19384BD700A032B3 /* iTunesArtwork.png */; };
 		26674ECE19384BD700A032B3 /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 26674EBE19384BD700A032B3 /* iTunesArtwork@2x.png */; };
 		26674ED119384D1E00A032B3 /* HYSubscribersListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 26674ED019384D1E00A032B3 /* HYSubscribersListViewController.m */; };
+		266C3825194188B200CD4F19 /* chat_room_grey_bubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 266C3823194188B200CD4F19 /* chat_room_grey_bubble@2x.png */; };
+		266C3826194188B200CD4F19 /* chat_room_blue_bubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 266C3824194188B200CD4F19 /* chat_room_blue_bubble@2x.png */; };
+		266C382D19419BED00CD4F19 /* UILabel+VerticalAlignment.m in Sources */ = {isa = PBXBuildFile; fileRef = 266C382B19419BED00CD4F19 /* UILabel+VerticalAlignment.m */; };
 		269347C31936FF150048CCA2 /* HYSignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 269347C21936FF150048CCA2 /* HYSignInViewController.m */; };
 		269347C61937067B0048CCA2 /* Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 269347C51937067B0048CCA2 /* Utility.m */; };
 		269347E519374CFF0048CCA2 /* GKCropBorderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 269347CA19374CFF0048CCA2 /* GKCropBorderView.m */; };
@@ -149,6 +152,10 @@
 		26674EBE19384BD700A032B3 /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@2x.png"; sourceTree = "<group>"; };
 		26674ECF19384D1E00A032B3 /* HYSubscribersListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYSubscribersListViewController.h; sourceTree = "<group>"; };
 		26674ED019384D1E00A032B3 /* HYSubscribersListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYSubscribersListViewController.m; sourceTree = "<group>"; };
+		266C3823194188B200CD4F19 /* chat_room_grey_bubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chat_room_grey_bubble@2x.png"; sourceTree = "<group>"; };
+		266C3824194188B200CD4F19 /* chat_room_blue_bubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chat_room_blue_bubble@2x.png"; sourceTree = "<group>"; };
+		266C382B19419BED00CD4F19 /* UILabel+VerticalAlignment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+VerticalAlignment.m"; sourceTree = "<group>"; };
+		266C382C19419BED00CD4F19 /* UILabel+VerticalAlignment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+VerticalAlignment.h"; sourceTree = "<group>"; };
 		269347C11936FF150048CCA2 /* HYSignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYSignInViewController.h; sourceTree = "<group>"; };
 		269347C21936FF150048CCA2 /* HYSignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYSignInViewController.m; sourceTree = "<group>"; };
 		269347C41937067B0048CCA2 /* Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utility.h; sourceTree = "<group>"; };
@@ -340,6 +347,8 @@
 		2694CB2B193F3E7F00283DFA /* Chat Room Screen */ = {
 			isa = PBXGroup;
 			children = (
+				266C3823194188B200CD4F19 /* chat_room_grey_bubble@2x.png */,
+				266C3824194188B200CD4F19 /* chat_room_blue_bubble@2x.png */,
 				2694CB2C193F3E7F00283DFA /* chat_room_back_icon@2x.png */,
 				2694CB2D193F3E7F00283DFA /* chat_room_other_bottom_left@2x.png */,
 				2694CB2E193F3E7F00283DFA /* chat_room_other_bottom_right@2x.png */,
@@ -488,6 +497,8 @@
 				2625DF38193EE75800206441 /* HYChatRoomViewController.m */,
 				2694CB25193F387000283DFA /* HYChatRoomDetailsViewController.h */,
 				2694CB26193F387000283DFA /* HYChatRoomDetailsViewController.m */,
+				266C382B19419BED00CD4F19 /* UILabel+VerticalAlignment.m */,
+				266C382C19419BED00CD4F19 /* UILabel+VerticalAlignment.h */,
 				A380DF921934695100759039 /* Images.xcassets */,
 				A380DF811934695100759039 /* Supporting Files */,
 			);
@@ -612,6 +623,7 @@
 				26674EC919384BD700A032B3 /* AppIcon72x72.png in Resources */,
 				26F2414B1940B0C90055AA89 /* add_image_mask_container@2x.png.png in Resources */,
 				2694CB41193F3E7F00283DFA /* chat_room_user_top_right@2x.png in Resources */,
+				266C3825194188B200CD4F19 /* chat_room_grey_bubble@2x.png in Resources */,
 				26674EC619384BD700A032B3 /* AppIcon57x57@2x.png in Resources */,
 				2694CB3C193F3E7F00283DFA /* chat_room_paper_clip _icon.png in Resources */,
 				26674EC519384BD700A032B3 /* AppIcon57x57.png in Resources */,
@@ -625,6 +637,7 @@
 				26674EC719384BD700A032B3 /* AppIcon60x60.png in Resources */,
 				26674EC819384BD700A032B3 /* AppIcon60x60@2x.png in Resources */,
 				2615F191193600D70079687C /* profile_green_dot@2x.png in Resources */,
+				266C3826194188B200CD4F19 /* chat_room_blue_bubble@2x.png in Resources */,
 				2615F1881935F1990079687C /* Default-568h@2x.png in Resources */,
 				26ACF0311934CB9F00C4BE9E /* profile_back_button@2x.png in Resources */,
 				26674ECB19384BD700A032B3 /* AppIcon76x76.png in Resources */,
@@ -722,6 +735,7 @@
 				26ACF0241934C37800C4BE9E /* HYProfileViewController.m in Sources */,
 				2607A1E519346F8C000FBBDF /* AddImageViewController.m in Sources */,
 				261365B2193DFDB000655A7B /* UserInfo.m in Sources */,
+				266C382D19419BED00CD4F19 /* UILabel+VerticalAlignment.m in Sources */,
 				26ACF0211934BE3F00C4BE9E /* UpdateDataProcessor.m in Sources */,
 				2615F19719360C9E0079687C /* HYCreateChatViewController.m in Sources */,
 				26ACF0201934BE3F00C4BE9E /* NetworkEngine.m in Sources */,
@@ -862,7 +876,7 @@
 				INFOPLIST_FILE = "Hashy/Hashy-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "AB8660E6-19C0-4918-847C-9F696E5A7740";
+				PROVISIONING_PROFILE = "F2B74B4D-9A49-4C2D-97E8-45A9BE178183";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -881,7 +895,7 @@
 				INFOPLIST_FILE = "Hashy/Hashy-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "AB8660E6-19C0-4918-847C-9F696E5A7740";
+				PROVISIONING_PROFILE = "F2B74B4D-9A49-4C2D-97E8-45A9BE178183";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

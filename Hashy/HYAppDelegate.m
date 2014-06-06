@@ -39,6 +39,7 @@
     CustomNavigationController *navController =[kStoryBoard instantiateViewControllerWithIdentifier:@"custom_nav"];
     self.window.rootViewController =navController;
     
+    
 //    HYProfileViewController *profileVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"profile_vc"];
 //    
 //    [navController setViewControllers:[NSArray arrayWithObject:profileVC] animated:YES];
@@ -202,6 +203,9 @@
 
 #pragma mark Pub Nub Delegate Methods
 - (void)pubnubClient:(PubNub *)client didReceiveMessage:(PNMessage *)message {
+    
+    
+    
     PNLog(PNLogGeneralLevel, self, @"PubNub client received message: %@", message);
 }
 

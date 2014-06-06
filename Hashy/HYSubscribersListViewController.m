@@ -234,9 +234,11 @@
 -(void)backButtonPressed:(UIButton *)sender {
     
     
-    // profilePageTableView.scrollEnabled=NO;
+    if (!subscribersTableView.isScrolling) {
+        [self.navigationController popViewControllerAnimated:YES];
+
+    }
     
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma maark Did Disappear Functions

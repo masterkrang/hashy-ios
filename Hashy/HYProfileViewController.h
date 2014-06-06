@@ -10,6 +10,7 @@
 #import "ProfileCustomCell.h"
 #import "HYListChatViewController.h"
 #import "UpdateDataProcessor.h"
+#import "NetworkEngine.h"
 
 @interface HYProfileViewController : UIViewController<UITableViewDataSource,PagingDelegate>{
     

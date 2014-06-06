@@ -305,7 +305,7 @@ static NetworkEngine *sharedNetworkEngine=nil;
     NSString *urlString=[NSString stringWithFormat:@"%@%@",kServerHostName,kGetChats];
     
     [self.httpManager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"JSON: %@", responseObject);
+      //  NSLog(@"JSON: %@", responseObject);
         
         NSHTTPURLResponse *response= operation.response;
         

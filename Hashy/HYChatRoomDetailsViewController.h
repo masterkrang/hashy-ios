@@ -12,11 +12,15 @@
 #import "NetworkEngine.h"
 #import "Utility.h"
 #import "UpdateDataProcessor.h"
+#import "UILabel+VerticalAlignment.h"
 
 
 @interface HYChatRoomDetailsViewController : UIViewController<UITableViewDataSource,PagingDelegate,UITextFieldDelegate>{
     
-
+    BOOL isLoading;
+    UIButton *backButton;
+    UIButton *subscriberButtonCount;
+    
     
 }
 @property(nonatomic,strong)    PNChannel *masterChannel;

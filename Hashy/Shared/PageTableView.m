@@ -17,6 +17,8 @@
 @synthesize activityIndicator;
 @synthesize remaining_records;
 @synthesize numberOfSections;
+@synthesize isScrolling;
+
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -30,6 +32,7 @@
 -(void)setupTablePaging {
     
     self.selectedPageNumber = 1;
+    isScrolling=NO;
     
     //self.pagingDelegate=self;
     self.delegate = self;
@@ -94,6 +97,13 @@ if([self.pagingDelegate respondsToSelector:@selector(tableView:didSelectRowAtInd
 
 #pragma matk Scrolling Delegate
 
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    
+    
+    isScrolling=NO;
+    
+}
+
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{ 
 
@@ -102,9 +112,13 @@ if([self.pagingDelegate respondsToSelector:@selector(tableView:didSelectRowAtInd
 }
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
 
+    
+    
     //NSIndexPath *indexPath=[self indexPathForSelectedRow];
-    if([self.pagingDelegate respondsToSelector:@selector(scrollViewDidScroll:)])
+    if(self.pagingDelegate && [self.pagingDelegate respondsToSelector:@selector(scrollViewDidScroll:)])
     [self.pagingDelegate scrollViewDidScroll:self];
+    isScrolling=YES;
+
     NSArray *paths = [self indexPathsForVisibleRows];
     for (NSIndexPath *path in paths) {
         //NSLog(@"%d",path.row);

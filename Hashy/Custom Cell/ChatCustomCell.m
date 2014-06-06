@@ -15,6 +15,8 @@
 @synthesize topRightImageView;
 @synthesize bottomLeftImageView;
 @synthesize bottomRightImageView;
+@synthesize bubbleImageView;
+
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

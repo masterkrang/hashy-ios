@@ -32,6 +32,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.title=@"Create";
     [self setBarButtonItems];
   
     [self setBarButtonItems];
@@ -56,7 +57,17 @@
     self.navigationItem.leftBarButtonItem=leftBarButtonItem;
     
     
-    UIBarButtonItem *rightBarButtonItem=[[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"profile_settings_button.png"] style:UIBarButtonItemStyleDone target:self action:@selector(createHashTagButtonPressed:)];
+    createButton=[UIButton buttonWithType:UIButtonTypeCustom];
+    createButton.frame=CGRectMake(0, 0, 50, 40);
+    [createButton setTitleColor:[Utility colorWithHexString:@"157dfb"] forState:UIControlStateNormal];
+    [createButton.titleLabel setFont:[UIFont fontWithName:kHelVeticaNeueLight size:17]];
+    [createButton setTitle:@"Create" forState:UIControlStateNormal];
+    [createButton addTarget:self action:@selector(createHashTagButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    
+    UIBarButtonItem *rightBarButtonItem=[[UIBarButtonItem alloc]initWithCustomView:createButton];
+    
     self.navigationItem.rightBarButtonItem=rightBarButtonItem;
     
 }
@@ -69,8 +80,8 @@
     
     UILabel *hashLabel=[[UILabel alloc]initWithFrame:CGRectMake(10, 0, 10, 30)];
     hashLabel.text=@"#";
-    hashLabel.font=[UIFont fontWithName:kHelVeticaNeueMedium size:18];
-    hashLabel.textColor=[Utility colorWithHexString:@"000000"];
+    hashLabel.font=[UIFont fontWithName:kHelVeticaNeueLight size:18];
+    hashLabel.textColor=[Utility colorWithHexString:@"b3b3b3"];
     [paddingView addSubview:hashLabel];
     
     
@@ -93,7 +104,7 @@
 
 -(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    return 10;// self.subscribersListArray.count;
+    return createChatArray.count;// self.subscribersListArray.count;
     
 }
 
@@ -132,22 +143,8 @@
 -(UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     
     
-    UIView *headerView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen]bounds].size.width, 30)];
+    UIView *headerView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen]bounds].size.width, 1)];
     
-    //  headerView.backgroundColor=[Utility colorWithHexString:@"#000000"];
-    
-    UIImageView *imageView=[[UIImageView alloc]initWithFrame:CGRectMake(20, 10, 10, 10)];
-    [imageView setImage:[UIImage imageNamed:@"profile_green_dot.png"]];
-    
-    
-    UILabel *subscribersLabel=[[UILabel alloc]initWithFrame:CGRectMake(35,0, 200, 30)];
-    subscribersLabel.text=@"SUBSCRIBERS";
-    subscribersLabel.font=[UIFont systemFontOfSize:17];;
-   // subscribersLabel.textColor=[Utility colorWithHexString:@"888888"];;
-    
-    
-    [headerView addSubview:imageView];
-    [headerView addSubview:subscribersLabel];
     
     return headerView;
     
@@ -164,6 +161,7 @@
 
 
 #pragma mark Set cell
+
 
 -(void)setCell:(ProfileCustomCell *)cell forIndexPath:(NSIndexPath *)indexPath forDict:(NSMutableDictionary *)hashTagDict{
     
@@ -232,7 +230,9 @@
 -(IBAction)backButtonPressed:(UIButton *)sender
 {
     
-     [self.navigationController popViewControllerAnimated:YES];
+    
+    if(!createChatTableView.isScrolling)
+    [self.navigationController popViewControllerAnimated:YES];
     
     
 }

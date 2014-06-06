@@ -21,5 +21,6 @@
 @property(nonatomic,strong)IBOutlet UIImageView *bottomLeftImageView;
 
 @property(nonatomic,strong)IBOutlet UIImageView *bottomRightImageView;
+@property(nonatomic,strong)IBOutlet UIImageView *bubbleImageView;
 
 @end
