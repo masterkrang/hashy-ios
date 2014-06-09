@@ -38,5 +38,7 @@
 #define kPubNubSubscribeKey   @"sub-c-815bc3d0-ebb3-11e3-b0c6-02ee2ddab7fe"
 #define kPubNubPublishKey   @"sub-c-815bc3d0-ebb3-11e3-b0c6-02ee2ddab7fe"
 #define kPubNubSecretKey   @"sec-c-MTE3MmFjNzEtN2Q4NC00Y2MxLWJlODYtNGMwMTE1ZGZlMzFh"
+#define kNewMessageReceived @"NewMessageReceivedNotification"
+
 
 #endif

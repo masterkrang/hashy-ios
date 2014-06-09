@@ -2,8 +2,8 @@
 //  HYSubscribersListViewController.m
 //  Hashy
 //
-//  Created by attmac107 on 5/30/14.
-//  Copyright (c) 2014 Sunny. All rights reserved.
+//  Created by Kurt on 6/6/14.
+//
 //
 
 #import "HYSubscribersListViewController.h"
@@ -17,6 +17,8 @@
 @synthesize subscribersListArray;
 @synthesize searchTextField;
 @synthesize subscribersCountString;
+@synthesize searchContainerView;
+@synthesize chat_id_string;
 
 
 
@@ -88,7 +90,7 @@
 {
     [super viewDidLoad];
     self.title=@"subscribers";
-    subscribersCountString=@"1";
+    subscribersCountString=@"0";
     [subscribersTableView setupTablePaging];
     subscribersTableView.pagingDelegate=self;
     
@@ -113,7 +115,7 @@
         
     }
     
-    [self getSubscribersListForChatID:@"12"];
+    [self getSubscribersListForChatID:chat_id_string];
     
     
 	// Do any additional setup after loading the view.
@@ -139,7 +141,7 @@
 
 -(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    return 10;// self.subscribersListArray.count;
+    return subscribersListArray.count;// self.subscribersListArray.count;
     
 }
 
@@ -180,7 +182,7 @@
     
     UIView *headerView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen]bounds].size.width, 30)];
     
-  //  headerView.backgroundColor=[Utility colorWithHexString:@"#000000"];
+    headerView.backgroundColor=[UIColor whiteColor];
     
     UIImageView *imageView=[[UIImageView alloc]initWithFrame:CGRectMake(20, 10, 10, 10)];
     [imageView setImage:[UIImage imageNamed:@"profile_green_dot.png"]];
@@ -202,7 +204,7 @@
 
 -(CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     
-    return 0.1;
+    return 30;
     
     
 }

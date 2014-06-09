@@ -313,6 +313,14 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
 
     
+    
+    if (textField==passwordtextField) {
+        [self detailsAdded];
+        return [textField resignFirstResponder];
+ 
+    }
+    else
+    
     return [textField resignFirstResponder];
 
 
@@ -320,11 +328,7 @@
 
 
 
-
-#pragma mark Button Pressed Methods
-
--(IBAction)doneButtonPressed:(UIButton *)sender{
-
+-(void)detailsAdded{
     
     if (userNameTextField.text.length<3 || userNameTextField.text.length>25) {
         
@@ -332,10 +336,10 @@
         [self showAlertViewWithMessaage:@"Your username should be between 3-25 characters. No special characters are allowed."];
         return;
         
-    
+        
     }
     
-   
+    
     
     
     
@@ -345,7 +349,7 @@
         [self showAlertViewWithMessaage:@"Please enter your email ID."];
         return;
     }
-  
+    
     
     
     
@@ -353,22 +357,22 @@
     
     if (passwordtextField.text.length<6) {
         
-    [self showAlertViewWithMessaage:@"Your password must be at least 6 characters long."];
+        [self showAlertViewWithMessaage:@"Your password must be at least 6 characters long."];
         return;
     }
     
     NSCharacterSet *set1 = [NSCharacterSet characterSetWithCharactersInString:@"@"];
     NSCharacterSet *set2 = [NSCharacterSet characterSetWithCharactersInString:@"."];
-
+    
     NSRange range1 = [emailTextField.text rangeOfCharacterFromSet:set1];
     NSRange range2 = [emailTextField.text rangeOfCharacterFromSet:set2];
-
+    
     if (!(range1.location != NSNotFound) || !(range2.location != NSNotFound)) {
         [self showAlertViewWithMessaage:@"Please enter a valid email ID."];
         return;
         
     }
-
+    
     
     if (!isUserNameAvailable) {
         [self showAlertViewWithMessaage:@"Please try with another username."];
@@ -381,6 +385,16 @@
     [kAppDelegate showProgressHUD:self.view];
     
     [self registerUserOnServer];
+}
+
+
+#pragma mark Button Pressed Methods
+
+-(IBAction)doneButtonPressed:(UIButton *)sender{
+
+    [self detailsAdded];
+    
+   
     
     
 //    AddImageViewController *addImageVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"addImage_vc"];

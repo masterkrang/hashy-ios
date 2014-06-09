@@ -96,6 +96,20 @@
 -(void)checkTagForSearchedText:(NSString *)searchedText{
     
     
+    [[NetworkEngine sharedNetworkEngine]getChatLists:^(id object) {
+        
+        
+        
+        NSLog(@"%@",object);
+        
+        
+        
+    } onError:^(NSError *error) {
+        
+        
+        
+    } forPageNumber:1 forSearchedText:searchedText];
+    
     
 }
 

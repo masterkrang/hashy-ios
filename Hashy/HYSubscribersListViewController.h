@@ -2,8 +2,8 @@
 //  HYSubscribersListViewController.h
 //  Hashy
 //
-//  Created by attmac107 on 5/30/14.
-//  Copyright (c) 2014 Sunny. All rights reserved.
+//  Created by Kurt on 6/6/14.
+//
 //
 
 #import <UIKit/UIKit.h>
@@ -21,8 +21,11 @@
 @property(nonatomic,strong) IBOutlet PageTableView *subscribersTableView;
 @property(nonatomic,strong)  NSMutableArray *subscribersListArray;
 @property(nonatomic,strong) IBOutlet UITextField *searchTextField;
+@property(nonatomic,strong) IBOutlet UIView *searchContainerView;
 
 @property(nonatomic,strong) NSString *subscribersCountString;
+@property(nonatomic,strong) NSString *chat_id_string;
+
 
 
 @end

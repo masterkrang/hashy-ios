@@ -373,6 +373,8 @@ static NetworkEngine *sharedNetworkEngine=nil;
 {
     NSString *urlString=[NSString stringWithFormat:@"%@/chats/%@.json",kServerHostName,chat_id];
     
+    [self.httpManager.requestSerializer setValue:[NSString stringWithFormat:@"Token token=\"%@\"", [[UpdateDataProcessor sharedProcessor]currentUserInfo].user_authentication_token] forHTTPHeaderField:@"Authorization"];
+    
     [self.httpManager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"JSON: %@", responseObject);
         
@@ -404,6 +406,7 @@ static NetworkEngine *sharedNetworkEngine=nil;
 
 
 -(void)getSubscribersList:(completion_block)completionBlock onError:(error_block)errorBlock forChatID:(NSString *)chat_id forPageNumber:(int) pageNumber{
+   
     NSString *urlString=[NSString stringWithFormat:@"%@/chats/%@/subscribers.json",kServerHostName,chat_id];
     
     [self.httpManager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {

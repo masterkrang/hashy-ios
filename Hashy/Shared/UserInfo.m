@@ -2,8 +2,8 @@
 //  UserInfo.m
 //  Hashy
 //
-//  Created by attmac107 on 6/3/14.
-//  Copyright (c) 2014 Sunny. All rights reserved.
+//  Created by Kurt on 6/3/14.
+//
 //
 
 #import "UserInfo.h"

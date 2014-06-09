@@ -100,7 +100,7 @@
     
     [[NetworkEngine sharedNetworkEngine]getChatLists:^(id object) {
         
-       // NSLog(@"%@",object);
+        NSLog(@"%@",object);
         
         if (![object isEqual:[NSNull null]] && [object isKindOfClass:[NSArray class]]) {
          
@@ -291,6 +291,16 @@
                 chatVC.chatNameString=@"name";
                 
             }
+            
+            
+            NSNumber *chat_id_number=[detailChannelDict valueForKey:@"id"];
+            int chat_id=chat_id_number.intValue;
+            
+            if (chat_id && chat_id>0) {
+                chatVC.chatIDString=[NSString stringWithFormat:@"%d",chat_id];
+                
+            }
+            
             
             if ([detailChannelDict valueForKey:@"subscribers_count"] && ![[detailChannelDict valueForKey:@"subscribers_count"]isEqual:[NSNull null]] && [[detailChannelDict valueForKey:@"subscribers_count"] length]>0) {
                 

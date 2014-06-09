@@ -584,7 +584,7 @@
 			attributes = {
 				CLASSPREFIX = HY;
 				LastUpgradeCheck = 0510;
-				ORGANIZATIONNAME = Sunny;
+				ORGANIZATIONNAME = Kurt;
 				TargetAttributes = {
 					A380DF761934695100759039 = {
 						DevelopmentTeam = PD95BY7HF9;

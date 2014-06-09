@@ -110,6 +110,14 @@ if([self.pagingDelegate respondsToSelector:@selector(tableView:didSelectRowAtInd
     if([self.pagingDelegate respondsToSelector:@selector(scrollViewDidEndDragging:willDecelerate:)])
     [self.pagingDelegate scrollViewDidEndDragging:self willDecelerate:decelerate];
 }
+
+
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    isScrolling=YES;
+
+    
+}
+
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
 
     
@@ -117,7 +125,6 @@ if([self.pagingDelegate respondsToSelector:@selector(tableView:didSelectRowAtInd
     //NSIndexPath *indexPath=[self indexPathForSelectedRow];
     if(self.pagingDelegate && [self.pagingDelegate respondsToSelector:@selector(scrollViewDidScroll:)])
     [self.pagingDelegate scrollViewDidScroll:self];
-    isScrolling=YES;
 
     NSArray *paths = [self indexPathsForVisibleRows];
     for (NSIndexPath *path in paths) {
@@ -126,7 +133,13 @@ if([self.pagingDelegate respondsToSelector:@selector(tableView:didSelectRowAtInd
 
         //NSLog(@"%d",path.row);
         
-        if(path.row== [self.dataSource tableView:self numberOfRowsInSection:path.section]-1 &&!pageLocked){
+//        NSLog(@"%d",path.row);
+//        NSLog(@"%@",self);
+//        NSLog(@"%@",self.dataSource);
+//        NSLog(@"%d",[self.dataSource tableView:self numberOfRowsInSection:0]);
+        
+        
+        if(path.row== [self.dataSource tableView:self numberOfRowsInSection:0]-1 &&!pageLocked){
           //  NSLog(@"REACHED END");
             //if(self.selectedPageNumber<self.total_pages) {
             if(self.remaining_records>0) {

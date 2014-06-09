@@ -2,10 +2,9 @@
 //  ChatCustomCell.h
 //  Hashy
 //
-//  Created by attmac107 on 6/4/14.
-//  Copyright (c) 2014 Sunny. All rights reserved.
+//  Created by Kurt on 6/6/14.
 //
-
+//
 #import <UIKit/UIKit.h>
 
 @interface ChatCustomCell : UITableViewCell
@@ -22,5 +21,7 @@
 
 @property(nonatomic,strong)IBOutlet UIImageView *bottomRightImageView;
 @property(nonatomic,strong)IBOutlet UIImageView *bubbleImageView;
+@property(nonatomic,strong)IBOutlet UIImageView *pictureImageView;
+
 
 @end

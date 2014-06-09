@@ -202,11 +202,25 @@
 
 
 #pragma mark Pub Nub Delegate Methods
+
+// #1 Delegate looks for subscribe events
+- (void)pubnubClient:(PubNub *)client didSubscribeOnChannels:(NSArray *)channels {
+
+    NSLog(@"DELEGATE: Subscribed to channel:%@", channels);
+    
+    
+}
+
 - (void)pubnubClient:(PubNub *)client didReceiveMessage:(PNMessage *)message {
     
     
     
     PNLog(PNLogGeneralLevel, self, @"PubNub client received message: %@", message);
+    NSMutableDictionary *messageDict=[[NSMutableDictionary alloc]init];
+    [messageDict setValue:message forKey:@"message"];
+    [[NSNotificationCenter defaultCenter]postNotificationName:kNewMessageReceived object:nil userInfo:messageDict];
+    
+    
 }
 
 
