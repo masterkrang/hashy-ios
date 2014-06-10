@@ -18,8 +18,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	self.title = @"Second Controller";
-    self.view.backgroundColor = [UIColor orangeColor];
+	self.title = @"Profile page";
+    self.view.backgroundColor = [UIColor yellowColor];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Menu"
                                                                              style:UIBarButtonItemStylePlain
                                                                             target:(DEMONavigationController *)self.navigationController
