@@ -468,6 +468,7 @@
 		A380DF801934695100759039 /* Hashy */ = {
 			isa = PBXGroup;
 			children = (
+				BB0E6D9319470E7300E5185F /* New Group */,
 				269347C719374CFF0048CCA2 /* Custom Image Picker */,
 				2607A1D719346F8C000FBBDF /* TTTAttributedLabel */,
 				26ACF0151934899900C4BE9E /* Shared */,
@@ -534,6 +535,13 @@
 				A380DFA21934695100759039 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		BB0E6D9319470E7300E5185F /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "New Group";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
