@@ -149,7 +149,7 @@
         
       //  NSLog(@"%@",object);
         doneButton.enabled=YES;
-
+        [kAppDelegate hideProgressHUD];
         
         if ([object valueForKey:@"session"] && ![[object valueForKey:@"session"]isEqual:[NSNull null]]) {
            
@@ -169,6 +169,7 @@
         
     } onError:^(NSError *error) {
         doneButton.enabled=YES;
+        [kAppDelegate hideProgressHUD];
 
         NSLog(@"%@",error);
         [Utility showAlertWithString:@"Invalid username or password."];
@@ -234,8 +235,10 @@
         
     }
     
-    
-    
+    [emailTextField resignFirstResponder];
+    [passwordTextField resignFirstResponder];
+    [kAppDelegate showProgressHUD:self.view];
+
     [self checkLoginCredentials];
 
     

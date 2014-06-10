@@ -46,11 +46,15 @@
 
     self.delegate=self;
     
-//    if([self.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] ) {
-//        //        //iOS 5 new UINavigationBar custom background
-//    [self.navigationBar setBackgroundImage:kNavigationBackground forBarMetrics:UIBarMetricsDefault];
-//    }
-//    self.navigationBar.tintColor=[UIColor orangeColor];
+    
+    if([self.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] ) {
+        //        //iOS 5 new UINavigationBar custom background
+  //  [self.navigationBar setBackgroundImage:kNavigationBackground forBarMetrics:UIBarMetricsDefault];
+      //  [self.navigationBar setBackgroundImage:[UIColor colorWithPatternImage: [UIImage imageNamed: @"red.png"]] forBarMetrics:UIBarMetricsDefault];
+
+        ;
+    }
+   // self.navigationBar.tintColor=[UIColor orangeColor];
 
     NSMutableDictionary *titleBarAttributes = [NSMutableDictionary dictionaryWithDictionary: [[UINavigationBar appearance] titleTextAttributes]];
     [titleBarAttributes setValue:[UIFont fontWithName:kHelVeticaNeueMedium size:17] forKey: NSFontAttributeName];

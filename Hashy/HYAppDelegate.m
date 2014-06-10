@@ -35,56 +35,49 @@
 {
    
     NSLog(@"App started");
-
+    [PubNub setDelegate:self];
     CustomNavigationController *navController =[kStoryBoard instantiateViewControllerWithIdentifier:@"custom_nav"];
     self.window.rootViewController =navController;
     
     
-    HYSignInViewController *signInVC = [kStoryBoard instantiateViewControllerWithIdentifier:@"signIn_vc"];
+//    HYProfileViewController *profileVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"profile_vc"];
+//    
+//    [navController setViewControllers:[NSArray arrayWithObject:profileVC] animated:YES];
     
-    [navController setViewControllers:[NSArray arrayWithObject:signInVC] animated:YES];
-    
-    
+//    AddImageViewController *imageVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"addImage_vc"];
+//    
+//    [navController setViewControllers:[NSArray arrayWithObject:imageVC] animated:YES];
 
     
     
+//    HYSignInViewController *signInVC = [kStoryBoard instantiateViewControllerWithIdentifier:@"signIn_vc"];
 //    
-//    if ([[UpdateDataProcessor sharedProcessor]currentUserInfo]) {
-//        
-//        HYListChatViewController *listChatVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"listChat_vc"];
-//        [navController setViewControllers:[NSArray arrayWithObject:listChatVC] animated:YES];
-//        
-//    }
-//    else{
-//       
-//        HYSignInViewController *signInVC = [kStoryBoard instantiateViewControllerWithIdentifier:@"signIn_vc"];
-//        
-//        [navController setViewControllers:[NSArray arrayWithObject:signInVC] animated:YES];
-//
-//        
-//    }
+//    [navController setViewControllers:[NSArray arrayWithObject:signInVC] animated:YES];
     
-//    HYSignUpViewController *signUpVC = [kStoryBoard instantiateViewControllerWithIdentifier:@"signUp_vc"];
-//    
-//    [navController setViewControllers:[NSArray arrayWithObject:signUpVC] animated:YES];
+    // add bugsnag bug tracking
+  //  [Bugsnag startBugsnagWithApiKey:kBugSnagAPIKey];
+
     
+     
     
-//
-//    if(1){
-//       HYSignUpViewController *signUpVC = [kStoryBoard instantiateViewControllerWithIdentifier:@"signUp_vc"];
-//        
-//        [navController setViewControllers:[NSArray arrayWithObject:signUpVC] animated:YES];
-//    }
-//    else {
-//       HYSignUpViewController * signUpVC = [kStoryBoard instantiateViewControllerWithIdentifier:@"signUp_vc"];
-//        
-//        navController.navigationBarHidden = YES;
-//        [navController setViewControllers:[NSArray arrayWithObject:signUpVC] animated:YES];
-//        
-//        
-//    }
-//
-//
+    if ([[UpdateDataProcessor sharedProcessor]currentUserInfo]) {
+        
+        HYListChatViewController *listChatVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"listChat_vc"];
+        [navController setViewControllers:[NSArray arrayWithObject:listChatVC] animated:YES];
+        
+    }
+    else{
+       
+        HYSignInViewController *signInVC = [kStoryBoard instantiateViewControllerWithIdentifier:@"signIn_vc"];
+        
+        [navController setViewControllers:[NSArray arrayWithObject:signInVC] animated:YES];
+
+        
+    }
+    
+
+    
+
     
    
     return YES;
@@ -208,6 +201,28 @@
 
 
 
+#pragma mark Pub Nub Delegate Methods
+
+// #1 Delegate looks for subscribe events
+- (void)pubnubClient:(PubNub *)client didSubscribeOnChannels:(NSArray *)channels {
+
+    NSLog(@"DELEGATE: Subscribed to channel:%@", channels);
+    
+    
+}
+
+- (void)pubnubClient:(PubNub *)client didReceiveMessage:(PNMessage *)message {
+    
+    
+    
+    PNLog(PNLogGeneralLevel, self, @"PubNub client received message: %@", message);
+    NSMutableDictionary *messageDict=[[NSMutableDictionary alloc]init];
+    [messageDict setValue:message forKey:@"message"];
+    [[NSNotificationCenter defaultCenter]postNotificationName:kNewMessageReceived object:nil userInfo:messageDict];
+    
+    
+}
+
 
 #pragma mark - Application's Documents directory
 
@@ -220,5 +235,51 @@
     NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
     return basePath;
 }
+
+#pragma mark HUD methods
+-(void)showProgressHUD  {
+    if(HUD)
+        HUD = nil;
+    
+    HUD = [[MBProgressHUD alloc] initWithWindow:self.window];
+    
+    HUD.delegate = self;
+    HUD.labelText = @"Loading";
+    
+	[HUD show:YES];
+    
+    //[self showProgressHUDWithText:@"Loading" inView:self.window];
+    
+}
+
+-(void)showProgressHUDWithText:(NSString*)labelText inView:(UIView*)view{
+    if(HUD){
+        [HUD removeFromSuperview];
+        HUD = nil;
+    }
+    
+    HUD = [[MBProgressHUD alloc] initWithView:view];
+    [view addSubview:HUD];
+    
+    HUD.delegate = self;
+    HUD.labelText = labelText;
+    
+	[HUD show:YES];
+    
+}
+
+-(void)showProgressHUD:(UIView*)view {
+    
+    [self showProgressHUDWithText:@"Loading" inView:view];
+}
+
+
+-(void)hideProgressHUD {
+    if(HUD){
+        
+        [HUD hide:YES];
+    }
+}
+
 
 @end

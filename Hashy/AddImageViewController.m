@@ -17,6 +17,7 @@
 @synthesize doneButton;
 @synthesize tapChangeLabel;
 @synthesize addYourImagelabel;
+@synthesize maskImageView;
 
 
 
@@ -67,6 +68,12 @@
         self.avatarImageButton.frame=avatarButtonFrame;
         
         
+        CGRect maskImageFrame=self.maskImageView.frame;
+        maskImageFrame.origin.y-=48;
+        self.maskImageView.frame=maskImageFrame;
+        
+
+        
         
 //        CGRect passwordFrame=self.passwordTextField.frame;
 //        passwordFrame.origin.y-=41;
@@ -101,12 +108,19 @@
     doneButton.enabled=NO;
     NSLog(@"%@",[kUserDefaults valueForKey:@"user_dict"]);
     
+    [avatarImageButton setBackgroundImage:nil forState:UIControlStateHighlighted];
     
     
 
     [self setFontsAndFrames];
     
     [self getRandomImage];
+    
+    activityIndicatorView=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake((avatarImageView.frame.size.width-20)/2, (avatarImageView.frame.size.width-20)/2, 20, 20)];
+    activityIndicatorView.activityIndicatorViewStyle=UIActivityIndicatorViewStyleGray;
+    [avatarImageView addSubview:activityIndicatorView];
+    [activityIndicatorView startAnimating];
+
     
 	// Do any additional setup after loading the view.
 }
@@ -123,14 +137,31 @@
         
         NSLog(@"%@",object);
         
+//        [activityIndicatorView startAnimating];
         
         if ([object valueForKey:@"avatar_url"] && ![[object valueForKey:@"avatar_url"]isEqual:[NSNull null]]) {
             
             randomAvatarImageURL=[object valueForKey:@"avatar_url"];
             
-            //  UIImageView *imageView;
-            [avatarImageView setImageWithURL:[NSURL URLWithString:[object valueForKey:@"avatar_url"]] placeholderImage:nil];
-            
+          //  [avatarImageView setImageWithURL:[NSURL URLWithString:[object valueForKey:@"avatar_url"]] placeholderImage:nil];
+            __weak typeof(avatarImageView) weakSelf = avatarImageView;
+            __weak typeof(activityIndicatorView) weakSelfActivityIndicator = activityIndicatorView;
+
+            NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:[object valueForKey:@"avatar_url"]]];
+            [avatarImageView setImageWithURLRequest:request placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+               
+                weakSelf.image=image;
+                [weakSelfActivityIndicator stopAnimating];
+
+                
+                NSLog(@"SUccess");
+                
+            } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                NSLog(@"Failure");
+                [weakSelfActivityIndicator stopAnimating];
+
+                
+            }];
             
         }
         
@@ -138,6 +169,7 @@
         
     } onError:^(NSError *error) {
         doneButton.enabled=YES;
+        [activityIndicatorView stopAnimating];
 
     }];
     
@@ -174,7 +206,7 @@
         
         
         NSLog(@"%@",object);
-        
+            [kAppDelegate hideProgressHUD];
         
         if (object && ![object isEqual:[NSNull null]]) {
             
@@ -198,7 +230,7 @@
         
         
     } onError:^(NSError *error) {
-        
+            [kAppDelegate hideProgressHUD];
     } withParams:userDict];
     
     
@@ -206,6 +238,30 @@
 }
 
 -(void)postMultipartImage{
+    
+    UIImage *image=editedImage;
+    if (!isImageSelectedFromDevice || !image || [image isEqual:[NSNull null]]) {
+        return;
+    }
+    
+    [kAppDelegate showProgressHUD:self.view];
+
+    [[NetworkEngine sharedNetworkEngine]saveAmazoneURLImage:image completionBlock:^(NSString *url) {
+        
+        
+        NSLog(@"%@",url);
+        randomAvatarImageURL=url;
+        
+        
+        [self postRandomAvatarImage];
+        
+        
+    } onError:^(NSError *error) {
+            [kAppDelegate hideProgressHUD];
+        
+        NSLog(@"%@",error);
+        
+    }];
     
     
 }
@@ -287,6 +343,9 @@
 
 - (void)imagePicker:(GKImagePicker *)imagePicker pickedImage:(UIImage *)image{
     avatarImageView.image = image;
+    editedImage=image;
+    isImageSelectedFromDevice=YES;
+    
     [self hideImagePicker];
 }
 
@@ -311,7 +370,7 @@
     imagePicker.imagePickerController.sourceType= UIImagePickerControllerSourceTypeCamera;
     imagePicker.resizeableCropArea = YES;
 
-    imagePicker.cropSize = CGSizeMake(300 ,300);
+   // imagePicker.cropSize = CGSizeMake(300 ,300);
 
     imagePicker.delegate = self;
     [self presentViewController:imagePicker.imagePickerController animated:YES completion:nil];

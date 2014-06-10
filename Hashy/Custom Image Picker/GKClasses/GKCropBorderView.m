@@ -40,13 +40,13 @@
     CGContextAddRect(ctx, CGRectMake(kHandleDiameter / 2, kHandleDiameter / 2, rect.size.width - kHandleDiameter, rect.size.height - kHandleDiameter));
     CGContextStrokePath(ctx);
     
-    NSMutableArray* handleRectArray = [self _calculateAllNeededHandleRects];
-    for (NSValue* value in handleRectArray){
-        CGRect currentHandleRect = [value CGRectValue];
-        
-        CGContextSetRGBFillColor(ctx, 1., 1., 1., 0.95);
-        CGContextFillEllipseInRect(ctx, currentHandleRect);
-    }
+//    NSMutableArray* handleRectArray = [self _calculateAllNeededHandleRects];
+//    for (NSValue* value in handleRectArray){
+//        CGRect currentHandleRect = [value CGRectValue];
+//        
+//        CGContextSetRGBFillColor(ctx, 1., 1., 1., 0.95);
+//        CGContextFillEllipseInRect(ctx, currentHandleRect);
+//    }
     
 }
 

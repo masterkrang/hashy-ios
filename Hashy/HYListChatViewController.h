@@ -10,6 +10,9 @@
 #import "ProfileCustomCell.h"
 #import "NetworkEngine.h"
 #import "Utility.h"
+#import "HYChatRoomViewController.h"
+#import "HYChatRoomDetailsViewController.h"
+#import "HYCreateChatViewController.h"
 
 @interface HYListChatViewController : UIViewController<UITableViewDataSource,PagingDelegate,UITextFieldDelegate>
 {

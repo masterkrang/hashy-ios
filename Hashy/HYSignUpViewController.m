@@ -68,6 +68,9 @@
 
 -(void)setFontsAndFrames{
     
+    
+    self.passwordtextField.returnKeyType=UIReturnKeyDone;
+    
     NSString *hexColortexString=@"eaeaea";
     self.emailTextField.backgroundColor=[Utility colorWithHexString:hexColortexString];
     self.passwordtextField.backgroundColor=[Utility colorWithHexString:hexColortexString];
@@ -91,7 +94,7 @@
     self.passwordtextField.font=[UIFont fontWithName:kHelVeticaLight size:16.5];
     
     
-    [self.signInButton setTitleColor:[Utility colorWithHexString:@"6c6c6c"] forState:UIControlStateNormal];
+    [self.signInButton setTitleColor:[Utility colorWithHexString:@"96b8ff"] forState:UIControlStateNormal];
     [self.signInButton.titleLabel setFont:[UIFont fontWithName:kHelVeticaNeueLight size:15.5]];
     
     self.alreadySignedUpAttributedLabel.textColor=[Utility colorWithHexString:@"6c6c6c"];
@@ -160,9 +163,15 @@
     self.httpManager = [AFHTTPRequestOperationManager manager];
     self.httpManager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"application/json", @"text/json", @"text/javascript", nil];
     
+    activityIndicator=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(userNameTextField.frame.size.width-35, 12, 30, 20)];
+    activityIndicator.activityIndicatorViewStyle=UIActivityIndicatorViewStyleGray;
+    [userNameTextField addSubview:activityIndicator];
+    //[activityIndicator startAnimating];
+    
+    
     [self setPaddingView];
     [self setFontsAndFrames];
-    self.doneButton.enabled=NO;
+   // self.doneButton.enabled=NO;
 
 
     
@@ -187,22 +196,25 @@
     //[self.httpManager cancel];
     
         self.doneButton.enabled=NO;
+    [activityIndicator startAnimating];
     [[NetworkEngine sharedNetworkEngine]checkForUserAvailablity:^(id object) {
         
-        NSLog(@"%@",object);
-        
+        //NSLog(@"%@",object);
+        doneButton.enabled=YES;
+    [activityIndicator stopAnimating];
         
         if ([object valueForKey:@"status"] && ![[object valueForKey:@"status"]isEqual:[NSNull null]]) {
             
             BOOL status=[[object valueForKey:@"status"]boolValue];
             
             if (!status) {
-                doneButton.enabled=NO;
+                isUserNameAvailable=NO;
                 userNameTextField.backgroundColor=[Utility colorWithHexString:@"ffbbbc"];
                 
             }
             else{
-                doneButton.enabled=YES;
+                isUserNameAvailable=YES;
+
                 userNameTextField.backgroundColor=[Utility colorWithHexString:@"bfeeba"];
 
                 
@@ -213,7 +225,10 @@
         
         
     } onError:^(NSError *error) {
-        
+        doneButton.enabled=YES;
+        isUserNameAvailable=NO;
+        [activityIndicator stopAnimating];
+
         NSLog(@"%@",error);
 
         
@@ -257,6 +272,7 @@
             }
             
             if (searchString && searchString.length>2) {
+                self.doneButton.enabled=NO;
                 [self checkForUsernameAvailability:searchString];
 
             }
@@ -297,6 +313,14 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
 
     
+    
+    if (textField==passwordtextField) {
+        [self detailsAdded];
+        return [textField resignFirstResponder];
+ 
+    }
+    else
+    
     return [textField resignFirstResponder];
 
 
@@ -304,11 +328,7 @@
 
 
 
-
-#pragma mark Button Pressed Methods
-
--(IBAction)doneButtonPressed:(UIButton *)sender{
-
+-(void)detailsAdded{
     
     if (userNameTextField.text.length<3 || userNameTextField.text.length>25) {
         
@@ -316,12 +336,15 @@
         [self showAlertViewWithMessaage:@"Your username should be between 3-25 characters. No special characters are allowed."];
         return;
         
-    
+        
     }
     
     
     
+    
+    
     if (emailTextField.text.length<1) {
+        
         
         [self showAlertViewWithMessaage:@"Please enter your email ID."];
         return;
@@ -330,15 +353,48 @@
     
     
     
+    
+    
     if (passwordtextField.text.length<6) {
         
-    [self showAlertViewWithMessaage:@"Your password must be at least 6 characters long."];
+        [self showAlertViewWithMessaage:@"Your password must be at least 6 characters long."];
         return;
     }
     
+    NSCharacterSet *set1 = [NSCharacterSet characterSetWithCharactersInString:@"@"];
+    NSCharacterSet *set2 = [NSCharacterSet characterSetWithCharactersInString:@"."];
     
+    NSRange range1 = [emailTextField.text rangeOfCharacterFromSet:set1];
+    NSRange range2 = [emailTextField.text rangeOfCharacterFromSet:set2];
+    
+    if (!(range1.location != NSNotFound) || !(range2.location != NSNotFound)) {
+        [self showAlertViewWithMessaage:@"Please enter a valid email ID."];
+        return;
+        
+    }
+    
+    
+    if (!isUserNameAvailable) {
+        [self showAlertViewWithMessaage:@"Please try with another username."];
+        return;
+    }
+    
+    [emailTextField resignFirstResponder];
+    [passwordtextField resignFirstResponder];
+    [userNameTextField resignFirstResponder];
+    [kAppDelegate showProgressHUD:self.view];
     
     [self registerUserOnServer];
+}
+
+
+#pragma mark Button Pressed Methods
+
+-(IBAction)doneButtonPressed:(UIButton *)sender{
+
+    [self detailsAdded];
+    
+   
     
     
 //    AddImageViewController *addImageVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"addImage_vc"];
@@ -385,8 +441,9 @@
     
     [[NetworkEngine sharedNetworkEngine]createNewUser:^(id object) {
         
-        NSLog(@"%@",object);
-        
+        //NSLog(@"%@",object);
+        [kAppDelegate hideProgressHUD];
+
         id dataDict=[[object valueForKey:@"user"] mutableCopy];
         
         if (dataDict &&  ![dataDict isEqual:[NSNull null]]) {
@@ -411,7 +468,9 @@
     } onError:^(NSError *error) {
         
         NSLog(@"%@",error);
-        
+        [kAppDelegate hideProgressHUD];
+        [Utility showAlertWithString:@"Error while registering the user."];
+
     } withParams:userDict];
     
 }

@@ -14,7 +14,7 @@
 }
 
 
-@property(nonatomic,strong)IBOutlet UILabel *hashTaglabel;
+@property(nonatomic,strong)IBOutlet TTTAttributedLabel *hashTaglabel;
 @property(nonatomic,strong)IBOutlet TTTAttributedLabel *userNameLabel;
 @property(nonatomic,strong)IBOutlet UILabel *subscribersCount;
 //@property(nonatomic,strong)IBOutlet UIButton *nextButton;

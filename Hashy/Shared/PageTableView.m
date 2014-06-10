@@ -17,6 +17,8 @@
 @synthesize activityIndicator;
 @synthesize remaining_records;
 @synthesize numberOfSections;
+@synthesize isScrolling;
+
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -30,6 +32,7 @@
 -(void)setupTablePaging {
     
     self.selectedPageNumber = 1;
+    isScrolling=NO;
     
     //self.pagingDelegate=self;
     self.delegate = self;
@@ -94,17 +97,35 @@ if([self.pagingDelegate respondsToSelector:@selector(tableView:didSelectRowAtInd
 
 #pragma matk Scrolling Delegate
 
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    
+    
+    isScrolling=NO;
+    
+}
+
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{ 
 
     if([self.pagingDelegate respondsToSelector:@selector(scrollViewDidEndDragging:willDecelerate:)])
     [self.pagingDelegate scrollViewDidEndDragging:self willDecelerate:decelerate];
 }
+
+
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    isScrolling=YES;
+
+    
+}
+
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
 
+    
+    
     //NSIndexPath *indexPath=[self indexPathForSelectedRow];
-    if([self.pagingDelegate respondsToSelector:@selector(scrollViewDidScroll:)])
+    if(self.pagingDelegate && [self.pagingDelegate respondsToSelector:@selector(scrollViewDidScroll:)])
     [self.pagingDelegate scrollViewDidScroll:self];
+
     NSArray *paths = [self indexPathsForVisibleRows];
     for (NSIndexPath *path in paths) {
         //NSLog(@"%d",path.row);
@@ -112,7 +133,13 @@ if([self.pagingDelegate respondsToSelector:@selector(tableView:didSelectRowAtInd
 
         //NSLog(@"%d",path.row);
         
-        if(path.row== [self.dataSource tableView:self numberOfRowsInSection:path.section]-1 &&!pageLocked){
+//        NSLog(@"%d",path.row);
+//        NSLog(@"%@",self);
+//        NSLog(@"%@",self.dataSource);
+//        NSLog(@"%d",[self.dataSource tableView:self numberOfRowsInSection:0]);
+        
+        
+        if(path.row== [self.dataSource tableView:self numberOfRowsInSection:0]-1 &&!pageLocked){
           //  NSLog(@"REACHED END");
             //if(self.selectedPageNumber<self.total_pages) {
             if(self.remaining_records>0) {

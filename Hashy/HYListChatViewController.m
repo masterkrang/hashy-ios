@@ -60,6 +60,13 @@
     
 }
 
+-(void)numberFormatter{
+    
+    NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+    [numberFormatter setGroupingSize:3];
+    [numberFormatter setGroupingSeparator:@","];
+    [numberFormatter setUsesGroupingSeparator:YES];
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -199,6 +206,10 @@
             
         }
         
+            
+            [self setCell:cell forIndexPath:indexPath forDict:hashTagDict];
+            
+            
     }
     }
     return cell;
@@ -207,6 +218,120 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    
+    
+    if (self.hashTagListArray.count>indexPath.row) {
+        
+        
+        NSMutableDictionary *channelDict=[self.hashTagListArray objectAtIndex:indexPath.row];
+//        NSMutableDictionary *detailChannelDict=[channelDict valueForKey:@"channel"];
+//
+//         [self getChatWithID:[detailChannelDict valueForKey:@"id"]];
+
+        
+//        if (channelDict && ![channelDict isEqual:[NSNull null]]) {
+//            
+//            NSMutableDictionary *detailChannelDict=[channelDict valueForKey:@"channel"];
+//            NSLog(@"%@",detailChannelDict);
+//            
+//            HYChatRoomViewController *chatVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"chatRoom_vc"];
+//            
+//            
+//            if ([detailChannelDict valueForKey:@"name"] && ![[detailChannelDict valueForKey:@"name"]isEqual:[NSNull null]] && [[detailChannelDict valueForKey:@"name"] length]>0){
+//                
+//                chatVC.chatNameString=[detailChannelDict valueForKey:@"name"];
+//                
+//            }
+//            else{
+//                chatVC.chatNameString=@"name";
+//                
+//            }
+//            
+//            if ([detailChannelDict valueForKey:@"subscribers_count"] && ![[detailChannelDict valueForKey:@"subscribers_count"]isEqual:[NSNull null]] && [[detailChannelDict valueForKey:@"subscribers_count"] length]>0) {
+//                
+//                chatVC.subscribersCountString=[detailChannelDict valueForKey:@"subscribers_count"];
+//                
+//                
+//            }
+//            else{
+//                
+//                chatVC.subscribersCountString=@"0";
+//                
+//            }
+//            chatVC.chatDict=detailChannelDict;
+//            
+//            
+//            
+//            [self.navigationController pushViewController:chatVC animated:YES];
+//            // [self getChatWithID:[detailChannelDict valueForKey:@"id"]];
+//            
+//            
+//            
+//            
+//            
+//            
+//        }
+        
+        
+        if (channelDict && ![channelDict isEqual:[NSNull null]]) {
+            
+            NSMutableDictionary *detailChannelDict=[channelDict valueForKey:@"channel"];
+            NSLog(@"%@",detailChannelDict);
+            
+            HYChatRoomDetailsViewController *chatVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"chatRoomDetails_vc"];
+            
+            
+            if ([detailChannelDict valueForKey:@"name"] && ![[detailChannelDict valueForKey:@"name"]isEqual:[NSNull null]] && [[detailChannelDict valueForKey:@"name"] length]>0){
+                
+                chatVC.chatNameString=[detailChannelDict valueForKey:@"name"];
+                
+            }
+            else{
+                chatVC.chatNameString=@"name";
+                
+            }
+            
+            
+            NSNumber *chat_id_number=[detailChannelDict valueForKey:@"id"];
+            int chat_id=chat_id_number.intValue;
+            
+            if (chat_id && chat_id>0) {
+                chatVC.chatIDString=[NSString stringWithFormat:@"%d",chat_id];
+                
+            }
+            
+            
+            if ([detailChannelDict valueForKey:@"subscribers_count"] && ![[detailChannelDict valueForKey:@"subscribers_count"]isEqual:[NSNull null]] && [[detailChannelDict valueForKey:@"subscribers_count"] length]>0) {
+                
+                chatVC.subscribersCountString=[detailChannelDict valueForKey:@"subscribers_count"];
+                
+                
+            }
+            else{
+                
+                chatVC.subscribersCountString=@"0";
+                
+            }
+            chatVC.chatDict=detailChannelDict;
+            
+            
+            
+            [self.navigationController pushViewController:chatVC animated:YES];
+            // [self getChatWithID:[detailChannelDict valueForKey:@"id"]];
+            
+            
+            
+            
+            
+            
+        }
+
+        
+        
+        
+        
+    }
     
     
 }
@@ -246,6 +371,46 @@
 }
 
 
+-(void)setCell:(ProfileCustomCell *)cell forIndexPath:(NSIndexPath *)indexPath forDict:(NSMutableDictionary *)hashTagDict{
+    
+    NSString *count=@"0";
+
+    CGSize labelSize=[Utility heightOfTextString:count andFont:cell.subscribersCount.font maxSize:CGSizeMake(300, 999)];
+    
+    
+    CGRect subCountFrame=cell.subscribersCount.frame;
+    
+    subCountFrame.origin.x=305-labelSize.width;
+    subCountFrame.size.width=labelSize.width+3;
+    cell.subscribersCount.frame=subCountFrame;
+    
+    
+    CGRect onlineImageFrame=cell.statusImageView.frame;
+    onlineImageFrame.origin.x=cell.subscribersCount.frame.origin.x-14;
+    cell.statusImageView.frame=onlineImageFrame;
+    
+    
+    
+    cell.subscribersCount.text=count;
+    
+    
+    CGRect userFrame=cell.userNameLabel.frame;
+    userFrame.size.width=cell.statusImageView.frame.origin.x-userFrame.origin.x-2;
+    cell.userNameLabel.frame=userFrame;
+    
+   // cell.userNameLabel.backgroundColor=[UIColor orangeColor];
+    
+    
+    
+    if ([hashTagDict valueForKey:@"subscribers_count"] && ![[hashTagDict valueForKey:@"subscribers_count"]isEqual:[NSNull null]]) {
+        
+        
+        
+    }
+    
+    
+}
+
 
 #pragma mark UITextField Deleagte Methods
 
@@ -273,7 +438,10 @@
 {
     
    // [self.navigationController popViewControllerAnimated:YES];
+    HYProfileViewController *profileVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"profile_vc"];
     
+    [self.navigationController pushViewController:profileVC animated:YES];
+
     
 }
 
@@ -281,8 +449,43 @@
 -(IBAction)hashTagButtonPressed:(UIButton *)sender{
     
     
+//    HYSubscribersListViewController *subscribersVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"subscribers_vc"];
+//    [self.navigationController pushViewController:subscribersVC animated:YES];
+    
+    
+    HYCreateChatViewController *createChatVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"createChat_vc"];
+    [self.navigationController pushViewController:createChatVC animated:YES];
+    
+    
+ 
+    
 }
 
+
+-(void)getChatWithID:(NSString *)chatIDString{
+    
+    [[NetworkEngine sharedNetworkEngine]getChatForChatRoom:^(id object) {
+        
+        NSLog(@"%@",object);
+        
+        
+       [[NetworkEngine sharedNetworkEngine]getChatMessagesForChatRoom:^(id object) {
+           
+           NSLog(@"%@",object);
+
+       } onError:^(NSError *error) {
+           NSLog(@"%@",error);
+
+       } forChatID:@"11" forPageNumber:1];
+        
+        
+        
+    } onError:^(NSError *error) {
+        NSLog(@"%@",error);
+        
+    } forChatID:chatIDString forPageNumber:1];
+    
+}
 
 - (void)didReceiveMemoryWarning
 {
