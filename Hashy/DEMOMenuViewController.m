@@ -11,6 +11,7 @@
 #import "DEMOSecondViewController.h"
 #import "DEMONavigationController.h"
 #import "UIViewController+REFrostedViewController.h"
+#import "HYListChatViewController.h"
 
 @implementation DEMOMenuViewController
 
@@ -37,7 +38,7 @@
         imageView.clipsToBounds = YES;
         
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 150, 0, 24)];
-        label.text = @"Roman Efimov";
+        label.text = @" patrik sharma";
         label.font = [UIFont fontWithName:@"HelveticaNeue" size:21];
         label.backgroundColor = [UIColor clearColor];
         label.textColor = [UIColor colorWithRed:62/255.0f green:68/255.0f blue:75/255.0f alpha:1.0f];
@@ -91,7 +92,7 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if ((indexPath.section == 0 && indexPath.row == 0)    || indexPath.row==1) {
-        DEMOHomeViewController *homeViewController = [[DEMOHomeViewController alloc] init];
+        HYListChatViewController *homeViewController = [[HYListChatViewController alloc] init];
         DEMONavigationController *navigationController = [[DEMONavigationController alloc] initWithRootViewController:homeViewController];
         self.frostedViewController.contentViewController = navigationController;
     } else if ((indexPath.section == 0 && indexPath.row == 2)) {

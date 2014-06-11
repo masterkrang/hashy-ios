@@ -136,29 +136,29 @@
 
 -(void)checkLoginCredentials{
     
-    
-    NSMutableDictionary *loginDict=[[NSMutableDictionary alloc]init];
-    [loginDict setValue:emailTextField.text forKey:@"email"];
-    [loginDict setValue:passwordTextField.text forKey:@"password"];
-    
-    
-    NSMutableDictionary *sessionDict=[[NSMutableDictionary alloc]init];
-    [sessionDict setValue:loginDict forKey:@"session"];
-    
-    doneButton.enabled=NO;
-    
-    
-    [[NetworkEngine sharedNetworkEngine]loginHashy:^(id object) {
-        
-      //  NSLog(@"%@",object);
-        doneButton.enabled=YES;
-        [kAppDelegate hideProgressHUD];
-        
-        if ([object valueForKey:@"session"] && ![[object valueForKey:@"session"]isEqual:[NSNull null]]) {
-           
-            NSMutableDictionary *dict=[[object valueForKey:@"session"] mutableCopy];
-            
-            [[UpdateDataProcessor sharedProcessor]updateUserDetails:dict];
+//    
+//    NSMutableDictionary *loginDict=[[NSMutableDictionary alloc]init];
+//    [loginDict setValue:emailTextField.text forKey:@"email"];
+//    [loginDict setValue:passwordTextField.text forKey:@"password"];
+//    
+//    
+//    NSMutableDictionary *sessionDict=[[NSMutableDictionary alloc]init];
+//    [sessionDict setValue:loginDict forKey:@"session"];
+//    
+//    doneButton.enabled=NO;
+//    
+//    
+//    [[NetworkEngine sharedNetworkEngine]loginHashy:^(id object) {
+//        
+//      //  NSLog(@"%@",object);
+//        doneButton.enabled=YES;
+//        [kAppDelegate hideProgressHUD];
+//        
+//        if ([object valueForKey:@"session"] && ![[object valueForKey:@"session"]isEqual:[NSNull null]]) {
+//           
+//            NSMutableDictionary *dict=[[object valueForKey:@"session"] mutableCopy];
+//            
+           // [[UpdateDataProcessor sharedProcessor]updateUserDetails:dict];
             
           ////  HYListChatViewController *listChatVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"listChat_vc"];
             //[self.navigationController pushViewController:listChatVC animated:YES];
@@ -174,23 +174,23 @@
             frostedViewController.liveBlur = YES;
             frostedViewController.delegate = self;
             
-
-
-        }
-        
-        
-        
-        
-        
-    } onError:^(NSError *error) {
-        doneButton.enabled=YES;
-        [kAppDelegate hideProgressHUD];
-
-        NSLog(@"%@",error);
-        [Utility showAlertWithString:@"Invalid username or password."];
-        
-        
-    } withParams:sessionDict];
+[self.navigationController pushViewController:frostedViewController animated:YES];
+//
+//        }
+//        
+//        
+//        
+//        
+//        
+//    } onError:^(NSError *error) {
+//        doneButton.enabled=YES;
+//        [kAppDelegate hideProgressHUD];
+//
+//        NSLog(@"%@",error);
+//        [Utility showAlertWithString:@"Invalid username or password."];
+//        
+//        
+//    } withParams:sessionDict];
 }
 
 #pragma mark UITextField Deleagte Methods

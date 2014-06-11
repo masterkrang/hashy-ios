@@ -60,7 +60,7 @@
 
 -(void) setBarButtonItems{
     
-    UIBarButtonItem *leftBarButtonItem=[[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Hamburget_menu_ico.png"] style:UIBarButtonItemStyleDone target:(DEMONavigationController *)self.navigationController action:@selector(settingsButtonPressed:)];
+    UIBarButtonItem *leftBarButtonItem=[[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Hamburget_menu_ico.png"] style:UIBarButtonItemStyleDone target:(DEMONavigationController *)self.navigationController action:@selector(showMenu)];
     self.navigationItem.leftBarButtonItem=leftBarButtonItem;
     
     
