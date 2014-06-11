@@ -326,7 +326,7 @@
 -(void)getFullHistoryOfMessages:(PNChannel *)channel{
     
 //    PNDate *startDate = [PNDate dateWithDate:[NSDate dateWithTimeIntervalSinceNow:(-3600.0f)]];
-    PNDate *endDate = [PNDate dateWithDate:[NSDate date]];
+//    PNDate *endDate = [PNDate dateWithDate:[NSDate date]];
     
     [PubNub requestFullHistoryForChannel:channel withCompletionBlock:^(NSArray *messageArray, PNChannel *channel, PNDate *startDate, PNDate *endDate, PNError *error) {
         [kAppDelegate hideProgressHUD];
@@ -1222,6 +1222,8 @@
    
     HYSubscribersListViewController *subscribersVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"subscribers_vc"];
     subscribersVC.chat_id_string=chatIDString;
+    subscribersVC.subscribersCountString=self.subscribersCountString;
+    
     [self.navigationController pushViewController:subscribersVC animated:YES];
     
     
@@ -1470,6 +1472,15 @@
 
     
     NSLog(@"%@",url);
+    
+    if (url) {
+        
+        
+        [[UIApplication sharedApplication]openURL:url];
+        
+        
+    }
+    
     
     
 }

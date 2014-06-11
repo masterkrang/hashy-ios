@@ -100,13 +100,13 @@
     
     activityIndicatorView=[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
     activityIndicatorView.frame=CGRectMake((self.view.frame.size.width/2)-10, 0, 20, 20);
-    [activityIndicatorView setColor:[UIColor blueColor]];
+    [activityIndicatorView setColor:[UIColor darkGrayColor]];
     [bottomView addSubview:activityIndicatorView];
     [activityIndicatorView startAnimating];
-    bottomView.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];
-   // bottomView.backgroundColor=[Utility colorWithHexString:@"000000"];
-
     bottomView.hidden=YES;
+
+    bottomView.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];
+
     
     
     self.view.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];
@@ -312,16 +312,6 @@
             }
             
             
-            if ([hashTagDict valueForKey:@"subscribers_count"] && ![[hashTagDict valueForKey:@"subscribers_count"]isEqual:[NSNull null]] && [[hashTagDict valueForKey:@"subscribers_count"] length]>0) {
-                cell.subscribersCount.text=[hashTagDict valueForKey:@"subscribers_count"];
-                
-            }
-            else{
-                
-                cell.subscribersCount.text=@"0";
-  
-            }
-            
             
             
             NSString *lastMessageUserName=[hashTagDict valueForKey:@"last_message_user_name"];
@@ -467,17 +457,27 @@
             }
             
             
-            if ([detailChannelDict valueForKey:@"subscribers_count"] && ![[detailChannelDict valueForKey:@"subscribers_count"]isEqual:[NSNull null]] && [[detailChannelDict valueForKey:@"subscribers_count"] length]>0) {
+            NSString *count=@"";
+            
+            if ([detailChannelDict valueForKey:@"subscribers_count"] && ![[detailChannelDict valueForKey:@"subscribers_count"]isEqual:[NSNull null]]) {
                 
-                chatVC.subscribersCountString=[detailChannelDict valueForKey:@"subscribers_count"];
+                NSNumber *sub_count_num=[detailChannelDict valueForKey:@"subscribers_count"];
+                int subscribers_count_int=sub_count_num.intValue;
                 
+                
+                count=[NSString stringWithFormat:@"%d",subscribers_count_int];
                 
             }
             else{
                 
-                chatVC.subscribersCountString=@"0";
+                count=@"0";
                 
             }
+
+            
+            chatVC.subscribersCountString=count;
+            
+      
             chatVC.chatDict=detailChannelDict;
             
             
@@ -571,45 +571,6 @@
 
 
 
--(void)setCell:(ProfileCustomCell *)cell forIndexPath:(NSIndexPath *)indexPath forDict:(NSMutableDictionary *)hashTagDict{
-    
-    NSString *count=@"0";
-
-    CGSize labelSize=[Utility heightOfTextString:count andFont:cell.subscribersCount.font maxSize:CGSizeMake(300, 999)];
-    
-    
-    CGRect subCountFrame=cell.subscribersCount.frame;
-    
-    subCountFrame.origin.x=305-labelSize.width;
-    subCountFrame.size.width=labelSize.width+3;
-    cell.subscribersCount.frame=subCountFrame;
-    
-    
-    CGRect onlineImageFrame=cell.statusImageView.frame;
-    onlineImageFrame.origin.x=cell.subscribersCount.frame.origin.x-14;
-    cell.statusImageView.frame=onlineImageFrame;
-    
-    
-    
-    cell.subscribersCount.text=count;
-    
-    
-    CGRect userFrame=cell.userNameLabel.frame;
-    userFrame.size.width=cell.statusImageView.frame.origin.x-userFrame.origin.x-2;
-    cell.userNameLabel.frame=userFrame;
-    
-   // cell.userNameLabel.backgroundColor=[UIColor orangeColor];
-    
-    
-    
-    if ([hashTagDict valueForKey:@"subscribers_count"] && ![[hashTagDict valueForKey:@"subscribers_count"]isEqual:[NSNull null]]) {
-        
-        
-        
-    }
-    
-    
-}
 
 -(void)tableView:(UITableView*)tableView didReachEndOfPage:(int)page{
     
@@ -648,6 +609,65 @@
     
 }
 
+
+#pragma mark Set Cell
+
+
+-(void)setCell:(ProfileCustomCell *)cell forIndexPath:(NSIndexPath *)indexPath forDict:(NSMutableDictionary *)hashTagDict{
+    
+    NSString *count=@"";
+    
+    if ([hashTagDict valueForKey:@"subscribers_count"] && ![[hashTagDict valueForKey:@"subscribers_count"]isEqual:[NSNull null]]) {
+        
+        NSNumber *sub_count_num=[hashTagDict valueForKey:@"subscribers_count"];
+        int subscribers_count_int=sub_count_num.intValue;
+        
+        
+        count=[NSString stringWithFormat:@"%d",subscribers_count_int];
+        
+    }
+    else{
+        
+        count=@"0";
+        
+    }
+    
+    
+    CGSize labelSize=[Utility heightOfTextString:count andFont:cell.subscribersCount.font maxSize:CGSizeMake(300, 999)];
+    
+    
+    CGRect subCountFrame=cell.subscribersCount.frame;
+    
+    subCountFrame.origin.x=305-labelSize.width;
+    subCountFrame.size.width=labelSize.width+3;
+    cell.subscribersCount.frame=subCountFrame;
+    
+    
+    CGRect onlineImageFrame=cell.statusImageView.frame;
+    onlineImageFrame.origin.x=cell.subscribersCount.frame.origin.x-14;
+    cell.statusImageView.frame=onlineImageFrame;
+    
+    
+    
+    cell.subscribersCount.text=count;
+    
+    
+    CGRect userFrame=cell.userNameLabel.frame;
+    userFrame.size.width=cell.statusImageView.frame.origin.x-userFrame.origin.x-2;
+    cell.userNameLabel.frame=userFrame;
+    
+    // cell.userNameLabel.backgroundColor=[UIColor orangeColor];
+    
+    
+    
+    if ([hashTagDict valueForKey:@"subscribers_count"] && ![[hashTagDict valueForKey:@"subscribers_count"]isEqual:[NSNull null]]) {
+        
+        
+        
+    }
+    
+    
+}
 
 #pragma mark UITextField Deleagte Methods
 

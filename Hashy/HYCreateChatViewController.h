@@ -18,7 +18,8 @@
     BOOL resultsObtained;
     UIButton *createButton;
     int selectedPageNumber;
-    
+    UIActivityIndicatorView *activityIndicatorView;
+
 }
 
 @property(nonatomic,strong) IBOutlet PageTableView *createChatTableView;
@@ -29,5 +30,6 @@
 @property(nonatomic,strong) IBOutlet UIImageView *createImageView;
 @property(nonatomic,strong) IBOutlet UIButton *createViewButton;
 @property(nonatomic,strong) IBOutlet TTTAttributedLabel *channelNameAttributedLabel;
+@property(strong,nonatomic)IBOutlet UIView *bottomView;
 
 @end

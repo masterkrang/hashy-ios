@@ -16,7 +16,8 @@
 {
 
     int selectedPageNumber;
-    
+    UIButton *subscriberButtonCount;
+
 }
 
 @property(nonatomic,strong) IBOutlet PageTableView *subscribersTableView;

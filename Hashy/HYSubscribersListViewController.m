@@ -64,10 +64,10 @@
    
     
     
-    UIButton *subscriberButtonCount=[UIButton buttonWithType:UIButtonTypeCustom];
+    subscriberButtonCount=[UIButton buttonWithType:UIButtonTypeCustom];
     subscriberButtonCount.frame=CGRectMake(0, 0, 35+(subscribersCountString.length *6), 40);
     //    subscriberButtonCount.backgroundColor=[UIColor orangeColor];
-    [subscriberButtonCount setTitle:subscribersCountString forState:UIControlStateNormal];
+       [subscriberButtonCount setTitle:subscribersCountString forState:UIControlStateNormal];
     [subscriberButtonCount setTitleColor:[Utility colorWithHexString:kHexValueLightGreenColor] forState:UIControlStateNormal];
     subscriberButtonCount.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
    
@@ -90,7 +90,6 @@
 {
     [super viewDidLoad];
     self.title=@"subscribers";
-    subscribersCountString=@"0";
     [subscribersTableView setupTablePaging];
     subscribersTableView.pagingDelegate=self;
     
@@ -188,7 +187,7 @@
                 
             }
             NSMutableArray *objectsArray=[object mutableCopy];
-            [self.subscribersListArray addObjectsFromArray:[object mutableCopy]];
+            [self.subscribersListArray addObjectsFromArray:objectsArray];
            // [self.subscribersListArray addObjectsFromArray:[object mutableCopy]];
             
             

@@ -20,6 +20,7 @@
 @synthesize createView;
 @synthesize createViewButton;
 @synthesize channelNameAttributedLabel;
+@synthesize bottomView;
 
 
 
@@ -32,6 +33,14 @@
     return self;
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    
+    [super viewWillAppear:animated];
+    self.createChatTableView.selectedPageNumber=1;
+    [self getListOfChatsForPageNumber:self.createChatTableView.selectedPageNumber];
+    
+}
+
 
 
 - (void)viewDidLoad
@@ -42,13 +51,22 @@
   
     [self setBarButtonItems];
     [self setPaddingView];
-    [self setViewFonts];
+    [self setViewFontsAndFrames];
+    activityIndicatorView=[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    activityIndicatorView.frame=CGRectMake((self.view.frame.size.width/2)-10, 0, 20, 20);
+    [activityIndicatorView setColor:[UIColor darkGrayColor]];
+    [bottomView addSubview:activityIndicatorView];
+    [activityIndicatorView startAnimating];
+    bottomView.hidden=YES;
+    bottomView.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];
+
     searchContainerView.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];
     self.view.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];
     self.createChatTableView.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];
+
     createButton.enabled=NO;
     createView.hidden=YES;
-    
+
     [createViewButton addTarget:self action:@selector(createHashTagButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     
 
@@ -107,7 +125,7 @@
 }
 
 
--(void)setViewFonts{
+-(void)setViewFontsAndFrames{
     
     [createViewButton setTitleColor:[Utility colorWithHexString:@"228aff"] forState:UIControlStateNormal];
     [createViewButton.titleLabel setFont:[UIFont fontWithName:kHelVeticaNeueLight size:36]];
@@ -115,6 +133,24 @@
     searchTextField.textColor=[Utility colorWithHexString:@"585858"];
     
 
+    
+    if (!IS_IPHONE_5) {
+        
+        self.createImageView.hidden=YES;
+        
+        CGRect createButtonFrame=self.createViewButton.frame;
+        createButtonFrame.origin.y-=120;
+        self.createViewButton.frame=createButtonFrame;
+        
+        
+        CGRect channelNameAttFrame=self.channelNameAttributedLabel.frame;
+        channelNameAttFrame.origin.y-=120;
+        self.channelNameAttributedLabel.frame=channelNameAttFrame;
+        
+        
+    }
+
+    
     
 }
 
@@ -243,10 +279,67 @@
     
 }
 
+
+-(void)getListOfChatsForPageNumber:(int) pageNumber{
+    
+    
+    if (pageNumber>1) {
+        bottomView.hidden=NO;
+        [activityIndicatorView startAnimating];
+        
+    }
+    
+    [[NetworkEngine sharedNetworkEngine]getChatLists:^(id object) {
+        
+        NSLog(@"%@",object);
+        
+        if (![object isEqual:[NSNull null]] && [object isKindOfClass:[NSArray class]]) {
+            
+            if (pageNumber==1) {
+                [createChatArray removeAllObjects];
+                
+            }
+            if (!self.createChatArray) {
+                
+                self.createChatArray=[[NSMutableArray alloc]init];
+                
+                
+            }
+            
+            
+            
+            NSMutableArray *objectsArray=[object mutableCopy];
+            [self.createChatArray addObjectsFromArray:objectsArray];
+            [self.createChatTableView reloadData];
+            self.createChatTableView.pageLocked=NO;
+            bottomView.hidden=YES;
+            [activityIndicatorView stopAnimating];
+            
+            
+        }
+        
+        
+    } onError:^(NSError *error) {
+        self.createChatTableView.pageLocked=NO;
+        bottomView.hidden=YES;
+        [activityIndicatorView stopAnimating];
+        NSLog(@"%@",error);
+    } forPageNumber:pageNumber forSearchedText:nil];
+    
+    
+}
+
+
 -(void)searchChannels:(NSString *)searched_text forPageNumber:(int)page_number{
     
     resultsObtained=NO;
 //    createChatTableView.pageLocked=YES;
+    
+    
+    if (page_number>1) {
+        bottomView.hidden=NO;
+        [activityIndicatorView startAnimating];
+    }
     
     [[[[NetworkEngine sharedNetworkEngine]httpManager]operationQueue]cancelAllOperations];
     
@@ -254,7 +347,6 @@
         
         NSLog(@"%@",object);
             resultsObtained=YES;
-        createChatTableView.pageLocked=NO;
         
         if (![object isEqual:[NSNull null]] && [object isKindOfClass:[NSArray class]]) {
             
@@ -270,7 +362,7 @@
             }
             
             NSMutableArray *objectsArray=[object mutableCopy];
-            [self.createChatArray addObjectsFromArray:[object mutableCopy]];
+            [self.createChatArray addObjectsFromArray:objectsArray];
 
             if (resultsObtained && !createChatArray.count) {
                 createButton.enabled=YES;
@@ -286,7 +378,8 @@
             
             [self.createChatTableView reloadData];
             self.createChatTableView.pageLocked=NO;
-            
+            bottomView.hidden=YES;
+            [activityIndicatorView stopAnimating];
 
             
             
@@ -295,7 +388,8 @@
     } onError:^(NSError *error) {
         
         createChatTableView.pageLocked=NO;
-
+        bottomView.hidden=YES;
+        [activityIndicatorView stopAnimating];
         NSLog(@"%@",error);
         
     } forSearchedText:searched_text forPageNumber:page_number];
@@ -388,16 +482,7 @@
             }
             
             
-            if ([hashTagDict valueForKey:@"subscribers_count"] && ![[hashTagDict valueForKey:@"subscribers_count"]isEqual:[NSNull null]] && [[hashTagDict valueForKey:@"subscribers_count"] length]>0) {
-                cell.subscribersCount.text=[hashTagDict valueForKey:@"subscribers_count"];
-                
-            }
-            else{
-                
-                cell.subscribersCount.text=@"0";
-                
-            }
-            
+                        
             
             
             NSString *lastMessageUserName=[hashTagDict valueForKey:@"last_message_user_name"];
@@ -509,14 +594,25 @@
 -(void)tableView:(UITableView*)tableView didReachEndOfPage:(int)page{
     
     
-    if (createChatArray.count%25==0) {
+    
+    if (searchTextField.text.length>0) {
         
+        if (createChatArray.count%25==0)
+        [self getListOfChatsForPageNumber:self.createChatTableView.selectedPageNumber];
         
-        [self searchChannels:searchTextField.text forPageNumber:self.createChatTableView.selectedPageNumber];
-        
+    }
+    else{
+        if (createChatArray.count%25==0) {
+            
+            
+            [self searchChannels:searchTextField.text forPageNumber:self.createChatTableView.selectedPageNumber];
+            
+            
+        }
         
     }
     
+   
     
 }
 
@@ -525,21 +621,25 @@
 
 -(void)setCell:(ProfileCustomCell *)cell forIndexPath:(NSIndexPath *)indexPath forDict:(NSMutableDictionary *)hashTagDict{
     
-    NSString *count=@"1,123";
+    NSString *count=@"";
     
     if ([hashTagDict valueForKey:@"subscribers_count"] && ![[hashTagDict valueForKey:@"subscribers_count"]isEqual:[NSNull null]]) {
         
-        NSNumber *subscribers_count=[hashTagDict valueForKey:@"subscribers_count"];
-        int subscribers_count_int=subscribers_count.intValue;
+        NSNumber *sub_count_num=[hashTagDict valueForKey:@"subscribers_count"];
+        int subscribers_count_int=sub_count_num.intValue;
+        
         
         count=[NSString stringWithFormat:@"%d",subscribers_count_int];
         
+    }
+    else{
         
-        
+        count=@"0";
         
     }
-    else
-        count=@"0";
+    
+    cell.subscribersCount.text=count;
+
     
     
     CGSize labelSize=[Utility heightOfTextString:count andFont:cell.subscribersCount.font maxSize:CGSizeMake(300, 999)];
@@ -558,7 +658,6 @@
     
     
     
-    cell.subscribersCount.text=count;
     
     
     CGRect userFrame=cell.userNameLabel.frame;
