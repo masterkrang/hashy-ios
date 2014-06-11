@@ -30,7 +30,7 @@ PODS:
 DEPENDENCIES:
   - AFNetworking (~> 2.2)
   - Bugsnag (~> 3.1)
-  - JSQMessagesViewController
+  - JSQMessagesViewController (~> 5.0)
   - MBProgressHUD (~> 0.8)
   - PubNub (~> 3.6)
   - Reachability (~> 3.1.1)
@@ -46,4 +46,4 @@ SPEC CHECKSUMS:
   Reachability: 8e9635e3cb4f98e7f825e51147f677ecc694d0e7
   TPKeyboardAvoiding: ca26afa683d829cb96fe69b887fc8be4178f0b9a
 
-COCOAPODS: 0.33.1
+COCOAPODS: 0.32.1
