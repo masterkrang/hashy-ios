@@ -34,7 +34,7 @@
 
 
 
--(void)setSearchTextField{
+-(void)setPaddingView{
     
     UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 25, 30)];
     
@@ -50,6 +50,9 @@
     searchTextField.leftView = paddingView;
     searchTextField.leftViewMode = UITextFieldViewModeAlways;
     searchTextField.autocorrectionType=UITextAutocorrectionTypeNo;
+    
+    searchTextField.autocorrectionType=UITextAutocorrectionTypeNo;
+
 }
 
 
@@ -101,7 +104,7 @@
     [subscribersTableView setupTablePaging];
     subscribersTableView.pagingDelegate=self;
     
-    [self setSearchTextField];
+    [self setPaddingView];
     
     [self setNavigationBarItems];
     activityIndicatorView=[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
@@ -123,6 +126,7 @@
     }
     
     self.subscribersTableView.separatorColor=[Utility colorWithHexString:@"cbcbcb"];
+
 //    self.subscribersTableView.selectedPageNumber=1;
 //    [self getSubscribersListForChatID:chat_id_string forPageNumber:self.subscribersTableView.selectedPageNumber];
 //    

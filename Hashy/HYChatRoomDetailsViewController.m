@@ -611,6 +611,8 @@
     cell.messageLabel.numberOfLines=0;
     
     cell.messageLabel.delegate = self;
+    cell.messageLabel.dataDetectorTypes = UIDataDetectorTypeLink | UIDataDetectorTypePhoneNumber;
+
     cell.messageLabel.dataDetectorTypes = UIDataDetectorTypeAll;
     cell.messageLabel.textAlignment = NSTextAlignmentCenter;
     cell.messageLabel.verticalAlignment=TTTAttributedLabelVerticalAlignmentCenter;
@@ -1499,6 +1501,22 @@ didSelectLinkWithPhoneNumber:(NSString *)phoneNumber{
     
     
     NSLog(@"%@",phoneNumber);
+    
+    if (phoneNumber) {
+        
+        UIDevice *device = [UIDevice currentDevice];
+        if ([[device model] isEqualToString:@"iPhone"] ) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://%@",phoneNumber]]];
+        } else {
+            
+            [Utility showAlertWithString:@"Your device doesn't support this feature."];
+            
+           
+        }
+
+    }
+    
+    
 
     
 }

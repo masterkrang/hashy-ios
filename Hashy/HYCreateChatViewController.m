@@ -121,7 +121,8 @@
     
     searchTextField.leftView = paddingView;
     searchTextField.leftViewMode = UITextFieldViewModeAlways;
-    
+    searchTextField.autocorrectionType=UITextAutocorrectionTypeNo;
+
 }
 
 
@@ -543,6 +544,82 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    
+    
+    if (self.createChatArray.count>indexPath.row) {
+        
+        
+        NSMutableDictionary *channelDict=[self.createChatArray objectAtIndex:indexPath.row];
+        
+        
+        if (channelDict && ![channelDict isEqual:[NSNull null]]) {
+            
+            NSMutableDictionary *detailChannelDict=[channelDict valueForKey:@"channel"];
+            
+            HYChatRoomDetailsViewController *chatVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"chatRoomDetails_vc"];
+            
+            
+            if ([detailChannelDict valueForKey:@"name"] && ![[detailChannelDict valueForKey:@"name"]isEqual:[NSNull null]] && [[detailChannelDict valueForKey:@"name"] length]>0){
+                
+                chatVC.chatNameString=[detailChannelDict valueForKey:@"name"];
+                
+            }
+            else{
+                chatVC.chatNameString=@"name";
+                
+            }
+            
+            
+            NSNumber *chat_id_number=[detailChannelDict valueForKey:@"id"];
+            int chat_id=chat_id_number.intValue;
+            
+            if (chat_id && chat_id>0) {
+                chatVC.chatIDString=[NSString stringWithFormat:@"%d",chat_id];
+                
+            }
+            
+            
+            NSString *count=@"";
+            
+            if ([detailChannelDict valueForKey:@"subscribers_count"] && ![[detailChannelDict valueForKey:@"subscribers_count"]isEqual:[NSNull null]]) {
+                
+                NSNumber *sub_count_num=[detailChannelDict valueForKey:@"subscribers_count"];
+                int subscribers_count_int=sub_count_num.intValue;
+                
+                
+                count=[NSString stringWithFormat:@"%d",subscribers_count_int];
+                
+            }
+            else{
+                
+                count=@"0";
+                
+            }
+            
+            
+            chatVC.subscribersCountString=count;
+            
+            
+            chatVC.chatDict=detailChannelDict;
+            
+            
+            
+            [self.navigationController pushViewController:chatVC animated:YES];
+            // [self getChatWithID:[detailChannelDict valueForKey:@"id"]];
+            
+            
+            
+            
+            
+            
+        }
+        
+        
+        
+        
+        
+    }
     
     
 }

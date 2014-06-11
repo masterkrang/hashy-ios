@@ -27,6 +27,15 @@
 		261BF5A719477B9900426AF2 /* chat_room_grey_bubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 261BF5A619477B9900426AF2 /* chat_room_grey_bubble@2x.png */; };
 		261BF5AA19477EB800426AF2 /* subscribers_container@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 261BF5A919477EB800426AF2 /* subscribers_container@2x.png */; };
 		2625DF39193EE75800206441 /* HYChatRoomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2625DF38193EE75800206441 /* HYChatRoomViewController.m */; };
+		26597BD01948BBFD00918762 /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 26597BC61948BBFD00918762 /* EGORefreshTableHeaderView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		26597BD11948BBFD00918762 /* blackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 26597BC81948BBFD00918762 /* blackArrow.png */; };
+		26597BD21948BBFD00918762 /* blackArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 26597BC91948BBFD00918762 /* blackArrow@2x.png */; };
+		26597BD31948BBFD00918762 /* blueArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 26597BCA1948BBFD00918762 /* blueArrow.png */; };
+		26597BD41948BBFD00918762 /* blueArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 26597BCB1948BBFD00918762 /* blueArrow@2x.png */; };
+		26597BD51948BBFD00918762 /* grayArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 26597BCC1948BBFD00918762 /* grayArrow.png */; };
+		26597BD61948BBFD00918762 /* grayArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 26597BCD1948BBFD00918762 /* grayArrow@2x.png */; };
+		26597BD71948BBFD00918762 /* whiteArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 26597BCE1948BBFD00918762 /* whiteArrow.png */; };
+		26597BD81948BBFD00918762 /* whiteArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 26597BCF1948BBFD00918762 /* whiteArrow@2x.png */; };
 		26674EBF19384BD700A032B3 /* AppIcon29x29.png in Resources */ = {isa = PBXBuildFile; fileRef = 26674EAF19384BD700A032B3 /* AppIcon29x29.png */; };
 		26674EC019384BD700A032B3 /* AppIcon29x29@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 26674EB019384BD700A032B3 /* AppIcon29x29@2x.png */; };
 		26674EC119384BD700A032B3 /* AppIcon40x40.png in Resources */ = {isa = PBXBuildFile; fileRef = 26674EB119384BD700A032B3 /* AppIcon40x40.png */; };
@@ -153,6 +162,16 @@
 		261BF5A919477EB800426AF2 /* subscribers_container@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "subscribers_container@2x.png"; sourceTree = "<group>"; };
 		2625DF37193EE75800206441 /* HYChatRoomViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYChatRoomViewController.h; sourceTree = "<group>"; };
 		2625DF38193EE75800206441 /* HYChatRoomViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYChatRoomViewController.m; sourceTree = "<group>"; };
+		26597BC51948BBFD00918762 /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
+		26597BC61948BBFD00918762 /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
+		26597BC81948BBFD00918762 /* blackArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackArrow.png; sourceTree = "<group>"; };
+		26597BC91948BBFD00918762 /* blackArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blackArrow@2x.png"; sourceTree = "<group>"; };
+		26597BCA1948BBFD00918762 /* blueArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueArrow.png; sourceTree = "<group>"; };
+		26597BCB1948BBFD00918762 /* blueArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blueArrow@2x.png"; sourceTree = "<group>"; };
+		26597BCC1948BBFD00918762 /* grayArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grayArrow.png; sourceTree = "<group>"; };
+		26597BCD1948BBFD00918762 /* grayArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grayArrow@2x.png"; sourceTree = "<group>"; };
+		26597BCE1948BBFD00918762 /* whiteArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whiteArrow.png; sourceTree = "<group>"; };
+		26597BCF1948BBFD00918762 /* whiteArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "whiteArrow@2x.png"; sourceTree = "<group>"; };
 		26674EAF19384BD700A032B3 /* AppIcon29x29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AppIcon29x29.png; sourceTree = "<group>"; };
 		26674EB019384BD700A032B3 /* AppIcon29x29@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon29x29@2x.png"; sourceTree = "<group>"; };
 		26674EB119384BD700A032B3 /* AppIcon40x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AppIcon40x40.png; sourceTree = "<group>"; };
@@ -354,6 +373,47 @@
 			path = "Subscribers Screen";
 			sourceTree = "<group>";
 		};
+		26597BC21948BBFD00918762 /* EGOTableViewPullRefresh */ = {
+			isa = PBXGroup;
+			children = (
+				26597BC31948BBFD00918762 /* Classes */,
+				26597BC71948BBFD00918762 /* Resources */,
+			);
+			path = EGOTableViewPullRefresh;
+			sourceTree = "<group>";
+		};
+		26597BC31948BBFD00918762 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				26597BC41948BBFD00918762 /* View */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		26597BC41948BBFD00918762 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				26597BC51948BBFD00918762 /* EGORefreshTableHeaderView.h */,
+				26597BC61948BBFD00918762 /* EGORefreshTableHeaderView.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		26597BC71948BBFD00918762 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				26597BC81948BBFD00918762 /* blackArrow.png */,
+				26597BC91948BBFD00918762 /* blackArrow@2x.png */,
+				26597BCA1948BBFD00918762 /* blueArrow.png */,
+				26597BCB1948BBFD00918762 /* blueArrow@2x.png */,
+				26597BCC1948BBFD00918762 /* grayArrow.png */,
+				26597BCD1948BBFD00918762 /* grayArrow@2x.png */,
+				26597BCE1948BBFD00918762 /* whiteArrow.png */,
+				26597BCF1948BBFD00918762 /* whiteArrow@2x.png */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		26674EAE19384BD700A032B3 /* App Icon */ = {
 			isa = PBXGroup;
 			children = (
@@ -532,6 +592,7 @@
 		A380DF801934695100759039 /* Hashy */ = {
 			isa = PBXGroup;
 			children = (
+				26597BC21948BBFD00918762 /* EGOTableViewPullRefresh */,
 				BB0E6D9319470E7300E5185F /* Side Menu */,
 				269347C719374CFF0048CCA2 /* Custom Image Picker */,
 				2607A1D719346F8C000FBBDF /* TTTAttributedLabel */,
@@ -732,6 +793,7 @@
 				2694CB40193F3E7F00283DFA /* chat_room_user_top_left@2x.png in Resources */,
 				261BF5AA19477EB800426AF2 /* subscribers_container@2x.png in Resources */,
 				26674EC919384BD700A032B3 /* AppIcon72x72.png in Resources */,
+				26597BD71948BBFD00918762 /* whiteArrow.png in Resources */,
 				26F2414B1940B0C90055AA89 /* add_image_mask_container@2x.png.png in Resources */,
 				2694CB41193F3E7F00283DFA /* chat_room_user_top_right@2x.png in Resources */,
 				26674EC619384BD700A032B3 /* AppIcon57x57@2x.png in Resources */,
@@ -743,6 +805,7 @@
 				26ACF0321934CB9F00C4BE9E /* profile_settings_button@2x.png in Resources */,
 				A380DF8E1934695100759039 /* Main.storyboard in Resources */,
 				2615F1A01936173F0079687C /* listChat_search_container@2x.png in Resources */,
+				26597BD61948BBFD00918762 /* grayArrow@2x.png in Resources */,
 				26674EC219384BD700A032B3 /* AppIcon40x40@2x.png in Resources */,
 				26674EC719384BD700A032B3 /* AppIcon60x60.png in Resources */,
 				26674EC819384BD700A032B3 /* AppIcon60x60@2x.png in Resources */,
@@ -755,16 +818,21 @@
 				2694CB38193F3E7F00283DFA /* chat_room_other_bottom_left@2x.png in Resources */,
 				26674EC019384BD700A032B3 /* AppIcon29x29@2x.png in Resources */,
 				26674EC419384BD700A032B3 /* AppIcon50x50@2x.png in Resources */,
+				26597BD11948BBFD00918762 /* blackArrow.png in Resources */,
 				BB0E6DB719470F8200E5185F /* Balloon@2x.png in Resources */,
 				2615F190193600D70079687C /* profile_forward_icon@2x.png in Resources */,
 				2694CB3F193F3E7F00283DFA /* chat_room_user_bottom_right@2x.png in Resources */,
 				2694CB3D193F3E7F00283DFA /* chat_room_text_conatiner@2x.png in Resources */,
+				26597BD41948BBFD00918762 /* blueArrow@2x.png in Resources */,
 				2615F19F1936173F0079687C /* listChat_hashtag_icon@2x.png in Resources */,
 				2694CB37193F3E7F00283DFA /* chat_room_back_icon@2x.png in Resources */,
 				26674ECD19384BD700A032B3 /* iTunesArtwork.png in Resources */,
 				26674EBF19384BD700A032B3 /* AppIcon29x29.png in Resources */,
 				26674ECE19384BD700A032B3 /* iTunesArtwork@2x.png in Resources */,
 				2694CB39193F3E7F00283DFA /* chat_room_other_bottom_right@2x.png in Resources */,
+				26597BD51948BBFD00918762 /* grayArrow.png in Resources */,
+				26597BD21948BBFD00918762 /* blackArrow@2x.png in Resources */,
+				26597BD31948BBFD00918762 /* blueArrow.png in Resources */,
 				BB0E6DB519470F6B00E5185F /* avatar@2x.jpg in Resources */,
 				2694CB3A193F3E7F00283DFA /* chat_room_other_top_left@2x.png in Resources */,
 				261BF5A51946EABA00426AF2 /* create_image@2x.png in Resources */,
@@ -773,6 +841,7 @@
 				26674ECC19384BD700A032B3 /* AppIcon76x76@2x.png in Resources */,
 				26674ECA19384BD700A032B3 /* AppIcon72x72@2x.png in Resources */,
 				2694CB3E193F3E7F00283DFA /* chat_room_user_bottom_left@2x.png in Resources */,
+				26597BD81948BBFD00918762 /* whiteArrow@2x.png in Resources */,
 				26674EC319384BD700A032B3 /* AppIcon50x50.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -838,6 +907,7 @@
 				2615F19419360C880079687C /* HYListChatViewController.m in Sources */,
 				BB0E6DB319470F5D00E5185F /* DEMOSecondViewController.m in Sources */,
 				2625DF39193EE75800206441 /* HYChatRoomViewController.m in Sources */,
+				26597BD01948BBFD00918762 /* EGORefreshTableHeaderView.m in Sources */,
 				26ACF02B1934C4CE00C4BE9E /* ProfileCustomCell.m in Sources */,
 				2694CB2A193F391700283DFA /* ChatCustomCell.m in Sources */,
 				2607A1E419346F8C000FBBDF /* TTTAttributedLabel.m in Sources */,

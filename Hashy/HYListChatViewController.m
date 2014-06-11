@@ -55,6 +55,9 @@
     searchTextField.leftView = paddingView;
     searchTextField.leftViewMode = UITextFieldViewModeAlways;
     
+    searchTextField.autocorrectionType=UITextAutocorrectionTypeNo;
+
+    
 }
 
 -(void)numberFormatter{
@@ -73,7 +76,8 @@
     self.navigationItem.hidesBackButton=YES;
     selectedPageNumber=1;
     self.listChatTableView.selectedPageNumber=1;
-    
+    lastUpadteddate=[NSDate date];
+
     [self getListOfChatsForPageNumber:self.listChatTableView.selectedPageNumber];
 
 }
@@ -111,8 +115,127 @@
     
     self.view.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];
     self.listChatTableView.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];
+    
+    if (_refreshHeaderView == nil) {
+		
+		EGORefreshTableHeaderView *view = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - listChatTableView.bounds.size.height, self.view.frame.size.width, listChatTableView.bounds.size.height)];
+		view.delegate = self;
+		[listChatTableView addSubview:view];
+		_refreshHeaderView = view;
+        
+        
+	}
 
 	// Do any additional setup after loading the view.
+}
+
+#pragma mark UIScrollViewDelegate Methods
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+	
+	[_refreshHeaderView egoRefreshScrollViewDidScroll:scrollView];
+    
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+	
+	[_refreshHeaderView egoRefreshScrollViewDidEndDragging:scrollView];
+	
+}
+
+
+#pragma mark EGORefreshTableHeaderDelegate Methods
+
+- (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view{
+	
+	[self reloadTableViewDataSource];
+	
+}
+
+- (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view{
+	
+	return _reloading; // should return if data source model is reloading
+	
+}
+
+- (NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view{
+	
+	//lastUpadteddate=[NSDate date];
+    return lastUpadteddate; // should return date data source was last changed
+	
+}
+
+- (void)doneLoadingTableViewData{
+	
+	//  model should call this when its done loading
+	_reloading = NO;
+	[_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:listChatTableView];
+	
+}
+
+
+- (void)reloadTableViewDataSource{
+    
+    
+    
+
+    NSString *dateString=@"";
+    
+    NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
+    
+    dateString=[NSString stringWithFormat:@"%@",[dateFormatter stringFromDate:lastUpadteddate]];
+    
+    
+    listChatTableView.pageLocked=YES;
+    listChatTableView.selectedPageNumber=1;
+    lastUpadteddate=[NSDate date];
+    [[NetworkEngine sharedNetworkEngine]getChatLists:^(id object) {
+        
+        //NSLog(@"%@",object);
+        
+        if (![object isEqual:[NSNull null]] && [object isKindOfClass:[NSArray class]]) {
+            
+            if ( listChatTableView.selectedPageNumber==1) {
+                [hashTagListArray removeAllObjects];
+                
+            }
+            if (!self.hashTagListArray) {
+                
+                self.hashTagListArray=[[NSMutableArray alloc]init];
+                
+                
+            }
+            
+            
+            
+            NSMutableArray *objectsArray=[object mutableCopy];
+            [self.hashTagListArray addObjectsFromArray:objectsArray];
+            [self.listChatTableView reloadData];
+            self.listChatTableView.pageLocked=NO;
+            bottomView.hidden=YES;
+            [activityIndicatorView stopAnimating];
+            [self doneLoadingTableViewData];
+
+            
+            
+        }
+        
+        
+    } onError:^(NSError *error) {
+        self.listChatTableView.pageLocked=YES;
+        bottomView.hidden=YES;
+        
+        [activityIndicatorView stopAnimating];
+        
+        NSLog(@"%@",error);
+    } forPageNumber:listChatTableView.selectedPageNumber forSearchedText:nil];
+
+    
+    
+    
+    
 }
 
 #pragma mark API methods
@@ -636,7 +759,7 @@
         NSString * searchString = [[textField text] stringByReplacingCharactersInRange:range withString:string];
         selectedPageNumber=1;
         self.listChatTableView.selectedPageNumber=1;
-
+        lastUpadteddate=[NSDate date];
         [self searchChannels:searchString forPageNumber:selectedPageNumber];
 
 //        if (searchString && searchString.length>0) {
