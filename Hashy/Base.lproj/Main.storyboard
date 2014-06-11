@@ -46,7 +46,7 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Yh6-cu-rmQ">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Yh6-cu-rmQ" customClass="TTTAttributedLabel">
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -59,7 +59,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="bubbleImageView" destination="fGK-bY-701" id="0DJ-Ku-CI8"/>
-                                            <outlet property="messageLabel" destination="Yh6-cu-rmQ" id="yHm-dv-4cV"/>
+                                            <outlet property="messageLabel" destination="Yh6-cu-rmQ" id="UYv-iT-yIM"/>
                                             <outlet property="pictureImageView" destination="nZN-O2-Grx" id="Htj-Yu-UnC"/>
                                             <outlet property="userNameLabel" destination="oAb-CS-x3s" id="Wyp-lB-dOS"/>
                                         </connections>
@@ -159,32 +159,32 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="G2j-ug-flw" customClass="TTTAttributedLabel">
-                                                    <rect key="frame" x="20" y="15" width="250" height="25"/>
+                                                    <rect key="frame" x="20" y="6" width="250" height="25"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="19"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="AeF-8Z-wuw" customClass="TTTAttributedLabel">
-                                                    <rect key="frame" x="20" y="37" width="250" height="21"/>
+                                                    <rect key="frame" x="20" y="29" width="250" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5981" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="wXX-nL-4oT">
-                                                    <rect key="frame" x="287" y="38" width="40" height="20"/>
+                                                    <rect key="frame" x="287" y="31" width="34" height="20"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile_green_dot.png" id="e4H-Ar-T9t">
-                                                    <rect key="frame" x="271" y="43" width="10" height="10"/>
+                                                    <rect key="frame" x="271" y="37" width="10" height="10"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile_forward_icon.png" id="T02-Vs-tOI">
-                                                    <rect key="frame" x="290" y="18" width="12" height="20"/>
+                                                    <rect key="frame" x="290" y="11" width="12" height="20"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                             </subviews>
@@ -204,7 +204,7 @@
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" id="yLk-S4-O3K">
-                                <rect key="frame" x="0.0" y="71" width="320" height="35"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" background="listChat_search_container.png" id="CPg-Lr-3aJ">
@@ -219,11 +219,41 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
+                            <view contentMode="scaleToFill" id="pBo-fV-cQV">
+                                <rect key="frame" x="0.0" y="100" width="320" height="275"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="create_image.png" id="6ae-Hg-Zbx">
+                                        <rect key="frame" x="96" y="7" width="128" height="127"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                                    </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="UEc-Zd-LIu">
+                                        <rect key="frame" x="91" y="143" width="139" height="37"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="create">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ZF9-CY-mqy" customClass="TTTAttributedLabel">
+                                        <rect key="frame" x="37" y="184" width="245" height="75"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
+                        <outlet property="channelNameAttributedLabel" destination="ZF9-CY-mqy" id="Wso-hY-heg"/>
                         <outlet property="createChatTableView" destination="Pgl-1R-W8b" id="tEt-eo-nwo"/>
+                        <outlet property="createImageView" destination="6ae-Hg-Zbx" id="ARz-eU-c6O"/>
+                        <outlet property="createView" destination="pBo-fV-cQV" id="2WM-bY-sXV"/>
+                        <outlet property="createViewButton" destination="UEc-Zd-LIu" id="nK9-SK-1TZ"/>
+                        <outlet property="searchContainerView" destination="yLk-S4-O3K" id="mRk-Er-g4A"/>
                         <outlet property="searchTextField" destination="CPg-Lr-3aJ" id="jqT-iy-FwO"/>
                     </connections>
                 </viewController>
@@ -276,7 +306,7 @@
                                 <rect key="frame" x="79" y="144" width="163" height="163"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <state key="normal" backgroundImage="DEAB2F8D-EAE3-46A2-92AB-3D34641F9F23">
+                                <state key="normal" backgroundImage="06F9FD0B-1AC6-4CC5-A749-1BA3D49DC522">
                                     <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -332,32 +362,32 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="A3t-Rf-LUh" customClass="TTTAttributedLabel">
-                                                    <rect key="frame" x="20" y="13" width="250" height="27"/>
+                                                    <rect key="frame" x="20" y="6" width="250" height="28"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="19"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="x7d-uN-L4x" customClass="TTTAttributedLabel">
-                                                    <rect key="frame" x="20" y="37" width="250" height="21"/>
+                                                    <rect key="frame" x="20" y="29" width="250" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5981" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="j7M-7S-WVT">
-                                                    <rect key="frame" x="287" y="38" width="30" height="20"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="j7M-7S-WVT">
+                                                    <rect key="frame" x="287" y="31" width="30" height="20"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile_green_dot.png" id="XFR-th-YQG">
-                                                    <rect key="frame" x="271" y="44" width="10" height="10"/>
+                                                    <rect key="frame" x="271" y="37" width="10" height="10"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile_forward_icon.png" id="6aJ-b0-XYF">
-                                                    <rect key="frame" x="290" y="18" width="12" height="20"/>
+                                                    <rect key="frame" x="290" y="11" width="12" height="20"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                             </subviews>
@@ -376,11 +406,17 @@
                                     <outlet property="dataSource" destination="N9F-4z-bu6" id="gOa-VO-Vzv"/>
                                 </connections>
                             </tableView>
+                            <view contentMode="scaleToFill" id="dlB-J0-UE7">
+                                <rect key="frame" x="0.0" y="548" width="320" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                     <connections>
+                        <outlet property="bottomView" destination="dlB-J0-UE7" id="Fc1-kZ-H8w"/>
                         <outlet property="listChatTableView" destination="7Ov-NG-AJ3" id="rJm-2m-kIp"/>
                         <outlet property="searchTextField" destination="tpz-Nf-68H" id="kfF-vo-gjV"/>
                     </connections>
@@ -789,7 +825,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="DEAB2F8D-EAE3-46A2-92AB-3D34641F9F23" width="326" height="326">
+        <image name="06F9FD0B-1AC6-4CC5-A749-1BA3D49DC522" width="326" height="326">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -7931,6 +7967,7 @@ BobjA
         <image name="add_image_mask_container@2x.png.png" width="326" height="326"/>
         <image name="chat_room_paper_clip _icon.png" width="54" height="50"/>
         <image name="chat_room_text_conatiner.png" width="320" height="44"/>
+        <image name="create_image.png" width="128" height="127"/>
         <image name="listChat_search_container.png" width="305" height="30"/>
         <image name="profile_forward_icon.png" width="11" height="20"/>
         <image name="profile_green_dot.png" width="9" height="9"/>

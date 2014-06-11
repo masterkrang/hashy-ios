@@ -15,6 +15,7 @@
 @interface HYSubscribersListViewController : UIViewController<UITableViewDataSource,PagingDelegate>
 {
 
+    int selectedPageNumber;
     
 }
 

@@ -32,11 +32,13 @@
 -(void)setupTablePaging {
     
     self.selectedPageNumber = 1;
-    isScrolling=NO;
     
     //self.pagingDelegate=self;
     self.delegate = self;
     //self.pageSize = 20;
+//    activityIndicator=[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+//    activityIndicator.frame=CGRectMake(130,0,30,20);
+//    [self.tableFooterView addSubview:activityIndicator];
     
 }
 
@@ -49,14 +51,12 @@
     
 }
 
-//-(UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
-//    
-//   
-//    activityIndicator=[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-//    activityIndicator.frame=CGRectMake(130,8,30,20);
-//    [self.tableFooterView addSubview:activityIndicator];
-//    return [self.pagingDelegate tableView:self viewForFooterInSection:section];
-//}
+-(UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    
+   
+   
+    return [self.pagingDelegate tableView:self viewForFooterInSection:section];
+}
 
 
 
@@ -71,12 +71,12 @@
     
     
 }
-//
-//-(CGFloat) tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-//    
-//    return [self.pagingDelegate tableView:self heightForFooterInSection:section];
-//    
-//}
+
+-(CGFloat) tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    
+    return [self.pagingDelegate tableView:self heightForFooterInSection:section];
+    
+}
 //
 //-(UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
 //    
@@ -142,15 +142,24 @@ if([self.pagingDelegate respondsToSelector:@selector(tableView:didSelectRowAtInd
         if(path.row== [self.dataSource tableView:self numberOfRowsInSection:0]-1 &&!pageLocked){
           //  NSLog(@"REACHED END");
             //if(self.selectedPageNumber<self.total_pages) {
-            if(self.remaining_records>0) {
+//            
+//            if(self.remaining_records>0) {
+//
+//            pageLocked = YES;
+//            self.selectedPageNumber +=1;
+//        
+//            if([self.pagingDelegate respondsToSelector:@selector(tableView:didReachEndOfPage:)])
+//                
+//                [self.pagingDelegate tableView:self didReachEndOfPage:self.selectedPageNumber];
+//            }
 
             pageLocked = YES;
             self.selectedPageNumber +=1;
-        
+            
             if([self.pagingDelegate respondsToSelector:@selector(tableView:didReachEndOfPage:)])
                 
                 [self.pagingDelegate tableView:self didReachEndOfPage:self.selectedPageNumber];
-            }
+
             break;
         }
     }

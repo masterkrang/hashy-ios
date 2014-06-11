@@ -19,8 +19,7 @@
 
 //#define bucketName @"Hashy_Bucket"
 #define bucketName @"hashyimages"
-
-
+#define kSearchChannels @"/search_channels.json"
 static NetworkEngine *sharedNetworkEngine=nil;
 
 
@@ -301,13 +300,18 @@ static NetworkEngine *sharedNetworkEngine=nil;
 
 
 -(void)getChatLists:(completion_block)completionBlock onError:(error_block)errorBlock forPageNumber:(int) pageNumber forSearchedText:(NSString *)searchedText{
+    NSString *pageNumberStr=[NSString stringWithFormat:@"%d",pageNumber];
+
+    NSString *urlString=[NSString stringWithFormat:@"%@%@?page=%@",kServerHostName,kGetChats,pageNumberStr];
     
-    NSString *urlString=[NSString stringWithFormat:@"%@%@",kServerHostName,kGetChats];
+
     
     [self.httpManager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
       //  NSLog(@"JSON: %@", responseObject);
         
         NSHTTPURLResponse *response= operation.response;
+        
+        NSLog(@"%@",response.allHeaderFields);
         
         if (response.statusCode==200) {
             
@@ -441,8 +445,9 @@ static NetworkEngine *sharedNetworkEngine=nil;
 
 -(void)getRecentChatsForAUser:(completion_block)completionBlock onError:(error_block)errorBlock forUserID:(NSString *)user_id forPageNumber:(int) pageNumber{
     
-    
-    NSString *urlString=[NSString stringWithFormat:@"%@/users/%@/chats.json",kServerHostName,user_id];
+    NSString *pageNumberStr=[NSString stringWithFormat:@"%d",pageNumber];
+
+    NSString *urlString=[NSString stringWithFormat:@"%@/users/%@/chats.json?page=%@",kServerHostName,user_id,pageNumberStr];
     
     [self.httpManager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"JSON: %@", responseObject);
@@ -513,34 +518,31 @@ static NetworkEngine *sharedNetworkEngine=nil;
 
 
 
--(void)createNewHashTag:(completion_block)completionBlock onError:(error_block)errorBlock params:(NSString *)param {
+-(void)createNewHashTag:(completion_block)completionBlock onError:(error_block)errorBlock params:(NSDictionary *)param {
     
     
     NSString *urlString=[NSString stringWithFormat:@"%@%@",kServerHostName,kGetChats];
     
+    [self.httpManager.requestSerializer setValue:[NSString stringWithFormat:@"Token token=\"%@\"", [[UpdateDataProcessor sharedProcessor]currentUserInfo].user_authentication_token] forHTTPHeaderField:@"Authorization"];
+
+    
     [self.httpManager POST:urlString parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"JSON: %@", responseObject);
         
-        if([responseObject objectForKey:@"user"] &&![[responseObject objectForKey:@"user"]isEqual:[NSNull null]])
+        if([responseObject objectForKey:@"channel"] &&![[responseObject objectForKey:@"channel"]isEqual:[NSNull null]])
         {
+            completionBlock(responseObject);
+
+//            NSHTTPURLResponse *response=operation.response;
+//            
+//            if (response.statusCode == 200 ) {
+//                
+//            }
+//            else{
+//                errorBlock(nil);
+//            }
             
-            NSHTTPURLResponse *response=operation.response;
-            
-            if (response.statusCode == 200 ) {
-                completionBlock(responseObject);
-                
-            }
-            else{
-                errorBlock(nil);
-            }
-            
-            //            if([[responseObject objectForKey:@"user"]isEqualToString:@"failed"])
-            //            {
-            //                // [theAppDelegate hideProgressHUD];
-            //                // [Utility showAlertWithString:[responseObject valueForKey:@"error_string"]];
-            //
-            //            }
-            //            else
+          
         }
         else errorBlock(nil);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -548,6 +550,78 @@ static NetworkEngine *sharedNetworkEngine=nil;
         //[theAppDelegate hideProgressHUD];
         errorBlock(error);
     }];
+    
+    
+    
+}
+
+-(void)searchChannels:(completion_block)completionBlock onError:(error_block)errorBlock forSearchedText:(NSString *)searched_text forPageNumber:(int) pageNumber{
+    
+    NSString *pageNumberStr=[NSString stringWithFormat:@"%d",pageNumber];
+    NSString *urlString=[NSString stringWithFormat:@"%@%@?term=%@&page=%@",kServerHostName,kSearchChannels,searched_text,pageNumberStr];
+    
+    [self.httpManager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"JSON: %@", responseObject);
+        
+        NSHTTPURLResponse *response= operation.response;
+        
+        if (response.statusCode==200) {
+            
+            if(responseObject &&![responseObject isEqual:[NSNull null]])
+            {
+                completionBlock(responseObject);
+            }
+            else errorBlock(nil);
+            
+            
+        }
+        else{
+            errorBlock(nil);
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        //[Utility showAlertWithString:@"Network problem \n try again later"];
+        //[theAppDelegate hideProgressHUD];
+        errorBlock(error);
+    }];
+    
+    
+    
+    
+}
+
+
+
+-(void)searchSubscribers:(completion_block)completionBlock onError:(error_block)errorBlock forSearchedText:(NSString *)searched_text forPageNumber:(int) pageNumber{
+    
+    NSString *pageNumberStr=[NSString stringWithFormat:@"%d",pageNumber];
+    NSString *urlString=[NSString stringWithFormat:@"%@/chats/%@/search_subscribers.json?term=ku&page=%@",kServerHostName,searched_text,pageNumberStr];
+    
+    [self.httpManager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"JSON: %@", responseObject);
+        
+        NSHTTPURLResponse *response= operation.response;
+        
+        if (response.statusCode==200) {
+            
+            if(responseObject &&![responseObject isEqual:[NSNull null]])
+            {
+                completionBlock(responseObject);
+            }
+            else errorBlock(nil);
+            
+            
+        }
+        else{
+            errorBlock(nil);
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        //[Utility showAlertWithString:@"Network problem \n try again later"];
+        //[theAppDelegate hideProgressHUD];
+        errorBlock(error);
+    }];
+    
     
     
     

@@ -6,6 +6,7 @@
 //
 //
 #import <UIKit/UIKit.h>
+#import "TTTAttributedLabel.h"
 
 @interface ChatCustomCell : UITableViewCell
 {
@@ -13,7 +14,7 @@
 }
 
 @property(nonatomic,strong)IBOutlet UILabel *userNameLabel;
-@property(nonatomic,strong)IBOutlet UILabel *messageLabel;
+@property(nonatomic,strong)IBOutlet TTTAttributedLabel *messageLabel;
 @property(nonatomic,strong)IBOutlet UIImageView *topLeftImageView;
 @property(nonatomic,strong)IBOutlet UIImageView *topRightImageView;
 

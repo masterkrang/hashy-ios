@@ -14,6 +14,9 @@
 @implementation HYListChatViewController
 @synthesize searchTextField;
 @synthesize hashTagListArray;
+@synthesize bottomView;
+@synthesize listChatTableView;
+
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -26,13 +29,7 @@
 }
 
 
--(void)viewWillAppear:(BOOL)animated{
-    
-    [super viewWillAppear:animated];
-    self.navigationController.navigationBarHidden=NO;
-    self.navigationItem.hidesBackButton=YES;
-    
-}
+
 
 -(void) setBarButtonItems{
     
@@ -67,6 +64,20 @@
     [numberFormatter setGroupingSeparator:@","];
     [numberFormatter setUsesGroupingSeparator:YES];
 }
+
+
+-(void)viewWillAppear:(BOOL)animated{
+    
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden=NO;
+    self.navigationItem.hidesBackButton=YES;
+    selectedPageNumber=1;
+    self.listChatTableView.selectedPageNumber=1;
+    
+    [self getListOfChatsForPageNumber:self.listChatTableView.selectedPageNumber];
+
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -74,10 +85,11 @@
     
     [self setPaddingView];
     [self setBarButtonItems];
+    selectedPageNumber=1;
     
     
     [self.listChatTableView setupTablePaging];
-    self.listChatTableView.delegate=self;
+    self.listChatTableView.pagingDelegate=self;
     self.listChatTableView.separatorColor=[Utility colorWithHexString:@"cbcbcb"];
     
 
@@ -86,25 +98,97 @@
         
     }
     
-    [self getListOfChats];
+    activityIndicatorView=[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    activityIndicatorView.frame=CGRectMake((self.view.frame.size.width/2)-10, 0, 20, 20);
+    [activityIndicatorView setColor:[UIColor blueColor]];
+    [bottomView addSubview:activityIndicatorView];
+    [activityIndicatorView startAnimating];
+    bottomView.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];
+   // bottomView.backgroundColor=[Utility colorWithHexString:@"000000"];
+
+    bottomView.hidden=YES;
+    
+    
     self.view.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];
     self.listChatTableView.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];
 
 	// Do any additional setup after loading the view.
 }
 
+#pragma mark API methods
 
--(void)getListOfChats{
+
+-(void)searchChannels:(NSString *)searched_text forPageNumber:(int)pageNumber{
     
+    [[[[NetworkEngine sharedNetworkEngine]httpManager]operationQueue]cancelAllOperations];
+
+    [[NetworkEngine sharedNetworkEngine]searchChannels:^(id object) {
+        
+        NSLog(@"%@",object);
+        
+        if (![object isEqual:[NSNull null]] && [object isKindOfClass:[NSArray class]]) {
+            
+            
+            if (pageNumber==1)
+            [self.hashTagListArray removeAllObjects];
+            
+            if (!self.hashTagListArray) {
+                
+                self.hashTagListArray=[[NSMutableArray alloc]init];
+                
+                
+            }
+            
+            NSMutableArray *objectsArray=[object mutableCopy];
+            [self.hashTagListArray addObjectsFromArray:objectsArray];
+            [self.listChatTableView reloadData];
+            self.listChatTableView.pageLocked=NO;
+            bottomView.hidden=YES;
+            [activityIndicatorView stopAnimating];
+            
+//            if (objectsArray.count>24) {
+//                
+//                selectedPageNumber+=1;
+//                
+//                [self searchChannels:searched_text forPageNumber:selectedPageNumber];
+//                
+//                
+//            }
+//            
+            
+            
+            
+        }
+        
+    } onError:^(NSError *error) {
+        
+        
+        NSLog(@"%@",error);
+        
+    } forSearchedText:searched_text forPageNumber:pageNumber];
     
+}
+
+-(void)getListOfChatsForPageNumber:(int) pageNumber{
     
+    if (pageNumber>1) {
+        [activityIndicatorView startAnimating];
+
+        bottomView.hidden=NO;
+
+
+    }
+
     [[NetworkEngine sharedNetworkEngine]getChatLists:^(id object) {
         
         NSLog(@"%@",object);
         
         if (![object isEqual:[NSNull null]] && [object isKindOfClass:[NSArray class]]) {
          
-            
+            if (pageNumber==1) {
+                [hashTagListArray removeAllObjects];
+                
+            }
             if (!self.hashTagListArray) {
               
                 self.hashTagListArray=[[NSMutableArray alloc]init];
@@ -112,8 +196,14 @@
                 
             }
             
-            [self.hashTagListArray addObjectsFromArray:[object mutableCopy]];
+           
+            
+            NSMutableArray *objectsArray=[object mutableCopy];
+            [self.hashTagListArray addObjectsFromArray:objectsArray];
             [self.listChatTableView reloadData];
+            self.listChatTableView.pageLocked=NO;
+            bottomView.hidden=YES;
+            [activityIndicatorView stopAnimating];
             
             
             
@@ -121,8 +211,13 @@
         
         
     } onError:^(NSError *error) {
+        self.listChatTableView.pageLocked=YES;
+        bottomView.hidden=YES;
+        
+        [activityIndicatorView stopAnimating];
+
         NSLog(@"%@",error);
-    } forPageNumber:1 forSearchedText:nil];
+    } forPageNumber:pageNumber forSearchedText:nil];
     
     
 }
@@ -161,7 +256,59 @@
             NSMutableDictionary *hashTagDict=[[channelDict valueForKey:@"channel"] mutableCopy];
             
             if ([hashTagDict valueForKey:@"name"] && ![[hashTagDict valueForKey:@"name"] isEqual:[NSNull null]]) {
-                cell.hashTaglabel.text=[NSString stringWithFormat:@"#%@",[hashTagDict valueForKey:@"name"]];
+                
+                
+                NSMutableParagraphStyle *mutParaStyle=[[NSMutableParagraphStyle alloc] init];
+                
+                [mutParaStyle setAlignment:NSTextAlignmentLeft];
+                NSString *searchedtext;
+                
+                if (searchTextField.text.length<1) {
+                    cell.hashTaglabel.text=[NSString stringWithFormat:@"#%@",[hashTagDict valueForKey:@"name"]];
+                }
+                else{
+                searchedtext=[NSString stringWithFormat:@"#%@",searchTextField.text];
+                
+                
+                
+                NSString *hashTagString=[NSString stringWithFormat:@"#%@",[hashTagDict valueForKey:@"name"]];
+//                NSRange range=[hashTagString rangeOfString:searchedtext];
+//                    
+//                    if (range.location!=NSNotFound) {
+//                        hashTagString=[hashTagString substringWithRange:range];
+//
+//                    }
+                    
+                
+                NSMutableAttributedString *fullString = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"#%@",[hashTagDict valueForKey:@"name"]]];
+                //    [liveShowString addAttribute:NSFontAttributeName value:kRobotoFontRegular(125) range:[liveShowString.string rangeOfString:[NSString stringWithFormat:@"%d",loadedDataPercentage]]];
+                
+               // [fullString addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)[Utility colorWithHexString:@"cecece"].CGColor range:[fullString.string rangeOfString:[NSString stringWithFormat:@"%@:",searchedtext]]];
+                
+                    NSRange hashTagRange=[fullString.string rangeOfString:hashTagString];
+                    if (hashTagRange.location!=NSNotFound) {
+                        [fullString addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)[Utility colorWithHexString:@"d0d0d0"].CGColor range:hashTagRange];
+                        [fullString addAttribute:(NSString *)kCTFontAttributeName value:(id)[UIFont fontWithName:kHelVeticaBold size:22.5] range:hashTagRange];
+
+
+                    }
+                    
+                
+                    NSRange searchTextRange=[fullString.string rangeOfString:searchedtext];
+                    if (searchTextRange.location!=NSNotFound) {
+                        [fullString addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)[Utility colorWithHexString:@"939393"].CGColor range:searchTextRange];
+                        [fullString addAttribute:(NSString *)kCTFontAttributeName value:(id)[UIFont fontWithName:kHelVeticaBold size:22.5] range:searchTextRange];
+
+                    }
+                    
+
+                
+                [fullString addAttributes:[NSDictionary dictionaryWithObject:mutParaStyle
+                                                                          forKey:NSParagraphStyleAttributeName]
+                                        range:NSMakeRange(0,[[fullString string] length])];
+                [cell.hashTaglabel setAttributedText:fullString];
+                }
+                //cell.hashTaglabel.text=[NSString stringWithFormat:@"#%@",[hashTagDict valueForKey:@"name"]];
             }
             
             
@@ -192,9 +339,27 @@
                 NSMutableAttributedString *liveShowString = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%@: %@",lastMessageUserName,lastMessageString]];
                 //    [liveShowString addAttribute:NSFontAttributeName value:kRobotoFontRegular(125) range:[liveShowString.string rangeOfString:[NSString stringWithFormat:@"%d",loadedDataPercentage]]];
                 
-                [liveShowString addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)[Utility colorWithHexString:@"cecece"].CGColor range:[liveShowString.string rangeOfString:[NSString stringWithFormat:@"%@:",lastMessageUserName]]];
                 
-                [liveShowString addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)[Utility colorWithHexString:@"9a9a9a"].CGColor range:[liveShowString.string rangeOfString:lastMessageString]];
+                NSRange user_name_range=[liveShowString.string rangeOfString:[NSString stringWithFormat:@"%@:",lastMessageUserName]];
+                
+                
+                
+                
+                NSRange messageRange=[liveShowString.string rangeOfString:lastMessageString];
+                
+                if (messageRange.location!=NSNotFound) {
+                    [liveShowString addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)[Utility colorWithHexString:@"9a9a9a"].CGColor range:messageRange];
+                    [liveShowString addAttribute:(NSString *)kCTFontAttributeName value:(id)[UIFont fontWithName:kHelVeticaNeueMedium size:10.5] range:messageRange];
+
+                    
+                }
+                
+                if (user_name_range.location!=NSNotFound) {
+                    [liveShowString addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)[Utility colorWithHexString:@"cecece"].CGColor range:user_name_range];
+                    [liveShowString addAttribute:(NSString *)kCTFontAttributeName value:(id)[UIFont fontWithName:kHelVeticaNeueMedium size:10.5] range:user_name_range];
+
+                }
+                
                 
                 
                 [liveShowString addAttributes:[NSDictionary dictionaryWithObject:mutParaStyle
@@ -340,16 +505,13 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return 61;
+    return 54;
     
     
 }
 
 
--(void)tableView:(UITableView*)tableView didReachEndOfPage:(int)page{
-    
-    
-}
+
 
 -(UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
 
@@ -363,12 +525,50 @@
 }
 
 
+-(UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+
+    
+//    UIView *customFooterView= [[UIView alloc]initWithFrame:CGRectMake(0,self.view.frame.size.height-20, 320, 20)];
+//    
+//    customFooterView.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];;
+//    
+//    if (!self.listChatTableView.activityIndicator) {
+//        self.listChatTableView.activityIndicator=[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+//        self.listChatTableView.activityIndicator.frame=CGRectMake(100,0,100, 30);
+//
+//    }
+//    [customFooterView addSubview:self.listChatTableView.activityIndicator];
+//    
+//    if (self.listChatTableView.pageLocked && selectedPageNumber>1) {
+//        [self.listChatTableView.activityIndicator startAnimating];
+//    }
+//    else{
+//        [self.listChatTableView.activityIndicator stopAnimating];
+//    }
+    
+    
+    UIView *customFooterView= [[UIView alloc]initWithFrame:CGRectMake(0,0 , 0   ,  1)];
+    customFooterView.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];;
+    return customFooterView;
+    
+}
+
+
+-(CGFloat) tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+
+    return 1;
+    
+}
+
+
 -(CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
 
     return 0.1;
     
     
 }
+
+
 
 
 -(void)setCell:(ProfileCustomCell *)cell forIndexPath:(NSIndexPath *)indexPath forDict:(NSMutableDictionary *)hashTagDict{
@@ -411,6 +611,43 @@
     
 }
 
+-(void)tableView:(UITableView*)tableView didReachEndOfPage:(int)page{
+    
+ 
+    NSLog(@"Reached end");
+    
+    
+    if (searchTextField.text.length>0) {
+       
+        
+        if (self.hashTagListArray.count%25==0) {
+            
+            //selectedPageNumber+=1;
+            [self searchChannels:searchTextField.text forPageNumber:self.listChatTableView.selectedPageNumber];
+
+            
+            
+        }
+
+        
+    }
+    else{
+        
+        
+        if (self.hashTagListArray.count%25==0) {
+            
+            [self getListOfChatsForPageNumber:self.listChatTableView.selectedPageNumber];
+
+            
+            
+        }
+
+        
+    }
+    
+    
+}
+
 
 #pragma mark UITextField Deleagte Methods
 
@@ -418,8 +655,42 @@
 
 -(BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
     
-    textField.text = [NSString stringWithFormat:@"%@%@",textField.text,string];
-    return YES;
+    
+    
+    
+    NSCharacterSet *s = [NSCharacterSet characterSetWithCharactersInString:kCharacterSetString];
+    NSRange r = [string rangeOfCharacterFromSet:s];
+    if ((r.location != NSNotFound) || [string isEqualToString:@""]) {
+        // NSString *searchString = [NSString stringWithFormat:@"%@%@",textField.text,string];
+        
+        
+        NSString * searchString = [[textField text] stringByReplacingCharactersInRange:range withString:string];
+        selectedPageNumber=1;
+        self.listChatTableView.selectedPageNumber=1;
+
+        [self searchChannels:searchString forPageNumber:selectedPageNumber];
+
+//        if (searchString && searchString.length>0) {
+//            
+//        }
+        return YES;
+        
+        
+    }
+    else{
+        
+        return NO;
+    }
+
+    
+    
+//    NSString * searchString = [[textField text] stringByReplacingCharactersInRange:range withString:string];
+//    
+//    
+//    [self searchChannels:searchString forPageNumber:1];
+//    
+//    
+//    return YES;
     
 }
 
@@ -484,6 +755,17 @@
         NSLog(@"%@",error);
         
     } forChatID:chatIDString forPageNumber:1];
+    
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    
+    [super viewWillDisappear:animated];
+    selectedPageNumber=1;
+    self.listChatTableView.selectedPageNumber=1;
+    searchTextField.text=@"";
+    [searchTextField resignFirstResponder];
+    
     
 }
 

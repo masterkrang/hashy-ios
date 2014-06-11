@@ -194,7 +194,8 @@
     
     
     //[self.httpManager cancel];
-    
+    [[[[NetworkEngine sharedNetworkEngine]httpManager]operationQueue]cancelAllOperations];
+
         self.doneButton.enabled=NO;
     [activityIndicator startAnimating];
     [[NetworkEngine sharedNetworkEngine]checkForUserAvailablity:^(id object) {
@@ -257,7 +258,7 @@
         
        // NSLog(@"Username text Field");
         
-        NSCharacterSet *s = [NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"];
+        NSCharacterSet *s = [NSCharacterSet characterSetWithCharactersInString:kCharacterSetString];
         NSRange r = [string rangeOfCharacterFromSet:s];
         if ((r.location != NSNotFound) || [string isEqualToString:@""]) {
            // NSString *searchString = [NSString stringWithFormat:@"%@%@",textField.text,string];

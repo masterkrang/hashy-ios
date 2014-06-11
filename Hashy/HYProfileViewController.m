@@ -64,41 +64,57 @@
 	// Do any additional setup after loading the view.
 }
 
--(void)getUserRecentChats:(NSString *)user_id{
+-(void)getUserRecentChats:(NSString *)user_id forPageNumber:(int)page_number{
+    
+    
+    
+    profilePageTableView.pageLocked=YES;
+    
     
     [[NetworkEngine sharedNetworkEngine]getRecentChatsForAUser:^(id object) {
         
         NSLog(@"%@",object);
+        profilePageTableView.pageLocked=NO;
         
-//        if (!recentChatArray) {
-//            recentChatArray=[[NSMutableArray alloc]init];
-//            
-//        }
-//        
-//        if (object && [object isKindOfClass:[NSArray class]]) {
-//            
-//            
-//            recentChatArray= [object mutableCopy];
-//            
-//            
-//            if (recentChatArray.count) {
-//                
-////               / [profilePageTableView reloadData];
-//                
-//                
-//            }
-//            
-//        }
-        
-        
-        
+        if (![object isEqual:[NSNull null]] && [object isKindOfClass:[NSArray class]]) {
+            
+            
+            if (selectedPageNumber==1)
+                [self.recentChatArray removeAllObjects];
+            
+            if (!self.recentChatArray) {
+                
+                self.recentChatArray=[[NSMutableArray alloc]init];
+                
+                
+            }
+            NSMutableArray *objectsArray=[object mutableCopy];
+            [self.recentChatArray addObjectsFromArray:[object mutableCopy]];
+            // [self.subscribersListArray addObjectsFromArray:[object mutableCopy]];
+            
+            
+            [self.profilePageTableView reloadData];
+            self.profilePageTableView.pageLocked=NO;
+            if (objectsArray.count>24) {
+                
+                selectedPageNumber+=1;
+                
+                [self getUserRecentChats:user_id forPageNumber:selectedPageNumber];
+                
+                
+            }
+            
+            
+            
+        }
         
     } onError:^(NSError *error) {
-        
+        profilePageTableView.pageLocked=NO;
+
         NSLog(@"%@",error);
 
         
-    } forUserID:@"41" forPageNumber:1];
+    } forUserID:user_id forPageNumber:page_number];
     
 }
 
@@ -118,7 +134,7 @@
             if ([self.userDetailDict valueForKey:@"id"] && ![[self.userDetailDict valueForKey:@"id"]isEqual:[NSNull null]]) {
                 
                 NSString *userID=[[self.userDetailDict valueForKey:@"id"]stringValue ];
-                [self getUserRecentChats:userID];
+                [self getUserRecentChats:userID forPageNumber:selectedPageNumber];
 
             }
             
@@ -238,6 +254,20 @@
     
 }
 
+-(UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    
+    return nil;
+    
+    
+}
+
+
+-(CGFloat) tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    
+    return 0.1;
+    
+}
+
 
 #pragma mark Set cell
 
@@ -309,6 +339,13 @@
 -(IBAction)editButtonPressed:(UIButton *)sender
 {
     
+    
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    
+    [super viewWillDisappear:animated];
+    selectedPageNumber=1;
     
 }
 

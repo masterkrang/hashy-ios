@@ -35,10 +35,16 @@
 #define AWSAccessKeyId @"AKIAJGVJQYYLQOVZGJWQ"
 #define AWSSecretKey   @"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"
 
-#define kPubNubSubscribeKey   @"sub-c-815bc3d0-ebb3-11e3-b0c6-02ee2ddab7fe"
-#define kPubNubPublishKey   @"sub-c-815bc3d0-ebb3-11e3-b0c6-02ee2ddab7fe"
-#define kPubNubSecretKey   @"sec-c-MTE3MmFjNzEtN2Q4NC00Y2MxLWJlODYtNGMwMTE1ZGZlMzFh"
+//#define kPubNubSubscribeKey   @"sub-c-815bc3d0-ebb3-11e3-b0c6-02ee2ddab7fe"
+//#define kPubNubPublishKey   @"sub-c-815bc3d0-ebb3-11e3-b0c6-02ee2ddab7fe"
+//#define kPubNubSecretKey   @"sec-c-MTE3MmFjNzEtN2Q4NC00Y2MxLWJlODYtNGMwMTE1ZGZlMzFh"
+
+#define kPubNubSubscribeKey   @"sub-c-faa7ee58-d29a-11e3-9244-02ee2ddab7fe"
+#define kPubNubPublishKey   @"pub-c-ebfa91f9-274b-4e4a-bb41-6c9c5dca8876"
+#define kPubNubSecretKey   @"sec-c-NmU0NWY3M2EtMTEzNC00NjM4LWFiMjgtYTczNzJhMTcwNzY5"
 #define kNewMessageReceived @"NewMessageReceivedNotification"
 
+
+#define kCharacterSetString @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
 
 #endif

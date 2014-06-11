@@ -16,7 +16,8 @@
     
     IBOutlet PageTableView *profilePageTableView;
     UIActivityIndicatorView *activityIndicatorView;
-    
+    int selectedPageNumber;
+
     
 }
 

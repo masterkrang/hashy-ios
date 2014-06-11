@@ -16,7 +16,7 @@
 #define kOtherBottomLeft @"chat_room_other_bottom_left.png"
 #define kOtherBottomRight @"chat_room_other_bottom_right.png"
 #define kBlueBubbleImage @"chat_room_blue_bubble.png"
-#define kGreyBubbleImage @"chat_room_blue_bubble.png"
+#define kGreyBubbleImage @"chat_room_grey_bubble.png"
 
 
 
@@ -182,40 +182,6 @@
 }
 
 
--(void)insertNewMessage:(NSNotification *)notification{
-    
-    
-    NSLog(@"%@",notification);
-    NSLog(@"%@",notification.userInfo);
-    
-    
-    NSMutableDictionary *messageDict=[notification.userInfo mutableCopy];
-    
-    if([messageDict valueForKey:@"message"] && ![[messageDict valueForKey:@"message"]isEqual:[NSNull null]])
-    
-        
-    {
-        PNMessage *new_message=[messageDict valueForKey:@"message"];
-        
-        
-        
-        [chatRoomMessageArray  addObject:new_message];
-        [chatRoomTableView beginUpdates];
-        NSIndexPath *indexPath=[NSIndexPath indexPathForRow:chatRoomMessageArray.count-1 inSection:0];
-        
-        [chatRoomTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationBottom];
-        
-        [chatRoomTableView endUpdates];
-        [chatRoomTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-        [chatRoomTableView reloadData];
-
-        
-        
-        
-    }
-    
-
-}
 
 
 #pragma mark Pub Nub Methods
@@ -230,7 +196,13 @@
     backButton.enabled=NO;
     subscriberButtonCount.enabled=NO;
     
-    [PubNub setConfiguration:[PNConfiguration defaultConfiguration]];
+   // [PubNub setConfiguration:[PNConfiguration defaultConfiguration]];
+    
+   // PNConfiguration *configuration=[PNConfiguration configurationWithPublishKey:kPubNubPublishKey subscribeKey:kPubNubSubscribeKey secretKey:kPubNubSecretKey];
+   PNConfiguration *configuration=[PNConfiguration defaultConfiguration];
+
+    [PubNub setConfiguration:configuration];
+    
     
     
     
@@ -355,7 +327,8 @@
     
 //    PNDate *startDate = [PNDate dateWithDate:[NSDate dateWithTimeIntervalSinceNow:(-3600.0f)]];
     PNDate *endDate = [PNDate dateWithDate:[NSDate date]];
-    [PubNub requestHistoryForChannel:channel from:nil to:endDate limit:25 reverseHistory:YES includingTimeToken:YES withCompletionBlock:^(NSArray *messageArray, PNChannel *channel, PNDate *startDate, PNDate *endDate, PNError *error) {
+    
+    [PubNub requestFullHistoryForChannel:channel withCompletionBlock:^(NSArray *messageArray, PNChannel *channel, PNDate *startDate, PNDate *endDate, PNError *error) {
         [kAppDelegate hideProgressHUD];
         backButton.enabled=YES;
         subscriberButtonCount.enabled=YES;
@@ -372,6 +345,24 @@
         
     }];
     
+    
+//    [PubNub requestHistoryForChannel:channel from:nil to:endDate limit:25 reverseHistory:YES includingTimeToken:YES withCompletionBlock:^(NSArray *messageArray, PNChannel *channel, PNDate *startDate, PNDate *endDate, PNError *error) {
+//        [kAppDelegate hideProgressHUD];
+//        backButton.enabled=YES;
+//        subscriberButtonCount.enabled=YES;
+//        
+//        if (!chatRoomMessageArray) {
+//            chatRoomMessageArray=[[NSMutableArray alloc]init];
+//        }
+//        
+//        chatRoomMessageArray=[messageArray mutableCopy];
+//        [chatRoomTableView reloadData];
+//        //   [chatRoomTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:chatRoomMessageArray.count-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+//        
+//        
+//        
+//    }];
+//    
     
 //    [PubNub requestHistoryForChannel:channel from:nil to:[NSDate date] limit:25 reverseHistory:ye includingTimeToken:<#(BOOL)#> limit:5 withCompletionBlock:^(NSArray *messageArray, PNChannel *channel, PNDate *startDate, PNDate *endDate, PNError *error) {
 //        [kAppDelegate hideProgressHUD];
@@ -419,6 +410,7 @@
    
     
     
+    NSLog(@"%f",chatRoomTableView.contentSize.height);
     
     
     
@@ -427,9 +419,35 @@
         messageContainerFrame.origin.y-=216;
         self.messageConatinerView.frame=messageContainerFrame;
         
-        CGRect tableFrame=self.chatRoomTableView.frame;
-        tableFrame.origin.y-=216;
-        self.chatRoomTableView.frame=tableFrame;
+        
+        if (IS_IPHONE_5) {
+            
+            if (chatRoomTableView.contentSize.height>270) {
+                
+                CGRect tableFrame=self.chatRoomTableView.frame;
+                tableFrame.origin.y-=216;
+                self.chatRoomTableView.frame=tableFrame;
+            }
+            
+        }
+        else{
+            
+            if (chatRoomTableView.contentSize.height>190  &&chatRoomTableView.contentSize.height<220 ) {
+                
+                CGRect tableFrame=self.chatRoomTableView.frame;
+                tableFrame.origin.y-=166;
+                self.chatRoomTableView.frame=tableFrame;
+            }
+            else if (chatRoomTableView.contentSize.height>=220){
+                CGRect tableFrame=self.chatRoomTableView.frame;
+                tableFrame.origin.y-=216;
+                self.chatRoomTableView.frame=tableFrame;
+ 
+            }
+           
+        }
+        
+      
     } completion:nil];
     
     
@@ -445,7 +463,7 @@
         self.messageConatinerView.frame=messageContainerFrame;
         
         CGRect tableFrame=self.chatRoomTableView.frame;
-        tableFrame.origin.y+=216;
+        tableFrame.origin.y=0;
         self.chatRoomTableView.frame=tableFrame;
         
 //        CGRect tableFrame=self.chatRoomTableView.frame;
@@ -592,7 +610,10 @@
     cell.messageLabel.font=[UIFont fontWithName:kHelVeticaNeueRegular size:16];
     cell.messageLabel.numberOfLines=0;
     
-
+    cell.messageLabel.delegate = self;
+    cell.messageLabel.dataDetectorTypes = UIDataDetectorTypeAll;
+    cell.messageLabel.textAlignment = NSTextAlignmentCenter;
+    cell.messageLabel.verticalAlignment=TTTAttributedLabelVerticalAlignmentCenter;
     
     if (self.chatRoomMessageArray.count>indexPath.row) {
         
@@ -892,6 +913,23 @@
     
 }
 
+-(UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    
+
+    
+    UIView *customFooterView= [[UIView alloc]initWithFrame:CGRectZero];
+    customFooterView.backgroundColor=[UIColor clearColor];;
+    return customFooterView;
+    
+}
+
+
+-(CGFloat) tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    
+    return 0.1;
+    
+}
+
 #pragma mark Set cell 
 
 -(void)setChatCell:(ChatCustomCell *)cell ForIndexPath:(NSIndexPath *)indexPath forDictionary:(NSDictionary *)messageDict isUserMessage:(BOOL)isFromUser{
@@ -971,6 +1009,7 @@
         pictureFrame.size.height=200;
         cell.pictureImageView.frame=pictureFrame;
          cell.bubbleImageView.image=nil;
+        cell.pictureImageView.image=nil;
         UIImage *localImage;
         
         NSPredicate *predicate=[NSPredicate predicateWithFormat:@"image_url == %@",[messageDict valueForKey:@"message"]];
@@ -1031,8 +1070,8 @@
 
         CGRect messageLabelFrame=cell.messageLabel.frame;
         
-        messageLabelFrame.origin.x=cell.bubbleImageView.frame.origin.x+16;
-        messageLabelFrame.origin.y=cell.bubbleImageView.frame.origin.y+6;//isFromUser?cell.bubbleImageView.frame.origin.y+5:cell.bubbleImageView.frame.origin.y+5;
+        messageLabelFrame.origin.x=cell.bubbleImageView.frame.origin.x+13;//16;
+        messageLabelFrame.origin.y=cell.bubbleImageView.frame.origin.y+4;//6;
         messageLabelFrame.size.width=textWidth+5;//isFromUser?labelSize.width+5:labelSize.width+5;
         messageLabelFrame.size.height=textHeight+3;//isFromUser?labelSize.height:labelSize.height;
         cell.messageLabel.frame=messageLabelFrame;
@@ -1245,6 +1284,8 @@
     
     messagetextField.text=@"";
     
+    
+    
     [PubNub sendMessage:messageDict toChannel:masterChannel withCompletionBlock:^(PNMessageState messageState, id response) {
       
         NSLog(@"%@",response);
@@ -1420,6 +1461,66 @@
 }
 
 
+#pragma mark TTTAttributedLabel
+
+
+
+- (void)attributedLabel:(TTTAttributedLabel *)label
+   didSelectLinkWithURL:(NSURL *)url{
+
+    
+    NSLog(@"%@",url);
+    
+    
+}
+- (void)attributedLabel:(TTTAttributedLabel *)label
+didSelectLinkWithAddress:(NSDictionary *)addressComponents{
+    
+    
+    NSLog(@"%@",addressComponents);
+
+    
+}
+
+
+- (void)attributedLabel:(TTTAttributedLabel *)label
+didSelectLinkWithPhoneNumber:(NSString *)phoneNumber{
+    
+    
+    NSLog(@"%@",phoneNumber);
+
+    
+}
+
+
+- (void)attributedLabel:(TTTAttributedLabel *)label
+  didSelectLinkWithDate:(NSDate *)date{
+    
+    NSLog(@"%@",date);
+
+}
+
+
+- (void)attributedLabel:(TTTAttributedLabel *)label
+  didSelectLinkWithDate:(NSDate *)date
+               timeZone:(NSTimeZone *)timeZone
+               duration:(NSTimeInterval)duration{
+    
+    
+    NSLog(@"%@",date);
+
+    
+}
+
+
+- (void)attributedLabel:(TTTAttributedLabel *)label
+didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result{
+    
+    NSLog(@"%@",result);
+
+    
+}
+
 
 #pragma mark Disappear Methods
 
@@ -1500,6 +1601,44 @@
     
 }
 
+
+
+-(void)insertNewMessage:(NSNotification *)notification{
+    
+    
+    // NSLog(@"%@",notification);
+    // NSLog(@"%@",notification.userInfo);
+    
+    
+    NSMutableDictionary *messageDict=[notification.userInfo mutableCopy];
+    
+    if([messageDict valueForKey:@"message"] && ![[messageDict valueForKey:@"message"]isEqual:[NSNull null]])
+        
+        
+    {
+        PNMessage *new_message=[messageDict valueForKey:@"message"];
+        
+        if (!chatRoomMessageArray) {
+            chatRoomMessageArray =[[NSMutableArray alloc]init];
+        }
+        
+        [chatRoomMessageArray  addObject:new_message];
+        [chatRoomTableView beginUpdates];
+        NSIndexPath *indexPath=[NSIndexPath indexPathForRow:chatRoomMessageArray.count-1 inSection:0];
+        
+        [chatRoomTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationBottom];
+        
+        [chatRoomTableView endUpdates];
+        [chatRoomTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+        [chatRoomTableView reloadData];
+        
+        
+        
+        
+    }
+    
+    
+}
 
 - (void)didReceiveMemoryWarning
 {

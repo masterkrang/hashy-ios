@@ -8,6 +8,8 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import <AFNetworking.h>
+#import <UIImageView+AFNetworking.h>
+
  @protocol TrendStartrUser<NSObject>
 
 @end

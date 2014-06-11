@@ -15,6 +15,11 @@
 @synthesize createChatTableView;
 @synthesize searchTextField;
 @synthesize createChatArray;
+@synthesize searchContainerView;
+@synthesize createImageView;
+@synthesize createView;
+@synthesize createViewButton;
+@synthesize channelNameAttributedLabel;
 
 
 
@@ -37,7 +42,16 @@
   
     [self setBarButtonItems];
     [self setPaddingView];
+    [self setViewFonts];
+    searchContainerView.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];
+    self.view.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];
+    self.createChatTableView.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];
+    createButton.enabled=NO;
+    createView.hidden=YES;
     
+    [createViewButton addTarget:self action:@selector(createHashTagButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    
+
     
     [createChatTableView setupTablePaging];
     createChatTableView.pagingDelegate=self;
@@ -60,6 +74,8 @@
     createButton=[UIButton buttonWithType:UIButtonTypeCustom];
     createButton.frame=CGRectMake(0, 0, 50, 40);
     [createButton setTitleColor:[Utility colorWithHexString:@"157dfb"] forState:UIControlStateNormal];
+    [createButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
+
     [createButton.titleLabel setFont:[UIFont fontWithName:kHelVeticaNeueLight size:17]];
     [createButton setTitle:@"Create" forState:UIControlStateNormal];
     [createButton addTarget:self action:@selector(createHashTagButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
@@ -91,25 +107,198 @@
 }
 
 
-#pragma mark Check Hash tag
+-(void)setViewFonts{
+    
+    [createViewButton setTitleColor:[Utility colorWithHexString:@"228aff"] forState:UIControlStateNormal];
+    [createViewButton.titleLabel setFont:[UIFont fontWithName:kHelVeticaNeueLight size:36]];
+    
+    searchTextField.textColor=[Utility colorWithHexString:@"585858"];
+    
 
--(void)checkTagForSearchedText:(NSString *)searchedText{
+    
+}
+
+
+-(void)setCreateViewText{
+    if (searchTextField.text.length<1)
+        return;
+    
+    channelNameAttributedLabel.textAlignment=NSTextAlignmentCenter;
+
+    NSString *searchedText=[NSString stringWithFormat:@"#%@",searchTextField.text];
+    NSString *notFoundText=@"not found, create it?";
+    NSMutableAttributedString *fullString = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%@ %@" ,searchedText,notFoundText]];
+  //  NSMutableAttributedString *fullString = [[NSMutableAttributedString alloc]initWithString:@"Hi"];
+
+    NSRange search_text_range=[fullString.string rangeOfString:searchedText];
+    if (search_text_range.location!=NSNotFound) {
+        [fullString addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)[Utility colorWithHexString:@"464646"].CGColor range:search_text_range];
+        [fullString addAttribute:(NSString *)kCTFontAttributeName value:(id)[UIFont fontWithName:kHelVeticaNeueMedium size:19.5] range:search_text_range];
+        
+        
+    }
     
     
-    [[NetworkEngine sharedNetworkEngine]getChatLists:^(id object) {
+    NSRange not_found_range=[fullString.string rangeOfString:notFoundText];
+
+    if (not_found_range.location!=NSNotFound) {
+        [fullString addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)[Utility colorWithHexString:@"858585"].CGColor range:not_found_range];
+        [fullString addAttribute:(NSString *)kCTFontAttributeName value:(id)[UIFont fontWithName:kHelVeticaNeueMedium size:19.5] range:not_found_range];
         
         
+    }
+    
+    
+    [channelNameAttributedLabel setNumberOfLines:2];
+    [channelNameAttributedLabel setAttributedText:fullString];
+    channelNameAttributedLabel.verticalAlignment=TTTAttributedLabelVerticalAlignmentCenter;
+  
+}
+
+
+
+#pragma mark API methods
+
+
+-(void)createNewChannel{
+    
+    
+    if (searchTextField.text.length<1) {
+        return;
+    }
+    
+    NSMutableDictionary *nameDict=[[NSMutableDictionary alloc]init];
+    [nameDict setValue:searchTextField.text forKey:@"name"];
+    
+    
+    NSMutableDictionary *channelDict=[[NSMutableDictionary alloc]init];
+    [channelDict setValue:nameDict forKey:@"channel"];
+    
+    
+    
+    [[NetworkEngine sharedNetworkEngine]createNewHashTag:^(id object) {
         
-        NSLog(@"%@",object);
+      //  NSLog(@"%@",object);
+        
+        if ([object valueForKey:@"channel"] && ![[object valueForKey:@"channel"]isEqual:[NSNull null]])
+        {
+            
+            NSMutableDictionary *detailChannelDict=[object valueForKey:@"channel"];
+            NSLog(@"%@",detailChannelDict);
+            
+            HYChatRoomDetailsViewController *chatVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"chatRoomDetails_vc"];
+            
+            
+            if ([detailChannelDict valueForKey:@"name"] && ![[detailChannelDict valueForKey:@"name"]isEqual:[NSNull null]] && [[detailChannelDict valueForKey:@"name"] length]>0){
+                
+                chatVC.chatNameString=[detailChannelDict valueForKey:@"name"];
+                
+            }
+            else{
+                chatVC.chatNameString=@"name";
+                
+            }
+            
+            
+            NSNumber *chat_id_number=[detailChannelDict valueForKey:@"id"];
+            int chat_id=chat_id_number.intValue;
+            
+            if (chat_id && chat_id>0) {
+                chatVC.chatIDString=[NSString stringWithFormat:@"%d",chat_id];
+                
+            }
+            
+            
+            if ([detailChannelDict valueForKey:@"subscribers_count"] && ![[detailChannelDict valueForKey:@"subscribers_count"]isEqual:[NSNull null]] && [[detailChannelDict valueForKey:@"subscribers_count"] length]>0) {
+                
+                chatVC.subscribersCountString=[detailChannelDict valueForKey:@"subscribers_count"];
+                
+                
+            }
+            else{
+                
+                chatVC.subscribersCountString=@"0";
+                
+            }
+            chatVC.chatDict=detailChannelDict;
+            
+            
+            
+            [self.navigationController pushViewController:chatVC animated:YES];
+            
+            
+            
+            
+            
+            
+        }
+        
         
         
         
     } onError:^(NSError *error) {
+        NSLog(@"%@",error);
         
-        
-        
-    } forPageNumber:1 forSearchedText:searchedText];
+    } params:channelDict];
     
+}
+
+-(void)searchChannels:(NSString *)searched_text forPageNumber:(int)page_number{
+    
+    resultsObtained=NO;
+//    createChatTableView.pageLocked=YES;
+    
+    [[[[NetworkEngine sharedNetworkEngine]httpManager]operationQueue]cancelAllOperations];
+    
+    [[NetworkEngine sharedNetworkEngine]searchChannels:^(id object) {
+        
+        NSLog(@"%@",object);
+            resultsObtained=YES;
+        createChatTableView.pageLocked=NO;
+        
+        if (![object isEqual:[NSNull null]] && [object isKindOfClass:[NSArray class]]) {
+            
+            
+            if (selectedPageNumber==1)
+            [self.createChatArray removeAllObjects];
+            
+            if (!self.createChatArray) {
+                
+                self.createChatArray=[[NSMutableArray alloc]init];
+                
+                
+            }
+            
+            NSMutableArray *objectsArray=[object mutableCopy];
+            [self.createChatArray addObjectsFromArray:[object mutableCopy]];
+
+            if (resultsObtained && !createChatArray.count) {
+                createButton.enabled=YES;
+                createView.hidden=NO;
+                [self setCreateViewText];
+                
+            }
+            else{
+                
+                createButton.enabled=NO;
+                createView.hidden=YES;
+            }
+            
+            [self.createChatTableView reloadData];
+            self.createChatTableView.pageLocked=NO;
+            
+
+            
+            
+        }
+        
+    } onError:^(NSError *error) {
+        
+        createChatTableView.pageLocked=NO;
+
+        NSLog(@"%@",error);
+        
+    } forSearchedText:searched_text forPageNumber:page_number];
     
 }
 
@@ -126,9 +315,143 @@
     
     ProfileCustomCell *cell=[tableView dequeueReusableCellWithIdentifier:@"CreateChatCellIdentifier"];
     
+    cell.hashTaglabel.font=[UIFont fontWithName:kHelVeticaBold size:22.2];
+    cell.hashTaglabel.textColor=[Utility colorWithHexString:@"939393"];
     
-   // cell.userNameLabel.textColor=[Utility colorWithHexString:@"888888"];
+    cell.userNameLabel.font=[UIFont fontWithName:kHelVeticaNeueMedium size:10.6];
     
+    
+    cell.subscribersCount.textColor=[Utility colorWithHexString:@"2fc81e"];
+    cell.subscribersCount.font=[UIFont fontWithName:kHelVeticaNeueMedium size:17];
+    
+    
+    if (self.createChatArray.count>indexPath.row) {
+        
+        NSMutableDictionary *channelDict=[self.createChatArray objectAtIndex:indexPath.row];
+        
+        
+        if ([channelDict valueForKey:@"channel"] && ![[channelDict valueForKey:@"channel"]isEqual:[NSNull null]]) {
+            
+            
+            
+            NSMutableDictionary *hashTagDict=[[channelDict valueForKey:@"channel"] mutableCopy];
+            
+            if ([hashTagDict valueForKey:@"name"] && ![[hashTagDict valueForKey:@"name"] isEqual:[NSNull null]]) {
+                
+                
+                NSMutableParagraphStyle *mutParaStyle=[[NSMutableParagraphStyle alloc] init];
+                
+                [mutParaStyle setAlignment:NSTextAlignmentLeft];
+                NSString *searchedtext;
+                
+                if (searchTextField.text.length<1) {
+                    cell.hashTaglabel.text=[NSString stringWithFormat:@"#%@",[hashTagDict valueForKey:@"name"]];
+                }
+                else{
+                    searchedtext=[NSString stringWithFormat:@"#%@",searchTextField.text];
+                    
+                    
+                    NSString *hashTagString=[NSString stringWithFormat:@"#%@",[hashTagDict valueForKey:@"name"]];
+                    NSMutableAttributedString *fullString = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"#%@",[hashTagDict valueForKey:@"name"]]];
+
+                
+                    
+                    NSRange hash_tag_range=[hashTagString rangeOfString:hashTagString];
+                    
+                    if (hash_tag_range.location!=NSNotFound) {
+                        [fullString addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)[Utility colorWithHexString:@"d0d0d0"].CGColor range:hash_tag_range];
+                        [fullString addAttribute:(NSString *)kCTFontAttributeName value:(id)[UIFont fontWithName:kHelVeticaBold size:22.5] range:hash_tag_range];
+
+
+                    }
+                    
+                    NSRange searched_text_range=[fullString.string rangeOfString:searchedtext];
+                    
+                    if (searched_text_range.location!=NSNotFound) {
+                        
+                        [fullString addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)[Utility colorWithHexString:@"939393"].CGColor range:searched_text_range];
+                        
+                        [fullString addAttribute:(NSString *)kCTFontAttributeName value:(id)[UIFont fontWithName:kHelVeticaBold size:22.5] range:searched_text_range];
+
+                    }
+                    
+                 
+                    
+                    
+                    
+                    [fullString addAttributes:[NSDictionary dictionaryWithObject:mutParaStyle
+                                                                          forKey:NSParagraphStyleAttributeName]
+                                        range:NSMakeRange(0,[[fullString string] length])];
+                    [cell.hashTaglabel setAttributedText:fullString];
+                }
+                //cell.hashTaglabel.text=[NSString stringWithFormat:@"#%@",[hashTagDict valueForKey:@"name"]];
+            }
+            
+            
+            if ([hashTagDict valueForKey:@"subscribers_count"] && ![[hashTagDict valueForKey:@"subscribers_count"]isEqual:[NSNull null]] && [[hashTagDict valueForKey:@"subscribers_count"] length]>0) {
+                cell.subscribersCount.text=[hashTagDict valueForKey:@"subscribers_count"];
+                
+            }
+            else{
+                
+                cell.subscribersCount.text=@"0";
+                
+            }
+            
+            
+            
+            NSString *lastMessageUserName=[hashTagDict valueForKey:@"last_message_user_name"];
+            NSString *lastMessageString=[hashTagDict valueForKey:@"last_message"];
+            
+            
+            if (lastMessageUserName && ![lastMessageUserName isEqual:[NSNull null]] &&lastMessageString && ![lastMessageString isEqual:[NSNull null]]) {
+                
+                
+                NSMutableParagraphStyle *mutParaStyle=[[NSMutableParagraphStyle alloc] init];
+                
+                [mutParaStyle setAlignment:NSTextAlignmentLeft];
+                
+                
+                NSMutableAttributedString *liveShowString = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%@: %@",lastMessageUserName,lastMessageString]];
+                //    [liveShowString addAttribute:NSFontAttributeName value:kRobotoFontRegular(125) range:[liveShowString.string rangeOfString:[NSString stringWithFormat:@"%d",loadedDataPercentage]]];
+                
+                
+              
+                
+                NSRange messageRange=[liveShowString.string rangeOfString:lastMessageString];
+
+                if (messageRange.location!=NSNotFound ) {
+                    [liveShowString addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)[Utility colorWithHexString:@"9a9a9a"].CGColor range:messageRange];
+                    [liveShowString addAttribute:(NSString *)kCTFontAttributeName value:(id)[UIFont fontWithName:kHelVeticaNeueMedium size:10.5] range:messageRange];
+
+
+                }
+                
+                NSRange userNameRange=[liveShowString.string rangeOfString:[NSString stringWithFormat:@"%@:",lastMessageUserName]];
+                
+                if (userNameRange.location!=NSNotFound) {
+                    [liveShowString addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)[Utility colorWithHexString:@"c0c0c0"].CGColor range:userNameRange];
+                    [liveShowString addAttribute:(NSString *)kCTFontAttributeName value:(id)[UIFont fontWithName:kHelVeticaNeueMedium size:10.5] range:userNameRange];
+                    
+                }
+                
+                
+                
+                [liveShowString addAttributes:[NSDictionary dictionaryWithObject:mutParaStyle
+                                                                          forKey:NSParagraphStyleAttributeName]
+                                        range:NSMakeRange(0,[[liveShowString string] length])];
+                [cell.userNameLabel setAttributedText:liveShowString];
+                
+                
+                
+            }
+            
+            
+            [self setCell:cell forIndexPath:indexPath forDict:hashTagDict];
+            
+            
+        }
+    }
     return cell;
     
     
@@ -143,16 +466,13 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return 65;
+    return 54;
     
     
 }
 
 
--(void)tableView:(UITableView*)tableView didReachEndOfPage:(int)page{
-    
-    
-}
+
 
 -(UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     
@@ -172,7 +492,33 @@
     
 }
 
+-(UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    
+    return nil;
+    
+    
+}
 
+
+-(CGFloat) tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    
+    return 0.1;
+    
+}
+
+-(void)tableView:(UITableView*)tableView didReachEndOfPage:(int)page{
+    
+    
+    if (createChatArray.count%25==0) {
+        
+        
+        [self searchChannels:searchTextField.text forPageNumber:self.createChatTableView.selectedPageNumber];
+        
+        
+    }
+    
+    
+}
 
 #pragma mark Set cell
 
@@ -180,6 +526,21 @@
 -(void)setCell:(ProfileCustomCell *)cell forIndexPath:(NSIndexPath *)indexPath forDict:(NSMutableDictionary *)hashTagDict{
     
     NSString *count=@"1,123";
+    
+    if ([hashTagDict valueForKey:@"subscribers_count"] && ![[hashTagDict valueForKey:@"subscribers_count"]isEqual:[NSNull null]]) {
+        
+        NSNumber *subscribers_count=[hashTagDict valueForKey:@"subscribers_count"];
+        int subscribers_count_int=subscribers_count.intValue;
+        
+        count=[NSString stringWithFormat:@"%d",subscribers_count_int];
+        
+        
+        
+        
+    }
+    else
+        count=@"0";
+    
     
     CGSize labelSize=[Utility heightOfTextString:count andFont:cell.subscribersCount.font maxSize:CGSizeMake(300, 999)];
     
@@ -225,8 +586,49 @@
 
 -(BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
     
-    textField.text = [NSString stringWithFormat:@"%@%@",textField.text,string];
-    return YES;
+    
+    
+    
+    
+        
+        
+        
+        
+    
+        NSCharacterSet *s = [NSCharacterSet characterSetWithCharactersInString:kCharacterSetString];
+        NSRange r = [string rangeOfCharacterFromSet:s];
+        if ((r.location != NSNotFound) || [string isEqualToString:@""]) {
+            // NSString *searchString = [NSString stringWithFormat:@"%@%@",textField.text,string];
+            
+            
+            NSString * searchString = [[textField text] stringByReplacingCharactersInRange:range withString:string];
+            selectedPageNumber=1;
+            self.createChatTableView.selectedPageNumber=1;
+            
+            [self searchChannels:searchString forPageNumber:selectedPageNumber];
+
+//        if (searchString && searchString.length>0) {
+//            
+//            }
+            return YES;
+            
+            
+        }
+        else{
+            
+            return NO;
+        }
+        
+        
+        
+    
+    
+//    NSString * searchString = [[textField text] stringByReplacingCharactersInRange:range withString:string];
+//    
+//    
+//    [self searchChannels:searchString];
+//    
+//    return YES;
     
 }
 
@@ -245,7 +647,9 @@
 {
     
     
-    if(!createChatTableView.isScrolling)
+    createChatTableView.scrollEnabled=NO;
+    createChatTableView.pagingDelegate=nil;
+    createChatTableView.dataSource=nil;
     [self.navigationController popViewControllerAnimated:YES];
     
     
@@ -255,8 +659,22 @@
 -(IBAction)createHashTagButtonPressed:(UIButton *)sender{
     
     
+    [self createNewChannel];
+    
+    
+    
 }
 
+
+-(void)viewWillDisappear:(BOOL)animated{
+    
+    [super viewWillDisappear:animated];
+    selectedPageNumber=1;
+    searchTextField.text=@"";
+    [searchTextField resignFirstResponder];
+    
+    
+}
 
 
 - (void)didReceiveMemoryWarning

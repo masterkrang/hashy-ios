@@ -14,13 +14,17 @@
 #import "HYChatRoomDetailsViewController.h"
 #import "HYCreateChatViewController.h"
 
+
 @interface HYListChatViewController : UIViewController<UITableViewDataSource,PagingDelegate,UITextFieldDelegate>
 {
+    int selectedPageNumber;
+    UIActivityIndicatorView *activityIndicatorView;
     
 }
 
 @property(nonatomic,strong)IBOutlet PageTableView *listChatTableView;
 @property(strong,nonatomic)IBOutlet UITextField *searchTextField;
 @property(nonatomic,strong) NSMutableArray *hashTagListArray;
+@property(strong,nonatomic)IBOutlet UIView *bottomView;
 
 @end
