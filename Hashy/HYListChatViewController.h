@@ -13,9 +13,9 @@
 #import "HYChatRoomViewController.h"
 #import "HYChatRoomDetailsViewController.h"
 #import "HYCreateChatViewController.h"
+#import "REFrostedViewController.h"
 
-
-@interface HYListChatViewController : UIViewController<UITableViewDataSource,PagingDelegate,UITextFieldDelegate>
+@interface HYListChatViewController : UIViewController<UITableViewDataSource,PagingDelegate,UITextFieldDelegate,REFrostedViewControllerDelegate>
 {
     int selectedPageNumber;
     UIActivityIndicatorView *activityIndicatorView;

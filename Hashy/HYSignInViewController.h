@@ -8,8 +8,8 @@
 #import <UIKit/UIKit.h>
 #import "HYSignUpViewController.h"
 #import "HYSubscribersListViewController.h"
-
-@interface HYSignInViewController : UIViewController{
+#import "REFrostedViewController.h"
+@interface HYSignInViewController : UIViewController<REFrostedViewControllerDelegate>{
     
     
 }

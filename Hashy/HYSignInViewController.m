@@ -6,7 +6,10 @@
 //
 
 #import "HYSignInViewController.h"
-
+#import "DEMOHomeViewController.h"
+#import "HYListChatViewController.h"
+#import "DEMONavigationController.h"
+#import "DEMOMenuViewController.h"
 @interface HYSignInViewController ()
 
 @end
@@ -157,9 +160,21 @@
             
             [[UpdateDataProcessor sharedProcessor]updateUserDetails:dict];
             
-            HYListChatViewController *listChatVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"listChat_vc"];
-            [self.navigationController pushViewController:listChatVC animated:YES];
+          ////  HYListChatViewController *listChatVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"listChat_vc"];
+            //[self.navigationController pushViewController:listChatVC animated:YES];
             
+            DEMONavigationController *navigationController = [[DEMONavigationController alloc] initWithRootViewController:[[HYListChatViewController alloc] init]];
+            DEMOMenuViewController *menuController = [[DEMOMenuViewController alloc] initWithStyle:UITableViewStylePlain];
+            
+            // Create frosted view controller
+            //
+            REFrostedViewController *frostedViewController = [[REFrostedViewController alloc] initWithContentViewController:navigationController menuViewController:menuController];
+            frostedViewController.direction = REFrostedViewControllerDirectionLeft;
+            frostedViewController.liveBlurBackgroundStyle = REFrostedViewControllerLiveBackgroundStyleLight;
+            frostedViewController.liveBlur = YES;
+            frostedViewController.delegate = self;
+            
+
 
         }
         

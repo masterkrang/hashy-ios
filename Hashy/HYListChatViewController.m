@@ -6,6 +6,9 @@
 //
 
 #import "HYListChatViewController.h"
+#import "DEMONavigationController.h"
+#import "DEMOHomeViewController.h"
+#import "DEMOMenuViewController.h"
 
 @interface HYListChatViewController ()
 
@@ -30,10 +33,34 @@
 
 
 
+- (void)frostedViewController:(REFrostedViewController *)frostedViewController didRecognizePanGesture:(UIPanGestureRecognizer *)recognizer
+{
+    
+}
+
+- (void)frostedViewController:(REFrostedViewController *)frostedViewController willShowMenuViewController:(UIViewController *)menuViewController
+{
+    NSLog(@"willShowMenuViewController");
+}
+
+- (void)frostedViewController:(REFrostedViewController *)frostedViewController didShowMenuViewController:(UIViewController *)menuViewController
+{
+    NSLog(@"didShowMenuViewController");
+}
+
+- (void)frostedViewController:(REFrostedViewController *)frostedViewController willHideMenuViewController:(UIViewController *)menuViewController
+{
+    NSLog(@"willHideMenuViewController");
+}
+
+- (void)frostedViewController:(REFrostedViewController *)frostedViewController didHideMenuViewController:(UIViewController *)menuViewController
+{
+    NSLog(@"didHideMenuViewController");
+}
 
 -(void) setBarButtonItems{
     
-    UIBarButtonItem *leftBarButtonItem=[[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"profile_settings_button.png"] style:UIBarButtonItemStyleDone target:self action:@selector(settingsButtonPressed:)];
+    UIBarButtonItem *leftBarButtonItem=[[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Hamburget_menu_ico.png"] style:UIBarButtonItemStyleDone target:(DEMONavigationController *)self.navigationController action:@selector(settingsButtonPressed:)];
     self.navigationItem.leftBarButtonItem=leftBarButtonItem;
     
     

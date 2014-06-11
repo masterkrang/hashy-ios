@@ -111,6 +111,7 @@
 		BB0E6DB719470F8200E5185F /* Balloon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BB0E6DB619470F8200E5185F /* Balloon@2x.png */; };
 		BB0E6DBA19470F9F00E5185F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB0E6DB819470F9F00E5185F /* QuartzCore.framework */; };
 		BB0E6DBB19470F9F00E5185F /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB0E6DB919470F9F00E5185F /* Accelerate.framework */; };
+		BB2030D819488D8500B30BEB /* Hamburget_menu_ico@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BB2030D719488D8500B30BEB /* Hamburget_menu_ico@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -273,6 +274,7 @@
 		BB0E6DB619470F8200E5185F /* Balloon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Balloon@2x.png"; sourceTree = "<group>"; };
 		BB0E6DB819470F9F00E5185F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		BB0E6DB919470F9F00E5185F /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		BB2030D719488D8500B30BEB /* Hamburget_menu_ico@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Hamburget_menu_ico@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -575,6 +577,7 @@
 			children = (
 				BB0E6DB419470F6B00E5185F /* avatar@2x.jpg */,
 				BB0E6DB619470F8200E5185F /* Balloon@2x.png */,
+				BB2030D719488D8500B30BEB /* Hamburget_menu_ico@2x.png */,
 				26ACF02C1934CB9F00C4BE9E /* Images */,
 				A380DF821934695100759039 /* Hashy-Info.plist */,
 				26EB89C4193C9475005258AB /* Hashy.xcdatamodeld */,
@@ -769,6 +772,7 @@
 				2694CB3A193F3E7F00283DFA /* chat_room_other_top_left@2x.png in Resources */,
 				261BF5A51946EABA00426AF2 /* create_image@2x.png in Resources */,
 				26674EC119384BD700A032B3 /* AppIcon40x40.png in Resources */,
+				BB2030D819488D8500B30BEB /* Hamburget_menu_ico@2x.png in Resources */,
 				2694CB3B193F3E7F00283DFA /* chat_room_other_top_right@2x.png in Resources */,
 				26674ECC19384BD700A032B3 /* AppIcon76x76@2x.png in Resources */,
 				26674ECA19384BD700A032B3 /* AppIcon72x72@2x.png in Resources */,
