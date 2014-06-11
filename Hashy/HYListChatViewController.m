@@ -380,54 +380,7 @@
         
         
         NSMutableDictionary *channelDict=[self.hashTagListArray objectAtIndex:indexPath.row];
-//        NSMutableDictionary *detailChannelDict=[channelDict valueForKey:@"channel"];
-//
-//         [self getChatWithID:[detailChannelDict valueForKey:@"id"]];
 
-        
-//        if (channelDict && ![channelDict isEqual:[NSNull null]]) {
-//            
-//            NSMutableDictionary *detailChannelDict=[channelDict valueForKey:@"channel"];
-//            NSLog(@"%@",detailChannelDict);
-//            
-//            HYChatRoomViewController *chatVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"chatRoom_vc"];
-//            
-//            
-//            if ([detailChannelDict valueForKey:@"name"] && ![[detailChannelDict valueForKey:@"name"]isEqual:[NSNull null]] && [[detailChannelDict valueForKey:@"name"] length]>0){
-//                
-//                chatVC.chatNameString=[detailChannelDict valueForKey:@"name"];
-//                
-//            }
-//            else{
-//                chatVC.chatNameString=@"name";
-//                
-//            }
-//            
-//            if ([detailChannelDict valueForKey:@"subscribers_count"] && ![[detailChannelDict valueForKey:@"subscribers_count"]isEqual:[NSNull null]] && [[detailChannelDict valueForKey:@"subscribers_count"] length]>0) {
-//                
-//                chatVC.subscribersCountString=[detailChannelDict valueForKey:@"subscribers_count"];
-//                
-//                
-//            }
-//            else{
-//                
-//                chatVC.subscribersCountString=@"0";
-//                
-//            }
-//            chatVC.chatDict=detailChannelDict;
-//            
-//            
-//            
-//            [self.navigationController pushViewController:chatVC animated:YES];
-//            // [self getChatWithID:[detailChannelDict valueForKey:@"id"]];
-//            
-//            
-//            
-//            
-//            
-//            
-//        }
-        
         
         if (channelDict && ![channelDict isEqual:[NSNull null]]) {
             
@@ -660,11 +613,7 @@
     
     
     
-    if ([hashTagDict valueForKey:@"subscribers_count"] && ![[hashTagDict valueForKey:@"subscribers_count"]isEqual:[NSNull null]]) {
-        
-        
-        
-    }
+   
     
     
 }
@@ -730,6 +679,10 @@
     
    // [self.navigationController popViewControllerAnimated:YES];
     HYProfileViewController *profileVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"profile_vc"];
+    NSNumber *user_id_num=[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id;
+    int user_int=user_id_num.intValue;
+    profileVC.user_id=[NSString stringWithFormat:@"%d",user_int];
+    
     
     [self.navigationController pushViewController:profileVC animated:YES];
 

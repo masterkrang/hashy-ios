@@ -254,6 +254,9 @@
     
     cell.userNameLabel.textColor=[Utility colorWithHexString:@"888888"];
     [cell.userNameLabel setFont:[UIFont fontWithName:kHelVeticaNeueRegular size:15.5]];
+    [cell.maskButton setBackgroundImage:nil forState:UIControlStateHighlighted];
+    [cell.maskButton setBackgroundImage:nil forState:UIControlStateSelected];
+    cell.userProfilePictureImageView.image=nil;
     
     if (subscribersListArray.count>indexPath.row) {
         
@@ -473,6 +476,75 @@
     }
     
 }
+
+-(IBAction)userImageButtonPressed:(UIButton *)sender{
+    
+    SubscribersCustomCell *cell;
+    
+    if (isIOSVersion7) {
+        cell=(SubscribersCustomCell *) [[[sender superview] superview]superview];
+        
+    }
+    else
+        cell=(SubscribersCustomCell *) [[sender superview] superview];
+ 
+    NSIndexPath *indexPath=[subscribersTableView indexPathForCell:cell];
+    if (subscribersListArray.count>indexPath.row) {
+        
+        
+        NSMutableDictionary *userDict=[subscribersListArray objectAtIndex:indexPath.row];
+        int user_id_int;
+        
+        if ([userDict valueForKey:@"user"] && ![[userDict valueForKey:@"user"]isEqual:[NSNull null]]) {
+            
+            NSMutableDictionary *userDetailsDict=[userDict valueForKey:@"user"];
+            
+            
+            if ([userDetailsDict valueForKey:@"id"] && ![[userDetailsDict valueForKey:@"id"]isEqual:[NSNull null]]) {
+                
+                
+                NSNumber *user_id_num=[userDetailsDict valueForKey:@"id"];
+                user_id_int=user_id_num.intValue;
+                
+                
+            }
+            
+            
+        }
+        else if ([userDict valueForKey:@"channel_subscription"] && ![[userDict valueForKey:@"channel_subscription"]isEqual:[NSNull null]]){
+            
+            
+            NSMutableDictionary *userDetailDict=[userDict valueForKey:@"channel_subscription"];
+        
+            if ([userDetailDict valueForKey:@"id"] && ![[userDetailDict valueForKey:@"id"]isEqual:[NSNull null]]) {
+                
+                
+                NSNumber *user_id_num=[userDetailDict valueForKey:@"id"];
+                user_id_int=user_id_num.intValue;
+                
+                
+            }
+
+            
+            
+        }
+        
+        if (user_id_int>0) {
+            
+        HYProfileViewController *profileVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"profile_vc"];
+        profileVC.user_id=[NSString stringWithFormat:@"%d",user_id_int];
+        [self.navigationController pushViewController:profileVC animated:YES];
+            
+            
+        }
+        
+        
+    }
+    
+    
+    
+}
+
 
 #pragma maark Did Disappear Functions
 

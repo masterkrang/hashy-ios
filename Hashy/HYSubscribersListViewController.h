@@ -11,6 +11,7 @@
 #import "Utility.h"
 #import "SubscribersCustomCell.h"
 #import "NetworkEngine.h"
+#import "HYProfileViewController.h"
 
 @interface HYSubscribersListViewController : UIViewController<UITableViewDataSource,PagingDelegate>
 {
@@ -30,6 +31,6 @@
 @property(nonatomic,strong) NSString *chat_id_string;
 @property(strong,nonatomic)IBOutlet UIView *bottomView;
 
-
+-(IBAction)userImageButtonPressed:(UIButton *)sender;
 
 @end
