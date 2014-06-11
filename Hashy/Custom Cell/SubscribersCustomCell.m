@@ -12,6 +12,8 @@
 @synthesize userNameLabel;
 @synthesize maskButton;
 @synthesize userProfilePictureImageView;
+@synthesize guardImageView;
+
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

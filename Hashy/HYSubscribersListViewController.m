@@ -19,6 +19,7 @@
 @synthesize subscribersCountString;
 @synthesize searchContainerView;
 @synthesize chat_id_string;
+@synthesize bottomView;
 
 
 
@@ -32,13 +33,6 @@
 }
 
 
--(void)viewWillAppear:(BOOL)animated{
-    
-    [super viewWillAppear:animated];
-    self.navigationController.navigationBarHidden=NO;
-    self.navigationItem.hidesBackButton=YES;
-    
-}
 
 -(void)setSearchTextField{
     
@@ -69,6 +63,7 @@
     //    subscriberButtonCount.backgroundColor=[UIColor orangeColor];
        [subscriberButtonCount setTitle:subscribersCountString forState:UIControlStateNormal];
     [subscriberButtonCount setTitleColor:[Utility colorWithHexString:kHexValueLightGreenColor] forState:UIControlStateNormal];
+    [subscriberButtonCount.titleLabel setFont:[UIFont fontWithName:kHelVeticaNeueMedium size:17]];
     subscriberButtonCount.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
    
     
@@ -86,6 +81,19 @@
     self.navigationItem.rightBarButtonItem=rightBarButtonItem;
 }
 
+
+-(void)viewWillAppear:(BOOL)animated{
+    
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden=NO;
+    self.navigationItem.hidesBackButton=YES;
+    self.subscribersTableView.selectedPageNumber=1;
+    [self getSubscribersListForChatID:chat_id_string forPageNumber:self.subscribersTableView.selectedPageNumber];
+    
+
+}
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -96,7 +104,16 @@
     [self setSearchTextField];
     
     [self setNavigationBarItems];
+    activityIndicatorView=[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    activityIndicatorView.frame=CGRectMake((self.view.frame.size.width/2)-10, 0, 20, 20);
+    [activityIndicatorView setColor:[UIColor darkGrayColor]];
+    [bottomView addSubview:activityIndicatorView];
+    [activityIndicatorView startAnimating];
+    bottomView.hidden=YES;
     
+    bottomView.backgroundColor=[UIColor whiteColor];
+    
+
     subscribersTableView.separatorColor=[Utility colorWithHexString:@"cbcbcb"];
     
     
@@ -104,9 +121,11 @@
         self.subscribersListArray=[[NSMutableArray alloc]init];
         
     }
-    selectedPageNumber=1;
-    [self getSubscribersListForChatID:chat_id_string forPageNumber:selectedPageNumber];
     
+    self.subscribersTableView.separatorColor=[Utility colorWithHexString:@"cbcbcb"];
+//    self.subscribersTableView.selectedPageNumber=1;
+//    [self getSubscribersListForChatID:chat_id_string forPageNumber:self.subscribersTableView.selectedPageNumber];
+//    
     
 	// Do any additional setup after loading the view.
 }
@@ -116,17 +135,21 @@
 
 -(void)searchSubscribers:(NSString *)searched_user forPageNumber:(int)page_number{
     
-    subscribersTableView.pageLocked=YES;
+
+    if (page_number>1) {
+        bottomView.hidden=NO;
+        [activityIndicatorView startAnimating];
+    }
+    [[[[NetworkEngine sharedNetworkEngine]httpManager]operationQueue]cancelAllOperations];
 
     [[NetworkEngine sharedNetworkEngine]searchSubscribers:^(id object) {
         
         NSLog(@"%@",object);
-        subscribersTableView.pageLocked=NO;
         
         if (![object isEqual:[NSNull null]] && [object isKindOfClass:[NSArray class]]) {
             
             
-            if (selectedPageNumber==1)
+            if (page_number==1)
                 [self.subscribersListArray removeAllObjects];
             
             if (!self.subscribersListArray) {
@@ -136,20 +159,22 @@
                 
             }
             NSMutableArray *objectsArray=[object mutableCopy];
-            [self.subscribersListArray addObjectsFromArray:[object mutableCopy]];
+            [self.subscribersListArray addObjectsFromArray:objectsArray];
             // [self.subscribersListArray addObjectsFromArray:[object mutableCopy]];
             
             
             [self.subscribersTableView reloadData];
             self.subscribersTableView.pageLocked=NO;
-//            if (objectsArray.count>24) {
-//                
-//                selectedPageNumber+=1;
-//                
-//                [self searchSubscribers:searched_user forPageNumber:selectedPageNumber];
-//                
-//                
-//            }
+            bottomView.hidden=YES;
+            [activityIndicatorView stopAnimating];
+            //            if (objectsArray.count>24) {
+            //
+            //                selectedPageNumber+=1;
+            //
+            //                [self searchSubscribers:searched_user forPageNumber:selectedPageNumber];
+            //
+            //
+            //            }
             
             
             
@@ -157,27 +182,31 @@
         
     } onError:^(NSError *error) {
         subscribersTableView.pageLocked=NO;
-
+        bottomView.hidden=YES;
+        [activityIndicatorView stopAnimating];
         NSLog(@"%@",error);
         
-    } forSearchedText:searched_user forPageNumber:page_number];
+    } forChat_id:chat_id_string forSearchedText:searched_user forPageNumber:subscribersTableView.selectedPageNumber];
+    
     
     
 }
 
 -(void)getSubscribersListForChatID:(NSString *)chat_id forPageNumber:(int)page_number{
     
-    subscribersTableView.pageLocked=YES;
-
+    if (page_number>1) {
+        bottomView.hidden=NO;
+        [activityIndicatorView startAnimating];
+    }
+    
     [[NetworkEngine sharedNetworkEngine]getSubscribersList:^(id object) {
         
         NSLog(@"%@",object);
-        subscribersTableView.pageLocked=NO;
         
         if (![object isEqual:[NSNull null]] && [object isKindOfClass:[NSArray class]]) {
             
             
-            if (selectedPageNumber==1)
+            if (self.subscribersTableView.selectedPageNumber==1)
                 [self.subscribersListArray removeAllObjects];
             
             if (!self.subscribersListArray) {
@@ -193,7 +222,8 @@
             
             [self.subscribersTableView reloadData];
             self.subscribersTableView.pageLocked=NO;
-          
+            bottomView.hidden=YES;
+            [activityIndicatorView stopAnimating];
             
             
         }
@@ -201,7 +231,8 @@
     } onError:^(NSError *error) {
         NSLog(@"%@",error);
         subscribersTableView.pageLocked=NO;
-
+        bottomView.hidden=YES;
+        [activityIndicatorView stopAnimating];
     } forChatID:chat_id forPageNumber:page_number];
     
 }
@@ -222,6 +253,73 @@
     
     
     cell.userNameLabel.textColor=[Utility colorWithHexString:@"888888"];
+    [cell.userNameLabel setFont:[UIFont fontWithName:kHelVeticaNeueRegular size:15.5]];
+    
+    if (subscribersListArray.count>indexPath.row) {
+        
+        NSMutableDictionary *userDict=[subscribersListArray objectAtIndex:indexPath.row];
+        
+        
+        if ([userDict valueForKey:@"user"] && ![[userDict valueForKey:@"user"]isEqual:[NSNull null]]) {
+            
+            NSMutableDictionary *userDetailDict=[userDict valueForKey:@"user"];
+            
+            
+            if ([userDetailDict valueForKey:@"user_name"] && ![[userDetailDict valueForKey:@"user_name"]isEqual:[NSNull null]] && [[userDetailDict valueForKey:@"user_name"] length]>0) {
+                
+                cell.userNameLabel.text=[userDetailDict valueForKey:@"user_name"];
+                
+                
+            }
+            else{
+                cell.userNameLabel.text=@"";
+            }
+            
+            
+            
+            if ([userDetailDict valueForKey:@"avatar_url"] && ![[userDetailDict valueForKey:@"avatar_url"]isEqual:[NSNull null]]) {
+                
+                
+                NSURL *url=[NSURL URLWithString:[userDetailDict valueForKey:@"avatar_url"]];
+                
+                NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:url];
+                
+                typeof (cell.userProfilePictureImageView) weakSelf=cell.userProfilePictureImageView;
+                [cell.userProfilePictureImageView setImageWithURLRequest:request placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                    
+                    weakSelf.image=image;
+                    
+                    
+                } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                    
+                    
+                    
+                }];
+                
+                
+            }
+            
+            
+        }
+        else if ([userDict valueForKey:@"channel_subscription"] && ![[userDict valueForKey:@"channel_subscription"]isEqual:[NSNull null]]){
+            
+            
+            NSMutableDictionary *userDetailDict=[userDict valueForKey:@"channel_subscription"];
+            if ([userDetailDict valueForKey:@"user_name"] && ![[userDetailDict valueForKey:@"user_name"]isEqual:[NSNull null]] && [[userDetailDict valueForKey:@"user_name"] length]>0) {
+                
+                cell.userNameLabel.text=[userDetailDict valueForKey:@"user_name"];
+                
+                
+            }
+            else{
+                cell.userNameLabel.text=@"";
+            }
+
+            cell.userProfilePictureImageView.image=nil;
+        }
+        
+    }
+   
     
     return cell;
     
@@ -237,7 +335,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return 65;
+    return 64;
     
     
 }
@@ -257,7 +355,7 @@
     
     UILabel *subscribersLabel=[[UILabel alloc]initWithFrame:CGRectMake(35,0, 200, 30)];
     subscribersLabel.text=@"SUBSCRIBERS";
-    subscribersLabel.font=[UIFont systemFontOfSize:17];;
+    subscribersLabel.font=[UIFont fontWithName:kHelVeticaNeueMedium size:12.5];;
     subscribersLabel.textColor=[Utility colorWithHexString:@"888888"];;
     
     
@@ -286,7 +384,7 @@
 
 -(CGFloat) tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     
-    return 1;
+    return 3;
     
 }
 
@@ -295,9 +393,9 @@
     
     
     
-    if (searchTextField.text.length>0) {
+    if (searchTextField.text.length<1) {
         
-        if (subscribersListArray.count%25==0) {
+        if (subscribersListArray.count%15==0) {
             
             
             [self getSubscribersListForChatID:chat_id_string forPageNumber:subscribersTableView.selectedPageNumber];
@@ -308,7 +406,7 @@
         
     }
     else{
-        if (subscribersListArray.count%25==0) {
+        if (subscribersListArray.count%15==0) {
             
             
             [self searchSubscribers:searchTextField.text forPageNumber:subscribersTableView.selectedPageNumber];
@@ -336,7 +434,8 @@
         
         
         NSString * searchString = [[textField text] stringByReplacingCharactersInRange:range withString:string];
-        [self searchSubscribers:searchString forPageNumber:selectedPageNumber];
+        subscribersTableView.selectedPageNumber=1;
+        [self searchSubscribers:searchString forPageNumber:subscribersTableView.selectedPageNumber];
         return YES;
         
         
@@ -382,6 +481,7 @@
     
     [super viewWillDisappear:animated];
     selectedPageNumber=1;
+    subscribersTableView.selectedPageNumber=1;
     searchTextField.text=@"";
     [searchTextField resignFirstResponder];
     

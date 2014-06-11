@@ -312,7 +312,7 @@
                                 <rect key="frame" x="79" y="144" width="163" height="163"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <state key="normal" backgroundImage="E17DE675-C2A7-4777-8C2A-1B84681ACD46">
+                                <state key="normal" backgroundImage="ED42E11A-1825-41ED-A60B-7E1B6B24AA50">
                                     <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -756,7 +756,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="27" sectionFooterHeight="1" id="0gE-wb-EV3" customClass="PageTableView">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="50" sectionHeaderHeight="27" sectionFooterHeight="1" id="0gE-wb-EV3" customClass="PageTableView">
                                 <rect key="frame" x="0.0" y="35" width="320" height="531"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -768,18 +768,22 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="71"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ROR-WQ-M6D">
-                                                    <rect key="frame" x="10" y="19" width="46" height="30"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="vkj-yP-e5e">
+                                                    <rect key="frame" x="20" y="14" width="35" height="35"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <state key="normal">
+                                                </imageView>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ROR-WQ-M6D">
+                                                    <rect key="frame" x="20" y="14" width="35" height="35"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" backgroundImage="subscribers_container.png">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                 </button>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="vkj-yP-e5e">
-                                                    <rect key="frame" x="20" y="14" width="36" height="36"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="EiJ-ec-wIh">
+                                                    <rect key="frame" x="20" y="14" width="35" height="35"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CoolGirl69" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0bI-hc-bFa">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0bI-hc-bFa">
                                                     <rect key="frame" x="66" y="19" width="250" height="27"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
@@ -789,6 +793,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="guardImageView" destination="EiJ-ec-wIh" id="4Qu-0e-02j"/>
                                             <outlet property="maskButton" destination="ROR-WQ-M6D" id="8lV-aB-xhW"/>
                                             <outlet property="userNameLabel" destination="0bI-hc-bFa" id="wzN-Tm-3E1"/>
                                             <outlet property="userProfilePictureImageView" destination="vkj-yP-e5e" id="2AU-tJ-31m"/>
@@ -816,10 +821,16 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
+                            <view contentMode="scaleToFill" id="m95-IV-oor">
+                                <rect key="frame" x="0.0" y="548" width="320" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
+                        <outlet property="bottomView" destination="m95-IV-oor" id="HTg-gU-d6n"/>
                         <outlet property="searchContainerView" destination="vh6-06-ULb" id="DyA-W2-xu6"/>
                         <outlet property="searchTextField" destination="HIo-mf-k7B" id="4gY-VN-T3I"/>
                         <outlet property="subscribersTableView" destination="0gE-wb-EV3" id="Lgy-Vu-X8Q"/>
@@ -831,7 +842,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="E17DE675-C2A7-4777-8C2A-1B84681ACD46" width="326" height="326">
+        <image name="ED42E11A-1825-41ED-A60B-7E1B6B24AA50" width="326" height="326">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -7978,6 +7989,7 @@ BobjA
         <image name="profile_forward_icon.png" width="11" height="20"/>
         <image name="profile_green_dot.png" width="9" height="9"/>
         <image name="profile_image_container.png" width="96" height="96"/>
+        <image name="subscribers_container.png" width="35" height="35"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

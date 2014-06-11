@@ -421,7 +421,7 @@ static NetworkEngine *sharedNetworkEngine=nil;
         
         if (response.statusCode==200) {
             
-            if(responseObject &&![responseObject isEqual:[NSNull null]])
+            if(responseObject &&![responseObject isEqual:[NSNull null]] && [responseObject isKindOfClass:[NSArray class]])
             {
                 completionBlock(responseObject);
             }
@@ -593,10 +593,10 @@ static NetworkEngine *sharedNetworkEngine=nil;
 
 
 
--(void)searchSubscribers:(completion_block)completionBlock onError:(error_block)errorBlock forSearchedText:(NSString *)searched_text forPageNumber:(int) pageNumber{
+-(void)searchSubscribers:(completion_block)completionBlock onError:(error_block)errorBlock forChat_id:(NSString *)chat_id forSearchedText:(NSString *)searched_text forPageNumber:(int) pageNumber{
     
     NSString *pageNumberStr=[NSString stringWithFormat:@"%d",pageNumber];
-    NSString *urlString=[NSString stringWithFormat:@"%@/chats/%@/search_subscribers.json?term=ku&page=%@&per=25",kServerHostName,searched_text,pageNumberStr];
+    NSString *urlString=[NSString stringWithFormat:@"%@/chats/%@/search_subscribers.json?term=%@&page=%@&per=15",kServerHostName,chat_id,searched_text,pageNumberStr];
     
     [self.httpManager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"JSON: %@", responseObject);
