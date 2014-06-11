@@ -68,16 +68,7 @@
 
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    self.title=@"Profile";
-    editUserProfileImageButton.hidden=YES;
-
-    self.navigationController.navigationBarHidden=NO;
-    self.navigationItem.hidesBackButton=YES;
-    [userProfileImageButton setBackgroundImage:nil forState:UIControlStateHighlighted];
-    [self setBarButtonItems];
+-(void)setProfileScreenUI{
     activityIndicatorView=[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
     activityIndicatorView.frame=CGRectMake((self.view.frame.size.width/2)-10, 0, 20, 20);
     [activityIndicatorView setColor:[UIColor darkGrayColor]];
@@ -91,6 +82,31 @@
     
     self.view.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];
     self.profilePageTableView.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];
+    
+//    if (!IS_IPHONE_5) {
+//        
+//        CGRect tableFrame=self.profilePageTableView.frame;
+//        tableFrame.size.height=50;
+//        self.profilePageTableView.frame=tableFrame;
+//        
+//        
+//    }
+    
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    self.title=@"Profile";
+    editUserProfileImageButton.hidden=YES;
+
+    self.navigationController.navigationBarHidden=NO;
+    self.navigationItem.hidesBackButton=YES;
+    [userProfileImageButton setBackgroundImage:nil forState:UIControlStateHighlighted];
+    [self setBarButtonItems];
+   
+    [self setProfileScreenUI];
+    
     
    
     [profilePageTableView setupTablePaging];

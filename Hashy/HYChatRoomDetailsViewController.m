@@ -80,7 +80,7 @@
     
     
     UIImageView *imageView=[[UIImageView alloc]initWithFrame:CGRectMake((subscriberButtonCount.frame.size.width -5 - (subscribersCountString.length+1) *9), 15, 10, 10)];
-    [imageView setImage:[UIImage imageNamed:@"profile_green_dot.png"]];
+    [imageView setImage:[UIImage imageNamed:kGreenDot]];
     
     [subscriberButtonCount addSubview:imageView];
     
@@ -153,6 +153,12 @@
     
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    
+    [super viewWillAppear:animated];
+    sendMessageButton.enabled=NO;
+}
+
 
 - (void)viewDidLoad
 {
@@ -175,6 +181,13 @@
     
     
     [self subscribeToPubNubChannel:chatIDString];
+    
+    
+    [sendMessageButton setTitleColor:[Utility colorWithHexString:@"157dfb"] forState:UIControlStateNormal];
+    [sendMessageButton setTitleColor:[Utility colorWithHexString:@"cecece"] forState:UIControlStateDisabled];
+    [sendMessageButton.titleLabel setFont:[UIFont fontWithName:kHelVeticaNeueMedium size:16]];
+    
+    
     //   [self getChatWithID:[chatDict valueForKey:@"id"]];
     
     
@@ -339,8 +352,15 @@
         
         chatRoomMessageArray=[messageArray mutableCopy];
         [chatRoomTableView reloadData];
-        //   [chatRoomTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:chatRoomMessageArray.count-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
         
+        
+        if (chatRoomMessageArray.count) {
+           // [self.chatRoomTableView beginUpdates];
+            [chatRoomTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[chatRoomTableView numberOfRowsInSection:0]-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+            //[self.chatRoomTableView endUpdates];
+        }
+        
+        //[chatRoomTableView setContentOffset:CGPointMake(0, CGFLOAT_MAX)];
         
         
     }];
@@ -475,12 +495,15 @@
 
 -(BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
     
-   // textField.text = [NSString stringWithFormat:@"%@%@",textField.text,string];
-    if (messagetextField.text.length>0) {
+    NSString * searchString = [[textField text] stringByReplacingCharactersInRange:range withString:string];
+    if (searchString.length>0) {
+        
+        
+        sendMessageButton.enabled=YES;
         
     }
     else{
-    
+        sendMessageButton.enabled=NO;
     }
     
     return YES;
@@ -1287,7 +1310,7 @@
 
     
     messagetextField.text=@"";
-    
+    sender.enabled=NO;
     
     
     [PubNub sendMessage:messageDict toChannel:masterChannel withCompletionBlock:^(PNMessageState messageState, id response) {
@@ -1613,6 +1636,15 @@ didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result{
         
         
     }];
+    
+}
+
+
+-(void)viewWillDisappear:(BOOL)animated{
+    
+    [super viewWillDisappear:animated];
+    messagetextField.text=@"";
+    
     
 }
 

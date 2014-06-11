@@ -71,7 +71,7 @@
    
     
     UIImageView *imageView=[[UIImageView alloc]initWithFrame:CGRectMake((subscriberButtonCount.frame.size.width -5 - (subscribersCountString.length+1) *9), 15, 10, 10)];
-    [imageView setImage:[UIImage imageNamed:@"profile_green_dot.png"]];
+    [imageView setImage:[UIImage imageNamed:kGreenDot]];
     
     [subscriberButtonCount addSubview:imageView];
     
@@ -322,8 +322,28 @@
                 cell.userNameLabel.text=@"";
             }
 
-            cell.userProfilePictureImageView.image=nil;
-        }
+            
+            if ([userDetailDict valueForKey:@"avatar_url"] && ![[userDetailDict valueForKey:@"avatar_url"]isEqual:[NSNull null]]) {
+                
+                
+                NSURL *url=[NSURL URLWithString:[userDetailDict valueForKey:@"avatar_url"]];
+                
+                NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:url];
+                
+                typeof (cell.userProfilePictureImageView) weakSelf=cell.userProfilePictureImageView;
+                [cell.userProfilePictureImageView setImageWithURLRequest:request placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                    
+                    weakSelf.image=image;
+                    
+                    
+                } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                    
+                    
+                    
+                }];
+                
+                
+            }        }
         
     }
    
@@ -342,7 +362,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return 64;
+    return 50;
     
     
 }
@@ -357,7 +377,7 @@
     headerView.backgroundColor=[UIColor whiteColor];
     
     UIImageView *imageView=[[UIImageView alloc]initWithFrame:CGRectMake(20, 10, 10, 10)];
-    [imageView setImage:[UIImage imageNamed:@"profile_green_dot.png"]];
+    [imageView setImage:[UIImage imageNamed:kGreenDot]];
     
     
     UILabel *subscribersLabel=[[UILabel alloc]initWithFrame:CGRectMake(35,0, 200, 30)];
@@ -520,10 +540,10 @@
             
             NSMutableDictionary *userDetailDict=[userDict valueForKey:@"channel_subscription"];
         
-            if ([userDetailDict valueForKey:@"id"] && ![[userDetailDict valueForKey:@"id"]isEqual:[NSNull null]]) {
+            if ([userDetailDict valueForKey:@"user_id"] && ![[userDetailDict valueForKey:@"user_id"]isEqual:[NSNull null]]) {
                 
                 
-                NSNumber *user_id_num=[userDetailDict valueForKey:@"id"];
+                NSNumber *user_id_num=[userDetailDict valueForKey:@"user_id"];
                 user_id_int=user_id_num.intValue;
                 
                 

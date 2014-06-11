@@ -845,7 +845,7 @@
 -(void)viewWillDisappear:(BOOL)animated{
     
     [super viewWillDisappear:animated];
-    selectedPageNumber=1;
+    createChatTableView.selectedPageNumber=1;
     searchTextField.text=@"";
     [searchTextField resignFirstResponder];
     
@@ -853,6 +853,13 @@
 }
 
 
+-(void) viewDidDisappear:(BOOL)animated{
+    
+    [super viewDidDisappear:animated];
+    createView.hidden=YES;
+    
+    
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

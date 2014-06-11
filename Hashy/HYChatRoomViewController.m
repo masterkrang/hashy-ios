@@ -45,7 +45,7 @@ static NSString * const kJSQDemoAvatarNameWoz = @"Steve Wozniak";
     
     
     UIImageView *imageView=[[UIImageView alloc]initWithFrame:CGRectMake((subscriberButtonCount.frame.size.width -5 - (subscribersCountString.length+1) *9), 15, 10, 10)];
-    [imageView setImage:[UIImage imageNamed:@"profile_green_dot.png"]];
+    [imageView setImage:[UIImage imageNamed:kGreenDot]];
     
     [subscriberButtonCount addSubview:imageView];
     
