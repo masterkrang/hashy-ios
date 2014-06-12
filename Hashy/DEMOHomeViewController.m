@@ -7,7 +7,7 @@
 //
 
 #import "DEMOHomeViewController.h"
-#import "DEMONavigationController.h"
+#import "CustomNavigationController.h"
 
 @interface DEMOHomeViewController ()
 
@@ -21,7 +21,7 @@
 	self.title = @"Home Page";
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Menu"
                                                                              style:UIBarButtonItemStylePlain
-                                                                            target:(DEMONavigationController *)self.navigationController
+                                                                            target:(CustomNavigationController *)self.navigationController
                                                                             action:@selector(showMenu)];
     
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:self.view.bounds];

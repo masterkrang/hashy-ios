@@ -114,7 +114,6 @@
 		BB0E6DA719470F5500E5185F /* UIViewController+REFrostedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BB0E6DA119470F5500E5185F /* UIViewController+REFrostedViewController.m */; };
 		BB0E6DB019470F5D00E5185F /* DEMOHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BB0E6DA919470F5D00E5185F /* DEMOHomeViewController.m */; };
 		BB0E6DB119470F5D00E5185F /* DEMOMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BB0E6DAB19470F5D00E5185F /* DEMOMenuViewController.m */; };
-		BB0E6DB219470F5D00E5185F /* DEMONavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = BB0E6DAD19470F5D00E5185F /* DEMONavigationController.m */; };
 		BB0E6DB319470F5D00E5185F /* DEMOSecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BB0E6DAF19470F5D00E5185F /* DEMOSecondViewController.m */; };
 		BB0E6DB519470F6B00E5185F /* avatar@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BB0E6DB419470F6B00E5185F /* avatar@2x.jpg */; };
 		BB0E6DB719470F8200E5185F /* Balloon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BB0E6DB619470F8200E5185F /* Balloon@2x.png */; };
@@ -284,8 +283,6 @@
 		BB0E6DA919470F5D00E5185F /* DEMOHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DEMOHomeViewController.m; sourceTree = "<group>"; };
 		BB0E6DAA19470F5D00E5185F /* DEMOMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DEMOMenuViewController.h; sourceTree = "<group>"; };
 		BB0E6DAB19470F5D00E5185F /* DEMOMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DEMOMenuViewController.m; sourceTree = "<group>"; };
-		BB0E6DAC19470F5D00E5185F /* DEMONavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DEMONavigationController.h; sourceTree = "<group>"; };
-		BB0E6DAD19470F5D00E5185F /* DEMONavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DEMONavigationController.m; sourceTree = "<group>"; };
 		BB0E6DAE19470F5D00E5185F /* DEMOSecondViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DEMOSecondViewController.h; sourceTree = "<group>"; };
 		BB0E6DAF19470F5D00E5185F /* DEMOSecondViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DEMOSecondViewController.m; sourceTree = "<group>"; };
 		BB0E6DB419470F6B00E5185F /* avatar@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "avatar@2x.jpg"; sourceTree = "<group>"; };
@@ -681,8 +678,6 @@
 				BB0E6DA919470F5D00E5185F /* DEMOHomeViewController.m */,
 				BB0E6DAA19470F5D00E5185F /* DEMOMenuViewController.h */,
 				BB0E6DAB19470F5D00E5185F /* DEMOMenuViewController.m */,
-				BB0E6DAC19470F5D00E5185F /* DEMONavigationController.h */,
-				BB0E6DAD19470F5D00E5185F /* DEMONavigationController.m */,
 				BB0E6DAE19470F5D00E5185F /* DEMOSecondViewController.h */,
 				BB0E6DAF19470F5D00E5185F /* DEMOSecondViewController.m */,
 			);
@@ -899,7 +894,6 @@
 			files = (
 				BB0E6DB019470F5D00E5185F /* DEMOHomeViewController.m in Sources */,
 				26F870E119386BC8001A6413 /* SubscribersCustomCell.m in Sources */,
-				BB0E6DB219470F5D00E5185F /* DEMONavigationController.m in Sources */,
 				A380DF911934695100759039 /* HYViewController.m in Sources */,
 				26ACF0271934C45700C4BE9E /* PageTableView.m in Sources */,
 				269347E719374CFF0048CCA2 /* GKImageCropView.m in Sources */,

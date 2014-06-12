@@ -9,7 +9,7 @@
 #import "DEMOMenuViewController.h"
 #import "DEMOHomeViewController.h"
 #import "DEMOSecondViewController.h"
-#import "DEMONavigationController.h"
+#import "CustomNavigationController.h"
 #import "UIViewController+REFrostedViewController.h"
 #import "HYListChatViewController.h"
 
@@ -93,11 +93,11 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if ((indexPath.section == 0 && indexPath.row == 0)    || indexPath.row==1) {
         HYListChatViewController *homeViewController = [[HYListChatViewController alloc] init];
-        DEMONavigationController *navigationController = [[DEMONavigationController alloc] initWithRootViewController:homeViewController];
+        CustomNavigationController *navigationController = [[CustomNavigationController alloc] initWithRootViewController:homeViewController];
         self.frostedViewController.contentViewController = navigationController;
     } else if ((indexPath.section == 0 && indexPath.row == 2)) {
         DEMOSecondViewController *secondViewController = [[DEMOSecondViewController alloc] init];
-        DEMONavigationController *navigationController = [[DEMONavigationController alloc] initWithRootViewController:secondViewController];
+        CustomNavigationController *navigationController = [[CustomNavigationController alloc] initWithRootViewController:secondViewController];
         self.frostedViewController.contentViewController = navigationController;
     }
     else if ((indexPath.section == 0 && indexPath.row == 3)) {

@@ -8,7 +8,7 @@
 #import "HYSignInViewController.h"
 #import "DEMOHomeViewController.h"
 #import "HYListChatViewController.h"
-#import "DEMONavigationController.h"
+#import "CustomNavigationController.h"
 #import "DEMOMenuViewController.h"
 @interface HYSignInViewController ()
 
@@ -168,7 +168,7 @@
           ////  HYListChatViewController *listChatVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"listChat_vc"];
             //[self.navigationController pushViewController:listChatVC animated:YES];
             
-            DEMONavigationController *navigationController = [[DEMONavigationController alloc] initWithRootViewController:[[HYListChatViewController alloc] init]];
+            CustomNavigationController *navigationController = [[CustomNavigationController alloc] initWithRootViewController:[[HYListChatViewController alloc] init]];
             DEMOMenuViewController *menuController = [[DEMOMenuViewController alloc] initWithStyle:UITableViewStylePlain];
             
             // Create frosted view controller

@@ -6,7 +6,7 @@
 //
 
 #import "HYListChatViewController.h"
-#import "DEMONavigationController.h"
+#import "CustomNavigationController.h"
 #import "DEMOHomeViewController.h"
 #import "DEMOMenuViewController.h"
 
@@ -60,7 +60,7 @@
 
 -(void) setBarButtonItems{
     
-    UIBarButtonItem *leftBarButtonItem=[[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Hamburget_menu_ico.png"] style:UIBarButtonItemStyleDone target:(DEMONavigationController *)self.navigationController action:@selector(showMenu)];
+    UIBarButtonItem *leftBarButtonItem=[[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Hamburget_menu_ico.png"] style:UIBarButtonItemStyleDone target:(CustomNavigationController *)self.navigationController action:@selector(showMenu)];
     self.navigationItem.leftBarButtonItem=leftBarButtonItem;
     
     
