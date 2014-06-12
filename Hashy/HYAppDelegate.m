@@ -6,7 +6,10 @@
 //
 
 #import "HYAppDelegate.h"
-
+#import "CustomNavigationController.h"
+#import "DEMOMenuViewController.h"
+#import "DEMOSecondViewController.h"
+#import "REFrostedViewController.h"
 @implementation HYAppDelegate
 @synthesize managedObjectContext = __managedObjectContext;
 @synthesize managedObjectModel = __managedObjectModel;
@@ -63,7 +66,21 @@
     if ([[UpdateDataProcessor sharedProcessor]currentUserInfo]) {
         
         HYListChatViewController *listChatVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"listChat_vc"];
-        [navController setViewControllers:[NSArray arrayWithObject:listChatVC] animated:YES];
+        //[navController setViewControllers:[NSArray arrayWithObject:listChatVC] animated:YES];
+        
+        
+        CustomNavigationController *navigationController = [[CustomNavigationController alloc] initWithRootViewController:listChatVC];
+        DEMOMenuViewController *menuController = [[DEMOMenuViewController alloc] initWithStyle:UITableViewStylePlain];
+        
+        // Create frosted view controller
+        //
+        REFrostedViewController *frostedViewController = [[REFrostedViewController alloc] initWithContentViewController:navigationController menuViewController:menuController];
+        frostedViewController.direction = REFrostedViewControllerDirectionLeft;
+        frostedViewController.liveBlurBackgroundStyle = REFrostedViewControllerLiveBackgroundStyleLight;
+        frostedViewController.liveBlur = YES;
+        frostedViewController.delegate = self;
+        self.window.rootViewController =frostedViewController;
+
         
     }
     else{
