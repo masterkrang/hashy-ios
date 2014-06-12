@@ -10,7 +10,6 @@
 #import "ProfileCustomCell.h"
 #import "NetworkEngine.h"
 #import "Utility.h"
-#import "HYChatRoomViewController.h"
 #import "HYChatRoomDetailsViewController.h"
 #import "HYCreateChatViewController.h"
 #import "EGORefreshTableHeaderView.h"
