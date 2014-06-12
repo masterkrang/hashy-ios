@@ -25,7 +25,6 @@
 		261BF5A51946EABA00426AF2 /* create_image@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 261BF5A41946EABA00426AF2 /* create_image@2x.png */; };
 		261BF5A719477B9900426AF2 /* chat_room_grey_bubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 261BF5A619477B9900426AF2 /* chat_room_grey_bubble@2x.png */; };
 		261BF5AA19477EB800426AF2 /* subscribers_container@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 261BF5A919477EB800426AF2 /* subscribers_container@2x.png */; };
-		2625DF39193EE75800206441 /* HYChatRoomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2625DF38193EE75800206441 /* HYChatRoomViewController.m */; };
 		26597BD01948BBFD00918762 /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 26597BC61948BBFD00918762 /* EGORefreshTableHeaderView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		26597BD11948BBFD00918762 /* blackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 26597BC81948BBFD00918762 /* blackArrow.png */; };
 		26597BD21948BBFD00918762 /* blackArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 26597BC91948BBFD00918762 /* blackArrow@2x.png */; };
@@ -160,8 +159,6 @@
 		261BF5A41946EABA00426AF2 /* create_image@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "create_image@2x.png"; sourceTree = "<group>"; };
 		261BF5A619477B9900426AF2 /* chat_room_grey_bubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chat_room_grey_bubble@2x.png"; sourceTree = "<group>"; };
 		261BF5A919477EB800426AF2 /* subscribers_container@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "subscribers_container@2x.png"; sourceTree = "<group>"; };
-		2625DF37193EE75800206441 /* HYChatRoomViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYChatRoomViewController.h; sourceTree = "<group>"; };
-		2625DF38193EE75800206441 /* HYChatRoomViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYChatRoomViewController.m; sourceTree = "<group>"; };
 		26597BC51948BBFD00918762 /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
 		26597BC61948BBFD00918762 /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
 		26597BC81948BBFD00918762 /* blackArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackArrow.png; sourceTree = "<group>"; };
@@ -622,8 +619,6 @@
 				2615F19619360C9E0079687C /* HYCreateChatViewController.m */,
 				26674ECF19384D1E00A032B3 /* HYSubscribersListViewController.h */,
 				26674ED019384D1E00A032B3 /* HYSubscribersListViewController.m */,
-				2625DF37193EE75800206441 /* HYChatRoomViewController.h */,
-				2625DF38193EE75800206441 /* HYChatRoomViewController.m */,
 				2694CB25193F387000283DFA /* HYChatRoomDetailsViewController.h */,
 				2694CB26193F387000283DFA /* HYChatRoomDetailsViewController.m */,
 				266C382B19419BED00CD4F19 /* UILabel+VerticalAlignment.m */,
@@ -910,7 +905,6 @@
 				269347E519374CFF0048CCA2 /* GKCropBorderView.m in Sources */,
 				2615F19419360C880079687C /* HYListChatViewController.m in Sources */,
 				BB0E6DB319470F5D00E5185F /* DEMOSecondViewController.m in Sources */,
-				2625DF39193EE75800206441 /* HYChatRoomViewController.m in Sources */,
 				26597BD01948BBFD00918762 /* EGORefreshTableHeaderView.m in Sources */,
 				26ACF02B1934C4CE00C4BE9E /* ProfileCustomCell.m in Sources */,
 				2694CB2A193F391700283DFA /* ChatCustomCell.m in Sources */,
