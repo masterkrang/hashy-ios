@@ -51,6 +51,11 @@
     passwordTextField.leftView = paddingViewPassword;
     passwordTextField.leftViewMode = UITextFieldViewModeAlways;
     
+    
+    emailTextField.autocorrectionType=UITextAutocorrectionTypeNo;
+    passwordTextField.autocorrectionType=UITextAutocorrectionTypeNo;
+
+    
 }
 
 -(void)setFontsAndFrames{

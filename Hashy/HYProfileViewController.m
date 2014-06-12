@@ -21,6 +21,8 @@
 @synthesize userDetailDict;
 @synthesize recentChatArray;
 @synthesize profileAvatarImageView;
+@synthesize bottomView;
+@synthesize user_id;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -42,44 +44,97 @@
 
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden=NO;
+    self.navigationItem.hidesBackButton=YES;
+    NSNumber *login_user_id_num=[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id;
+    int login_user_id_int=login_user_id_num.intValue;
+    
+    if (login_user_id_int ==user_id.intValue) {
+        
+        editUserProfileImageButton.hidden=NO;
+        
+    }
+    else{
+        editUserProfileImageButton.hidden=YES;
+ 
+    }
+    
+    profilePageTableView.selectedPageNumber=1;
+    
+    [self getUserRecentChats:user_id forPageNumber:profilePageTableView.selectedPageNumber];
+
+}
+
+-(void)setProfileScreenUI{
+    activityIndicatorView=[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    activityIndicatorView.frame=CGRectMake((self.view.frame.size.width/2)-10, 0, 20, 20);
+    [activityIndicatorView setColor:[UIColor darkGrayColor]];
+    [bottomView addSubview:activityIndicatorView];
+    [activityIndicatorView startAnimating];
+    bottomView.hidden=YES;
+    
+    bottomView.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];
+    
+    
+    
+    self.view.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];
+    self.profilePageTableView.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];
+    
+//    if (!IS_IPHONE_5) {
+//        
+//        CGRect tableFrame=self.profilePageTableView.frame;
+//        tableFrame.size.height=50;
+//        self.profilePageTableView.frame=tableFrame;
+//        
+//        
+//    }
+    
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.title=@"Profile";
+    editUserProfileImageButton.hidden=YES;
+
     self.navigationController.navigationBarHidden=NO;
     self.navigationItem.hidesBackButton=YES;
     [userProfileImageButton setBackgroundImage:nil forState:UIControlStateHighlighted];
     [self setBarButtonItems];
-    activityIndicatorView=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake((userProfileImageButton.frame.size.width/2)-5,(userProfileImageButton.frame.size.height/2)-5,10,10)];
-    activityIndicatorView.activityIndicatorViewStyle=UIActivityIndicatorViewStyleGray;
-    [userProfileImageButton addSubview:activityIndicatorView];
-
+   
+    [self setProfileScreenUI];
+    
+    
    
     [profilePageTableView setupTablePaging];
     profilePageTableView.pagingDelegate=self;
 
-  //  NSLog(@"%@",profilePageTableView);
-    [self getProfileDetails];
+    [self getProfileDetails:user_id];
     
 	// Do any additional setup after loading the view.
 }
 
--(void)getUserRecentChats:(NSString *)user_id forPageNumber:(int)page_number{
+-(void)getUserRecentChats:(NSString *)user_id_str forPageNumber:(int)page_number{
     
     
-    
-    profilePageTableView.pageLocked=YES;
+    if (page_number>1) {
+        bottomView.hidden=NO;
+        [activityIndicatorView startAnimating];
+
+    }
     
     
     [[NetworkEngine sharedNetworkEngine]getRecentChatsForAUser:^(id object) {
         
         NSLog(@"%@",object);
-        profilePageTableView.pageLocked=NO;
         
         if (![object isEqual:[NSNull null]] && [object isKindOfClass:[NSArray class]]) {
             
             
-            if (selectedPageNumber==1)
+            if (profilePageTableView.selectedPageNumber==1)
                 [self.recentChatArray removeAllObjects];
             
             if (!self.recentChatArray) {
@@ -89,20 +144,14 @@
                 
             }
             NSMutableArray *objectsArray=[object mutableCopy];
-            [self.recentChatArray addObjectsFromArray:[object mutableCopy]];
+            [self.recentChatArray addObjectsFromArray:objectsArray];
             // [self.subscribersListArray addObjectsFromArray:[object mutableCopy]];
             
             
             [self.profilePageTableView reloadData];
             self.profilePageTableView.pageLocked=NO;
-            if (objectsArray.count>24) {
-                
-                selectedPageNumber+=1;
-                
-                [self getUserRecentChats:user_id forPageNumber:selectedPageNumber];
-                
-                
-            }
+            bottomView.hidden=YES;
+            [activityIndicatorView stopAnimating];
             
             
             
@@ -110,19 +159,19 @@
         
     } onError:^(NSError *error) {
         profilePageTableView.pageLocked=NO;
-
+        bottomView.hidden=YES;
+        [activityIndicatorView stopAnimating];
         NSLog(@"%@",error);
 
         
-    } forUserID:user_id forPageNumber:page_number];
+    } forUserID:user_id_str forPageNumber:page_number];
     
 }
 
 
--(void)getProfileDetails{
+-(void)getProfileDetails:(NSString *)user_id_str{
     
     
-    NSString *userID=[NSString stringWithFormat:@"%d",[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id.intValue];
     
     
     [[NetworkEngine sharedNetworkEngine]getUserProfile:^(id object) {
@@ -130,13 +179,13 @@
         if ([object valueForKey:@"user"] && ![[object valueForKey:@"user"]isEqual:[NSNull null]]) {
             
             self.userDetailDict=[object valueForKey:@"user"];
-            
-            if ([self.userDetailDict valueForKey:@"id"] && ![[self.userDetailDict valueForKey:@"id"]isEqual:[NSNull null]]) {
-                
-                NSString *userID=[[self.userDetailDict valueForKey:@"id"]stringValue ];
-                [self getUserRecentChats:userID forPageNumber:selectedPageNumber];
 
-            }
+//            if ([self.userDetailDict valueForKey:@"id"] && ![[self.userDetailDict valueForKey:@"id"]isEqual:[NSNull null]]) {
+//                
+//                NSString *userID=[[self.userDetailDict valueForKey:@"id"]stringValue ];
+//                [self getUserRecentChats:userID forPageNumber:selectedPageNumber];
+//
+//            }
             
             if ([self.userDetailDict valueForKey:@"avatar_url"] && ![[self.userDetailDict valueForKey:@"avatar_url"]isEqual:[NSNull null]]) {
                 NSURLRequest *request=[NSURLRequest requestWithURL:[NSURL URLWithString:[self.userDetailDict valueForKey:@"avatar_url"]]];
@@ -174,7 +223,7 @@
         
     } onError:^(NSError *error) {
         
-    } forUserID:userID];
+    } forUserID:user_id_str];
     
 }
 
@@ -190,23 +239,86 @@
     
     ProfileCustomCell *cell=[tableView dequeueReusableCellWithIdentifier:@"ProfileCellIdentifier"];
     
-    NSMutableParagraphStyle *mutParaStyle=[[NSMutableParagraphStyle alloc] init];
+    cell.hashTaglabel.font=[UIFont fontWithName:kHelVeticaBold size:22.2];
+    cell.hashTaglabel.textColor=[Utility colorWithHexString:@"939393"];
     
-    [mutParaStyle setAlignment:NSTextAlignmentLeft];
+    cell.userNameLabel.font=[UIFont fontWithName:kHelVeticaNeueMedium size:10.6];
     
     
-    NSMutableAttributedString *liveShowString = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"cooldude69: what's up people"]];
-//    [liveShowString addAttribute:NSFontAttributeName value:kRobotoFontRegular(125) range:[liveShowString.string rangeOfString:[NSString stringWithFormat:@"%d",loadedDataPercentage]]];
+    cell.subscribersCount.textColor=[Utility colorWithHexString:@"2fc81e"];
+    cell.subscribersCount.font=[UIFont fontWithName:kHelVeticaNeueMedium size:17];
     
-    //[liveShowString addAttribute:NSFontAttributeName value:kRobotoFontBold(40) range:[liveShowString.string rangeOfString:@"what's up people"]];
-    [liveShowString addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)[UIColor lightGrayColor].CGColor range:[liveShowString.string rangeOfString:@"cooldude69:"]];
-
-    [liveShowString addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)[UIColor darkGrayColor].CGColor range:[liveShowString.string rangeOfString:@"what's up people"]];
-    [liveShowString addAttributes:[NSDictionary dictionaryWithObject:mutParaStyle
-                                                              forKey:NSParagraphStyleAttributeName]
-                            range:NSMakeRange(0,[[liveShowString string] length])];
-    [cell.userNameLabel setAttributedText:liveShowString];
-
+    
+    if (self.recentChatArray.count>indexPath.row) {
+        
+        NSMutableDictionary *channelDict=[self.recentChatArray objectAtIndex:indexPath.row];
+        
+        
+        if ([channelDict valueForKey:@"channel"] && ![[channelDict valueForKey:@"channel"]isEqual:[NSNull null]]) {
+            
+            
+            
+            NSMutableDictionary *hashTagDict=[[channelDict valueForKey:@"channel"] mutableCopy];
+            
+            if ([hashTagDict valueForKey:@"name"] && ![[hashTagDict valueForKey:@"name"] isEqual:[NSNull null]])                     cell.hashTaglabel.text=[NSString stringWithFormat:@"#%@",[hashTagDict valueForKey:@"name"]];
+            else
+            cell.hashTaglabel.text=@"";
+            
+            
+            
+            NSString *lastMessageUserName=[hashTagDict valueForKey:@"last_message_user_name"];
+            NSString *lastMessageString=[hashTagDict valueForKey:@"last_message"];
+            
+            
+            if (lastMessageUserName && ![lastMessageUserName isEqual:[NSNull null]] &&lastMessageString && ![lastMessageString isEqual:[NSNull null]]) {
+                
+                
+                NSMutableParagraphStyle *mutParaStyle=[[NSMutableParagraphStyle alloc] init];
+                
+                [mutParaStyle setAlignment:NSTextAlignmentLeft];
+                
+                
+                NSMutableAttributedString *liveShowString = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%@: %@",lastMessageUserName,lastMessageString]];
+                //    [liveShowString addAttribute:NSFontAttributeName value:kRobotoFontRegular(125) range:[liveShowString.string rangeOfString:[NSString stringWithFormat:@"%d",loadedDataPercentage]]];
+                
+                
+                NSRange user_name_range=[liveShowString.string rangeOfString:[NSString stringWithFormat:@"%@:",lastMessageUserName]];
+                
+                
+                
+                
+                NSRange messageRange=[liveShowString.string rangeOfString:lastMessageString];
+                
+                if (messageRange.location!=NSNotFound) {
+                    [liveShowString addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)[Utility colorWithHexString:@"9a9a9a"].CGColor range:messageRange];
+                    [liveShowString addAttribute:(NSString *)kCTFontAttributeName value:(id)[UIFont fontWithName:kHelVeticaNeueMedium size:10.5] range:messageRange];
+                    
+                    
+                }
+                
+                if (user_name_range.location!=NSNotFound) {
+                    [liveShowString addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)[Utility colorWithHexString:@"cecece"].CGColor range:user_name_range];
+                    [liveShowString addAttribute:(NSString *)kCTFontAttributeName value:(id)[UIFont fontWithName:kHelVeticaNeueMedium size:10.5] range:user_name_range];
+                    
+                }
+                
+                
+                
+                [liveShowString addAttributes:[NSDictionary dictionaryWithObject:mutParaStyle
+                                                                          forKey:NSParagraphStyleAttributeName]
+                                        range:NSMakeRange(0,[[liveShowString string] length])];
+                [cell.userNameLabel setAttributedText:liveShowString];
+                
+                
+                
+            }
+            
+            
+            [self setCell:cell forIndexPath:indexPath forDict:hashTagDict];
+            
+            
+        }
+    }
     
     
     return cell;
@@ -215,29 +327,102 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-
-
+    
+    
+    
+    if (self.recentChatArray.count>indexPath.row) {
+        
+        
+        NSMutableDictionary *channelDict=[self.recentChatArray objectAtIndex:indexPath.row];
+        
+        
+        if (channelDict && ![channelDict isEqual:[NSNull null]]) {
+            
+            NSMutableDictionary *detailChannelDict=[channelDict valueForKey:@"channel"];
+            
+            HYChatRoomDetailsViewController *chatVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"chatRoomDetails_vc"];
+            
+            
+            if ([detailChannelDict valueForKey:@"name"] && ![[detailChannelDict valueForKey:@"name"]isEqual:[NSNull null]] && [[detailChannelDict valueForKey:@"name"] length]>0){
+                
+                chatVC.chatNameString=[detailChannelDict valueForKey:@"name"];
+                
+            }
+            else{
+                chatVC.chatNameString=@"name";
+                
+            }
+            
+            
+            NSNumber *chat_id_number=[detailChannelDict valueForKey:@"id"];
+            int chat_id=chat_id_number.intValue;
+            
+            if (chat_id && chat_id>0) {
+                chatVC.chatIDString=[NSString stringWithFormat:@"%d",chat_id];
+                
+            }
+            
+            
+            NSString *count=@"";
+            
+            if ([detailChannelDict valueForKey:@"subscribers_count"] && ![[detailChannelDict valueForKey:@"subscribers_count"]isEqual:[NSNull null]]) {
+                
+                NSNumber *sub_count_num=[detailChannelDict valueForKey:@"subscribers_count"];
+                int subscribers_count_int=sub_count_num.intValue;
+                
+                
+                count=[NSString stringWithFormat:@"%d",subscribers_count_int];
+                
+            }
+            else{
+                
+                count=@"0";
+                
+            }
+            
+            
+            chatVC.subscribersCountString=count;
+            
+            
+            chatVC.chatDict=detailChannelDict;
+            
+            
+            
+            [self.navigationController pushViewController:chatVC animated:YES];
+            // [self getChatWithID:[detailChannelDict valueForKey:@"id"]];
+            
+            
+            
+            
+            
+            
+        }
+        
+        
+        
+        
+        
+    }
+    
+    
 }
 
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    return 67;
+    return 54;
     
 
 }
 
 
--(void)tableView:(UITableView*)tableView didReachEndOfPage:(int)page{
-    
-    
-}
+
 
 
 -(CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     
-    return 0.1;
+    return 3;
     
     
 }
@@ -269,12 +454,45 @@
 }
 
 
+-(void)tableView:(UITableView*)tableView didReachEndOfPage:(int)page{
+    
+    
+    if (recentChatArray.count%5==0) {
+        
+        
+        [self getUserRecentChats:user_id forPageNumber:profilePageTableView.selectedPageNumber];
+        
+        
+        
+        
+    }
+    
+    
+}
+
 #pragma mark Set cell
 
 -(void)setCell:(ProfileCustomCell *)cell forIndexPath:(NSIndexPath *)indexPath forDict:(NSMutableDictionary *)hashTagDict{
     
-    NSString *count=@"1,123";
+    NSString *count=@"";
     
+    if ([hashTagDict valueForKey:@"subscribers_count"] && ![[hashTagDict valueForKey:@"subscribers_count"]isEqual:[NSNull null]]) {
+        
+        NSNumber *sub_count_num=[hashTagDict valueForKey:@"subscribers_count"];
+        int subscribers_count_int=sub_count_num.intValue;
+        
+        
+        count=[NSString stringWithFormat:@"%d",subscribers_count_int];
+        
+    }
+    else{
+        
+        count=@"0";
+        
+    }
+    
+    cell.subscribersCount.text=count;
+
     CGSize labelSize=[Utility heightOfTextString:count andFont:cell.subscribersCount.font maxSize:CGSizeMake(300, 999)];
     
     
@@ -291,22 +509,14 @@
     
     
     
-    cell.subscribersCount.text=count;
     
     
     CGRect userFrame=cell.userNameLabel.frame;
     userFrame.size.width=cell.statusImageView.frame.origin.x-userFrame.origin.x-2;
     cell.userNameLabel.frame=userFrame;
     
-    // cell.userNameLabel.backgroundColor=[UIColor orangeColor];
     
-    
-    
-    if ([hashTagDict valueForKey:@"subscribers_count"] && ![[hashTagDict valueForKey:@"subscribers_count"]isEqual:[NSNull null]]) {
-        
-        
-        
-    }
+
     
     
 }
@@ -345,7 +555,7 @@
 -(void)viewWillDisappear:(BOOL)animated{
     
     [super viewWillDisappear:animated];
-    selectedPageNumber=1;
+    profilePageTableView.selectedPageNumber=1;
     
 }
 

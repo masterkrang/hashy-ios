@@ -15,4 +15,6 @@
 @property(nonatomic,strong)IBOutlet UILabel *userNameLabel;
 @property(nonatomic,strong)IBOutlet UIButton *maskButton;
 @property(nonatomic,strong)IBOutlet UIImageView *userProfilePictureImageView;
+@property(nonatomic,strong)IBOutlet UIImageView *guardImageView;
+
 @end

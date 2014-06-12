@@ -46,5 +46,5 @@
 
 
 #define kCharacterSetString @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
-
+#define kGreenDot @"list_screen_green_dot.png"
 #endif

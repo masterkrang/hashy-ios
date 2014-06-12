@@ -10,16 +10,19 @@
 #import "ProfileCustomCell.h"
 #import "NetworkEngine.h"
 #import "Utility.h"
-#import "HYChatRoomViewController.h"
 #import "HYChatRoomDetailsViewController.h"
 #import "HYCreateChatViewController.h"
 #import "REFrostedViewController.h"
+#import "EGORefreshTableHeaderView.h"
 
-@interface HYListChatViewController : UIViewController<UITableViewDataSource,PagingDelegate,UITextFieldDelegate,REFrostedViewControllerDelegate>
+@interface HYListChatViewController : UIViewController<UITableViewDataSource,PagingDelegate,UITextFieldDelegate,REFrostedViewControllerDelegate,EGORefreshTableHeaderDelegate>
 {
     int selectedPageNumber;
     UIActivityIndicatorView *activityIndicatorView;
-    
+    EGORefreshTableHeaderView *_refreshHeaderView;
+    BOOL _reloading;
+    NSDate *lastUpadteddate;
+
 }
 
 @property(nonatomic,strong)IBOutlet PageTableView *listChatTableView;

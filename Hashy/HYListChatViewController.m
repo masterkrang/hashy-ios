@@ -82,6 +82,9 @@
     searchTextField.leftView = paddingView;
     searchTextField.leftViewMode = UITextFieldViewModeAlways;
     
+    searchTextField.autocorrectionType=UITextAutocorrectionTypeNo;
+
+    
 }
 
 -(void)numberFormatter{
@@ -100,7 +103,8 @@
     self.navigationItem.hidesBackButton=YES;
     selectedPageNumber=1;
     self.listChatTableView.selectedPageNumber=1;
-    
+    lastUpadteddate=[NSDate date];
+
     [self getListOfChatsForPageNumber:self.listChatTableView.selectedPageNumber];
 
 }
@@ -127,19 +131,138 @@
     
     activityIndicatorView=[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
     activityIndicatorView.frame=CGRectMake((self.view.frame.size.width/2)-10, 0, 20, 20);
-    [activityIndicatorView setColor:[UIColor blueColor]];
+    [activityIndicatorView setColor:[UIColor darkGrayColor]];
     [bottomView addSubview:activityIndicatorView];
     [activityIndicatorView startAnimating];
-    bottomView.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];
-   // bottomView.backgroundColor=[Utility colorWithHexString:@"000000"];
-
     bottomView.hidden=YES;
+
+    bottomView.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];
+
     
     
     self.view.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];
     self.listChatTableView.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];
+    
+    if (_refreshHeaderView == nil) {
+		
+		EGORefreshTableHeaderView *view = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - listChatTableView.bounds.size.height, self.view.frame.size.width, listChatTableView.bounds.size.height)];
+		view.delegate = self;
+		[listChatTableView addSubview:view];
+		_refreshHeaderView = view;
+        
+        
+	}
 
 	// Do any additional setup after loading the view.
+}
+
+#pragma mark UIScrollViewDelegate Methods
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+	
+	[_refreshHeaderView egoRefreshScrollViewDidScroll:scrollView];
+    
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+	
+	[_refreshHeaderView egoRefreshScrollViewDidEndDragging:scrollView];
+	
+}
+
+
+#pragma mark EGORefreshTableHeaderDelegate Methods
+
+- (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view{
+	
+	[self reloadTableViewDataSource];
+	
+}
+
+- (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view{
+	
+	return _reloading; // should return if data source model is reloading
+	
+}
+
+- (NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view{
+	
+	//lastUpadteddate=[NSDate date];
+    return lastUpadteddate; // should return date data source was last changed
+	
+}
+
+- (void)doneLoadingTableViewData{
+	
+	//  model should call this when its done loading
+	_reloading = NO;
+	[_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:listChatTableView];
+	
+}
+
+
+- (void)reloadTableViewDataSource{
+    
+    
+    
+
+    NSString *dateString=@"";
+    
+    NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
+    
+    dateString=[NSString stringWithFormat:@"%@",[dateFormatter stringFromDate:lastUpadteddate]];
+    
+    
+    listChatTableView.pageLocked=YES;
+    listChatTableView.selectedPageNumber=1;
+    lastUpadteddate=[NSDate date];
+    [[NetworkEngine sharedNetworkEngine]getChatLists:^(id object) {
+        
+        //NSLog(@"%@",object);
+        
+        if (![object isEqual:[NSNull null]] && [object isKindOfClass:[NSArray class]]) {
+            
+            if ( listChatTableView.selectedPageNumber==1) {
+                [hashTagListArray removeAllObjects];
+                
+            }
+            if (!self.hashTagListArray) {
+                
+                self.hashTagListArray=[[NSMutableArray alloc]init];
+                
+                
+            }
+            
+            
+            
+            NSMutableArray *objectsArray=[object mutableCopy];
+            [self.hashTagListArray addObjectsFromArray:objectsArray];
+            [self.listChatTableView reloadData];
+            self.listChatTableView.pageLocked=NO;
+            bottomView.hidden=YES;
+            [activityIndicatorView stopAnimating];
+            [self doneLoadingTableViewData];
+
+            
+            
+        }
+        
+        
+    } onError:^(NSError *error) {
+        self.listChatTableView.pageLocked=YES;
+        bottomView.hidden=YES;
+        
+        [activityIndicatorView stopAnimating];
+        
+        NSLog(@"%@",error);
+    } forPageNumber:listChatTableView.selectedPageNumber forSearchedText:nil];
+
+    
+    
+    
+    
 }
 
 #pragma mark API methods
@@ -339,16 +462,6 @@
             }
             
             
-            if ([hashTagDict valueForKey:@"subscribers_count"] && ![[hashTagDict valueForKey:@"subscribers_count"]isEqual:[NSNull null]] && [[hashTagDict valueForKey:@"subscribers_count"] length]>0) {
-                cell.subscribersCount.text=[hashTagDict valueForKey:@"subscribers_count"];
-                
-            }
-            else{
-                
-                cell.subscribersCount.text=@"0";
-  
-            }
-            
             
             
             NSString *lastMessageUserName=[hashTagDict valueForKey:@"last_message_user_name"];
@@ -417,54 +530,7 @@
         
         
         NSMutableDictionary *channelDict=[self.hashTagListArray objectAtIndex:indexPath.row];
-//        NSMutableDictionary *detailChannelDict=[channelDict valueForKey:@"channel"];
-//
-//         [self getChatWithID:[detailChannelDict valueForKey:@"id"]];
 
-        
-//        if (channelDict && ![channelDict isEqual:[NSNull null]]) {
-//            
-//            NSMutableDictionary *detailChannelDict=[channelDict valueForKey:@"channel"];
-//            NSLog(@"%@",detailChannelDict);
-//            
-//            HYChatRoomViewController *chatVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"chatRoom_vc"];
-//            
-//            
-//            if ([detailChannelDict valueForKey:@"name"] && ![[detailChannelDict valueForKey:@"name"]isEqual:[NSNull null]] && [[detailChannelDict valueForKey:@"name"] length]>0){
-//                
-//                chatVC.chatNameString=[detailChannelDict valueForKey:@"name"];
-//                
-//            }
-//            else{
-//                chatVC.chatNameString=@"name";
-//                
-//            }
-//            
-//            if ([detailChannelDict valueForKey:@"subscribers_count"] && ![[detailChannelDict valueForKey:@"subscribers_count"]isEqual:[NSNull null]] && [[detailChannelDict valueForKey:@"subscribers_count"] length]>0) {
-//                
-//                chatVC.subscribersCountString=[detailChannelDict valueForKey:@"subscribers_count"];
-//                
-//                
-//            }
-//            else{
-//                
-//                chatVC.subscribersCountString=@"0";
-//                
-//            }
-//            chatVC.chatDict=detailChannelDict;
-//            
-//            
-//            
-//            [self.navigationController pushViewController:chatVC animated:YES];
-//            // [self getChatWithID:[detailChannelDict valueForKey:@"id"]];
-//            
-//            
-//            
-//            
-//            
-//            
-//        }
-        
         
         if (channelDict && ![channelDict isEqual:[NSNull null]]) {
             
@@ -494,17 +560,27 @@
             }
             
             
-            if ([detailChannelDict valueForKey:@"subscribers_count"] && ![[detailChannelDict valueForKey:@"subscribers_count"]isEqual:[NSNull null]] && [[detailChannelDict valueForKey:@"subscribers_count"] length]>0) {
+            NSString *count=@"";
+            
+            if ([detailChannelDict valueForKey:@"subscribers_count"] && ![[detailChannelDict valueForKey:@"subscribers_count"]isEqual:[NSNull null]]) {
                 
-                chatVC.subscribersCountString=[detailChannelDict valueForKey:@"subscribers_count"];
+                NSNumber *sub_count_num=[detailChannelDict valueForKey:@"subscribers_count"];
+                int subscribers_count_int=sub_count_num.intValue;
                 
+                
+                count=[NSString stringWithFormat:@"%d",subscribers_count_int];
                 
             }
             else{
                 
-                chatVC.subscribersCountString=@"0";
+                count=@"0";
                 
             }
+
+            
+            chatVC.subscribersCountString=count;
+            
+      
             chatVC.chatDict=detailChannelDict;
             
             
@@ -598,45 +674,6 @@
 
 
 
--(void)setCell:(ProfileCustomCell *)cell forIndexPath:(NSIndexPath *)indexPath forDict:(NSMutableDictionary *)hashTagDict{
-    
-    NSString *count=@"0";
-
-    CGSize labelSize=[Utility heightOfTextString:count andFont:cell.subscribersCount.font maxSize:CGSizeMake(300, 999)];
-    
-    
-    CGRect subCountFrame=cell.subscribersCount.frame;
-    
-    subCountFrame.origin.x=305-labelSize.width;
-    subCountFrame.size.width=labelSize.width+3;
-    cell.subscribersCount.frame=subCountFrame;
-    
-    
-    CGRect onlineImageFrame=cell.statusImageView.frame;
-    onlineImageFrame.origin.x=cell.subscribersCount.frame.origin.x-14;
-    cell.statusImageView.frame=onlineImageFrame;
-    
-    
-    
-    cell.subscribersCount.text=count;
-    
-    
-    CGRect userFrame=cell.userNameLabel.frame;
-    userFrame.size.width=cell.statusImageView.frame.origin.x-userFrame.origin.x-2;
-    cell.userNameLabel.frame=userFrame;
-    
-   // cell.userNameLabel.backgroundColor=[UIColor orangeColor];
-    
-    
-    
-    if ([hashTagDict valueForKey:@"subscribers_count"] && ![[hashTagDict valueForKey:@"subscribers_count"]isEqual:[NSNull null]]) {
-        
-        
-        
-    }
-    
-    
-}
 
 -(void)tableView:(UITableView*)tableView didReachEndOfPage:(int)page{
     
@@ -676,6 +713,61 @@
 }
 
 
+#pragma mark Set Cell
+
+
+-(void)setCell:(ProfileCustomCell *)cell forIndexPath:(NSIndexPath *)indexPath forDict:(NSMutableDictionary *)hashTagDict{
+    
+    NSString *count=@"";
+    
+    if ([hashTagDict valueForKey:@"subscribers_count"] && ![[hashTagDict valueForKey:@"subscribers_count"]isEqual:[NSNull null]]) {
+        
+        NSNumber *sub_count_num=[hashTagDict valueForKey:@"subscribers_count"];
+        int subscribers_count_int=sub_count_num.intValue;
+        
+        
+        count=[NSString stringWithFormat:@"%d",subscribers_count_int];
+        
+    }
+    else{
+        
+        count=@"0";
+        
+    }
+    
+    
+    CGSize labelSize=[Utility heightOfTextString:count andFont:cell.subscribersCount.font maxSize:CGSizeMake(300, 999)];
+    
+    
+    CGRect subCountFrame=cell.subscribersCount.frame;
+    
+    subCountFrame.origin.x=305-labelSize.width;
+    subCountFrame.size.width=labelSize.width+3;
+    cell.subscribersCount.frame=subCountFrame;
+    
+    
+    CGRect onlineImageFrame=cell.statusImageView.frame;
+    onlineImageFrame.origin.x=cell.subscribersCount.frame.origin.x-14;
+    cell.statusImageView.frame=onlineImageFrame;
+    
+    
+    
+    cell.subscribersCount.text=count;
+    
+    
+    CGRect userFrame=cell.userNameLabel.frame;
+    userFrame.size.width=cell.statusImageView.frame.origin.x-userFrame.origin.x-2;
+    cell.userNameLabel.frame=userFrame;
+    
+    // cell.userNameLabel.backgroundColor=[UIColor orangeColor];
+    
+    
+    
+   
+    
+    
+}
+
 #pragma mark UITextField Deleagte Methods
 
 
@@ -694,7 +786,7 @@
         NSString * searchString = [[textField text] stringByReplacingCharactersInRange:range withString:string];
         selectedPageNumber=1;
         self.listChatTableView.selectedPageNumber=1;
-
+        lastUpadteddate=[NSDate date];
         [self searchChannels:searchString forPageNumber:selectedPageNumber];
 
 //        if (searchString && searchString.length>0) {
@@ -737,6 +829,10 @@
     
    // [self.navigationController popViewControllerAnimated:YES];
     HYProfileViewController *profileVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"profile_vc"];
+    NSNumber *user_id_num=[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id;
+    int user_int=user_id_num.intValue;
+    profileVC.user_id=[NSString stringWithFormat:@"%d",user_int];
+    
     
     [self.navigationController pushViewController:profileVC animated:YES];
 

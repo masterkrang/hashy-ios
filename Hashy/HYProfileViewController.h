@@ -27,10 +27,12 @@
 @property(nonatomic,strong)    IBOutlet UILabel *userNameLabel;
 @property(nonatomic,strong)    IBOutlet UIImageView *userStatusImageView;
 @property(nonatomic,strong)    IBOutlet UIImageView *profileAvatarImageView;
+@property(nonatomic,strong)    NSString *user_id;
 
 @property(nonatomic,strong)    IBOutlet UIView *profileHeaderView;
 @property(nonatomic,strong)NSMutableArray *recentChatArray;
 @property(nonatomic,strong)NSMutableDictionary *userDetailDict;
+@property(strong,nonatomic)IBOutlet UIView *bottomView;
 
 -(IBAction)editButtonPressed:(UIButton *)sender;
 
