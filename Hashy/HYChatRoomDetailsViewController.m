@@ -539,8 +539,10 @@
     cell.messageLabel.dataDetectorTypes = UIDataDetectorTypeLink | UIDataDetectorTypePhoneNumber;
 
     cell.messageLabel.dataDetectorTypes = UIDataDetectorTypeAll;
-    cell.messageLabel.textAlignment = NSTextAlignmentCenter;
-    cell.messageLabel.verticalAlignment=TTTAttributedLabelVerticalAlignmentCenter;
+    cell.messageLabel.textAlignment = NSTextAlignmentLeft;
+    //cell.messageLabel.verticalAlignment=TTTAttributedLabelVerticalAlignmentCenter;
+    cell.messageLabel.numberOfLines=0;
+    cell.messageLabel.textVerticalAlignment=UITextVerticalAlignmentTop;
     
     if (self.chatRoomMessageArray.count>indexPath.row) {
         
@@ -718,8 +720,9 @@
         
         height+=11;
     }
-    CGSize messageSize=CGSizeMake(260, 999);
-    
+    //CGSize messageSize=CGSizeMake(260, 999);
+    CGSize messageSize=CGSizeMake(230, 999);
+
     
     if ([messageDict valueForKey:@"type"] && [[messageDict valueForKey:@"type"]isEqualToString:@"image"]) {
         
@@ -862,15 +865,13 @@
 -(void)setChatCell:(ChatCustomCell *)cell ForIndexPath:(NSIndexPath *)indexPath forDictionary:(NSDictionary *)messageDict isUserMessage:(BOOL)isFromUser{
     
     
-  //  NSString *newtext=@"kugwei wugveiwugh vwg i gvw wvg iugvw iugw eiug eiuvwg eiuvwgiuwvg iuvw iugw iugiuwgv iuvwg iuw giuvwg iuwgviugvw iu giug wvio evwio herio hioherioherioheriohegrioh egrioh ";
     NSString *newtext=cell.messageLabel.text;
-   // NSString *newtext=@"kvsjc suev ioevr iehrv ihev eov oihvo oehvoherv ";
 
     
-    CGSize messageSize=CGSizeMake(260, 999);
-    
-   // CGFloat height=[Utility heightOfTextForString:messageText andFont:cell.messageLabel.font maxSize:messageSize];
-//    UIFont *font=cell.messageLabel.font;
+    //CGSize messageSize=CGSizeMake(260, 999);
+    CGSize messageSize=CGSizeMake(230, 999);
+
+
     CGSize labelSize=[Utility heightOfTextString:newtext andFont:cell.messageLabel.font maxSize:messageSize];
     
     int textWidth=labelSize.width;
@@ -1004,9 +1005,7 @@
         cell.messageLabel.frame=messageLabelFrame;
         
         
-        cell.messageLabel.numberOfLines=0;
-        cell.messageLabel.textVerticalAlignment=UITextVerticalAlignmentTop;//;=NSTextAlignmentCenter;
-        cell.messageLabel.text=newtext;
+       // cell.messageLabel.text=newtext;
         
         cell.pictureImageView.frame=CGRectZero;
         
@@ -1221,7 +1220,7 @@
     // profilePageTableView.scrollEnabled=NO;
     
     
-    if (!chatRoomTableView.isScrolling) {
+   // if (!chatRoomTableView.isScrolling) {
         chatRoomTableView.scrollEnabled=NO;
         chatRoomTableView.pagingDelegate=nil;
         chatRoomTableView.dataSource=nil;
@@ -1235,7 +1234,7 @@
         
         [self.navigationController popViewControllerAnimated:YES];
 
-    }
+    //}
     
 }
 
