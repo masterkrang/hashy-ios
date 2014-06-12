@@ -423,104 +423,6 @@
 }
 
 
-#pragma mark UITextField Deleagte Methods
-
--(void)textFieldDidBeginEditing:(UITextField *)textField{
-    
-   
-    
-    
-    NSLog(@"%f",chatRoomTableView.contentSize.height);
-    
-    
-    
-    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
-        CGRect messageContainerFrame=self.messageConatinerView.frame;
-        messageContainerFrame.origin.y-=216;
-        self.messageConatinerView.frame=messageContainerFrame;
-        
-        
-        if (IS_IPHONE_5) {
-            
-            if (chatRoomTableView.contentSize.height>270) {
-                
-                CGRect tableFrame=self.chatRoomTableView.frame;
-                tableFrame.origin.y-=216;
-                self.chatRoomTableView.frame=tableFrame;
-            }
-            
-        }
-        else{
-            
-            if (chatRoomTableView.contentSize.height>190  &&chatRoomTableView.contentSize.height<220 ) {
-                
-                CGRect tableFrame=self.chatRoomTableView.frame;
-                tableFrame.origin.y-=166;
-                self.chatRoomTableView.frame=tableFrame;
-            }
-            else if (chatRoomTableView.contentSize.height>=220){
-                CGRect tableFrame=self.chatRoomTableView.frame;
-                tableFrame.origin.y-=216;
-                self.chatRoomTableView.frame=tableFrame;
- 
-            }
-           
-        }
-        
-      
-    } completion:nil];
-    
-    
-    
-}
-
-
--(void)textFieldDidEndEditing:(UITextField *)textField{
-    
-    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-        CGRect messageContainerFrame=self.messageConatinerView.frame;
-        messageContainerFrame.origin.y+=216;
-        self.messageConatinerView.frame=messageContainerFrame;
-        
-        CGRect tableFrame=self.chatRoomTableView.frame;
-        tableFrame.origin.y=0;
-        self.chatRoomTableView.frame=tableFrame;
-        
-//        CGRect tableFrame=self.chatRoomTableView.frame;
-//        tableFrame.origin.y-=153;
-//        self.chatRoomTableView.frame=tableFrame;
-    } completion:nil];
-
-}
-
--(BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
-    
-    NSString * searchString = [[textField text] stringByReplacingCharactersInRange:range withString:string];
-    if (searchString.length>0) {
-        
-        
-        sendMessageButton.enabled=YES;
-        
-    }
-    else{
-        sendMessageButton.enabled=NO;
-    }
-    
-    return YES;
-    
-}
-
-
-
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    
-    return [textField resignFirstResponder];
-    
-}
-
-
-
 #pragma mark UItableView Delegate Methods
 
 -(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -1214,6 +1116,102 @@
 }
 
 
+#pragma mark UITextField Deleagte Methods
+
+-(void)textFieldDidBeginEditing:(UITextField *)textField{
+    
+    
+    if(!panGestureRecognizer) {
+        
+        panGestureRecognizer = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(screenSwipedDown:)];
+        panGestureRecognizer.direction=UISwipeGestureRecognizerDirectionDown;
+    }
+    [chatRoomTableView addGestureRecognizer:panGestureRecognizer];
+    
+    
+    
+    
+    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+        CGRect messageContainerFrame=self.messageConatinerView.frame;
+        messageContainerFrame.origin.y-=216;
+        self.messageConatinerView.frame=messageContainerFrame;
+        
+        
+        if (IS_IPHONE_5) {
+            
+            if (chatRoomTableView.contentSize.height>270) {
+                
+                CGRect tableFrame=self.chatRoomTableView.frame;
+                tableFrame.origin.y-=216;
+                self.chatRoomTableView.frame=tableFrame;
+            }
+            
+        }
+        else{
+            
+            if (chatRoomTableView.contentSize.height>190  &&chatRoomTableView.contentSize.height<220 ) {
+                
+                CGRect tableFrame=self.chatRoomTableView.frame;
+                tableFrame.origin.y-=166;
+                self.chatRoomTableView.frame=tableFrame;
+            }
+            else if (chatRoomTableView.contentSize.height>=220){
+                CGRect tableFrame=self.chatRoomTableView.frame;
+                tableFrame.origin.y-=216;
+                self.chatRoomTableView.frame=tableFrame;
+                
+            }
+            
+        }
+        
+        
+    } completion:nil];
+    
+    
+    
+}
+
+
+-(void)textFieldDidEndEditing:(UITextField *)textField{
+    
+    [self.view removeGestureRecognizer:panGestureRecognizer];
+    
+    
+    
+    
+    
+}
+
+-(BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    
+    NSString * searchString = [[textField text] stringByReplacingCharactersInRange:range withString:string];
+    if (searchString.length>0) {
+        
+        
+        sendMessageButton.enabled=YES;
+        
+    }
+    else{
+        sendMessageButton.enabled=NO;
+    }
+    
+    return YES;
+    
+}
+
+
+
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    
+    [self lowerDownBottomView];
+    
+    return [textField resignFirstResponder];
+    
+}
+
+
+
 
 #pragma mark Button Pressed Methods
 
@@ -1278,18 +1276,18 @@
     }
     
     
-    [messagetextField resignFirstResponder];
-    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-//        CGRect messageContainerFrame=self.messageConatinerView.frame;
-//        messageContainerFrame.origin.y+=216;
-//        self.messageConatinerView.frame=messageContainerFrame;
-        
-        CGRect tableFrame=self.chatRoomTableView.frame;
-        tableFrame.origin.y=0;
-        self.chatRoomTableView.frame=tableFrame;
-        
-    } completion:nil];
-
+//    [messagetextField resignFirstResponder];
+//    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+////        CGRect messageContainerFrame=self.messageConatinerView.frame;
+////        messageContainerFrame.origin.y+=216;
+////        self.messageConatinerView.frame=messageContainerFrame;
+//        
+//        CGRect tableFrame=self.chatRoomTableView.frame;
+//        tableFrame.origin.y=0;
+//        self.chatRoomTableView.frame=tableFrame;
+//        
+//    } completion:nil];
+//
     
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -1574,6 +1572,149 @@ didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result{
 }
 
 
+#pragma mark UISwipeGestureReconizer Methods
+
+-(void)screenSwipedDown:(UIGestureRecognizer *)gestureRecognizer{
+  
+    
+    if (gestureRecognizer.state==UIGestureRecognizerStateBegan) {
+        
+        CGPoint location=[panGestureRecognizer locationInView:self.view];
+        NSRange yAxisRange;
+        
+        if (!IS_IPHONE_5) {
+            yAxisRange=NSMakeRange(0,150);
+
+        }
+        else{
+            
+            yAxisRange=NSMakeRange(0,200);
+
+        }
+        
+        // BOOL isInXAxisRange = NSLocationInRange(location.x, xAxisRange);
+        BOOL isInYAxisRange = NSLocationInRange(location.y, yAxisRange);
+        
+        
+        if (isInYAxisRange) {
+            
+            CGPoint location=[panGestureRecognizer locationInView:self.view];
+            
+            swipeStarted=YES;
+            yLocationDifference=location.y;
+            
+            
+        }
+        
+        
+    }
+    else if (gestureRecognizer.state==UIGestureRecognizerStateChanged){
+        
+        
+        if (swipeStarted && yLocationDifference>0) {
+            
+            CGPoint location=[panGestureRecognizer locationInView:self.view];
+            
+            float checkDifferenceValue= yLocationDifference - location.y;
+            
+            if (checkDifferenceValue>70) {
+                
+                swipeStarted=NO;
+                yLocationDifference=0;
+                [self lowerDownBottomView];
+                
+                
+                
+            }
+            
+            
+            
+        }
+        
+        
+    }
+    else if (gestureRecognizer.state==UIGestureRecognizerStateEnded){
+        
+        if (swipeStarted && yLocationDifference>0) {
+            
+            CGPoint location=[panGestureRecognizer locationInView:self.view];
+            
+            float checkDifferenceValue = yLocationDifference -  location.y ;
+            
+            
+            
+            if (checkDifferenceValue>= 70) {
+                
+                swipeStarted=NO;
+                yLocationDifference=0;
+                [self lowerDownBottomView];
+
+            }
+//            else{
+//                swipeStarted=NO;
+//                yLocationDifference=0;
+//                [self performSelector:@selector(moveHeadlineViewToItsOriginalPositionInDuration:) withObject:nil afterDelay:0];
+//                
+//            }
+            
+            
+            
+            
+            
+        }
+        else{
+            swipeStarted=NO;
+            yLocationDifference=0;
+          //  [self lowerDownBottomView];
+
+            
+            
+        }
+        
+        
+        
+    }
+    else if (gestureRecognizer.state==UIGestureRecognizerStateCancelled){
+        
+        
+        swipeStarted=NO;
+        yLocationDifference=0;
+       // [self lowerDownBottomView];
+
+        
+    }
+    else if (gestureRecognizer.state==UIGestureRecognizerStateFailed){
+        swipeStarted=NO;
+        yLocationDifference=0;
+       // [self lowerDownBottomView];
+
+        
+    }
+    
+    
+    
+}
+
+
+-(void)lowerDownBottomView{
+    [messagetextField resignFirstResponder];
+    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        CGRect messageContainerFrame=self.messageConatinerView.frame;
+        messageContainerFrame.origin.y=[[UIScreen mainScreen]bounds].size.height-45;
+        self.messageConatinerView.frame=messageContainerFrame;
+        
+        CGRect tableFrame=self.chatRoomTableView.frame;
+        tableFrame.origin.y=0;
+        self.chatRoomTableView.frame=tableFrame;
+        
+        //        CGRect tableFrame=self.chatRoomTableView.frame;
+        //        tableFrame.origin.y-=153;
+        //        self.chatRoomTableView.frame=tableFrame;
+    } completion:nil];
+    
+    
+}
+
 #pragma mark Disappear Methods
 
 -(void)uploadImageOnAmazon:(UIImage *)image
@@ -1700,7 +1841,9 @@ didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result{
     
     [super viewWillDisappear:animated];
     messagetextField.text=@"";
-    
+    [self lowerDownBottomView];
+    [self.view removeGestureRecognizer:panGestureRecognizer];
+
     
 }
 
