@@ -167,6 +167,11 @@
     NSMutableAttributedString *fullString = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%@ %@" ,searchedText,notFoundText]];
   //  NSMutableAttributedString *fullString = [[NSMutableAttributedString alloc]initWithString:@"Hi"];
 
+    
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    [paragraphStyle setAlignment:NSTextAlignmentCenter];
+    [fullString addAttribute:(NSString *)NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, fullString.string.length)];
+    
     NSRange search_text_range=[fullString.string rangeOfString:searchedText];
     if (search_text_range.location!=NSNotFound) {
         [fullString addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)[Utility colorWithHexString:@"464646"].CGColor range:search_text_range];

@@ -87,10 +87,6 @@
 /**
  The URL used to monitor reachability, and construct requests from relative paths in methods like `requestWithMethod:URLString:parameters:`, and the `GET` / `POST` / et al. convenience methods.
  */
-
-
-@property (nonatomic, strong) AFHTTPRequestOperation *httpRequestOperation;
-
 @property (readonly, nonatomic, strong) NSURL *baseURL;
 
 /**
@@ -293,14 +289,6 @@
                         parameters:(id)parameters
                            success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
                            failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
-
-
-- (AFHTTPRequestOperation *)checkUsername:(NSString *)URLString
-                               parameters:(id)parameters
-                                  success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-                                  failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
-
-
 
 @end
 

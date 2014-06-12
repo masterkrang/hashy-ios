@@ -6,6 +6,9 @@
 //
 
 #import "CustomNavigationController.h"
+#import "DEMOMenuViewController.h"
+#import "UIViewController+REFrostedViewController.h"
+
 #define kNavigationBackground [UIImage imageNamed:@"profile_back_buttonwefg.png"]
 
 @interface CustomNavigationController ()
@@ -34,7 +37,33 @@
     
     [self.navigationController popViewControllerAnimated:YES];
 }
+- (void)showMenu
+{
+    // Dismiss keyboard (optional)
+    //
+    [self.view endEditing:YES];
+    NSLog(@"%@",self.frostedViewController);
+    [self.frostedViewController.view endEditing:YES];
+    
+    // Present the view controller
+    //
+    [self.frostedViewController presentMenuViewController];
+}
 
+#pragma mark -
+#pragma mark Gesture recognizer
+
+- (void)panGestureRecognized:(UIPanGestureRecognizer *)sender
+{
+    // Dismiss keyboard (optional)
+    //
+    [self.view endEditing:YES];
+    [self.frostedViewController.view endEditing:YES];
+    
+    // Present the view controller
+    //
+    [self.frostedViewController panGestureRecognized:sender];
+}
 
 - (void)viewDidLoad
 {

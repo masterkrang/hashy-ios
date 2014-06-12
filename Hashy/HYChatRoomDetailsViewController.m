@@ -1578,9 +1578,7 @@ didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result{
 
 -(void)uploadImageOnAmazon:(UIImage *)image
 {
-    
-    
-    [[NetworkEngine sharedNetworkEngine]saveAmazoneURLImage:image completionBlock:^(NSString *url) {
+    [[NetworkEngine sharedNetworkEngine]saveAmazoneURLImageInChatRoomScreen:image completionBlock:^(NSString *url) {
         
         
         if (url) {
@@ -1612,7 +1610,7 @@ didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result{
             
             [PubNub sendMessage:messageDict toChannel:masterChannel withCompletionBlock:^(PNMessageState messageState, id response) {
                 [kAppDelegate hideProgressHUD];
-
+                
                 NSLog(@"%@",response);
                 
                 if (messageState==PNMessageSent) {
@@ -1626,16 +1624,74 @@ didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result{
         }
         else{
             [kAppDelegate hideProgressHUD];
-
+            
         }
         
     } onError:^(NSError *error) {
-       
+        
         
         [kAppDelegate hideProgressHUD];
         
         
     }];
+    
+    
+//    [[NetworkEngine sharedNetworkEngine]saveAmazoneURLImage:image completionBlock:^(NSString *url) {
+//        
+//        
+//        if (url) {
+//            
+//            
+//            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+//            dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+//            
+//            NSTimeZone *gmt = [NSTimeZone timeZoneWithAbbreviation:@"GMT"];
+//            [dateFormatter setTimeZone:gmt];
+//            
+//            
+//            NSString *dateString=[dateFormatter stringFromDate:[NSDate date]];
+//            
+//            NSMutableDictionary *messageDict=[[NSMutableDictionary alloc]init];
+//            [messageDict setValue:url forKey:@"message"];
+//            [messageDict setValue:[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id.stringValue forKey:@"user_id"];
+//            [messageDict setValue:dateString forKey:@"message_date"];
+//            [messageDict setValue:[[UpdateDataProcessor sharedProcessor]currentUserInfo].userName forKey:@"user_name"];
+//            [messageDict setValue:@"image" forKey:@"type"];
+//            
+//            NSMutableDictionary *imageDict=[[NSMutableDictionary alloc]init];
+//            [imageDict setValue:image forKey:@"image"];
+//            [imageDict setValue:url forKey:@"image_url"];
+//            
+//            
+//            [imageArray addObject:imageDict];
+//            
+//            
+//            [PubNub sendMessage:messageDict toChannel:masterChannel withCompletionBlock:^(PNMessageState messageState, id response) {
+//                [kAppDelegate hideProgressHUD];
+//
+//                NSLog(@"%@",response);
+//                
+//                if (messageState==PNMessageSent) {
+//                    
+//                    
+//                }
+//                
+//                
+//            }];
+//            
+//        }
+//        else{
+//            [kAppDelegate hideProgressHUD];
+//
+//        }
+//        
+//    } onError:^(NSError *error) {
+//       
+//        
+//        [kAppDelegate hideProgressHUD];
+//        
+//        
+//    }];
     
 }
 

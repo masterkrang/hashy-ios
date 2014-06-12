@@ -271,6 +271,13 @@
 -(void)searchChannels:(NSString *)searched_text forPageNumber:(int)pageNumber{
     
     [[[[NetworkEngine sharedNetworkEngine]httpManager]operationQueue]cancelAllOperations];
+    if (pageNumber>1) {
+        [activityIndicatorView startAnimating];
+        
+        bottomView.hidden=NO;
+        
+        
+    }
 
     [[NetworkEngine sharedNetworkEngine]searchChannels:^(id object) {
         
