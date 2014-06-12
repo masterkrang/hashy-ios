@@ -205,7 +205,7 @@
     
     
     
-
+    
     NSString *dateString=@"";
     
     NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
@@ -218,47 +218,100 @@
     listChatTableView.pageLocked=YES;
     listChatTableView.selectedPageNumber=1;
     lastUpadteddate=[NSDate date];
-    [[NetworkEngine sharedNetworkEngine]getChatLists:^(id object) {
-        
-        //NSLog(@"%@",object);
-        
-        if (![object isEqual:[NSNull null]] && [object isKindOfClass:[NSArray class]]) {
+    
+    
+    if (searchTextField.text>0) {
+        [[NetworkEngine sharedNetworkEngine]searchChannels:^(id object) {
             
-            if ( listChatTableView.selectedPageNumber==1) {
-                [hashTagListArray removeAllObjects];
+            // NSLog(@"%@",object);
+            
+            if (![object isEqual:[NSNull null]] && [object isKindOfClass:[NSArray class]]) {
+                
+                
+                if (listChatTableView.selectedPageNumber==1)
+                    [self.hashTagListArray removeAllObjects];
+                
+                if (!self.hashTagListArray) {
+                    
+                    self.hashTagListArray=[[NSMutableArray alloc]init];
+                    
+                    
+                }
+                
+                NSMutableArray *objectsArray=[object mutableCopy];
+                [self.hashTagListArray addObjectsFromArray:objectsArray];
+                [self.listChatTableView reloadData];
+                self.listChatTableView.pageLocked=NO;
+                bottomView.hidden=YES;
+                [activityIndicatorView stopAnimating];
+                
+                //            if (objectsArray.count>24) {
+                //
+                //                selectedPageNumber+=1;
+                //
+                //                [self searchChannels:searched_text forPageNumber:selectedPageNumber];
+                //
+                //
+                //            }
+                //
+                
+                
                 
             }
-            if (!self.hashTagListArray) {
+            
+        } onError:^(NSError *error) {
+            
+            
+            NSLog(@"%@",error);
+            
+        } forSearchedText:searchTextField.text forPageNumber:listChatTableView.selectedPageNumber];
+    }
+    else{
+        
+        [[NetworkEngine sharedNetworkEngine]getChatLists:^(id object) {
+            
+            //NSLog(@"%@",object);
+            
+            if (![object isEqual:[NSNull null]] && [object isKindOfClass:[NSArray class]]) {
                 
-                self.hashTagListArray=[[NSMutableArray alloc]init];
+                if ( listChatTableView.selectedPageNumber==1) {
+                    [hashTagListArray removeAllObjects];
+                    
+                }
+                if (!self.hashTagListArray) {
+                    
+                    self.hashTagListArray=[[NSMutableArray alloc]init];
+                    
+                    
+                }
+                
+                
+                
+                NSMutableArray *objectsArray=[object mutableCopy];
+                [self.hashTagListArray addObjectsFromArray:objectsArray];
+                [self.listChatTableView reloadData];
+                self.listChatTableView.pageLocked=NO;
+                bottomView.hidden=YES;
+                [activityIndicatorView stopAnimating];
+                [self doneLoadingTableViewData];
+                
                 
                 
             }
             
             
-            
-            NSMutableArray *objectsArray=[object mutableCopy];
-            [self.hashTagListArray addObjectsFromArray:objectsArray];
-            [self.listChatTableView reloadData];
-            self.listChatTableView.pageLocked=NO;
+        } onError:^(NSError *error) {
+            self.listChatTableView.pageLocked=YES;
             bottomView.hidden=YES;
+            
             [activityIndicatorView stopAnimating];
-            [self doneLoadingTableViewData];
-
             
-            
-        }
+            NSLog(@"%@",error);
+        } forPageNumber:listChatTableView.selectedPageNumber forSearchedText:nil];
         
-        
-    } onError:^(NSError *error) {
-        self.listChatTableView.pageLocked=YES;
-        bottomView.hidden=YES;
-        
-        [activityIndicatorView stopAnimating];
-        
-        NSLog(@"%@",error);
-    } forPageNumber:listChatTableView.selectedPageNumber forSearchedText:nil];
-
+    }
+    
+    
     
     
     

@@ -1580,7 +1580,7 @@ didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result{
 {
     
     
-    [[NetworkEngine sharedNetworkEngine]saveAmazoneURLImage:image completionBlock:^(NSString *url) {
+    [[NetworkEngine sharedNetworkEngine]saveAmazoneURLImageInChatRoomScreen:image completionBlock:^(NSString *url) {
         
         
         if (url) {
@@ -1612,7 +1612,7 @@ didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result{
             
             [PubNub sendMessage:messageDict toChannel:masterChannel withCompletionBlock:^(PNMessageState messageState, id response) {
                 [kAppDelegate hideProgressHUD];
-
+                
                 NSLog(@"%@",response);
                 
                 if (messageState==PNMessageSent) {
@@ -1626,11 +1626,11 @@ didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result{
         }
         else{
             [kAppDelegate hideProgressHUD];
-
+            
         }
         
     } onError:^(NSError *error) {
-       
+        
         
         [kAppDelegate hideProgressHUD];
         

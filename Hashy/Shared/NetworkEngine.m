@@ -703,6 +703,83 @@ static NetworkEngine *sharedNetworkEngine=nil;
 }
 
 
+
+- (void)saveAmazoneURLImageInChatRoomScreen:(UIImage*)image completionBlock:(upload_completeBlock)completionBlock onError:(error_block)errorBlock{
+    
+    NSString* idName=[NSString stringWithFormat:@"%@.jpg", [[NSProcessInfo processInfo] globallyUniqueString]];
+    __block NSString *pathString;
+    AmazonS3Client *s3 = [[AmazonS3Client alloc] initWithAccessKey:AWSAccessKeyId withSecretKey:AWSSecretKey];
+    if(![AWSAccessKeyId isEqualToString:@"AKIAJGVJQYYLQOVZGJWQ"]
+       && s3 == nil)
+    {
+        // Initial the S3 Client.
+        s3 = [[AmazonS3Client alloc] initWithAccessKey:AWSAccessKeyId withSecretKey:AWSSecretKey] ;
+        // s3.endpoint = [AmazonEndpoints s3Endpoint:US_WEST_2];
+        
+        // Create the picture bucket.
+        S3CreateBucketRequest *createBucketRequest = [[S3CreateBucketRequest alloc] initWithName:bucketName andRegion:nil] ;
+        S3CreateBucketResponse *createBucketResponse = [s3 createBucket:createBucketRequest];
+        if(createBucketResponse.error != nil)
+        {
+            NSLog(@"Error: %@", createBucketResponse.error);
+        }
+    }
+    
+    
+    
+    
+    NSData *imageData = UIImageJPEGRepresentation(image, 1);
+    
+    
+    
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(queue, ^{
+        @try {
+            // Upload image data.  Remember to set the content type.
+            S3PutObjectRequest *por = [[S3PutObjectRequest alloc] initWithKey:idName inBucket:bucketName];
+            por.contentType = @"image/jpeg";
+            por.data        = imageData;
+            por.cannedACL   = [S3CannedACL publicRead];
+            // Put the image data into the specified s3 bucket and object.
+            S3PutObjectResponse *putObjectResponse = [s3 putObject:por];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                if(putObjectResponse.error != nil)
+                {
+                    NSLog(@"Error: %@", putObjectResponse.error);
+                    [self valueForKey:[putObjectResponse.error.userInfo objectForKey:@"message"]];
+                }
+                else{
+                    
+                    completionBlock(pathString);
+                    
+                }
+            });
+        }
+        
+        @catch(AmazonClientException *exception) {
+            NSLog(@"exception");
+        }
+        
+    });
+    
+    
+    S3ResponseHeaderOverrides *override = [[S3ResponseHeaderOverrides alloc] init] ;
+    override.contentType = @"image/jpeg";
+    
+    S3GetPreSignedURLRequest *gpsur = [[S3GetPreSignedURLRequest alloc] init] ;
+    gpsur.key     = idName;
+    gpsur.bucket  =bucketName;
+    gpsur.expires = [NSDate dateWithTimeIntervalSinceNow:(NSTimeInterval) 3600];  // Added an hour's worth of seconds to the current time.
+    gpsur.responseHeaderOverrides = override;
+    
+    
+    NSURL *url = [s3 getPreSignedURL:gpsur];
+    pathString=[NSString stringWithFormat:@"%@%@%@",@"https://",[url host],[url path]];
+    
+    
+}
+
 -(void) postSubCategory:(completion_block)completionBlock onError:(error_block)errorBlock categoryName:(NSArray *)categoryNameArray{
     
 //    NSMutableURLRequest *request=[Utility makeRequestForservicePathArray:kAddSubcategory httpMethod:@"POST" params:categoryNameArray isSSL:NO withURLParam:nil];
