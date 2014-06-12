@@ -14,6 +14,7 @@
 #import "UpdateDataProcessor.h"
 #import "UILabel+VerticalAlignment.h"
 #import "GKImagePicker.h"
+#import "DAKeyboardControl.h"
 
 
 
@@ -29,9 +30,9 @@
     UIActivityIndicatorView *activityIndicatorView;
     NSMutableArray *imageArray;
     
-    UISwipeGestureRecognizer *panGestureRecognizer;
-    BOOL swipeStarted;
-    float yLocationDifference;
+//    UISwipeGestureRecognizer *panGestureRecognizer;
+//    BOOL swipeStarted;
+//    float yLocationDifference;
 
     
 }

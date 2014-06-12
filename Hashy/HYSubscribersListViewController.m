@@ -355,6 +355,55 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    if (subscribersListArray.count>indexPath.row) {
+        NSMutableDictionary *userDict=[subscribersListArray objectAtIndex:indexPath.row];
+        int user_id_int;
+        
+        if ([userDict valueForKey:@"user"] && ![[userDict valueForKey:@"user"]isEqual:[NSNull null]]) {
+            
+            NSMutableDictionary *userDetailsDict=[userDict valueForKey:@"user"];
+            
+            
+            if ([userDetailsDict valueForKey:@"id"] && ![[userDetailsDict valueForKey:@"id"]isEqual:[NSNull null]]) {
+                
+                
+                NSNumber *user_id_num=[userDetailsDict valueForKey:@"id"];
+                user_id_int=user_id_num.intValue;
+                
+                
+            }
+            
+            
+        }
+        else if ([userDict valueForKey:@"channel_subscription"] && ![[userDict valueForKey:@"channel_subscription"]isEqual:[NSNull null]]){
+            
+            
+            NSMutableDictionary *userDetailDict=[userDict valueForKey:@"channel_subscription"];
+            
+            if ([userDetailDict valueForKey:@"user_id"] && ![[userDetailDict valueForKey:@"user_id"]isEqual:[NSNull null]]) {
+                
+                
+                NSNumber *user_id_num=[userDetailDict valueForKey:@"user_id"];
+                user_id_int=user_id_num.intValue;
+                
+                
+            }
+            
+            
+            
+        }
+        
+        if (user_id_int>0) {
+            
+            HYProfileViewController *profileVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"profile_vc"];
+            profileVC.user_id=[NSString stringWithFormat:@"%d",user_id_int];
+            [self.navigationController pushViewController:profileVC animated:YES];
+            
+            
+        }
+        
+
+    }
     
 }
 

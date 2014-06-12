@@ -313,7 +313,7 @@
                                 <rect key="frame" x="79" y="144" width="163" height="163"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <state key="normal" backgroundImage="9B9D1EDA-63D5-4FF9-B936-4C56468FB101">
+                                <state key="normal" backgroundImage="85ED297D-BCAB-4204-9BDF-C8CF8BFD7391">
                                     <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -768,12 +768,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="50" sectionHeaderHeight="27" sectionFooterHeight="1" id="0gE-wb-EV3" customClass="PageTableView">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="27" sectionFooterHeight="1" id="0gE-wb-EV3" customClass="PageTableView">
                                 <rect key="frame" x="0.0" y="35" width="320" height="531"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SubscribersCellIdentifier" rowHeight="72" id="bai-uM-CDI" customClass="SubscribersCustomCell">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="SubscribersCellIdentifier" rowHeight="72" id="bai-uM-CDI" customClass="SubscribersCustomCell">
                                         <rect key="frame" x="0.0" y="27" width="320" height="72"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bai-uM-CDI" id="M5o-wh-JgE">
@@ -857,7 +857,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="9B9D1EDA-63D5-4FF9-B936-4C56468FB101" width="326" height="326">
+        <image name="85ED297D-BCAB-4204-9BDF-C8CF8BFD7391" width="326" height="326">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -7997,11 +7997,18 @@ BobjA
 </mutableData>
         </image>
         <image name="add_image_mask_container@2x.png.png" width="326" height="326"/>
+        <image name="add_image_mask_container@2x.png.png" width="326" height="326"/>
         <image name="chat_room_paper_clip _icon.png" width="54" height="50"/>
         <image name="chat_room_text_conatiner.png" width="320" height="44"/>
         <image name="create_image.png" width="128" height="127"/>
         <image name="listChat_search_container.png" width="305" height="30"/>
+        <image name="listChat_search_container.png" width="305" height="30"/>
+        <image name="listChat_search_container.png" width="305" height="30"/>
         <image name="list_screen_green_dot.png" width="9" height="9"/>
+        <image name="list_screen_green_dot.png" width="9" height="9"/>
+        <image name="list_screen_green_dot.png" width="9" height="9"/>
+        <image name="profile_forward_icon.png" width="11" height="20"/>
+        <image name="profile_forward_icon.png" width="11" height="20"/>
         <image name="profile_forward_icon.png" width="11" height="20"/>
         <image name="profile_green_dot.png" width="19" height="19"/>
         <image name="profile_image_container.png" width="96" height="96"/>

@@ -294,7 +294,7 @@
         [activityIndicatorView startAnimating];
         
     }
-    
+    createButton.enabled=NO;
     [[NetworkEngine sharedNetworkEngine]getChatLists:^(id object) {
         
         NSLog(@"%@",object);
@@ -346,6 +346,7 @@
         bottomView.hidden=NO;
         [activityIndicatorView startAnimating];
     }
+    createButton.enabled=NO;
     
     [[[[NetworkEngine sharedNetworkEngine]httpManager]operationQueue]cancelAllOperations];
     
