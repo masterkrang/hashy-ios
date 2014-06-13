@@ -19,5 +19,6 @@
 -(void)hideBackButton;
 -(void)showBackButton;
 -(void) addSideMenus;
+- (void)showMenu;
 
 @end

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2607A1E019346F8C000FBBDF /* CustomNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2607A1D419346F8C000FBBDF /* CustomNavigationController.m */; };
 		2607A1E219346F8C000FBBDF /* NSAttributedString+Attributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 2607A1D919346F8C000FBBDF /* NSAttributedString+Attributes.m */; };
 		2607A1E319346F8C000FBBDF /* OHParagraphStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2607A1DB19346F8C000FBBDF /* OHParagraphStyle.m */; };
 		2607A1E419346F8C000FBBDF /* TTTAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2607A1DD19346F8C000FBBDF /* TTTAttributedLabel.m */; };
@@ -25,6 +24,7 @@
 		261BF5A51946EABA00426AF2 /* create_image@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 261BF5A41946EABA00426AF2 /* create_image@2x.png */; };
 		261BF5A719477B9900426AF2 /* chat_room_grey_bubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 261BF5A619477B9900426AF2 /* chat_room_grey_bubble@2x.png */; };
 		261BF5AA19477EB800426AF2 /* subscribers_container@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 261BF5A919477EB800426AF2 /* subscribers_container@2x.png */; };
+		26300943194AE5A200E492DC /* CustomNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 26300942194AE5A200E492DC /* CustomNavigationController.m */; };
 		26597BD01948BBFD00918762 /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 26597BC61948BBFD00918762 /* EGORefreshTableHeaderView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		26597BD11948BBFD00918762 /* blackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 26597BC81948BBFD00918762 /* blackArrow.png */; };
 		26597BD21948BBFD00918762 /* blackArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 26597BC91948BBFD00918762 /* blackArrow@2x.png */; };
@@ -135,8 +135,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2607A1D319346F8C000FBBDF /* CustomNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomNavigationController.h; sourceTree = "<group>"; };
-		2607A1D419346F8C000FBBDF /* CustomNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomNavigationController.m; sourceTree = "<group>"; };
 		2607A1D819346F8C000FBBDF /* NSAttributedString+Attributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+Attributes.h"; sourceTree = "<group>"; };
 		2607A1D919346F8C000FBBDF /* NSAttributedString+Attributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+Attributes.m"; sourceTree = "<group>"; };
 		2607A1DA19346F8C000FBBDF /* OHParagraphStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHParagraphStyle.h; sourceTree = "<group>"; };
@@ -161,6 +159,8 @@
 		261BF5A41946EABA00426AF2 /* create_image@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "create_image@2x.png"; sourceTree = "<group>"; };
 		261BF5A619477B9900426AF2 /* chat_room_grey_bubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chat_room_grey_bubble@2x.png"; sourceTree = "<group>"; };
 		261BF5A919477EB800426AF2 /* subscribers_container@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "subscribers_container@2x.png"; sourceTree = "<group>"; };
+		26300941194AE5A200E492DC /* CustomNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomNavigationController.h; sourceTree = "<group>"; };
+		26300942194AE5A200E492DC /* CustomNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomNavigationController.m; sourceTree = "<group>"; };
 		26597BC51948BBFD00918762 /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
 		26597BC61948BBFD00918762 /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
 		26597BC81948BBFD00918762 /* blackArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackArrow.png; sourceTree = "<group>"; };
@@ -606,10 +606,10 @@
 				A380DF891934695100759039 /* HYAppDelegate.h */,
 				A380DF8A1934695100759039 /* HYAppDelegate.m */,
 				A380DF8C1934695100759039 /* Main.storyboard */,
+				26300941194AE5A200E492DC /* CustomNavigationController.h */,
+				26300942194AE5A200E492DC /* CustomNavigationController.m */,
 				A380DF8F1934695100759039 /* HYViewController.h */,
 				A380DF901934695100759039 /* HYViewController.m */,
-				2607A1D319346F8C000FBBDF /* CustomNavigationController.h */,
-				2607A1D419346F8C000FBBDF /* CustomNavigationController.m */,
 				269347C11936FF150048CCA2 /* HYSignInViewController.h */,
 				269347C21936FF150048CCA2 /* HYSignInViewController.m */,
 				26ACF012193488F300C4BE9E /* HYSignUpViewController.h */,
@@ -913,6 +913,7 @@
 				A380DF871934695100759039 /* main.m in Sources */,
 				26ACF014193488F300C4BE9E /* HYSignUpViewController.m in Sources */,
 				269347E519374CFF0048CCA2 /* GKCropBorderView.m in Sources */,
+				26300943194AE5A200E492DC /* CustomNavigationController.m in Sources */,
 				2615F19419360C880079687C /* HYListChatViewController.m in Sources */,
 				BB0E6DB319470F5D00E5185F /* DEMOSecondViewController.m in Sources */,
 				26597BD01948BBFD00918762 /* EGORefreshTableHeaderView.m in Sources */,
@@ -925,7 +926,6 @@
 				269347E619374CFF0048CCA2 /* GKImageCropOverlayView.m in Sources */,
 				269347E819374CFF0048CCA2 /* GKImageCropViewController.m in Sources */,
 				BB0E6DA319470F5500E5185F /* REFrostedContainerViewController.m in Sources */,
-				2607A1E019346F8C000FBBDF /* CustomNavigationController.m in Sources */,
 				269347C61937067B0048CCA2 /* Utility.m in Sources */,
 				2694CB27193F387000283DFA /* HYChatRoomDetailsViewController.m in Sources */,
 				269347E919374CFF0048CCA2 /* GKImagePicker.m in Sources */,

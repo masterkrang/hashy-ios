@@ -37,6 +37,7 @@
     
     [self.navigationController popViewControllerAnimated:YES];
 }
+
 - (void)showMenu
 {
     // Dismiss keyboard (optional)
@@ -68,7 +69,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-   
+     [self.view addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureRecognized:)]];
   
     
     
