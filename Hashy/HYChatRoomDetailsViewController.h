@@ -27,7 +27,6 @@
     UIImage *editedImage;
     NSString *imageURLString;
     BOOL isImageSelectedFromDevice;
-    UIActivityIndicatorView *activityIndicatorView;
     NSMutableArray *imageArray;
     
 //    UISwipeGestureRecognizer *panGestureRecognizer;

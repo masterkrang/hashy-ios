@@ -11,12 +11,13 @@
 @implementation ChatCustomCell
 @synthesize userNameLabel;
 @synthesize messageLabel;
-@synthesize topLeftImageView;
-@synthesize topRightImageView;
-@synthesize bottomLeftImageView;
-@synthesize bottomRightImageView;
+//@synthesize topLeftImageView;
+//@synthesize topRightImageView;
+//@synthesize bottomLeftImageView;
+//@synthesize bottomRightImageView;
 @synthesize bubbleImageView;
 @synthesize pictureImageView;
+@synthesize activityIndicatorView;
 
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
