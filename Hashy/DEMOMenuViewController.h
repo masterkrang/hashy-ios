@@ -10,5 +10,8 @@
 #import "REFrostedViewController.h"
 
 @interface DEMOMenuViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate>
-
+{
+    UIImageView *imageView;
+    UILabel *label;
+}
 @end

@@ -12,13 +12,13 @@
 #import "CustomNavigationController.h"
 #import "UIViewController+REFrostedViewController.h"
 #import "HYListChatViewController.h"
-
+#import "HYProfileViewController.h"
 @implementation DEMOMenuViewController
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+   
     self.tableView.separatorColor = [UIColor colorWithRed:150/255.0f green:161/255.0f blue:177/255.0f alpha:1.0f];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -26,9 +26,9 @@
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.tableHeaderView = ({
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 184.0f)];
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 40, 100, 100)];
+      imageView  = [[UIImageView alloc] initWithFrame:CGRectMake(0, 40, 100, 100)];
         imageView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-        imageView.image = [UIImage imageNamed:@"avatar.jpg"];
+        imageView.image = nil;
         imageView.layer.masksToBounds = YES;
         imageView.layer.cornerRadius = 50.0;
         imageView.layer.borderColor = [UIColor whiteColor].CGColor;
@@ -37,8 +37,8 @@
         imageView.layer.shouldRasterize = YES;
         imageView.clipsToBounds = YES;
         
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 150, 0, 24)];
-        label.text = @" patrik sharma";
+       label  = [[UILabel alloc] initWithFrame:CGRectMake(0, 150, 0, 24)];
+        label.text = [[UpdateDataProcessor sharedProcessor]currentUserInfo].userName;
         label.font = [UIFont fontWithName:@"HelveticaNeue" size:21];
         label.backgroundColor = [UIColor clearColor];
         label.textColor = [UIColor colorWithRed:62/255.0f green:68/255.0f blue:75/255.0f alpha:1.0f];
@@ -49,8 +49,27 @@
         [view addSubview:label];
         view;
     });
+
+     [self performSelectorInBackground:@selector(loadImageInBackground) withObject:nil];
+    }
+- (void) loadImageInBackground
+{
+   
+    
+    // N.B. an instance of my 'Menu' class has been created, called 'menuItem'
+    
+    NSURL *imgURL = [NSURL URLWithString:[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_profile_image_url];
+    NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
+    UIImage *img = [[UIImage alloc] initWithData:imgData];
+    [self performSelectorOnMainThread:@selector(assignImageToImageView:) withObject:img waitUntilDone:YES];
+  
 }
 
+- (void) assignImageToImageView:(UIImage *)img
+{
+    
+    imageView.image=img;
+}
 #pragma mark -
 #pragma mark UITableView Delegate
 
@@ -96,7 +115,7 @@
         CustomNavigationController *navigationController = [[CustomNavigationController alloc] initWithRootViewController:homeViewController];
         self.frostedViewController.contentViewController = navigationController;
     } else if ((indexPath.section == 0 && indexPath.row == 2)) {
-        DEMOSecondViewController *secondViewController = [[DEMOSecondViewController alloc] init];
+        HYProfileViewController *secondViewController = [[HYProfileViewController alloc] init];
         CustomNavigationController *navigationController = [[CustomNavigationController alloc] initWithRootViewController:secondViewController];
         self.frostedViewController.contentViewController = navigationController;
     }
@@ -137,7 +156,7 @@
     }
     
     if (indexPath.section == 0) {
-        NSArray *titles = @[@"Recent Chats", @"Subscription", @"profile",@"logout"];
+        NSArray *titles = @[@"Chats", @"Subscriptions", @"Profile",@"logout"];
         cell.textLabel.text = titles[indexPath.row];
     } else {
         NSArray *titles = @[@"John Appleseed", @"John Doe", @"Test User"];
