@@ -63,6 +63,11 @@
     messagetextField.leftView = paddingView;
     messagetextField.leftViewMode = UITextFieldViewModeAlways;
     
+    messagetextField.font=[UIFont fontWithName:kHelVeticaNeueRegular size:16];
+    messagetextField.textColor=[Utility colorWithHexString:@"525252"];
+    messagetextField.autocapitalizationType=UITextAutocapitalizationTypeSentences;
+    
+    
 }
 
 

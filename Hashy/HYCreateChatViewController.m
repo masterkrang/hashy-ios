@@ -63,7 +63,8 @@
     searchContainerView.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];
     self.view.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];
     self.createChatTableView.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];
-
+    bottomView.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];
+    createView.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];
     createButton.enabled=NO;
     createView.hidden=YES;
 
@@ -133,7 +134,7 @@
     
     searchTextField.textColor=[Utility colorWithHexString:@"585858"];
     
-
+    channelNameAttributedLabel.textVerticalAlignment=UITextVerticalAlignmentTop;
     
     if (!IS_IPHONE_5) {
         
@@ -145,7 +146,7 @@
         
         
         CGRect channelNameAttFrame=self.channelNameAttributedLabel.frame;
-        channelNameAttFrame.origin.y-=120;
+        channelNameAttFrame.origin.y-=132;
         self.channelNameAttributedLabel.frame=channelNameAttFrame;
         
         
@@ -185,7 +186,7 @@
 
     if (not_found_range.location!=NSNotFound) {
         [fullString addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)[Utility colorWithHexString:@"858585"].CGColor range:not_found_range];
-        [fullString addAttribute:(NSString *)kCTFontAttributeName value:(id)[UIFont fontWithName:kHelVeticaNeueMedium size:19.5] range:not_found_range];
+        [fullString addAttribute:(NSString *)kCTFontAttributeName value:(id)[UIFont fontWithName:kHelVeticaNeueLight size:19.5] range:not_found_range];
         
         
     }
@@ -251,9 +252,13 @@
             }
             
             
-            if ([detailChannelDict valueForKey:@"subscribers_count"] && ![[detailChannelDict valueForKey:@"subscribers_count"]isEqual:[NSNull null]] && [[detailChannelDict valueForKey:@"subscribers_count"] length]>0) {
+            if ([detailChannelDict valueForKey:@"subscribers_count"] && ![[detailChannelDict valueForKey:@"subscribers_count"]isEqual:[NSNull null]] ) {
+                NSNumber *sub_count_num=[detailChannelDict valueForKey:@"subscribers_count"];
+                int subscribers_count_int=sub_count_num.intValue;
                 
-                chatVC.subscribersCountString=[detailChannelDict valueForKey:@"subscribers_count"];
+                
+                chatVC.subscribersCountString=[NSString stringWithFormat:@"%d",subscribers_count_int];
+
                 
                 
             }

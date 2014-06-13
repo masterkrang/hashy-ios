@@ -50,18 +50,18 @@
     [self.frostedViewController presentMenuViewController];
 }
 
-- (void)showMenu
-{
-    // Dismiss keyboard (optional)
-    //
-    [self.view endEditing:YES];
-    NSLog(@"%@",self.frostedViewController);
-    [self.frostedViewController.view endEditing:YES];
-    
-    // Present the view controller
-    //
-    [self.frostedViewController presentMenuViewController];
-}
+//- (void)showMenu
+//{
+//    // Dismiss keyboard (optional)
+//    //
+//    [self.view endEditing:YES];
+//    NSLog(@"%@",self.frostedViewController);
+//    [self.frostedViewController.view endEditing:YES];
+//    
+//    // Present the view controller
+//    //
+//    [self.frostedViewController presentMenuViewController];
+//}
 
 #pragma mark -
 #pragma mark Gesture recognizer
