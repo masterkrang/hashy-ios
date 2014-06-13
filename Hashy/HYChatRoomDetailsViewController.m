@@ -37,6 +37,7 @@
 @synthesize attachFileButton;
 @synthesize masterChannel;
 @synthesize chatIDString;
+@synthesize bottomView;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -361,11 +362,20 @@
 {
     [super viewDidLoad];
     [chatRoomTableView setupTablePaging];
+    
     chatRoomTableView.pagingDelegate=self;
     self.title=[NSString stringWithFormat:@"#%@",chatNameString];
     [self setBarButtonItems];
     [self setPaddingView];
     [self getChatWithID:chatIDString];
+   
+    activityIndicatorView=[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    activityIndicatorView.frame=CGRectMake((self.view.frame.size.width/2)-10, 0, 20, 20);
+    [activityIndicatorView setColor:[UIColor darkGrayColor]];
+    [bottomView addSubview:activityIndicatorView];
+    [activityIndicatorView startAnimating];
+    bottomView.hidden=YES;
+
    // activityIndicatorView =[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(90, 90, 20, 20)];
    // activityIndicatorView.activityIndicatorViewStyle=UIActivityIndicatorViewStyleGray;
     
@@ -575,11 +585,32 @@
 
 
 -(void)getFullHistoryOfMessages:(PNChannel *)channel{
+    float startDateTimeInterval=-CGFLOAT_MAX;
+    float endDateTimeInterval=100;
+
+    PNDate *start_pn_date = [PNDate dateWithDate:[NSDate dateWithTimeIntervalSinceNow:startDateTimeInterval]];
+   // PNDate *end_pn_date = [PNDate dateWithDate:[NSDate date]];
+    PNDate *end_pn_date = [PNDate dateWithDate:[NSDate dateWithTimeIntervalSinceNow:endDateTimeInterval]];
+
     
-//    PNDate *startDate = [PNDate dateWithDate:[NSDate dateWithTimeIntervalSinceNow:(-3600.0f)]];
-//    PNDate *endDate = [PNDate dateWithDate:[NSDate date]];
     
-    [PubNub requestFullHistoryForChannel:channel withCompletionBlock:^(NSArray *messageArray, PNChannel *channel, PNDate *startDate, PNDate *endDate, PNError *error) {
+    
+    
+
+    
+    
+    
+    [PubNub requestHistoryForChannel:channel from:nil to:nil limit:25 reverseHistory:NO includingTimeToken:YES withCompletionBlock:^(NSArray *messageArray, PNChannel *channel, PNDate *startDate, PNDate *endDate, PNError *error) {
+        
+        
+        
+        
+        
+        
+        
+        
+        pn_paging_endDate=startDate;
+        
         [kAppDelegate hideProgressHUD];
         backButton.enabled=YES;
         subscriberButtonCount.enabled=YES;
@@ -593,70 +624,18 @@
         
         
         if (chatRoomMessageArray.count) {
-           // [self.chatRoomTableView beginUpdates];
+            // [self.chatRoomTableView beginUpdates];
             [chatRoomTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[chatRoomTableView numberOfRowsInSection:0]-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
             //[self.chatRoomTableView endUpdates];
         }
+        chatRoomTableView.pageLocked=NO;
+        
         
         //[chatRoomTableView setContentOffset:CGPointMake(0, CGFLOAT_MAX)];
         
         
-    }];
+    } ];
     
-    
-//    [PubNub requestHistoryForChannel:channel from:nil to:endDate limit:25 reverseHistory:YES includingTimeToken:YES withCompletionBlock:^(NSArray *messageArray, PNChannel *channel, PNDate *startDate, PNDate *endDate, PNError *error) {
-//        [kAppDelegate hideProgressHUD];
-//        backButton.enabled=YES;
-//        subscriberButtonCount.enabled=YES;
-//        
-//        if (!chatRoomMessageArray) {
-//            chatRoomMessageArray=[[NSMutableArray alloc]init];
-//        }
-//        
-//        chatRoomMessageArray=[messageArray mutableCopy];
-//        [chatRoomTableView reloadData];
-//        //   [chatRoomTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:chatRoomMessageArray.count-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-//        
-//        
-//        
-//    }];
-//    
-    
-//    [PubNub requestHistoryForChannel:channel from:nil to:[NSDate date] limit:25 reverseHistory:ye includingTimeToken:<#(BOOL)#> limit:5 withCompletionBlock:^(NSArray *messageArray, PNChannel *channel, PNDate *startDate, PNDate *endDate, PNError *error) {
-//        [kAppDelegate hideProgressHUD];
-//        backButton.enabled=YES;
-//        subscriberButtonCount.enabled=YES;
-//        
-//        if (!chatRoomMessageArray) {
-//            chatRoomMessageArray=[[NSMutableArray alloc]init];
-//        }
-//        
-//        chatRoomMessageArray=[messageArray mutableCopy];
-//        [chatRoomTableView reloadData];
-//     //   [chatRoomTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:chatRoomMessageArray.count-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-//        
-//        
-//        
-//    }];
-    
-    
-//    [PubNub requestFullHistoryForChannel:channel withCompletionBlock:^(NSArray *messageArray, PNChannel *channel, PNDate *startDate, PNDate *endDate, PNError *error) {
-//        [kAppDelegate hideProgressHUD];
-//        backButton.enabled=YES;
-//        subscriberButtonCount.enabled=YES;
-//        
-//        if (!chatRoomMessageArray) {
-//            chatRoomMessageArray=[[NSMutableArray alloc]init];
-//        }
-//        
-//        chatRoomMessageArray=[messageArray mutableCopy];
-//        [chatRoomTableView reloadData];
-//        [chatRoomTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:chatRoomMessageArray.count-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-//        
-//        
-//        
-//    }];
-
 
 }
 
@@ -1057,10 +1036,6 @@
 //}
 
 
--(void)tableView:(UITableView*)tableView didReachEndOfPage:(int)page{
-    
-    
-}
 
 
 -(CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -1098,6 +1073,78 @@
     return 0.1;
     
 }
+
+
+-(void)tableView:(UITableView*)tableView didReachEndOfPage:(int)page{
+    
+ 
+    if (chatRoomMessageArray.count%5==0) {
+        
+        
+        if (pn_paging_endDate) {
+            
+            
+            chatRoomTableView.pageLocked=YES;
+            bottomView.hidden=NO;
+            [activityIndicatorView startAnimating];
+//            float startDateTimeInterval=-CGFLOAT_MAX;
+//            PNDate *start_pn_date = [PNDate dateWithDate:[NSDate dateWithTimeIntervalSinceNow:startDateTimeInterval]];
+            
+            
+            PNDate *date=[PNDate dateWithDate:pn_paging_endDate.date];
+            
+            
+            [PubNub requestHistoryForChannel:masterChannel from:date to:nil limit:25 includingTimeToken:YES withCompletionBlock:^(NSArray *messageArray, PNChannel *channel, PNDate *start_Date, PNDate *end_Date, PNError *error) {
+                
+                pn_paging_endDate=start_Date;
+                chatRoomTableView.pageLocked=NO;
+                bottomView.hidden=YES;
+                [activityIndicatorView stopAnimating];
+
+                
+                [kAppDelegate hideProgressHUD];
+                backButton.enabled=YES;
+                subscriberButtonCount.enabled=YES;
+                
+                if (!chatRoomMessageArray) {
+                    chatRoomMessageArray=[[NSMutableArray alloc]init];
+                }
+                
+                
+                NSMutableArray *objectsArray=[messageArray mutableCopy];
+                
+                
+                objectsArray=[[[objectsArray reverseObjectEnumerator]allObjects] mutableCopy];
+                
+                for (id object in objectsArray) {
+                    
+                    [chatRoomMessageArray insertObject:object atIndex:0];
+                    
+                }
+                
+                
+//                [chatRoomMessageArray addObjectsFromArray:objectsArray];
+                [chatRoomTableView reloadData];
+                
+                
+                
+                
+            }];
+
+            
+//            [PubNub requestHistoryForChannel:masterChannel from:start_pn_date to:end_pn_date limit:25 includingTimeToken:YES withCompletionBlock:^(NSArray *messageArray, PNChannel *channel, PNDate *startDate, PNDate *endDate, PNError *error) ];
+            
+            
+            
+            
+            
+        }
+        
+    }
+    
+    
+}
+
 
 #pragma mark Set cell 
 

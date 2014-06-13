@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PageTableView.h"
 #import "ChatCustomCell.h"
 #import "NetworkEngine.h"
 #import "Utility.h"
@@ -15,7 +14,7 @@
 #import "UILabel+VerticalAlignment.h"
 #import "GKImagePicker.h"
 #import "DAKeyboardControl.h"
-
+#import "ChatCustomPageTableView.h"
 
 
 @interface HYChatRoomDetailsViewController : UIViewController<UITableViewDataSource,PagingDelegate,UITextFieldDelegate,UIActionSheetDelegate,GKImagePickerDelegate,TTTAttributedLabelDelegate,UIGestureRecognizerDelegate>{
@@ -28,6 +27,9 @@
     NSString *imageURLString;
     BOOL isImageSelectedFromDevice;
     NSMutableArray *imageArray;
+    PNDate *pn_paging_endDate;
+    UIActivityIndicatorView *activityIndicatorView;
+
     
 //    UISwipeGestureRecognizer *panGestureRecognizer;
 //    BOOL swipeStarted;
@@ -36,7 +38,7 @@
     
 }
 @property(nonatomic,strong)    PNChannel *masterChannel;
-@property(nonatomic,strong)    IBOutlet PageTableView *chatRoomTableView;
+@property(nonatomic,strong)    IBOutlet ChatCustomPageTableView *chatRoomTableView;
 @property(nonatomic,strong) NSMutableDictionary *chatDict;
 @property(nonatomic,strong) NSMutableArray *chatRoomMessageArray;
 @property(nonatomic,strong)NSString * subscribersCountString;
@@ -47,6 +49,7 @@
 @property(nonatomic,strong)    IBOutlet UITextField *messagetextField;
 @property(nonatomic,strong)    IBOutlet UIButton *attachFileButton;
 @property(nonatomic,strong)    IBOutlet UIButton *sendMessageButton;
+@property(strong,nonatomic)IBOutlet UIView *bottomView;
 
 -(IBAction)attachFileButtonPressed:(UIButton *)sender;
 -(IBAction)sendMessageButtonPressed:(UIButton *)sender;

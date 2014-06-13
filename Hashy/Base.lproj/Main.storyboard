@@ -13,7 +13,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="73" sectionHeaderHeight="1" sectionFooterHeight="4" id="rAG-jU-Rio" customClass="PageTableView">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="73" sectionHeaderHeight="1" sectionFooterHeight="4" id="rAG-jU-Rio" customClass="ChatCustomPageTableView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="523"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -59,7 +59,7 @@
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
-                                    <outlet property="dataSource" destination="2md-Op-ByK" id="Aia-y4-P7X"/>
+                                    <outlet property="dataSource" destination="2md-Op-ByK" id="4co-Lf-r3o"/>
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" id="VQj-C7-hyz">
@@ -103,12 +103,18 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <view contentMode="scaleToFill" id="zdz-TZ-fPK">
+                                <rect key="frame" x="0.0" y="60" width="320" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
                         <outlet property="attachFileButton" destination="09N-k5-lIA" id="IVW-CH-MmX"/>
-                        <outlet property="chatRoomTableView" destination="rAG-jU-Rio" id="Obl-yJ-JTW"/>
+                        <outlet property="bottomView" destination="zdz-TZ-fPK" id="H4V-qt-Fy6"/>
+                        <outlet property="chatRoomTableView" destination="rAG-jU-Rio" id="nfQ-Dm-Yu3"/>
                         <outlet property="messageConatinerView" destination="VQj-C7-hyz" id="1g8-7O-Zc7"/>
                         <outlet property="messagetextField" destination="fWp-aU-ewF" id="h48-KL-hrC"/>
                         <outlet property="sendMessageButton" destination="RZL-J9-b4U" id="giJ-nB-iNr"/>
@@ -306,7 +312,7 @@
                                 <rect key="frame" x="79" y="144" width="163" height="163"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <state key="normal" backgroundImage="C45B3329-FF88-41C7-9FB0-C3AAB29623B6">
+                                <state key="normal" backgroundImage="89C7EEA3-EFB4-430F-B89D-AFECB0D65FE5">
                                     <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -514,7 +520,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="1" sectionFooterHeight="3" id="7ru-uB-Af8" customClass="PageTableView">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="1" sectionFooterHeight="3" id="7ru-uB-Af8" customClass="ChatCustomPageTableView">
                                 <rect key="frame" x="0.0" y="246" width="320" height="322"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -850,7 +856,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="C45B3329-FF88-41C7-9FB0-C3AAB29623B6" width="326" height="326">
+        <image name="89C7EEA3-EFB4-430F-B89D-AFECB0D65FE5" width="326" height="326">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
