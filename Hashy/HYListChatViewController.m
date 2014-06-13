@@ -223,7 +223,6 @@
     if (searchTextField.text>0) {
         [[NetworkEngine sharedNetworkEngine]searchChannels:^(id object) {
             
-            // NSLog(@"%@",object);
             
             if (![object isEqual:[NSNull null]] && [object isKindOfClass:[NSArray class]]) {
                 
@@ -244,6 +243,8 @@
                 self.listChatTableView.pageLocked=NO;
                 bottomView.hidden=YES;
                 [activityIndicatorView stopAnimating];
+                [self doneLoadingTableViewData];
+
                 
                 //            if (objectsArray.count>24) {
                 //
@@ -253,15 +254,13 @@
                 //
                 //
                 //            }
-                //
-                
-                
                 
             }
             
         } onError:^(NSError *error) {
             
-            
+            [self doneLoadingTableViewData];
+
             NSLog(@"%@",error);
             
         } forSearchedText:searchTextField.text forPageNumber:listChatTableView.selectedPageNumber];
@@ -305,10 +304,11 @@
             bottomView.hidden=YES;
             
             [activityIndicatorView stopAnimating];
-            
+            [self doneLoadingTableViewData];
+
             NSLog(@"%@",error);
         } forPageNumber:listChatTableView.selectedPageNumber forSearchedText:nil];
-        
+
     }
     
     
@@ -324,6 +324,13 @@
 -(void)searchChannels:(NSString *)searched_text forPageNumber:(int)pageNumber{
     
     [[[[NetworkEngine sharedNetworkEngine]httpManager]operationQueue]cancelAllOperations];
+    if (pageNumber>1) {
+        [activityIndicatorView startAnimating];
+        
+        bottomView.hidden=NO;
+        
+        
+    }
 
     [[NetworkEngine sharedNetworkEngine]searchChannels:^(id object) {
         
@@ -719,7 +726,7 @@
 
 -(CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
 
-    return 0.1;
+    return 0.01;
     
     
 }

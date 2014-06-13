@@ -153,9 +153,201 @@
     
 }
 
+-(void)addDAKeyboardControl{
+    
+    
+    
+    typeof (self.messageConatinerView) weakSelfMessageContainer=self.messageConatinerView;
+    typeof (self.chatRoomTableView) weakSelfTableView=self.chatRoomTableView;
+    
+    typeof (self) weakSelf=self;
+    
+    
+    [self.view addKeyboardPanningWithFrameBasedActionHandler:^(CGRect keyboardFrameInView, BOOL opening, BOOL closing) {
+        
+        NSLog(@"%@",weakSelf);
+
+        if ([weakSelf.navigationController.visibleViewController isKindOfClass:[HYChatRoomDetailsViewController class]]) {
+            
+            
+            /*
+             Try not to call "self" inside this block (retain cycle).
+             But if you do, make sure to remove DAKeyboardControl
+             when you are done with the view controller by calling:
+             [self.view removeKeyboardControl];
+             */
+            CGRect toolBarFrame = weakSelfMessageContainer.frame;
+            toolBarFrame.origin.y = keyboardFrameInView.origin.y - toolBarFrame.size.height;
+            weakSelfMessageContainer.frame = toolBarFrame;
+            NSLog(@"Origin %f",(-[[UIScreen mainScreen] bounds].size.height+toolBarFrame.size.height+toolBarFrame.origin.y));
+            
+            if (keyboardFrameInView.origin.y==264 || keyboardFrameInView.origin.y==352) {
+
+                if (IS_IPHONE_5) {
+                    //For iphone 5 keyboard show
+
+                    if (weakSelfTableView.contentSize.height<230) {
+                        CGRect tableViewFrame =weakSelfTableView.frame;
+                        tableViewFrame.origin.y=0;
+                        
+                        weakSelfTableView.frame = tableViewFrame;
+                    }
+                    else if (weakSelfTableView.contentSize.height>=230 && weakSelfTableView.contentSize.height<290){
+                        
+                        CGRect tableViewFrame =weakSelfTableView.frame;
+                        tableViewFrame.origin.y=-60;
+                        
+                        weakSelfTableView.frame = tableViewFrame;
+
+                    }
+                    
+                    else if (weakSelfTableView.contentSize.height>=290 && weakSelfTableView.contentSize.height<350){
+                        
+                        CGRect tableViewFrame =weakSelfTableView.frame;
+                        tableViewFrame.origin.y=-150;
+                        
+                        weakSelfTableView.frame = tableViewFrame;
+                    }
+
+                    
+                    else if (weakSelfTableView.contentSize.height>=350 && weakSelfTableView.contentSize.height<410){
+                        
+                        CGRect tableViewFrame =weakSelfTableView.frame;
+                        tableViewFrame.origin.y=-210;
+                        
+                        weakSelfTableView.frame = tableViewFrame;
+                    }
+                    
+                    else{
+                        
+                        CGRect tableViewFrame =weakSelfTableView.frame;
+                        tableViewFrame.origin.y=-216;//90;
+                        
+                        weakSelfTableView.frame = tableViewFrame;
+                    }
+                    
+                    
+                    
+                }
+                else{
+                   //For iphone 4 keyboard show
+                    if (weakSelfTableView.contentSize.height<150) {
+                        CGRect tableViewFrame =weakSelfTableView.frame;
+                        tableViewFrame.origin.y=0;
+                        
+                        weakSelfTableView.frame = tableViewFrame;
+                    }
+                    else if (weakSelfTableView.contentSize.height>=150 && weakSelfTableView.contentSize.height<210){
+                        
+                        CGRect tableViewFrame =weakSelfTableView.frame;
+                        tableViewFrame.origin.y=-60;
+                        
+                        weakSelfTableView.frame = tableViewFrame;
+                        
+                    }
+                    
+                    else if (weakSelfTableView.contentSize.height>=210 && weakSelfTableView.contentSize.height<270){
+                        
+                        CGRect tableViewFrame =weakSelfTableView.frame;
+                        tableViewFrame.origin.y=-150+20;
+                        
+                        weakSelfTableView.frame = tableViewFrame;
+                    }
+                    
+                    
+                    else if (weakSelfTableView.contentSize.height>=270 && weakSelfTableView.contentSize.height<330){
+                        
+                        CGRect tableViewFrame =weakSelfTableView.frame;
+                        tableViewFrame.origin.y=-210;
+                        
+                        weakSelfTableView.frame = tableViewFrame;
+                    }
+                    
+                    else{
+                        
+                        CGRect tableViewFrame =weakSelfTableView.frame;
+                        tableViewFrame.origin.y=-216;//90;
+                        
+                        weakSelfTableView.frame = tableViewFrame;
+                    }
+                    
+                }
+            }
+            
+            //Hide keyboard
+            else{
+                
+                if (closing) {
+                    CGRect tableViewFrame =weakSelfTableView.frame;
+                    tableViewFrame.origin.y=0;// [[UIScreen mainScreen] bounds].size.height-35-toolBarFrame.origin.y;
+                    
+                    weakSelfTableView.frame = tableViewFrame;
+                    
+                }
+                else{
+                    
+                    CGRect tableViewFrame =weakSelfTableView.frame;
+                    tableViewFrame.origin.y=(-[[UIScreen mainScreen] bounds].size.height+toolBarFrame.size.height+toolBarFrame.origin.y);// [[UIScreen mainScreen] bounds].size.height-35-toolBarFrame.origin.y;
+                    
+                    weakSelfTableView.frame = tableViewFrame;
+
+                    
+//                    if (IS_IPHONE_5) {
+//                        
+//                        if (weakSelfTableView.contentSize.height>270) {
+//                            
+//                            CGRect tableFrame=weakSelfTableView.frame;
+//                            tableFrame.origin.y-=216;
+//                            weakSelfTableView.frame=tableFrame;
+//                        }
+//                        
+//                    }
+//                    else{
+//                        
+//                        if (weakSelfTableView.contentSize.height>190  &&weakSelfTableView.contentSize.height<220 ) {
+//                            
+//                            CGRect tableFrame=weakSelfTableView.frame;
+//                            tableFrame.origin.y-=166;
+//                            weakSelfTableView.frame=tableFrame;
+//                        }
+//                        else if (weakSelfTableView.contentSize.height>=220){
+//                            CGRect tableFrame=weakSelfTableView.frame;
+//                            tableFrame.origin.y-=216;
+//                            weakSelfTableView.frame=tableFrame;
+//                            
+//                        }
+//                        
+//                    }
+                    
+                    
+                    NSLog(@"Table total height %f",weakSelfTableView.contentSize.height);
+                    
+                    
+               
+                    
+                    
+                }
+                
+                
+                
+            }
+            
+        }
+        
+        
+        
+
+        
+        
+    } constraintBasedActionHandler:nil];
+}
+
 -(void)viewWillAppear:(BOOL)animated{
     
     [super viewWillAppear:animated];
+    [self.view removeKeyboardControl];
+    [self addDAKeyboardControl];
+
     sendMessageButton.enabled=NO;
 }
 
@@ -186,7 +378,8 @@
     [sendMessageButton setTitleColor:[Utility colorWithHexString:@"157dfb"] forState:UIControlStateNormal];
     [sendMessageButton setTitleColor:[Utility colorWithHexString:@"cecece"] forState:UIControlStateDisabled];
     [sendMessageButton.titleLabel setFont:[UIFont fontWithName:kHelVeticaNeueMedium size:16]];
-    
+    messagetextField.autocorrectionType=UITextAutocorrectionTypeNo;
+
     
     //   [self getChatWithID:[chatDict valueForKey:@"id"]];
     
@@ -212,58 +405,98 @@
    // [PubNub setConfiguration:[PNConfiguration defaultConfiguration]];
     
    // PNConfiguration *configuration=[PNConfiguration configurationWithPublishKey:kPubNubPublishKey subscribeKey:kPubNubSubscribeKey secretKey:kPubNubSecretKey];
-   PNConfiguration *configuration=[PNConfiguration defaultConfiguration];
-
-    [PubNub setConfiguration:configuration];
-    
-    
-    
-    
-    [PubNub connectWithSuccessBlock:^(NSString *origin) {
-        masterChannel=[PNChannel channelWithName:channelName shouldObservePresence:YES];
+   
+    if ([PubNub sharedInstance].isConnected) {
         
-        if (masterChannel) {
-            [PubNub subscribeOnChannel:masterChannel withCompletionHandlingBlock:^(PNSubscriptionProcessState state, NSArray *array, PNError *error) {
-                
-                if (!error) {
-                    [self getFullHistoryOfMessages:masterChannel];
+        
+        masterChannel=[PNChannel channelWithName:channelName shouldObservePresence:YES];
+        BOOL isSubscribedOnChannel=[PubNub isSubscribedOnChannel:masterChannel];
+
+        
+        if (isSubscribedOnChannel) {
+            [self getFullHistoryOfMessages:masterChannel];
+
+        }
+        else{
+            
+            if (masterChannel) {
+                [PubNub subscribeOnChannel:masterChannel withCompletionHandlingBlock:^(PNSubscriptionProcessState state, NSArray *array, PNError *error) {
                     
-                }
-                else{
-                    backButton.enabled=YES;
-                    subscriberButtonCount.enabled=YES;
-                    [kAppDelegate hideProgressHUD];
-                }
-                
-          
-                
-                //  NSLog(@"%@\n%@",array,error);
-                
-            }];
+                    if (!error) {
+                        [self getFullHistoryOfMessages:masterChannel];
+                        
+                    }
+                    else{
+                        backButton.enabled=YES;
+                        subscriberButtonCount.enabled=YES;
+                        [kAppDelegate hideProgressHUD];
+                    }
+                    
+                    
+                    
+                    //  NSLog(@"%@\n%@",array,error);
+                    
+                }];
+            }
+            
         }
         
         
- 
         
-//        // wait 1 second
-//        int64_t delayInSeconds = 1.0;
-//        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC); dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-//            
-//           // [PubNub subscribeOnChannel:];
-//        
-//        });
-    } errorBlock:^(PNError *error) {
-        [kAppDelegate hideProgressHUD];
-        backButton.enabled=YES;
-        subscriberButtonCount.enabled=YES;
-        UIAlertView *connectionErrorAlert = [UIAlertView new]; connectionErrorAlert.title = [NSString stringWithFormat:@"%@(%@)",
-                                                                                             [error localizedDescription],
-                                                                                             NSStringFromClass([self class])];
-        connectionErrorAlert.message = [NSString stringWithFormat:@"Reason:\n%@\n\nSuggestion:\n%@",
-                                        [error localizedFailureReason],
-                                        [error localizedRecoverySuggestion]]; [connectionErrorAlert addButtonWithTitle:@"OK"];
-        [connectionErrorAlert show];
-    }];
+        
+    
+    }
+    else{
+        
+        
+        PNConfiguration *configuration=[PNConfiguration defaultConfiguration];
+        
+        [PubNub setConfiguration:configuration];
+        
+        
+        
+        
+        [PubNub connectWithSuccessBlock:^(NSString *origin) {
+            masterChannel=[PNChannel channelWithName:channelName shouldObservePresence:YES];
+            
+            if (masterChannel) {
+                [PubNub subscribeOnChannel:masterChannel withCompletionHandlingBlock:^(PNSubscriptionProcessState state, NSArray *array, PNError *error) {
+                    
+                    if (!error) {
+                        [self getFullHistoryOfMessages:masterChannel];
+                        
+                    }
+                    else{
+                        backButton.enabled=YES;
+                        subscriberButtonCount.enabled=YES;
+                        [kAppDelegate hideProgressHUD];
+                    }
+                    
+                    
+                    
+                    //  NSLog(@"%@\n%@",array,error);
+                    
+                }];
+            }
+            
+            
+            
+            
+     
+        } errorBlock:^(PNError *error) {
+            [kAppDelegate hideProgressHUD];
+            backButton.enabled=YES;
+            subscriberButtonCount.enabled=YES;
+            UIAlertView *connectionErrorAlert = [UIAlertView new]; connectionErrorAlert.title = [NSString stringWithFormat:@"%@(%@)",
+                                                                                                 [error localizedDescription],
+                                                                                                 NSStringFromClass([self class])];
+            connectionErrorAlert.message = [NSString stringWithFormat:@"Reason:\n%@\n\nSuggestion:\n%@",
+                                            [error localizedFailureReason],
+                                            [error localizedRecoverySuggestion]]; [connectionErrorAlert addButtonWithTitle:@"OK"];
+            [connectionErrorAlert show];
+        }];
+    }
+
     
     
 //    [PubNub setConfiguration: [PNConfiguration configurationForOrigin:@"pubsub.pubnub.com"
@@ -423,104 +656,6 @@
 }
 
 
-#pragma mark UITextField Deleagte Methods
-
--(void)textFieldDidBeginEditing:(UITextField *)textField{
-    
-   
-    
-    
-    NSLog(@"%f",chatRoomTableView.contentSize.height);
-    
-    
-    
-    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
-        CGRect messageContainerFrame=self.messageConatinerView.frame;
-        messageContainerFrame.origin.y-=216;
-        self.messageConatinerView.frame=messageContainerFrame;
-        
-        
-        if (IS_IPHONE_5) {
-            
-            if (chatRoomTableView.contentSize.height>270) {
-                
-                CGRect tableFrame=self.chatRoomTableView.frame;
-                tableFrame.origin.y-=216;
-                self.chatRoomTableView.frame=tableFrame;
-            }
-            
-        }
-        else{
-            
-            if (chatRoomTableView.contentSize.height>190  &&chatRoomTableView.contentSize.height<220 ) {
-                
-                CGRect tableFrame=self.chatRoomTableView.frame;
-                tableFrame.origin.y-=166;
-                self.chatRoomTableView.frame=tableFrame;
-            }
-            else if (chatRoomTableView.contentSize.height>=220){
-                CGRect tableFrame=self.chatRoomTableView.frame;
-                tableFrame.origin.y-=216;
-                self.chatRoomTableView.frame=tableFrame;
- 
-            }
-           
-        }
-        
-      
-    } completion:nil];
-    
-    
-    
-}
-
-
--(void)textFieldDidEndEditing:(UITextField *)textField{
-    
-    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-        CGRect messageContainerFrame=self.messageConatinerView.frame;
-        messageContainerFrame.origin.y+=216;
-        self.messageConatinerView.frame=messageContainerFrame;
-        
-        CGRect tableFrame=self.chatRoomTableView.frame;
-        tableFrame.origin.y=0;
-        self.chatRoomTableView.frame=tableFrame;
-        
-//        CGRect tableFrame=self.chatRoomTableView.frame;
-//        tableFrame.origin.y-=153;
-//        self.chatRoomTableView.frame=tableFrame;
-    } completion:nil];
-
-}
-
--(BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
-    
-    NSString * searchString = [[textField text] stringByReplacingCharactersInRange:range withString:string];
-    if (searchString.length>0) {
-        
-        
-        sendMessageButton.enabled=YES;
-        
-    }
-    else{
-        sendMessageButton.enabled=NO;
-    }
-    
-    return YES;
-    
-}
-
-
-
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    
-    return [textField resignFirstResponder];
-    
-}
-
-
-
 #pragma mark UItableView Delegate Methods
 
 -(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -637,8 +772,10 @@
     cell.messageLabel.dataDetectorTypes = UIDataDetectorTypeLink | UIDataDetectorTypePhoneNumber;
 
     cell.messageLabel.dataDetectorTypes = UIDataDetectorTypeAll;
-    cell.messageLabel.textAlignment = NSTextAlignmentCenter;
-    cell.messageLabel.verticalAlignment=TTTAttributedLabelVerticalAlignmentCenter;
+    cell.messageLabel.textAlignment = NSTextAlignmentLeft;
+    //cell.messageLabel.verticalAlignment=TTTAttributedLabelVerticalAlignmentCenter;
+    cell.messageLabel.numberOfLines=0;
+    cell.messageLabel.textVerticalAlignment=UITextVerticalAlignmentTop;
     
     if (self.chatRoomMessageArray.count>indexPath.row) {
         
@@ -816,8 +953,9 @@
         
         height+=11;
     }
-    CGSize messageSize=CGSizeMake(260, 999);
-    
+    //CGSize messageSize=CGSizeMake(260, 999);
+    CGSize messageSize=CGSizeMake(230, 999);
+
     
     if ([messageDict valueForKey:@"type"] && [[messageDict valueForKey:@"type"]isEqualToString:@"image"]) {
         
@@ -960,15 +1098,13 @@
 -(void)setChatCell:(ChatCustomCell *)cell ForIndexPath:(NSIndexPath *)indexPath forDictionary:(NSDictionary *)messageDict isUserMessage:(BOOL)isFromUser{
     
     
-  //  NSString *newtext=@"kugwei wugveiwugh vwg i gvw wvg iugvw iugw eiug eiuvwg eiuvwgiuwvg iuvw iugw iugiuwgv iuvwg iuw giuvwg iuwgviugvw iu giug wvio evwio herio hioherioherioheriohegrioh egrioh ";
     NSString *newtext=cell.messageLabel.text;
-   // NSString *newtext=@"kvsjc suev ioevr iehrv ihev eov oihvo oehvoherv ";
 
     
-    CGSize messageSize=CGSizeMake(260, 999);
-    
-   // CGFloat height=[Utility heightOfTextForString:messageText andFont:cell.messageLabel.font maxSize:messageSize];
-//    UIFont *font=cell.messageLabel.font;
+    //CGSize messageSize=CGSizeMake(260, 999);
+    CGSize messageSize=CGSizeMake(230, 999);
+
+
     CGSize labelSize=[Utility heightOfTextString:newtext andFont:cell.messageLabel.font maxSize:messageSize];
     
     int textWidth=labelSize.width;
@@ -997,7 +1133,9 @@
     int addedheight=19;
     
     CGRect bubbleImageFrame=cell.bubbleImageView.frame;
-    bubbleImageFrame.origin.x=isFromUser?310-(textWidth+28+5):10;
+    //bubbleImageFrame.origin.x=isFromUser?310-(textWidth+28+5):10;
+    bubbleImageFrame.origin.x=isFromUser?305-(textWidth+28+5):15;
+
     bubbleImageFrame.origin.y=isFromUser?8:addedheight;
     bubbleImageFrame.size.width=isImage?200+28+5: textWidth+28+5;//isFromUser?0:textWidth+28+5;
     bubbleImageFrame.size.height=isImage?200+28+5:textHeight+14;//isFromUser?0:textHeight+14;
@@ -1102,9 +1240,7 @@
         cell.messageLabel.frame=messageLabelFrame;
         
         
-        cell.messageLabel.numberOfLines=0;
-        cell.messageLabel.textVerticalAlignment=UITextVerticalAlignmentTop;//;=NSTextAlignmentCenter;
-        cell.messageLabel.text=newtext;
+       // cell.messageLabel.text=newtext;
         
         cell.pictureImageView.frame=CGRectZero;
         
@@ -1214,6 +1350,102 @@
 }
 
 
+#pragma mark UITextField Deleagte Methods
+
+-(void)textFieldDidBeginEditing:(UITextField *)textField{
+    
+    
+//    if(!panGestureRecognizer) {
+//        
+//        panGestureRecognizer = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(screenSwipedDown:)];
+//        panGestureRecognizer.direction=UISwipeGestureRecognizerDirectionDown;
+//    }
+//    [chatRoomTableView addGestureRecognizer:panGestureRecognizer];
+//    
+//    
+//    
+    
+    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+        CGRect messageContainerFrame=self.messageConatinerView.frame;
+        messageContainerFrame.origin.y-=216;
+        self.messageConatinerView.frame=messageContainerFrame;
+        
+//        
+//        if (IS_IPHONE_5) {
+//            
+//            if (chatRoomTableView.contentSize.height>270) {
+//                
+//                CGRect tableFrame=self.chatRoomTableView.frame;
+//                tableFrame.origin.y-=216;
+//                self.chatRoomTableView.frame=tableFrame;
+//            }
+//            
+//        }
+//        else{
+//            
+//            if (chatRoomTableView.contentSize.height>190  &&chatRoomTableView.contentSize.height<220 ) {
+//                
+//                CGRect tableFrame=self.chatRoomTableView.frame;
+//                tableFrame.origin.y-=166;
+//                self.chatRoomTableView.frame=tableFrame;
+//            }
+//            else if (chatRoomTableView.contentSize.height>=220){
+//                CGRect tableFrame=self.chatRoomTableView.frame;
+//                tableFrame.origin.y-=216;
+//                self.chatRoomTableView.frame=tableFrame;
+//                
+//            }
+//            
+//        }
+        
+        
+    } completion:nil];
+    
+    
+    
+}
+
+
+-(void)textFieldDidEndEditing:(UITextField *)textField{
+    
+  //  [self.view removeGestureRecognizer:panGestureRecognizer];
+    
+    
+    
+    
+    
+}
+
+-(BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    
+    NSString * searchString = [[textField text] stringByReplacingCharactersInRange:range withString:string];
+    if (searchString.length>0) {
+        
+        
+        sendMessageButton.enabled=YES;
+        
+    }
+    else{
+        sendMessageButton.enabled=NO;
+    }
+    
+    return YES;
+    
+}
+
+
+
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    
+    [self lowerDownBottomView];
+    
+    return [textField resignFirstResponder];
+    
+}
+
+
+
 
 #pragma mark Button Pressed Methods
 
@@ -1223,21 +1455,21 @@
     // profilePageTableView.scrollEnabled=NO;
     
     
-    if (!chatRoomTableView.isScrolling) {
+   // if (!chatRoomTableView.isScrolling) {
         chatRoomTableView.scrollEnabled=NO;
         chatRoomTableView.pagingDelegate=nil;
         chatRoomTableView.dataSource=nil;
         
         [PubNub unsubscribeFromChannel:masterChannel];
-        [PubNub disconnect];
+       // [PubNub disconnect];
         
         //    [PubNub unsubscribeFromChannel:masterChannel withCompletionHandlingBlock:^(NSArray *array, PNError *error) {
         //        NSLog(@"%@",array);
         //    }];
-        
+        [self.view removeKeyboardControl];
         [self.navigationController popViewControllerAnimated:YES];
 
-    }
+    //}
     
 }
 
@@ -1278,18 +1510,18 @@
     }
     
     
-    [messagetextField resignFirstResponder];
-    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-//        CGRect messageContainerFrame=self.messageConatinerView.frame;
-//        messageContainerFrame.origin.y+=216;
-//        self.messageConatinerView.frame=messageContainerFrame;
-        
-        CGRect tableFrame=self.chatRoomTableView.frame;
-        tableFrame.origin.y=0;
-        self.chatRoomTableView.frame=tableFrame;
-        
-    } completion:nil];
-
+//    [messagetextField resignFirstResponder];
+//    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+////        CGRect messageContainerFrame=self.messageConatinerView.frame;
+////        messageContainerFrame.origin.y+=216;
+////        self.messageConatinerView.frame=messageContainerFrame;
+//        
+//        CGRect tableFrame=self.chatRoomTableView.frame;
+//        tableFrame.origin.y=0;
+//        self.chatRoomTableView.frame=tableFrame;
+//        
+//    } completion:nil];
+//
     
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -1315,30 +1547,10 @@
     
     [PubNub sendMessage:messageDict toChannel:masterChannel withCompletionBlock:^(PNMessageState messageState, id response) {
       
-        NSLog(@"%@",response);
         
         if (messageState==PNMessageSent) {
             
-           // PNMessage *pn_message=response;
-            
-//            if (!chatRoomMessageArray) {
-//                chatRoomMessageArray=[[NSMutableArray alloc]init];
-//                
-//            }
-//        
-//            [chatRoomMessageArray  addObject:response];
-//            [chatRoomTableView beginUpdates];
-//            NSIndexPath *indexPath=[NSIndexPath indexPathForRow:chatRoomMessageArray.count-1 inSection:0];
-//            
-//            [chatRoomTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationBottom];
-//            
-//            [chatRoomTableView endUpdates];
-//            [chatRoomTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
 
-            
-            
-            
-//            chatRoomMessageArray addObject:<#(id)#>
             
         }
         
@@ -1573,13 +1785,155 @@ didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result{
     
 }
 
+//
+//#pragma mark UISwipeGestureReconizer Methods
+//
+//-(void)screenSwipedDown:(UIGestureRecognizer *)gestureRecognizer{
+//  
+//    
+//    if (gestureRecognizer.state==UIGestureRecognizerStateBegan) {
+//        
+//        CGPoint location=[panGestureRecognizer locationInView:self.view];
+//        NSRange yAxisRange;
+//        
+//        if (!IS_IPHONE_5) {
+//            yAxisRange=NSMakeRange(0,150);
+//
+//        }
+//        else{
+//            
+//            yAxisRange=NSMakeRange(0,200);
+//
+//        }
+//        
+//        // BOOL isInXAxisRange = NSLocationInRange(location.x, xAxisRange);
+//        BOOL isInYAxisRange = NSLocationInRange(location.y, yAxisRange);
+//        
+//        
+//        if (isInYAxisRange) {
+//            
+//            CGPoint location=[panGestureRecognizer locationInView:self.view];
+//            
+//            swipeStarted=YES;
+//            yLocationDifference=location.y;
+//            
+//            
+//        }
+//        
+//        
+//    }
+//    else if (gestureRecognizer.state==UIGestureRecognizerStateChanged){
+//        
+//        
+//        if (swipeStarted && yLocationDifference>0) {
+//            
+//            CGPoint location=[panGestureRecognizer locationInView:self.view];
+//            
+//            float checkDifferenceValue= yLocationDifference - location.y;
+//            
+//            if (checkDifferenceValue>70) {
+//                
+//                swipeStarted=NO;
+//                yLocationDifference=0;
+//                [self lowerDownBottomView];
+//                
+//                
+//                
+//            }
+//            
+//            
+//            
+//        }
+//        
+//        
+//    }
+//    else if (gestureRecognizer.state==UIGestureRecognizerStateEnded){
+//        
+//        if (swipeStarted && yLocationDifference>0) {
+//            
+//            CGPoint location=[panGestureRecognizer locationInView:self.view];
+//            
+//            float checkDifferenceValue = yLocationDifference -  location.y ;
+//            
+//            
+//            
+//            if (checkDifferenceValue>= 70) {
+//                
+//                swipeStarted=NO;
+//                yLocationDifference=0;
+//                [self lowerDownBottomView];
+//
+//            }
+////            else{
+////                swipeStarted=NO;
+////                yLocationDifference=0;
+////                [self performSelector:@selector(moveHeadlineViewToItsOriginalPositionInDuration:) withObject:nil afterDelay:0];
+////                
+////            }
+//            
+//            
+//            
+//            
+//            
+//        }
+//        else{
+//            swipeStarted=NO;
+//            yLocationDifference=0;
+//          //  [self lowerDownBottomView];
+//
+//            
+//            
+//        }
+//        
+//        
+//        
+//    }
+//    else if (gestureRecognizer.state==UIGestureRecognizerStateCancelled){
+//        
+//        
+//        swipeStarted=NO;
+//        yLocationDifference=0;
+//       // [self lowerDownBottomView];
+//
+//        
+//    }
+//    else if (gestureRecognizer.state==UIGestureRecognizerStateFailed){
+//        swipeStarted=NO;
+//        yLocationDifference=0;
+//       // [self lowerDownBottomView];
+//
+//        
+//    }
+//    
+//    
+//    
+//}
+
+
+-(void)lowerDownBottomView{
+    [messagetextField resignFirstResponder];
+    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        CGRect messageContainerFrame=self.messageConatinerView.frame;
+        messageContainerFrame.origin.y=[[UIScreen mainScreen]bounds].size.height-45;
+        self.messageConatinerView.frame=messageContainerFrame;
+        
+        CGRect tableFrame=self.chatRoomTableView.frame;
+        tableFrame.origin.y=0;
+        self.chatRoomTableView.frame=tableFrame;
+        
+        //        CGRect tableFrame=self.chatRoomTableView.frame;
+        //        tableFrame.origin.y-=153;
+        //        self.chatRoomTableView.frame=tableFrame;
+    } completion:nil];
+    
+    
+}
 
 #pragma mark Disappear Methods
 
 -(void)uploadImageOnAmazon:(UIImage *)image
 {
-    
-    
+
     [[NetworkEngine sharedNetworkEngine]saveAmazoneURLImageInChatRoomScreen:image completionBlock:^(NSString *url) {
         
         
@@ -1637,14 +1991,76 @@ didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result{
         
     }];
     
+    
+//    [[NetworkEngine sharedNetworkEngine]saveAmazoneURLImage:image completionBlock:^(NSString *url) {
+//        
+//        
+//        if (url) {
+//            
+//            
+//            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+//            dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+//            
+//            NSTimeZone *gmt = [NSTimeZone timeZoneWithAbbreviation:@"GMT"];
+//            [dateFormatter setTimeZone:gmt];
+//            
+//            
+//            NSString *dateString=[dateFormatter stringFromDate:[NSDate date]];
+//            
+//            NSMutableDictionary *messageDict=[[NSMutableDictionary alloc]init];
+//            [messageDict setValue:url forKey:@"message"];
+//            [messageDict setValue:[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id.stringValue forKey:@"user_id"];
+//            [messageDict setValue:dateString forKey:@"message_date"];
+//            [messageDict setValue:[[UpdateDataProcessor sharedProcessor]currentUserInfo].userName forKey:@"user_name"];
+//            [messageDict setValue:@"image" forKey:@"type"];
+//            
+//            NSMutableDictionary *imageDict=[[NSMutableDictionary alloc]init];
+//            [imageDict setValue:image forKey:@"image"];
+//            [imageDict setValue:url forKey:@"image_url"];
+//            
+//            
+//            [imageArray addObject:imageDict];
+//            
+//            
+//            [PubNub sendMessage:messageDict toChannel:masterChannel withCompletionBlock:^(PNMessageState messageState, id response) {
+//                [kAppDelegate hideProgressHUD];
+//
+//                NSLog(@"%@",response);
+//                
+//                if (messageState==PNMessageSent) {
+//                    
+//                    
+//                }
+//                
+//                
+//            }];
+//            
+//        }
+//        else{
+//            [kAppDelegate hideProgressHUD];
+//
+//        }
+//        
+//    } onError:^(NSError *error) {
+//       
+//        
+//        [kAppDelegate hideProgressHUD];
+//        
+//        
+//    }];
+    
 }
 
 
 -(void)viewWillDisappear:(BOOL)animated{
     
     [super viewWillDisappear:animated];
+    [self.view removeKeyboardControl];
+
     messagetextField.text=@"";
-    
+    [self lowerDownBottomView];
+   // [self.view removeGestureRecognizer:panGestureRecognizer];
+
     
 }
 
@@ -1663,6 +2079,107 @@ didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result{
 }
 
 
+-(void)checkForTableOffset{
+    
+    typeof (self.chatRoomTableView) weakSelfTableView=self.chatRoomTableView;
+    
+    if (IS_IPHONE_5) {
+        //For iphone 5 keyboard show
+        
+        if (weakSelfTableView.contentSize.height<230) {
+            CGRect tableViewFrame =weakSelfTableView.frame;
+            tableViewFrame.origin.y=0;
+            
+            weakSelfTableView.frame = tableViewFrame;
+        }
+        else if (weakSelfTableView.contentSize.height>=230 && weakSelfTableView.contentSize.height<290){
+            
+            CGRect tableViewFrame =weakSelfTableView.frame;
+            tableViewFrame.origin.y=-60;
+            
+            weakSelfTableView.frame = tableViewFrame;
+            
+        }
+        
+        else if (weakSelfTableView.contentSize.height>=290 && weakSelfTableView.contentSize.height<350){
+            
+            CGRect tableViewFrame =weakSelfTableView.frame;
+            tableViewFrame.origin.y=-150+10;
+            
+            weakSelfTableView.frame = tableViewFrame;
+        }
+        
+        
+        else if (weakSelfTableView.contentSize.height>=350 && weakSelfTableView.contentSize.height<410){
+            
+            CGRect tableViewFrame =weakSelfTableView.frame;
+            tableViewFrame.origin.y=-210+10;
+            
+            weakSelfTableView.frame = tableViewFrame;
+        }
+        
+        else{
+            
+            CGRect tableViewFrame =weakSelfTableView.frame;
+            tableViewFrame.origin.y=-216;//90;
+            
+            weakSelfTableView.frame = tableViewFrame;
+        }
+        
+        
+        
+    }
+    else{
+        //For iphone 4 keyboard show
+        
+        
+        if (weakSelfTableView.contentSize.height<150) {
+            CGRect tableViewFrame =weakSelfTableView.frame;
+            tableViewFrame.origin.y=0;
+            
+            weakSelfTableView.frame = tableViewFrame;
+        }
+        else if (weakSelfTableView.contentSize.height>=150 && weakSelfTableView.contentSize.height<210){
+            
+            CGRect tableViewFrame =weakSelfTableView.frame;
+            tableViewFrame.origin.y=-60;
+            
+            weakSelfTableView.frame = tableViewFrame;
+            
+        }
+        
+        else if (weakSelfTableView.contentSize.height>=210 && weakSelfTableView.contentSize.height<270){
+            
+            CGRect tableViewFrame =weakSelfTableView.frame;
+            tableViewFrame.origin.y=-150+10;
+            
+            weakSelfTableView.frame = tableViewFrame;
+        }
+        
+        
+        else if (weakSelfTableView.contentSize.height>=270 && weakSelfTableView.contentSize.height<330){
+            
+            CGRect tableViewFrame =weakSelfTableView.frame;
+            tableViewFrame.origin.y=-210+10;
+            
+            weakSelfTableView.frame = tableViewFrame;
+        }
+        
+        else{
+            
+            CGRect tableViewFrame =weakSelfTableView.frame;
+            tableViewFrame.origin.y=-216;//90;
+            
+            weakSelfTableView.frame = tableViewFrame;
+        }
+
+        
+        
+    }
+
+    
+    
+}
 
 -(void)insertNewMessage:(NSNotification *)notification{
     
@@ -1690,9 +2207,18 @@ didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result{
         [chatRoomTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationBottom];
         
         [chatRoomTableView endUpdates];
-        [chatRoomTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-        [chatRoomTableView reloadData];
+        if (chatRoomMessageArray.count) {
+            // [self.chatRoomTableView beginUpdates];
+            [chatRoomTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[chatRoomTableView numberOfRowsInSection:0]-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+            
+            
+            //[self.chatRoomTableView endUpdates];
+        }
         
+        [chatRoomTableView reloadData];
+        [self checkForTableOffset];
+
+ 
         
         
         

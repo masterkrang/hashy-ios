@@ -14,10 +14,11 @@
 #import "UpdateDataProcessor.h"
 #import "UILabel+VerticalAlignment.h"
 #import "GKImagePicker.h"
+#import "DAKeyboardControl.h"
 
 
 
-@interface HYChatRoomDetailsViewController : UIViewController<UITableViewDataSource,PagingDelegate,UITextFieldDelegate,UIActionSheetDelegate,GKImagePickerDelegate,TTTAttributedLabelDelegate>{
+@interface HYChatRoomDetailsViewController : UIViewController<UITableViewDataSource,PagingDelegate,UITextFieldDelegate,UIActionSheetDelegate,GKImagePickerDelegate,TTTAttributedLabelDelegate,UIGestureRecognizerDelegate>{
     
     BOOL isLoading;
     UIButton *backButton;
@@ -29,7 +30,10 @@
     UIActivityIndicatorView *activityIndicatorView;
     NSMutableArray *imageArray;
     
-    
+//    UISwipeGestureRecognizer *panGestureRecognizer;
+//    BOOL swipeStarted;
+//    float yLocationDifference;
+
     
 }
 @property(nonatomic,strong)    PNChannel *masterChannel;

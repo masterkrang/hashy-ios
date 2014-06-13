@@ -53,6 +53,7 @@
 		26674ECD19384BD700A032B3 /* iTunesArtwork.png in Resources */ = {isa = PBXBuildFile; fileRef = 26674EBD19384BD700A032B3 /* iTunesArtwork.png */; };
 		26674ECE19384BD700A032B3 /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 26674EBE19384BD700A032B3 /* iTunesArtwork@2x.png */; };
 		26674ED119384D1E00A032B3 /* HYSubscribersListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 26674ED019384D1E00A032B3 /* HYSubscribersListViewController.m */; };
+		2669DB651949F247003D4AD4 /* DAKeyboardControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 2669DB641949F247003D4AD4 /* DAKeyboardControl.m */; };
 		266C3826194188B200CD4F19 /* chat_room_blue_bubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 266C3824194188B200CD4F19 /* chat_room_blue_bubble@2x.png */; };
 		266C382D19419BED00CD4F19 /* UILabel+VerticalAlignment.m in Sources */ = {isa = PBXBuildFile; fileRef = 266C382B19419BED00CD4F19 /* UILabel+VerticalAlignment.m */; };
 		269347C31936FF150048CCA2 /* HYSignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 269347C21936FF150048CCA2 /* HYSignInViewController.m */; };
@@ -189,6 +190,8 @@
 		26674EBE19384BD700A032B3 /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@2x.png"; sourceTree = "<group>"; };
 		26674ECF19384D1E00A032B3 /* HYSubscribersListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYSubscribersListViewController.h; sourceTree = "<group>"; };
 		26674ED019384D1E00A032B3 /* HYSubscribersListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYSubscribersListViewController.m; sourceTree = "<group>"; };
+		2669DB631949F246003D4AD4 /* DAKeyboardControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAKeyboardControl.h; sourceTree = "<group>"; };
+		2669DB641949F247003D4AD4 /* DAKeyboardControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAKeyboardControl.m; sourceTree = "<group>"; };
 		266C3824194188B200CD4F19 /* chat_room_blue_bubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chat_room_blue_bubble@2x.png"; sourceTree = "<group>"; };
 		266C382B19419BED00CD4F19 /* UILabel+VerticalAlignment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+VerticalAlignment.m"; sourceTree = "<group>"; };
 		266C382C19419BED00CD4F19 /* UILabel+VerticalAlignment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+VerticalAlignment.h"; sourceTree = "<group>"; };
@@ -622,6 +625,8 @@
 				2694CB26193F387000283DFA /* HYChatRoomDetailsViewController.m */,
 				266C382B19419BED00CD4F19 /* UILabel+VerticalAlignment.m */,
 				266C382C19419BED00CD4F19 /* UILabel+VerticalAlignment.h */,
+				2669DB631949F246003D4AD4 /* DAKeyboardControl.h */,
+				2669DB641949F247003D4AD4 /* DAKeyboardControl.m */,
 				A380DF921934695100759039 /* Images.xcassets */,
 				A380DF811934695100759039 /* Supporting Files */,
 			);
@@ -898,6 +903,7 @@
 				26ACF0271934C45700C4BE9E /* PageTableView.m in Sources */,
 				269347E719374CFF0048CCA2 /* GKImageCropView.m in Sources */,
 				269347EA19374CFF0048CCA2 /* GKResizeableCropOverlayView.m in Sources */,
+				2669DB651949F247003D4AD4 /* DAKeyboardControl.m in Sources */,
 				A380DF871934695100759039 /* main.m in Sources */,
 				26ACF014193488F300C4BE9E /* HYSignUpViewController.m in Sources */,
 				269347E519374CFF0048CCA2 /* GKCropBorderView.m in Sources */,
