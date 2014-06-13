@@ -542,11 +542,10 @@
 
 -(void)backButtonPressed:(UIButton *)sender {
     
-    
-    if (!subscribersTableView.isScrolling) {
-        [self.navigationController popViewControllerAnimated:YES];
+    self.subscribersTableView.dataSource=nil;
+    self.subscribersTableView.pagingDelegate=nil;
+    [self.navigationController popViewControllerAnimated:YES];
 
-    }
     
 }
 

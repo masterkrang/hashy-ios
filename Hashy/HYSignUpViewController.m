@@ -82,6 +82,8 @@
     [self.doneButton.titleLabel setFont:[UIFont fontWithName:kHelVeticaNeueLight size:17]];
     
     self.signUpLabel.textColor=[Utility colorWithHexString:@"000000"];
+    //self.signUpLabel.textColor=[Utility colorWithHexString:@"74a6fd"];
+
     self.signUpLabel.font=[UIFont fontWithName:kHelVeticaNeueUltralight size:38];
 
     
@@ -89,11 +91,14 @@
     self.passwordtextField.textColor=[Utility colorWithHexString:@"000000"];
     self.userNameTextField.textColor=[Utility colorWithHexString:@"000000"];
 
-    self.userNameTextField.font=[UIFont fontWithName:kHelVeticaLight size:16.5];
-    self.emailTextField.font=[UIFont fontWithName:kHelVeticaLight size:16.5];
-    self.passwordtextField.font=[UIFont fontWithName:kHelVeticaLight size:16.5];
+//    self.userNameTextField.font=[UIFont fontWithName:kHelVeticaLight size:16.5];
+//    self.emailTextField.font=[UIFont fontWithName:kHelVeticaLight size:16.5];
+//    self.passwordtextField.font=[UIFont fontWithName:kHelVeticaLight size:16.5];
     
-    
+    self.userNameTextField.font=[UIFont fontWithName:kHelVeticaLight size:17.5];
+    self.emailTextField.font=[UIFont fontWithName:kHelVeticaLight size:17.5];
+    self.passwordtextField.font=[UIFont fontWithName:kHelVeticaLight size:17.5];
+
     [self.signInButton setTitleColor:[Utility colorWithHexString:@"96b8ff"] forState:UIControlStateNormal];
     [self.signInButton.titleLabel setFont:[UIFont fontWithName:kHelVeticaNeueLight size:15.5]];
     
@@ -125,12 +130,12 @@
         self.passwordtextField.frame=passwordFrame;
         
         CGRect alreadySignUpFrame=self.alreadySignedUpAttributedLabel.frame;
-        alreadySignUpFrame.origin.y-=60;
+        alreadySignUpFrame.origin.y-=58;
         self.alreadySignedUpAttributedLabel.frame=alreadySignUpFrame;
         
         
         CGRect signInFrame=self.signInButton.frame;
-        signInFrame.origin.y-=60;
+        signInFrame.origin.y-=58;
         self.signInButton.frame=signInFrame;
         
      
@@ -143,6 +148,13 @@
     }
     
     
+    
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    
+    [super viewDidAppear:animated];
+    [userNameTextField becomeFirstResponder];
     
 }
 

@@ -78,7 +78,9 @@
     self.emailTextField.font=[UIFont fontWithName:kHelVeticaLight size:16.5];
     self.passwordTextField.font=[UIFont fontWithName:kHelVeticaLight size:16.5];
 
-    [self.signUpButton setTitleColor:[Utility colorWithHexString:@"96b8ff"] forState:UIControlStateNormal];
+   // [self.signUpButton setTitleColor:[Utility colorWithHexString:@"96b8ff"] forState:UIControlStateNormal];
+    [self.signUpButton setTitleColor:[Utility colorWithHexString:@"74a6fd"] forState:UIControlStateNormal];
+
     [self.signUpButton.titleLabel setFont:[UIFont fontWithName:kHelVeticaNeueLight size:15.5]];
     
     self.notAMemberAttributedLabel.textColor=[Utility colorWithHexString:@"6c6c6c"];

@@ -15,7 +15,8 @@
 #import "Bugsnag.h"
 #import "MBProgressHUD.h"
 #import "HYProfileViewController.h"
-
+#import "HYProfileViewController.h"
+#import "REFrostedViewController.h"
 
 @interface HYAppDelegate : UIResponder <UIApplicationDelegate,MBProgressHUDDelegate,PNDelegate>
 {
