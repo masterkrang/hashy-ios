@@ -822,13 +822,13 @@
               
                 NSString *messageDate = [messageDict valueForKey:@"message_date"];
                 NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
-                [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
+                [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
                 [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
                 NSDate *message_date=[dateFormatter dateFromString:messageDate];
                 
                 
                 NSDateFormatter *dateFormatterNew=[[NSDateFormatter alloc]init];
-                [dateFormatterNew setDateFormat:@"hh:mm a"];
+                [dateFormatterNew setDateFormat:@"h:mm a"];
                 
                 NSString *textLabelDate=[[dateFormatterNew stringFromDate:message_date]uppercaseString];
             //    NSLog(@"%@",textLabelDate);

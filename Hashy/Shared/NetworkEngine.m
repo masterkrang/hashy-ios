@@ -448,7 +448,7 @@ static NetworkEngine *sharedNetworkEngine=nil;
     
     NSString *pageNumberStr=[NSString stringWithFormat:@"%d",pageNumber];
 
-    NSString *urlString=[NSString stringWithFormat:@"%@/users/%@/chats.json?page=%@&per=5",kServerHostName,user_id,pageNumberStr];
+    NSString *urlString=[NSString stringWithFormat:@"%@/users/%@/chats.json?page=%@&per=25",kServerHostName,user_id,pageNumberStr];
     
     [self.httpManager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"JSON: %@", responseObject);

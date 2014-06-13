@@ -457,7 +457,7 @@
 -(void)tableView:(UITableView*)tableView didReachEndOfPage:(int)page{
     
     
-    if (recentChatArray.count%5==0) {
+    if (recentChatArray.count%25==0) {
         
         
         [self getUserRecentChats:user_id forPageNumber:profilePageTableView.selectedPageNumber];
