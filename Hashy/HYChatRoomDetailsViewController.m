@@ -1133,7 +1133,9 @@
     int addedheight=19;
     
     CGRect bubbleImageFrame=cell.bubbleImageView.frame;
-    bubbleImageFrame.origin.x=isFromUser?310-(textWidth+28+5):10;
+    //bubbleImageFrame.origin.x=isFromUser?310-(textWidth+28+5):10;
+    bubbleImageFrame.origin.x=isFromUser?305-(textWidth+28+5):15;
+
     bubbleImageFrame.origin.y=isFromUser?8:addedheight;
     bubbleImageFrame.size.width=isImage?200+28+5: textWidth+28+5;//isFromUser?0:textWidth+28+5;
     bubbleImageFrame.size.height=isImage?200+28+5:textHeight+14;//isFromUser?0:textHeight+14;
