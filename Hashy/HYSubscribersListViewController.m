@@ -452,7 +452,11 @@
 
 -(UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
     
-    return nil;
+    UIView *customFooterView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, 3)];
+    customFooterView.backgroundColor=tableView.backgroundColor;// [UIColor greenColor];
+    
+    
+    return customFooterView;
     
     
 }
@@ -511,7 +515,14 @@
         
         NSString * searchString = [[textField text] stringByReplacingCharactersInRange:range withString:string];
         subscribersTableView.selectedPageNumber=1;
-        [self searchSubscribers:searchString forPageNumber:subscribersTableView.selectedPageNumber];
+        
+        if (searchString && searchString.length>0) {
+            [self searchSubscribers:searchString forPageNumber:subscribersTableView.selectedPageNumber];
+
+        }
+        else
+            [self getSubscribersListForChatID:chat_id_string forPageNumber:subscribersTableView.selectedPageNumber];
+        
         return YES;
         
         

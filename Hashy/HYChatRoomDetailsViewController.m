@@ -68,7 +68,8 @@
     messagetextField.textColor=[Utility colorWithHexString:@"525252"];
     messagetextField.autocapitalizationType=UITextAutocapitalizationTypeSentences;
     
-    
+    messagetextField.autocorrectionType=UITextAutocorrectionTypeDefault;
+
 }
 
 
@@ -463,7 +464,8 @@
     }
     else{
         
-        
+      //  PNConfiguration *configuration=[PNConfiguration configurationWithPublishKey:kPubNubPublishKey subscribeKey:kPubNubSubscribeKey secretKey:kPubNubSecretKey];
+
         PNConfiguration *configuration=[PNConfiguration defaultConfiguration];
         
         [PubNub setConfiguration:configuration];
