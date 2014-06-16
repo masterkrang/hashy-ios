@@ -68,7 +68,7 @@
     messagetextField.textColor=[Utility colorWithHexString:@"525252"];
     messagetextField.autocapitalizationType=UITextAutocapitalizationTypeSentences;
     
-    messagetextField.autocorrectionType=UITextAutocorrectionTypeDefault;
+   // messagetextField.autocorrectionType=UITextAutocorrectionTypeDefault;
 
 }
 
@@ -112,53 +112,6 @@
 
 
 
-
--(void)getMessagesViaAPICall{
-    
-    [[NetworkEngine sharedNetworkEngine]getChatMessagesForChatRoom:^(id object) {
-        
-        NSLog(@"%@",object);
-        
-        if (![object isEqual:[NSNull null]] && [object isKindOfClass:[NSArray class]]) {
-            
-            self.chatRoomMessageArray=[object mutableCopy];
-            // [chatRoomBubbleTableView reload];
-            [chatRoomTableView reloadData];
-            
-            [self subscribeToPubNubChannel:[chatDict valueForKey:@"name"]];
-            
-        }
-        
-        
-    } onError:^(NSError *error) {
-        NSLog(@"%@",error);
-        
-    } forChatID:@"11" forPageNumber:1];
-
-}
-
-
--(void)getChatWithID:(NSString *)chat_id_String{
-    
-    
-    
-    
-    [[NetworkEngine sharedNetworkEngine]getChatForChatRoom:^(id object) {
-        
-        NSLog(@"%@",object);
-   //     [self subscribeToPubNubChannel:[chatDict valueForKey:@"name"]];
-
-        
-      //  [self getMessagesViaAPICall];
-        
-        
-        
-    } onError:^(NSError *error) {
-        NSLog(@"%@",error);
-        
-    } forChatID:chat_id_String forPageNumber:1];
-    
-}
 
 -(void)addDAKeyboardControl{
     
@@ -352,6 +305,8 @@
 -(void)viewWillAppear:(BOOL)animated{
     
     [super viewWillAppear:animated];
+    isInChatRoom=YES;
+    
     [self.view removeKeyboardControl];
     [self addDAKeyboardControl];
 
@@ -363,7 +318,7 @@
 {
     [super viewDidLoad];
     [chatRoomTableView setupTablePaging];
-    
+    chatRoomTableView.selectedPageNumber=1;
     chatRoomTableView.pagingDelegate=self;
     self.title=[NSString stringWithFormat:@"#%@",chatNameString];
     [self setBarButtonItems];
@@ -388,13 +343,12 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(insertNewMessage:) name:kNewMessageReceived object:nil];
     
     
-    [self subscribeToPubNubChannel:chatIDString];
+ //   [self subscribeToPubNubChannel:chatIDString];
     
     
     [sendMessageButton setTitleColor:[Utility colorWithHexString:@"157dfb"] forState:UIControlStateNormal];
     [sendMessageButton setTitleColor:[Utility colorWithHexString:@"cecece"] forState:UIControlStateDisabled];
     [sendMessageButton.titleLabel setFont:[UIFont fontWithName:kHelVeticaNeueMedium size:16]];
-    messagetextField.autocorrectionType=UITextAutocorrectionTypeNo;
 
     
     //   [self getChatWithID:[chatDict valueForKey:@"id"]];
@@ -404,7 +358,78 @@
 }
 
 
+#pragma mark Hashy API methods
 
+
+
+-(void)getMessagesViaAPICall{
+    
+    [[NetworkEngine sharedNetworkEngine]getChatMessagesForChatRoom:^(id object) {
+        
+        NSLog(@"%@",object);
+        
+        if (isInChatRoom) {
+            if (![object isEqual:[NSNull null]] && [object isKindOfClass:[NSArray class]]) {
+                
+                self.chatRoomMessageArray=[object mutableCopy];
+                // [chatRoomBubbleTableView reload];
+                
+                if (self.chatRoomMessageArray.count) {
+                    self.chatRoomMessageArray= [[[self.chatRoomMessageArray reverseObjectEnumerator]allObjects]mutableCopy];
+                }
+                
+                [chatRoomTableView reloadData];
+                if (chatRoomMessageArray.count) {
+                    // [self.chatRoomTableView beginUpdates];
+                    [chatRoomTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[chatRoomTableView numberOfRowsInSection:0]-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+                    //[self.chatRoomTableView endUpdates];
+                }
+                
+                [self subscribeToPubNubChannel:chatIDString];
+                
+            }
+
+        }
+        [kAppDelegate hideProgressHUD];
+        
+        chatRoomTableView.pageLocked=NO;
+        
+        bottomView.hidden=YES;
+        [activityIndicatorView stopAnimating];
+        
+        
+    } onError:^(NSError *error) {
+        NSLog(@"%@",error);
+        [kAppDelegate hideProgressHUD];
+        chatRoomTableView.pageLocked=NO;
+
+    } forChatID:chatIDString forPageNumber:chatRoomTableView.selectedPageNumber];
+    
+}
+
+
+-(void)getChatWithID:(NSString *)chat_id_String{
+    
+    
+    [kAppDelegate showProgressHUD:self.view];
+    
+    
+    [[NetworkEngine sharedNetworkEngine]getChatForChatRoom:^(id object) {
+        
+        NSLog(@"%@",object);
+        
+        
+        [self getMessagesViaAPICall];
+        
+        
+        
+    } onError:^(NSError *error) {
+        NSLog(@"%@",error);
+        [kAppDelegate hideProgressHUD];
+        
+    } forChatID:chat_id_String forPageNumber:chatRoomTableView.selectedPageNumber];
+    
+}
 
 #pragma mark Pub Nub Methods
 
@@ -414,13 +439,13 @@
     
     NSLog(@"Channel Name %@",channelName);
     
-    [kAppDelegate showProgressHUD:self.view];
-    backButton.enabled=NO;
+ //   [kAppDelegate showProgressHUD:self.view];
+    backButton.enabled=YES;
+
+//    backButton.enabled=NO;
     subscriberButtonCount.enabled=NO;
     
-   // [PubNub setConfiguration:[PNConfiguration defaultConfiguration]];
-    
-   // PNConfiguration *configuration=[PNConfiguration configurationWithPublishKey:kPubNubPublishKey subscribeKey:kPubNubSubscribeKey secretKey:kPubNubSecretKey];
+  
    
     if ([PubNub sharedInstance].isConnected) {
         
@@ -430,7 +455,8 @@
 
         
         if (isSubscribedOnChannel) {
-            [self getFullHistoryOfMessages:masterChannel];
+            
+            //[self getFullHistoryOfMessages:masterChannel];
 
         }
         else{
@@ -439,7 +465,7 @@
                 [PubNub subscribeOnChannel:masterChannel withCompletionHandlingBlock:^(PNSubscriptionProcessState state, NSArray *array, PNError *error) {
                     
                     if (!error) {
-                        [self getFullHistoryOfMessages:masterChannel];
+                       // [self getFullHistoryOfMessages:masterChannel];
                         
                     }
                     else{
@@ -464,9 +490,9 @@
     }
     else{
         
-      //  PNConfiguration *configuration=[PNConfiguration configurationWithPublishKey:kPubNubPublishKey subscribeKey:kPubNubSubscribeKey secretKey:kPubNubSecretKey];
+        PNConfiguration *configuration=[PNConfiguration configurationWithPublishKey:kPubNubPublishKey subscribeKey:kPubNubSubscribeKey secretKey:kPubNubSecretKey];
 
-        PNConfiguration *configuration=[PNConfiguration defaultConfiguration];
+      //  PNConfiguration *configuration=[PNConfiguration defaultConfiguration];
         
         [PubNub setConfiguration:configuration];
         
@@ -480,7 +506,7 @@
                 [PubNub subscribeOnChannel:masterChannel withCompletionHandlingBlock:^(PNSubscriptionProcessState state, NSArray *array, PNError *error) {
                     
                     if (!error) {
-                        [self getFullHistoryOfMessages:masterChannel];
+                       // [self getFullHistoryOfMessages:masterChannel];
                         
                     }
                     else{
@@ -587,50 +613,56 @@
 
 
 -(void)getFullHistoryOfMessages:(PNChannel *)channel{
-    float startDateTimeInterval=-CGFLOAT_MAX;
-    float endDateTimeInterval=100;
+    //float startDateTimeInterval=-CGFLOAT_MAX;
+    //float endDateTimeInterval=100;
 
-    PNDate *start_pn_date = [PNDate dateWithDate:[NSDate dateWithTimeIntervalSinceNow:startDateTimeInterval]];
+    //PNDate *start_pn_date = [PNDate dateWithDate:[NSDate dateWithTimeIntervalSinceNow:startDateTimeInterval]];
    // PNDate *end_pn_date = [PNDate dateWithDate:[NSDate date]];
-    PNDate *end_pn_date = [PNDate dateWithDate:[NSDate dateWithTimeIntervalSinceNow:endDateTimeInterval]];
+   // PNDate *end_pn_date = [PNDate dateWithDate:[NSDate dateWithTimeIntervalSinceNow:endDateTimeInterval]];
 
     
     
     
-    
+    if (!isInChatRoom) {
+        [kAppDelegate hideProgressHUD];
+
+        return;
+    }
 
     
     
     
     [PubNub requestHistoryForChannel:channel from:nil to:nil limit:25 reverseHistory:NO includingTimeToken:YES withCompletionBlock:^(NSArray *messageArray, PNChannel *channel, PNDate *startDate, PNDate *endDate, PNError *error) {
-        
-        
-        
-        
-        
-        
-        
-        
-        pn_paging_endDate=startDate;
-        
+       
+
+
+        if (isInChatRoom) {
+            pn_paging_endDate=startDate;
+            
+            backButton.enabled=YES;
+            subscriberButtonCount.enabled=YES;
+            
+            if (!chatRoomMessageArray) {
+                chatRoomMessageArray=[[NSMutableArray alloc]init];
+            }
+            
+            chatRoomMessageArray=[messageArray mutableCopy];
+            [chatRoomTableView reloadData];
+            
+            
+            if (chatRoomMessageArray.count) {
+                // [self.chatRoomTableView beginUpdates];
+                [chatRoomTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[chatRoomTableView numberOfRowsInSection:0]-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+                //[self.chatRoomTableView endUpdates];
+            }
+            
+
+        }
         [kAppDelegate hideProgressHUD];
-        backButton.enabled=YES;
-        subscriberButtonCount.enabled=YES;
-        
-        if (!chatRoomMessageArray) {
-            chatRoomMessageArray=[[NSMutableArray alloc]init];
-        }
-        
-        chatRoomMessageArray=[messageArray mutableCopy];
-        [chatRoomTableView reloadData];
-        
-        
-        if (chatRoomMessageArray.count) {
-            // [self.chatRoomTableView beginUpdates];
-            [chatRoomTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[chatRoomTableView numberOfRowsInSection:0]-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
-            //[self.chatRoomTableView endUpdates];
-        }
         chatRoomTableView.pageLocked=NO;
+        
+        
+        
         
         
         //[chatRoomTableView setContentOffset:CGPointMake(0, CGFLOAT_MAX)];
@@ -766,106 +798,203 @@
     
     if (self.chatRoomMessageArray.count>indexPath.row) {
         
-        PNMessage *pn_message=[self.chatRoomMessageArray objectAtIndex:indexPath.row];
         
-        if (pn_message && ![pn_message isEqual:[NSNull null]]) {
+        id message=[self.chatRoomMessageArray objectAtIndex:indexPath.row];
+        
+        
+        if (message && [message isKindOfClass:[NSDictionary class]]) {
+           
             
-            id messageDict=[pn_message.message mutableCopy];
-            if (messageDict && [messageDict isKindOfClass:[NSString class]]) {
-                
-                NSData *data=[messageDict dataUsingEncoding:NSUTF8StringEncoding];
-                
-                messageDict =
-                [NSJSONSerialization JSONObjectWithData: data
-                                                options: NSJSONReadingMutableContainers
-                                                  error: nil];
+            if ([message valueForKey:@"message"] && ![[message valueForKey:@"message"]isEqual:[NSNull null]]) {
                 
                 
-            }
-
-            
-            if ([messageDict valueForKey:@"message"] && ![[messageDict valueForKey:@"message"]isEqual:[NSNull null]]) {
-                cell.messageLabel.text=[messageDict valueForKey:@"message"];
-                
-            }
-            
-            
-            NSString *userNameString;
-            
-            if ([messageDict valueForKey:@"user_name"] && ![[messageDict valueForKey:@"user_name"]isEqual:[NSNull null]]) {
-                userNameString=[messageDict valueForKey:@"user_name"];
-            }
-            
-            
-            if ([messageDict valueForKey:@"message_date"] && ![[messageDict valueForKey:@"message_date"]isEqual:[NSNull null]]) {
+                NSMutableDictionary *messageDict=[message valueForKey:@"message"];
                 
                 
-              
-                NSString *messageDate = [messageDict valueForKey:@"message_date"];
-                NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
-                [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-                [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
-                NSDate *message_date=[dateFormatter dateFromString:messageDate];
-                
-                
-                NSDateFormatter *dateFormatterNew=[[NSDateFormatter alloc]init];
-                [dateFormatterNew setDateFormat:@"h:mm a"];
-                
-                NSString *textLabelDate=[[dateFormatterNew stringFromDate:message_date]uppercaseString];
-            //    NSLog(@"%@",textLabelDate);
-                
-                if (userNameString) {
+                if ([messageDict valueForKey:@"body"] && ![[messageDict valueForKey:@"body"]isEqual:[NSNull null]]) {
+                    cell.messageLabel.text=[messageDict valueForKey:@"body"];
                     
-                    if(textLabelDate)
+                }
+                
+                
+                NSString *userNameString;
+                
+                if ([messageDict valueForKey:@"user_name"] && ![[messageDict valueForKey:@"user_name"]isEqual:[NSNull null]]) {
+                    userNameString=[messageDict valueForKey:@"user_name"];
+                }
+                
+                
+                if ([messageDict valueForKey:@"message_timestamp"] && ![[messageDict valueForKey:@"message_timestamp"]isEqual:[NSNull null]]) {
                     
-                    userNameString=[NSString stringWithFormat:@"%@ at %@",userNameString,textLabelDate];
+                    NSString *messageTime_str=[messageDict valueForKey:@"message_timestamp"];
+                    long long messageTime=messageTime_str.longLongValue;
+                    
+                    NSDate *message_date=[NSDate dateWithTimeIntervalSince1970:messageTime];
+                    
+                    
+                    
+//                    NSString *messageDate = [messageDict valueForKey:@"message_date"];
+//                    NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
+//                    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+//                    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
+//                    NSDate *message_date=[dateFormatter dateFromString:messageDate];
+                    
+                    
+                    NSDateFormatter *dateFormatterNew=[[NSDateFormatter alloc]init];
+                    [dateFormatterNew setDateFormat:@"h:mm a"];
+                   // [dateFormatterNew setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
+                    NSString *textLabelDate=[[dateFormatterNew stringFromDate:message_date]uppercaseString];
+                    //    NSLog(@"%@",textLabelDate);
+                    
+                    if (userNameString) {
+                        
+                        if(textLabelDate)
+                            
+                            userNameString=[NSString stringWithFormat:@"%@ at %@",userNameString,textLabelDate];
+                        
+                    }
+                    else{
+                        if(textLabelDate)
+                            
+                            userNameString=[NSString stringWithFormat:@"%@",textLabelDate];
+                        
+                    }
+                    
+                }
+                cell.userNameLabel.text=userNameString;
+                
+                
+                
+                
+                
+                NSString *userIDString;
+                
+                if ([[messageDict valueForKey:@"user_id"] isKindOfClass:[NSString class]]) {
+                    userIDString=[messageDict valueForKey:@"user_id"];
                     
                 }
                 else{
-                    if(textLabelDate)
-
-                    userNameString=[NSString stringWithFormat:@"%@",textLabelDate];
+                    
+                    userIDString=[[messageDict valueForKey:@"user_id"] stringValue];
+                }
+                BOOL isFromLoginUser=NO;
+                
+                if(userIDString && userIDString.intValue && userIDString.intValue == [[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id.intValue){
+                    isFromLoginUser=YES;
+                    
                     
                 }
                 
-            }
-            cell.userNameLabel.text=userNameString;
-            
-            
-            
-            
-            
-            NSString *userIDString;
-            
-            if ([[messageDict valueForKey:@"user_id"] isKindOfClass:[NSString class]]) {
-                userIDString=[messageDict valueForKey:@"user_id"];
                 
-            }
-            else{
+                [self setChatCell:cell ForIndexPath:indexPath forDictionary:messageDict isUserMessage:isFromLoginUser];
                 
-                userIDString=[[messageDict valueForKey:@"user_id"] stringValue];
-            }
-            BOOL isFromLoginUser=NO;
-            
-            if(userIDString && userIDString.intValue && userIDString.intValue == [[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id.intValue){
-                isFromLoginUser=YES;
                 
                 
             }
-            
-            
-            [self setChatCell:cell ForIndexPath:indexPath forDictionary:messageDict isUserMessage:isFromLoginUser];
-            
-            
             
         }
         
+        else if (message && [message isKindOfClass:[PNMessage class]]){
+            PNMessage *pn_message=[self.chatRoomMessageArray objectAtIndex:indexPath.row];
+            
+            if (pn_message && ![pn_message isEqual:[NSNull null]]) {
+                
+                id messageDict=[pn_message.message mutableCopy];
+                if (messageDict && [messageDict isKindOfClass:[NSString class]]) {
+                    
+                    NSData *data=[messageDict dataUsingEncoding:NSUTF8StringEncoding];
+                    
+                    messageDict =
+                    [NSJSONSerialization JSONObjectWithData: data
+                                                    options: NSJSONReadingMutableContainers
+                                                      error: nil];
+                    
+                    
+                }
+                
+                
+                if ([messageDict valueForKey:@"message"] && ![[messageDict valueForKey:@"message"]isEqual:[NSNull null]]) {
+                    cell.messageLabel.text=[messageDict valueForKey:@"message"];
+                    
+                }
+                
+                
+                NSString *userNameString;
+                
+                if ([messageDict valueForKey:@"user_name"] && ![[messageDict valueForKey:@"user_name"]isEqual:[NSNull null]]) {
+                    userNameString=[messageDict valueForKey:@"user_name"];
+                }
+                
+                
+                if ([messageDict valueForKey:@"message_date"] && ![[messageDict valueForKey:@"message_date"]isEqual:[NSNull null]]) {
+                    
+                    
+                    
+                    NSString *messageDate = [messageDict valueForKey:@"message_date"];
+                    NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
+                    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+                    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
+                    NSDate *message_date=[dateFormatter dateFromString:messageDate];
+                    
+                    
+                    NSDateFormatter *dateFormatterNew=[[NSDateFormatter alloc]init];
+                    [dateFormatterNew setDateFormat:@"h:mm a"];
+                    
+                    NSString *textLabelDate=[[dateFormatterNew stringFromDate:message_date]uppercaseString];
+                    //    NSLog(@"%@",textLabelDate);
+                    
+                    if (userNameString) {
+                        
+                        if(textLabelDate)
+                            
+                            userNameString=[NSString stringWithFormat:@"%@ at %@",userNameString,textLabelDate];
+                        
+                    }
+                    else{
+                        if(textLabelDate)
+                            
+                            userNameString=[NSString stringWithFormat:@"%@",textLabelDate];
+                        
+                    }
+                    
+                }
+                cell.userNameLabel.text=userNameString;
+                
+                
+                
+                
+                
+                NSString *userIDString;
+                
+                if ([[messageDict valueForKey:@"user_id"] isKindOfClass:[NSString class]]) {
+                    userIDString=[messageDict valueForKey:@"user_id"];
+                    
+                }
+                else{
+                    
+                    userIDString=[[messageDict valueForKey:@"user_id"] stringValue];
+                }
+                BOOL isFromLoginUser=NO;
+                
+                if(userIDString && userIDString.intValue && userIDString.intValue == [[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id.intValue){
+                    isFromLoginUser=YES;
+                    
+                    
+                }
+                
+                
+                [self setChatCell:cell ForIndexPath:indexPath forDictionary:messageDict isUserMessage:isFromLoginUser];
+                
+                
+                
+            }
+            
+        }
+       
+        
+        
     }
-    
-    //cell.messageLabel.text=
-    
-    
-    
+  
     return cell;
     
     
@@ -885,87 +1014,152 @@
     
     CGFloat height=0;
     
+    id message1=[self.chatRoomMessageArray objectAtIndex:indexPath.row];
+    id messageDict;
     
-    
-    PNMessage *message=[self.chatRoomMessageArray objectAtIndex:indexPath.row];
-    
-    
-    
-   // NSMutableDictionary *messageDict=[[NSMutableDictionary alloc]init];
-    id messageDict=[message.message mutableCopy];
-    
-    if (messageDict && [messageDict isKindOfClass:[NSString class]]) {
+    if (message1 && [message1 isKindOfClass:[NSDictionary class]]) {
+       
         
-        NSData *data=[messageDict dataUsingEncoding:NSUTF8StringEncoding];
-        
-       messageDict =
-        [NSJSONSerialization JSONObjectWithData: data
-                                        options: NSJSONReadingMutableContainers
-                                          error: nil];
-        
-
-    }
-    
-    //
-    //        if ([messageDict valueForKey:@"body"] && ![[messageDict valueForKey:@"body"]isEqual:[NSNull null]]) {
-    //            cell.messageLabel.text=[messageDict valueForKey:@"body"];
-    //
-    //        }
-    
-    NSString *userIDString;
-    
-    
-    if ([[messageDict valueForKey:@"user_id"] isKindOfClass:[NSString class]]) {
-        userIDString=[messageDict valueForKey:@"user_id"];
-        
-    }
-    else{
-        
-        userIDString=[[messageDict valueForKey:@"user_id"] stringValue];
-    }
-    BOOL isFromLoginUser=NO;
-    
- //   NSLog(@"%@",[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id);
-    
-        if(userIDString && userIDString.intValue== [[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id.intValue){
-                isFromLoginUser=YES;
-    
-    
+        if ([message1 valueForKey:@"message"] && ![[message1 valueForKey:@"message"]isEqual:[NSNull null]]) {
+            
+            
+            messageDict=[message1 valueForKey:@"message"];
+            
+            
+            NSString *userIDString;
+            
+            
+            if ([[messageDict valueForKey:@"user_id"] isKindOfClass:[NSString class]]) {
+                userIDString=[messageDict valueForKey:@"user_id"];
+                
             }
-    
-    if (!isFromLoginUser) {
-        height+=20;
-    }
-    else{
-        
-        height+=11;
-    }
-    //CGSize messageSize=CGSizeMake(260, 999);
-    CGSize messageSize=CGSizeMake(230, 999);
+            else{
+                
+                userIDString=[[messageDict valueForKey:@"user_id"] stringValue];
+            }
+            BOOL isFromLoginUser=NO;
+            
+            //   NSLog(@"%@",[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id);
+            
+            if(userIDString && userIDString.intValue== [[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id.intValue){
+                isFromLoginUser=YES;
+                
+                
+            }
+            
+            if (!isFromLoginUser) {
+                height+=20;
+            }
+            else{
+                
+                height+=11;
+            }
+            
+            CGSize messageSize=CGSizeMake(230, 999);
 
-    
-    if ([messageDict valueForKey:@"type"] && [[messageDict valueForKey:@"type"]isEqualToString:@"image"]) {
-        
-        
-        height+=215;
-        
-    }
-    else{
-        
-        NSString *messageString=[messageDict valueForKey:@"message"];
-        
-        // NSString *messageString=[messageDict valueForKey:@"body"];
-        
-        if (!messageString || messageString.length<1) {
-            messageString=@".";
+            if ([messageDict valueForKey:@"message_type"] && [[messageDict valueForKey:@"message_type"]isEqualToString:@"image"]) {
+                
+                
+                height+=215;
+                
+            }
+            else{
+                
+                NSString *messageString=[messageDict valueForKey:@"body"];
+                
+                // NSString *messageString=[messageDict valueForKey:@"body"];
+                
+                if (!messageString || messageString.length<1) {
+                    messageString=@".";
+                }
+                
+                
+                
+                CGSize labelSize=[Utility heightOfTextString:messageString andFont:[UIFont fontWithName:kHelVeticaNeueRegular size:16] maxSize:messageSize];
+                height+=labelSize.height+18;
+                
+            }
         }
         
-        
-        
-        CGSize labelSize=[Utility heightOfTextString:messageString andFont:[UIFont fontWithName:kHelVeticaNeueRegular size:16] maxSize:messageSize];
-        height+=labelSize.height+18;
-
     }
+    else if (message1 && [message1 isKindOfClass:[PNMessage class]]){
+        PNMessage *message=message1;
+        messageDict=[message.message mutableCopy];
+
+        if (messageDict && [messageDict isKindOfClass:[NSString class]]) {
+            
+            NSData *data=[messageDict dataUsingEncoding:NSUTF8StringEncoding];
+            
+            messageDict =
+            [NSJSONSerialization JSONObjectWithData: data
+                                            options: NSJSONReadingMutableContainers
+                                              error: nil];
+            
+            
+        }
+   
+        NSString *userIDString;
+        
+        
+        if ([[messageDict valueForKey:@"user_id"] isKindOfClass:[NSString class]]) {
+            userIDString=[messageDict valueForKey:@"user_id"];
+            
+        }
+        else{
+            
+            userIDString=[[messageDict valueForKey:@"user_id"] stringValue];
+        }
+        BOOL isFromLoginUser=NO;
+        
+        //   NSLog(@"%@",[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id);
+        
+        if(userIDString && userIDString.intValue== [[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id.intValue){
+            isFromLoginUser=YES;
+            
+            
+        }
+        
+        if (!isFromLoginUser) {
+            height+=20;
+        }
+        else{
+            
+            height+=11;
+        }
+        //CGSize messageSize=CGSizeMake(260, 999);
+        CGSize messageSize=CGSizeMake(230, 999);
+        
+        
+        if ([messageDict valueForKey:@"type"] && [[messageDict valueForKey:@"type"]isEqualToString:@"image"]) {
+            
+            
+            height+=215;
+            
+        }
+        else{
+            
+            NSString *messageString=[messageDict valueForKey:@"message"];
+            
+            // NSString *messageString=[messageDict valueForKey:@"body"];
+            
+            if (!messageString || messageString.length<1) {
+                messageString=@".";
+            }
+            
+            
+            
+            CGSize labelSize=[Utility heightOfTextString:messageString andFont:[UIFont fontWithName:kHelVeticaNeueRegular size:16] maxSize:messageSize];
+            height+=labelSize.height+18;
+            
+        }
+    
+    
+    }
+    
+    
+
+    
+
     
     
     
@@ -1080,29 +1274,98 @@
 -(void)tableView:(UITableView*)tableView didReachEndOfPage:(int)page{
     
  
-    if (chatRoomMessageArray.count%5==0) {
+    if (chatRoomMessageArray.count%25==0) {
         
+        //[self getPreviousMesagesFromPunNub];
         
-        if (pn_paging_endDate) {
-            
-            
-            chatRoomTableView.pageLocked=YES;
+        if (chatRoomTableView.selectedPageNumber>1) {
             bottomView.hidden=NO;
             [activityIndicatorView startAnimating];
-//            float startDateTimeInterval=-CGFLOAT_MAX;
-//            PNDate *start_pn_date = [PNDate dateWithDate:[NSDate dateWithTimeIntervalSinceNow:startDateTimeInterval]];
+
+        }
+        
+        chatRoomTableView.pageLocked=YES;
+        
+
+        [[NetworkEngine sharedNetworkEngine]getChatMessagesForChatRoom:^(id object) {
             
+            NSLog(@"%@",object);
             
-            PNDate *date=[PNDate dateWithDate:pn_paging_endDate.date];
-            
-            
-            [PubNub requestHistoryForChannel:masterChannel from:date to:nil limit:25 includingTimeToken:YES withCompletionBlock:^(NSArray *messageArray, PNChannel *channel, PNDate *start_Date, PNDate *end_Date, PNError *error) {
+            if (isInChatRoom) {
+                if (![object isEqual:[NSNull null]] && [object isKindOfClass:[NSArray class]]) {
+                    NSMutableArray *messageArray;
+                    
+                    messageArray=[object mutableCopy];
+                    // [chatRoomBubbleTableView reload];
+                    
+                    if (self.chatRoomMessageArray.count) {
+                        messageArray= [[[messageArray reverseObjectEnumerator]allObjects]mutableCopy];
+                    }
+                    
+                    for (id object in messageArray) {
+                        
+                        [chatRoomMessageArray insertObject:object atIndex:0];
+                        
+                    }
+
+                    
+                    
+                    [chatRoomTableView reloadData];
+                                      
+                }
                 
+            }
+            [kAppDelegate hideProgressHUD];
+
+            chatRoomTableView.pageLocked=NO;
+
+            bottomView.hidden=YES;
+            [activityIndicatorView stopAnimating];
+            
+            
+            
+        } onError:^(NSError *error) {
+            NSLog(@"%@",error);
+            [kAppDelegate hideProgressHUD];
+            
+            chatRoomTableView.pageLocked=NO;
+            
+            bottomView.hidden=YES;
+            [activityIndicatorView stopAnimating];
+            
+        } forChatID:chatIDString forPageNumber:chatRoomTableView.selectedPageNumber];
+        
+        
+    }
+    
+    
+}
+
+-(void)getPreviousMesagesFromPunNub {
+    if (pn_paging_endDate)
+
+    {
+        
+        
+        chatRoomTableView.pageLocked=YES;
+        bottomView.hidden=NO;
+        [activityIndicatorView startAnimating];
+        //            float startDateTimeInterval=-CGFLOAT_MAX;
+        //            PNDate *start_pn_date = [PNDate dateWithDate:[NSDate dateWithTimeIntervalSinceNow:startDateTimeInterval]];
+        
+        
+        PNDate *date=[PNDate dateWithDate:pn_paging_endDate.date];
+        
+        
+        [PubNub requestHistoryForChannel:masterChannel from:date to:nil limit:25 includingTimeToken:YES withCompletionBlock:^(NSArray *messageArray, PNChannel *channel, PNDate *start_Date, PNDate *end_Date, PNError *error) {
+            
+            
+            if (!isInChatRoom) {
                 pn_paging_endDate=start_Date;
                 chatRoomTableView.pageLocked=NO;
                 bottomView.hidden=YES;
                 [activityIndicatorView stopAnimating];
-
+                
                 
                 [kAppDelegate hideProgressHUD];
                 backButton.enabled=YES;
@@ -1125,30 +1388,29 @@
                 }
                 
                 
-//                [chatRoomMessageArray addObjectsFromArray:objectsArray];
+                //                [chatRoomMessageArray addObjectsFromArray:objectsArray];
                 [chatRoomTableView reloadData];
                 
                 
-                
-                
-            }];
-
-            
-//            [PubNub requestHistoryForChannel:masterChannel from:start_pn_date to:end_pn_date limit:25 includingTimeToken:YES withCompletionBlock:^(NSArray *messageArray, PNChannel *channel, PNDate *startDate, PNDate *endDate, PNError *error) ];
+            }
             
             
             
             
-            
-        }
+        }];
+        
+        
+        //            [PubNub requestHistoryForChannel:masterChannel from:start_pn_date to:end_pn_date limit:25 includingTimeToken:YES withCompletionBlock:^(NSArray *messageArray, PNChannel *channel, PNDate *startDate, PNDate *endDate, PNError *error) ];
+        
+        
+        
+        
         
     }
-    
-    
 }
 
 
-#pragma mark Set cell 
+#pragma mark Set cell
 
 -(void)setChatCell:(ChatCustomCell *)cell ForIndexPath:(NSIndexPath *)indexPath forDictionary:(NSDictionary *)messageDict isUserMessage:(BOOL)isFromUser{
     
@@ -1167,19 +1429,19 @@
     
     
     if (newtext.length==1) {
-         textWidth=8;
+         textWidth=9;
         //textHeight=24;
     }
     
     if (newtext.length==2) {
-        textWidth=16;
+        textWidth=17;
        // textHeight=27;
 
     }
     
     BOOL isImage=NO;
     
-    if ([messageDict valueForKey:@"type"] && [[messageDict valueForKey:@"type"]isEqualToString:@"image"]) {
+    if ([messageDict valueForKey:@"message_type"] && [[messageDict valueForKey:@"message_type"]isEqualToString:@"image"]) {
         isImage=YES;
         
        
@@ -1228,13 +1490,24 @@
         [cell.activityIndicatorView stopAnimating];
     }
     
-    
-    UIImage *bubbleImage =[[UIImage imageNamed:isFromUser?kGreyBubbleImage:kBlueBubbleImage]resizableImageWithCapInsets:UIEdgeInsetsMake(16, 16, 16, 16)];
+    //    //    UIEdgeInsetsMake(<#CGFloat top#>, <#CGFloat left#>, <#CGFloat bottom#>, <#CGFloat right#>)
+
+//    UIImage *bubbleImage =[[UIImage imageNamed:isFromUser?kGreyBubbleImage:kBlueBubbleImage]resizableImageWithCapInsets:UIEdgeInsetsMake(16, 16, 16, 16)];
+    UIImage *bubbleImage;
+    if (isFromUser) {
+        bubbleImage=[[UIImage imageNamed:kGreyBubbleImage]resizableImageWithCapInsets:UIEdgeInsetsMake(15,15,22,20)];
+ 
+    }
+    else{
+        bubbleImage=[[UIImage imageNamed:kBlueBubbleImage]resizableImageWithCapInsets:UIEdgeInsetsMake(15,15,22,20)];
+
+    }
+
     cell.bubbleImageView.image=bubbleImage;
 
     
     
-    if ([messageDict valueForKey:@"type"] && [[messageDict valueForKey:@"type"]isEqualToString:@"image"]) {
+    if ([messageDict valueForKey:@"message_type"] && [[messageDict valueForKey:@"message_type"]isEqualToString:@"image"]) {
         
         CGRect pictureFrame=cell.pictureImageView.frame;
         
@@ -1278,7 +1551,7 @@
         }
         else{
             
-            NSURLRequest *request=[NSURLRequest requestWithURL:[NSURL URLWithString:[messageDict valueForKey:@"message"]]];
+            NSURLRequest *request=[NSURLRequest requestWithURL:[NSURL URLWithString:[messageDict valueForKey:@"body"]]];
             
             typeof (cell.pictureImageView) weakSelf=(cell.pictureImageView);
             typeof (cell.activityIndicatorView) weakSelfIndicator=(cell.activityIndicatorView);
@@ -1312,14 +1585,14 @@
 
         CGRect messageLabelFrame=cell.messageLabel.frame;
         
-        messageLabelFrame.origin.x=cell.bubbleImageView.frame.origin.x+13;//16;
+        messageLabelFrame.origin.x=cell.bubbleImageView.frame.origin.x+13+3;//16;
         messageLabelFrame.origin.y=cell.bubbleImageView.frame.origin.y+4;//6;
         messageLabelFrame.size.width=textWidth+5;//isFromUser?labelSize.width+5:labelSize.width+5;
         messageLabelFrame.size.height=textHeight+3;//isFromUser?labelSize.height:labelSize.height;
         cell.messageLabel.frame=messageLabelFrame;
         
         
-       // cell.messageLabel.text=newtext;
+       // cell.messageLabel.backgroundColor=[UIColor greenColor];
         
         cell.pictureImageView.frame=CGRectZero;
         
@@ -1433,53 +1706,27 @@
 
 
 
-
 -(void)textFieldDidBeginEditing:(UITextField *)textField{
     
     
-//    if(!panGestureRecognizer) {
-//        
-//        panGestureRecognizer = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(screenSwipedDown:)];
-//        panGestureRecognizer.direction=UISwipeGestureRecognizerDirectionDown;
-//    }
-//    [chatRoomTableView addGestureRecognizer:panGestureRecognizer];
-//    
-//    
-//    
+ 
     
     [UIView animateWithDuration:0.2 delay:0.05 options:UIViewAnimationOptionCurveLinear animations:^{
         CGRect messageContainerFrame=self.messageConatinerView.frame;
         messageContainerFrame.origin.y-=216;
         self.messageConatinerView.frame=messageContainerFrame;
         
-//        
-//        if (IS_IPHONE_5) {
-//            
-//            if (chatRoomTableView.contentSize.height>270) {
-//                
-//                CGRect tableFrame=self.chatRoomTableView.frame;
-//                tableFrame.origin.y-=216;
-//                self.chatRoomTableView.frame=tableFrame;
-//            }
-//            
-//        }
-//        else{
-//            
-//            if (chatRoomTableView.contentSize.height>190  &&chatRoomTableView.contentSize.height<220 ) {
-//                
-//                CGRect tableFrame=self.chatRoomTableView.frame;
-//                tableFrame.origin.y-=166;
-//                self.chatRoomTableView.frame=tableFrame;
-//            }
-//            else if (chatRoomTableView.contentSize.height>=220){
-//                CGRect tableFrame=self.chatRoomTableView.frame;
-//                tableFrame.origin.y-=216;
-//                self.chatRoomTableView.frame=tableFrame;
-//                
-//            }
-//            
-//        }
         
+        
+        if (chatRoomMessageArray.count>0) {
+            
+            [chatRoomTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[chatRoomTableView numberOfRowsInSection:0]-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+            
+            
+        }
+        
+
+
         
     } completion:nil];
     
@@ -1590,7 +1837,9 @@
         return;
         
     }
-    
+    sender.enabled=NO;
+    [self sendMessageOnHashyAPI ];
+
     
 //    [messagetextField resignFirstResponder];
 //    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
@@ -1606,6 +1855,110 @@
 //
     
     
+  
+    
+//    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+//    dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+//    
+//    NSTimeZone *gmt = [NSTimeZone timeZoneWithAbbreviation:@"GMT"];
+//    [dateFormatter setTimeZone:gmt];
+//    
+//    
+//    NSString *dateString=[dateFormatter stringFromDate:[NSDate date]];
+//    
+//    NSMutableDictionary *messageDict=[[NSMutableDictionary alloc]init];
+//    [messageDict setValue:messagetextField.text forKey:@"message"];
+//    [messageDict setValue:[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id.stringValue forKey:@"user_id"];
+//    [messageDict setValue:dateString forKey:@"message_date"];
+//    [messageDict setValue:[[UpdateDataProcessor sharedProcessor]currentUserInfo].userName forKey:@"user_name"];
+//    [messageDict setValue:@"text" forKey:@"type"];
+
+    
+    
+    
+  //  [self publishOnPubNubAPI:messageDict forChannel:masterChannel];
+    
+    
+    
+    
+    
+}
+
+
+-(void)sendMessageOnHashyAPI{
+    
+
+    
+    NSTimeInterval timeInMiliseconds = [[NSDate date] timeIntervalSince1970];
+    long long time=timeInMiliseconds;
+    NSString *dateString=[NSString stringWithFormat:@"%lld",time];
+    
+    
+    NSMutableDictionary *messageDict=[[NSMutableDictionary alloc]init];
+    [messageDict setValue:messagetextField.text forKey:@"body"];
+    [messageDict setValue:[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id.stringValue forKey:@"user_id"];
+    [messageDict setValue:dateString forKey:@"message_timestamp"];
+    [messageDict setValue:[[UpdateDataProcessor sharedProcessor]currentUserInfo].userName forKey:@"user_name"];
+    [messageDict setValue:@"text" forKey:@"message_type"];
+
+    NSMutableDictionary *messageDetailDict=[[NSMutableDictionary alloc]init];
+    [messageDetailDict setValue:messageDict forKey:@"message"];
+   
+    messagetextField.text=@"";
+
+    [[NetworkEngine sharedNetworkEngine]sendMessage:^(id object) {
+
+        //NSLog(@"%@",object);
+        
+        
+    } onError:^(NSError *error) {
+        
+        
+        
+    } forChatID:chatIDString withParams:messageDetailDict];
+    
+}
+
+
+-(void) sendImageOnHashyAPI:(UIImage *)image andImageURL:(NSString *)url{
+    
+    
+    NSTimeInterval timeInMiliseconds = [[NSDate date] timeIntervalSince1970];
+    long long time=timeInMiliseconds;
+    NSString *dateString=[NSString stringWithFormat:@"%lld",time];
+    
+    
+    NSMutableDictionary *messageDict=[[NSMutableDictionary alloc]init];
+    [messageDict setValue:url forKey:@"body"];
+    [messageDict setValue:[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id.stringValue forKey:@"user_id"];
+    [messageDict setValue:dateString forKey:@"message_timestamp"];
+    [messageDict setValue:[[UpdateDataProcessor sharedProcessor]currentUserInfo].userName forKey:@"user_name"];
+    [messageDict setValue:@"image" forKey:@"message_type"];
+//    [messageDict setValue:@"text" forKey:@"message_type"];
+
+    NSMutableDictionary *messageDetailDict=[[NSMutableDictionary alloc]init];
+    [messageDetailDict setValue:messageDict forKey:@"message"];
+    
+    messagetextField.text=@"";
+    [[NetworkEngine sharedNetworkEngine]sendMessage:^(id object) {
+        
+        //NSLog(@"%@",object);
+        
+        
+    } onError:^(NSError *error) {
+        
+        
+        
+    } forChatID:chatIDString withParams:messageDetailDict];
+    
+    
+    
+}
+
+
+-(void) sendImageonPubNub:(UIImage *) image andImageURL:(NSString *)url{
+    
+    
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
     
@@ -1616,30 +1969,49 @@
     NSString *dateString=[dateFormatter stringFromDate:[NSDate date]];
     
     NSMutableDictionary *messageDict=[[NSMutableDictionary alloc]init];
-    [messageDict setValue:messagetextField.text forKey:@"message"];
+    [messageDict setValue:url forKey:@"message"];
     [messageDict setValue:[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id.stringValue forKey:@"user_id"];
     [messageDict setValue:dateString forKey:@"message_date"];
     [messageDict setValue:[[UpdateDataProcessor sharedProcessor]currentUserInfo].userName forKey:@"user_name"];
-    [messageDict setValue:@"text" forKey:@"type"];
-
+    [messageDict setValue:@"image" forKey:@"type"];
     
-    messagetextField.text=@"";
-    sender.enabled=NO;
+    NSMutableDictionary *imageDict=[[NSMutableDictionary alloc]init];
+    [imageDict setValue:image forKey:@"image"];
+    [imageDict setValue:url forKey:@"image_url"];
+    
+    
+    [imageArray addObject:imageDict];
     
     
     [PubNub sendMessage:messageDict toChannel:masterChannel withCompletionBlock:^(PNMessageState messageState, id response) {
-      
+        [kAppDelegate hideProgressHUD];
+        
+        NSLog(@"%@",response);
         
         if (messageState==PNMessageSent) {
             
-
             
         }
         
         
     }];
     
+}
+
+-(void)publishOnPubNubAPI:(NSMutableDictionary *)messageDict forChannel:(PNChannel *)channel{
+ 
     
+    [PubNub sendMessage:messageDict toChannel:channel withCompletionBlock:^(PNMessageState messageState, id response) {
+        
+        
+        if (messageState==PNMessageSent) {
+            
+            
+            
+        }
+        
+        
+    }];
     
 }
 
@@ -2023,43 +2395,8 @@ didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result{
         
         if (url) {
             
-            
-            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-            dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
-            
-            NSTimeZone *gmt = [NSTimeZone timeZoneWithAbbreviation:@"GMT"];
-            [dateFormatter setTimeZone:gmt];
-            
-            
-            NSString *dateString=[dateFormatter stringFromDate:[NSDate date]];
-            
-            NSMutableDictionary *messageDict=[[NSMutableDictionary alloc]init];
-            [messageDict setValue:url forKey:@"message"];
-            [messageDict setValue:[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id.stringValue forKey:@"user_id"];
-            [messageDict setValue:dateString forKey:@"message_date"];
-            [messageDict setValue:[[UpdateDataProcessor sharedProcessor]currentUserInfo].userName forKey:@"user_name"];
-            [messageDict setValue:@"image" forKey:@"type"];
-            
-            NSMutableDictionary *imageDict=[[NSMutableDictionary alloc]init];
-            [imageDict setValue:image forKey:@"image"];
-            [imageDict setValue:url forKey:@"image_url"];
-            
-            
-            [imageArray addObject:imageDict];
-            
-            
-            [PubNub sendMessage:messageDict toChannel:masterChannel withCompletionBlock:^(PNMessageState messageState, id response) {
-                [kAppDelegate hideProgressHUD];
-                
-                NSLog(@"%@",response);
-                
-                if (messageState==PNMessageSent) {
-                    
-                    
-                }
-                
-                
-            }];
+          //  [self sendImageonPubNub:image andImageURL:url];
+            [self sendImageOnHashyAPI:image andImageURL:url];
             
         }
         else{
@@ -2277,26 +2614,62 @@ didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result{
             chatRoomMessageArray =[[NSMutableArray alloc]init];
         }
         
-        [chatRoomMessageArray  addObject:new_message];
-        [chatRoomTableView beginUpdates];
-        NSIndexPath *indexPath=[NSIndexPath indexPathForRow:chatRoomMessageArray.count-1 inSection:0];
-        
-        [chatRoomTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationBottom];
-        
-        [chatRoomTableView endUpdates];
-        if (chatRoomMessageArray.count) {
-            // [self.chatRoomTableView beginUpdates];
-            [chatRoomTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[chatRoomTableView numberOfRowsInSection:0]-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+        id messageDetails=new_message.message;
+        if (messageDetails) {
+            NSArray *array=[messageDetails componentsSeparatedByString:@":::"];
             
             
-            //[self.chatRoomTableView endUpdates];
+            if (array.count==5) {
+                
+                
+                NSString *messageString=[array objectAtIndex:0];
+                NSString *userNameString=[array objectAtIndex:1];
+                NSString *user_id_str=[array objectAtIndex:2];
+                NSString *messageDate=[array objectAtIndex:3];
+                NSString *messageType=[array objectAtIndex:4];
+                
+                
+                NSMutableDictionary *messageDict=[[NSMutableDictionary alloc]init];
+                [messageDict setValue:messageString forKey:@"body"];
+                [messageDict setValue:userNameString forKey:@"user_name"];
+                [messageDict setValue:user_id_str forKey:@"user_id"];
+                [messageDict setValue:messageDate forKey:@"message_timestamp"];
+                [messageDict setValue:messageType forKey:@"message_type"];
+                
+                
+                NSMutableDictionary *messageDetailDict=[[NSMutableDictionary alloc]init];
+                
+                [messageDetailDict setValue:messageDict forKey:@"message"];
+                
+                
+                [chatRoomMessageArray  addObject:messageDetailDict];
+                [chatRoomTableView beginUpdates];
+                NSIndexPath *indexPath=[NSIndexPath indexPathForRow:chatRoomMessageArray.count-1 inSection:0];
+                
+                [chatRoomTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationBottom];
+                
+                [chatRoomTableView endUpdates];
+                if (chatRoomMessageArray.count) {
+                    // [self.chatRoomTableView beginUpdates];
+                    [chatRoomTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[chatRoomTableView numberOfRowsInSection:0]-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+                    
+                    
+                    //[self.chatRoomTableView endUpdates];
+                }
+                
+                [chatRoomTableView reloadData];
+                [self checkForTableOffset];
+                
+                
+                
+                
+                
+            }
+            
         }
         
-        [chatRoomTableView reloadData];
-        [self checkForTableOffset];
         
-        
-        
+     
         
         
     }
@@ -2310,7 +2683,7 @@ didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result{
     
     [super viewWillDisappear:animated];
     [self.view removeKeyboardControl];
-
+    isInChatRoom=NO;
     messagetextField.text=@"";
     [self lowerDownBottomView];
    // [self.view removeGestureRecognizer:panGestureRecognizer];

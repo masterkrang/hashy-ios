@@ -220,7 +220,7 @@
     lastUpadteddate=[NSDate date];
     
     
-    if (searchTextField.text>0) {
+    if (searchTextField.text.length>0) {
         [[NetworkEngine sharedNetworkEngine]searchChannels:^(id object) {
             
             

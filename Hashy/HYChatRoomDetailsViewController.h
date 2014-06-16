@@ -29,7 +29,8 @@
     NSMutableArray *imageArray;
     PNDate *pn_paging_endDate;
     UIActivityIndicatorView *activityIndicatorView;
-
+    BOOL isInChatRoom;
+    
     
 //    UISwipeGestureRecognizer *panGestureRecognizer;
 //    BOOL swipeStarted;

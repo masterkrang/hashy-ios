@@ -340,7 +340,10 @@ static NetworkEngine *sharedNetworkEngine=nil;
 
 -(void)getChatMessagesForChatRoom:(completion_block)completionBlock onError:(error_block)errorBlock forChatID:(NSString *)chat_id forPageNumber:(int) pageNumber
 {
-    NSString *urlString=[NSString stringWithFormat:@"%@/chats/%@/messages.json",kServerHostName,chat_id];
+    
+    NSString *pageNumberStr=[NSString stringWithFormat:@"%d",pageNumber];
+
+    NSString *urlString=[NSString stringWithFormat:@"%@/chats/%@/messages.json?per=25&page=%@",kServerHostName,chat_id,pageNumberStr];
     
     [self.httpManager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"JSON: %@", responseObject);
@@ -625,6 +628,43 @@ static NetworkEngine *sharedNetworkEngine=nil;
     
     
     
+    
+}
+
+-(void)sendMessage:(completion_block)completionBlock onError:(error_block)errorBlock forChatID:(NSString *)chat_id withParams:(NSMutableDictionary *)params{
+    
+    NSString *urlString=[NSString stringWithFormat:@"%@/chats/%@/messages.json",kServerHostName,chat_id];
+    
+    [self.httpManager POST:urlString parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"JSON: %@", responseObject);
+        
+        if([responseObject objectForKey:@"message"] &&![[responseObject objectForKey:@"message"]isEqual:[NSNull null]])
+        {
+            
+            NSHTTPURLResponse *response=operation.response;
+            
+            if (response.statusCode == 200 ) {
+                completionBlock(responseObject);
+                
+            }
+            else{
+                errorBlock(nil);
+            }
+            
+            //            if([[responseObject objectForKey:@"user"]isEqualToString:@"failed"])
+            //            {
+            //                // [theAppDelegate hideProgressHUD];
+            //                // [Utility showAlertWithString:[responseObject valueForKey:@"error_string"]];
+            //
+            //            }
+            //            else
+        }
+        else errorBlock(nil);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        //[Utility showAlertWithString:@"Network problem \n try again later"];
+        //[theAppDelegate hideProgressHUD];
+        errorBlock(error);
+    }];
     
 }
 
