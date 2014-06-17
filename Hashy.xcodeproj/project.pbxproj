@@ -23,7 +23,6 @@
 		2615F1A01936173F0079687C /* listChat_search_container@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2615F19D1936173F0079687C /* listChat_search_container@2x.png */; };
 		2615F1A11936173F0079687C /* listChat_search_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2615F19E1936173F0079687C /* listChat_search_icon@2x.png */; };
 		261BF5A51946EABA00426AF2 /* create_image@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 261BF5A41946EABA00426AF2 /* create_image@2x.png */; };
-		261BF5A719477B9900426AF2 /* chat_room_grey_bubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 261BF5A619477B9900426AF2 /* chat_room_grey_bubble@2x.png */; };
 		261BF5AA19477EB800426AF2 /* subscribers_container@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 261BF5A919477EB800426AF2 /* subscribers_container@2x.png */; };
 		26597BD01948BBFD00918762 /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 26597BC61948BBFD00918762 /* EGORefreshTableHeaderView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		26597BD11948BBFD00918762 /* blackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 26597BC81948BBFD00918762 /* blackArrow.png */; };
@@ -64,6 +63,7 @@
 		269347E819374CFF0048CCA2 /* GKImageCropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 269347D019374CFF0048CCA2 /* GKImageCropViewController.m */; };
 		269347E919374CFF0048CCA2 /* GKImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 269347D219374CFF0048CCA2 /* GKImagePicker.m */; };
 		269347EA19374CFF0048CCA2 /* GKResizeableCropOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 269347D419374CFF0048CCA2 /* GKResizeableCropOverlayView.m */; };
+		2693AB6919507BD50028FE4B /* chat_room_grey_bubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2693AB6819507BD50028FE4B /* chat_room_grey_bubble@2x.png */; };
 		2694CB27193F387000283DFA /* HYChatRoomDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2694CB26193F387000283DFA /* HYChatRoomDetailsViewController.m */; };
 		2694CB2A193F391700283DFA /* ChatCustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2694CB29193F391700283DFA /* ChatCustomCell.m */; };
 		2694CB37193F3E7F00283DFA /* chat_room_back_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2694CB2C193F3E7F00283DFA /* chat_room_back_icon@2x.png */; };
@@ -159,7 +159,6 @@
 		2615F19D1936173F0079687C /* listChat_search_container@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "listChat_search_container@2x.png"; sourceTree = "<group>"; };
 		2615F19E1936173F0079687C /* listChat_search_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "listChat_search_icon@2x.png"; sourceTree = "<group>"; };
 		261BF5A41946EABA00426AF2 /* create_image@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "create_image@2x.png"; sourceTree = "<group>"; };
-		261BF5A619477B9900426AF2 /* chat_room_grey_bubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chat_room_grey_bubble@2x.png"; sourceTree = "<group>"; };
 		261BF5A919477EB800426AF2 /* subscribers_container@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "subscribers_container@2x.png"; sourceTree = "<group>"; };
 		26597BC51948BBFD00918762 /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
 		26597BC61948BBFD00918762 /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
@@ -212,6 +211,7 @@
 		269347D219374CFF0048CCA2 /* GKImagePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKImagePicker.m; sourceTree = "<group>"; };
 		269347D319374CFF0048CCA2 /* GKResizeableCropOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKResizeableCropOverlayView.h; sourceTree = "<group>"; };
 		269347D419374CFF0048CCA2 /* GKResizeableCropOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKResizeableCropOverlayView.m; sourceTree = "<group>"; };
+		2693AB6819507BD50028FE4B /* chat_room_grey_bubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chat_room_grey_bubble@2x.png"; sourceTree = "<group>"; };
 		2694CB25193F387000283DFA /* HYChatRoomDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYChatRoomDetailsViewController.h; sourceTree = "<group>"; };
 		2694CB26193F387000283DFA /* HYChatRoomDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYChatRoomDetailsViewController.m; sourceTree = "<group>"; };
 		2694CB28193F391700283DFA /* ChatCustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatCustomCell.h; sourceTree = "<group>"; };
@@ -472,7 +472,7 @@
 		2694CB2B193F3E7F00283DFA /* Chat Room Screen */ = {
 			isa = PBXGroup;
 			children = (
-				261BF5A619477B9900426AF2 /* chat_room_grey_bubble@2x.png */,
+				2693AB6819507BD50028FE4B /* chat_room_grey_bubble@2x.png */,
 				266C3824194188B200CD4F19 /* chat_room_blue_bubble@2x.png */,
 				2694CB2C193F3E7F00283DFA /* chat_room_back_icon@2x.png */,
 				2694CB2D193F3E7F00283DFA /* chat_room_other_bottom_left@2x.png */,
@@ -815,9 +815,9 @@
 				26674EC219384BD700A032B3 /* AppIcon40x40@2x.png in Resources */,
 				26674EC719384BD700A032B3 /* AppIcon60x60.png in Resources */,
 				26674EC819384BD700A032B3 /* AppIcon60x60@2x.png in Resources */,
-				261BF5A719477B9900426AF2 /* chat_room_grey_bubble@2x.png in Resources */,
 				266C3826194188B200CD4F19 /* chat_room_blue_bubble@2x.png in Resources */,
 				2615F1881935F1990079687C /* Default-568h@2x.png in Resources */,
+				2693AB6919507BD50028FE4B /* chat_room_grey_bubble@2x.png in Resources */,
 				26ACF0311934CB9F00C4BE9E /* profile_back_button@2x.png in Resources */,
 				26674ECB19384BD700A032B3 /* AppIcon76x76.png in Resources */,
 				2694CB38193F3E7F00283DFA /* chat_room_other_bottom_left@2x.png in Resources */,

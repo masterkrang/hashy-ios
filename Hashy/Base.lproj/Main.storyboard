@@ -314,7 +314,7 @@
                                 <rect key="frame" x="79" y="144" width="163" height="163"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <state key="normal" backgroundImage="1D50A056-41F1-4519-878F-F625247A56C2">
+                                <state key="normal" backgroundImage="1508BBDD-B665-479C-900E-2D7410C50B2D">
                                     <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -523,7 +523,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="1" sectionFooterHeight="3" id="7ru-uB-Af8" customClass="ChatCustomPageTableView">
-                                <rect key="frame" x="0.0" y="246" width="320" height="322"/>
+                                <rect key="frame" x="0.0" y="247" width="320" height="321"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -858,7 +858,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="1D50A056-41F1-4519-878F-F625247A56C2" width="326" height="326">
+        <image name="1508BBDD-B665-479C-900E-2D7410C50B2D" width="326" height="326">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw

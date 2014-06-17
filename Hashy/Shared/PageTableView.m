@@ -131,13 +131,13 @@ if([self.pagingDelegate respondsToSelector:@selector(tableView:didSelectRowAtInd
         //NSLog(@"%d",path.row);
         //if(path.row==[self.dataSource tableView:self numberOfRowsInSection:indexPath.section] &&!pageLocked){
 
-        //NSLog(@"%d",path.row);
+       // NSLog(@"%d",path.row);
         
 //        NSLog(@"%d",path.row);
 //        NSLog(@"%@",self);
 //        NSLog(@"%@",self.dataSource);
 //        NSLog(@"%d",[self.dataSource tableView:self numberOfRowsInSection:0]);
-        
+       // NSLog(@"%d",[self.dataSource tableView:self numberOfRowsInSection:0]);
         
         if(path.row== [self.dataSource tableView:self numberOfRowsInSection:0]-1 &&!pageLocked){
           //  NSLog(@"REACHED END");

@@ -823,6 +823,73 @@
 
 }
 
+-(void)getPreviousMesagesFromPunNub {
+    if (pn_paging_endDate)
+        
+    {
+        
+        
+        chatRoomTableView.pageLocked=YES;
+        bottomView.hidden=NO;
+        [activityIndicatorView startAnimating];
+        //            float startDateTimeInterval=-CGFLOAT_MAX;
+        //            PNDate *start_pn_date = [PNDate dateWithDate:[NSDate dateWithTimeIntervalSinceNow:startDateTimeInterval]];
+        
+        
+        PNDate *date=[PNDate dateWithDate:pn_paging_endDate.date];
+        
+        
+        [PubNub requestHistoryForChannel:masterChannel from:date to:nil limit:25 includingTimeToken:YES withCompletionBlock:^(NSArray *messageArray, PNChannel *channel, PNDate *start_Date, PNDate *end_Date, PNError *error) {
+            
+            
+            if (!isInChatRoom) {
+                pn_paging_endDate=start_Date;
+                chatRoomTableView.pageLocked=NO;
+                bottomView.hidden=YES;
+                [activityIndicatorView stopAnimating];
+                
+                
+                [kAppDelegate hideProgressHUD];
+                backButton.enabled=YES;
+                subscriberButtonCount.enabled=YES;
+                
+                if (!chatRoomMessageArray) {
+                    chatRoomMessageArray=[[NSMutableArray alloc]init];
+                }
+                
+                
+                NSMutableArray *objectsArray=[messageArray mutableCopy];
+                
+                
+                objectsArray=[[[objectsArray reverseObjectEnumerator]allObjects] mutableCopy];
+                
+                for (id object in objectsArray) {
+                    
+                    [chatRoomMessageArray insertObject:object atIndex:0];
+                    
+                }
+                
+                
+                //                [chatRoomMessageArray addObjectsFromArray:objectsArray];
+                [chatRoomTableView reloadData];
+                
+                
+            }
+            
+            
+            
+            
+        }];
+        
+        
+        //            [PubNub requestHistoryForChannel:masterChannel from:start_pn_date to:end_pn_date limit:25 includingTimeToken:YES withCompletionBlock:^(NSArray *messageArray, PNChannel *channel, PNDate *startDate, PNDate *endDate, PNError *error) ];
+        
+        
+        
+        
+        
+    }
+}
 
 #pragma mark UItableView Delegate Methods
 
@@ -939,7 +1006,6 @@
     cell.messageLabel.delegate = self;
     cell.messageLabel.dataDetectorTypes = UIDataDetectorTypeLink | UIDataDetectorTypePhoneNumber;
 
-    cell.messageLabel.dataDetectorTypes = UIDataDetectorTypeAll;
     cell.messageLabel.textAlignment = NSTextAlignmentLeft;
     //cell.messageLabel.verticalAlignment=TTTAttributedLabelVerticalAlignmentCenter;
     cell.messageLabel.numberOfLines=0;
@@ -963,6 +1029,12 @@
                 
                 if ([messageDict valueForKey:@"body"] && ![[messageDict valueForKey:@"body"]isEqual:[NSNull null]]) {
                     cell.messageLabel.text=[messageDict valueForKey:@"body"];
+                    
+                    NSString *celltext=cell.messageLabel.text;
+                    if (celltext && celltext.length<3 ) {
+                        cell.messageLabel.textAlignment = NSTextAlignmentRight;
+
+                    }
                     
                 }
                 
@@ -1460,6 +1532,13 @@
 
                     
                     
+                    if (chatRoomMessageArray.count && messageArray.count) {
+                        
+                        [chatRoomTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:messageArray.count-1 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+
+                        
+                    }
+                    
                     [chatRoomTableView reloadData];
                                       
                 }
@@ -1491,73 +1570,6 @@
     
 }
 
--(void)getPreviousMesagesFromPunNub {
-    if (pn_paging_endDate)
-
-    {
-        
-        
-        chatRoomTableView.pageLocked=YES;
-        bottomView.hidden=NO;
-        [activityIndicatorView startAnimating];
-        //            float startDateTimeInterval=-CGFLOAT_MAX;
-        //            PNDate *start_pn_date = [PNDate dateWithDate:[NSDate dateWithTimeIntervalSinceNow:startDateTimeInterval]];
-        
-        
-        PNDate *date=[PNDate dateWithDate:pn_paging_endDate.date];
-        
-        
-        [PubNub requestHistoryForChannel:masterChannel from:date to:nil limit:25 includingTimeToken:YES withCompletionBlock:^(NSArray *messageArray, PNChannel *channel, PNDate *start_Date, PNDate *end_Date, PNError *error) {
-            
-            
-            if (!isInChatRoom) {
-                pn_paging_endDate=start_Date;
-                chatRoomTableView.pageLocked=NO;
-                bottomView.hidden=YES;
-                [activityIndicatorView stopAnimating];
-                
-                
-                [kAppDelegate hideProgressHUD];
-                backButton.enabled=YES;
-                subscriberButtonCount.enabled=YES;
-                
-                if (!chatRoomMessageArray) {
-                    chatRoomMessageArray=[[NSMutableArray alloc]init];
-                }
-                
-                
-                NSMutableArray *objectsArray=[messageArray mutableCopy];
-                
-                
-                objectsArray=[[[objectsArray reverseObjectEnumerator]allObjects] mutableCopy];
-                
-                for (id object in objectsArray) {
-                    
-                    [chatRoomMessageArray insertObject:object atIndex:0];
-                    
-                }
-                
-                
-                //                [chatRoomMessageArray addObjectsFromArray:objectsArray];
-                [chatRoomTableView reloadData];
-                
-                
-            }
-            
-            
-            
-            
-        }];
-        
-        
-        //            [PubNub requestHistoryForChannel:masterChannel from:start_pn_date to:end_pn_date limit:25 includingTimeToken:YES withCompletionBlock:^(NSArray *messageArray, PNChannel *channel, PNDate *startDate, PNDate *endDate, PNError *error) ];
-        
-        
-        
-        
-        
-    }
-}
 
 
 #pragma mark Set cell
@@ -1578,16 +1590,28 @@
     int textHeight=labelSize.height;
     
     
-    if (newtext.length==1) {
-         textWidth=9;
-        //textHeight=24;
+//    if (newtext.length==1) {
+//         textWidth=9;
+//        //textHeight=24;
+//    }
+//    
+//    if (newtext.length==2) {
+//        textWidth=17;
+//       // textHeight=27;
+//
+//    }
+    
+    
+    if (textWidth<20) {
+        textWidth=20;
+//        //Written below
+//        if (newtext.length<3) {
+//            cell.messageLabel.textAlignment=NSTextAlignmentCenter;
+//        }
     }
     
-    if (newtext.length==2) {
-        textWidth=17;
-       // textHeight=27;
-
-    }
+    
+    
     
     BOOL isImage=NO;
     
@@ -1604,21 +1628,29 @@
     }
     
     
-    int addedheight=19;
+    int addedheight=20;
+    
+//    CGRect bubbleImageFrame=cell.bubbleImageView.frame;
+//    //bubbleImageFrame.origin.x=isFromUser?310-(textWidth+28+5):10;
+//    bubbleImageFrame.origin.x=isFromUser?305-(textWidth+28+5):15;
+//
+//    bubbleImageFrame.origin.y=isFromUser?8:addedheight;
+//    bubbleImageFrame.size.width=isImage?200+28+5: textWidth+28+5;//isFromUser?0:textWidth+28+5;
+//    bubbleImageFrame.size.height=isImage?200+28+5:textHeight+14;//isFromUser?0:textHeight+14;
+//    cell.bubbleImageView.frame=bubbleImageFrame;
+
     
     CGRect bubbleImageFrame=cell.bubbleImageView.frame;
-    //bubbleImageFrame.origin.x=isFromUser?310-(textWidth+28+5):10;
     bubbleImageFrame.origin.x=isFromUser?305-(textWidth+28+5):15;
-
     bubbleImageFrame.origin.y=isFromUser?8:addedheight;
-    bubbleImageFrame.size.width=isImage?200+28+5: textWidth+28+5;//isFromUser?0:textWidth+28+5;
-    bubbleImageFrame.size.height=isImage?200+28+5:textHeight+14;//isFromUser?0:textHeight+14;
+    bubbleImageFrame.size.width=isImage?200+28+5: textWidth+23;//isFromUser?0:textWidth+28+5;
+    bubbleImageFrame.size.height=isImage?200+28+5:textHeight+16;//isFromUser?0:textHeight+14;
     cell.bubbleImageView.frame=bubbleImageFrame;
-    
+
     
     if (!isFromUser) {
         CGRect userNameFrame=cell.userNameLabel.frame;
-        userNameFrame.origin.x=20;
+        userNameFrame.origin.x=23;//20
         userNameFrame.origin.y=3;
         userNameFrame.size.width=300;
         userNameFrame.size.height=14;
@@ -1662,9 +1694,8 @@
         CGRect pictureFrame=cell.pictureImageView.frame;
         
 //        pictureFrame.origin.x=cell.bubbleImageView.frame.origin.x+16;
-        pictureFrame.origin.y=cell.bubbleImageView.frame.origin.y+6;//isFromUser?cell.bubbleImageView.frame.origin.y+5:cell.bubbleImageView.frame.origin.y+5;
+        pictureFrame.origin.y=cell.bubbleImageView.frame.origin.y+6;
         pictureFrame.origin.x=60;
-      //  pictureFrame.origin.y=60;
         pictureFrame.size.width=200;
         pictureFrame.size.height=200;
         cell.pictureImageView.frame=pictureFrame;
@@ -1710,7 +1741,6 @@
             
             
             [cell.pictureImageView setImageWithURLRequest:request placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-//[activityIndicatorView stopAnimating];
                 
                 weakSelf.image=image;
                 [weakSelfIndicator stopAnimating];
@@ -1731,25 +1761,64 @@
         
     }
     else{
-       // [activityIndicatorView stopAnimating];
 
+//        CGRect messageLabelFrame=cell.messageLabel.frame;
+//        
+//        messageLabelFrame.origin.x=cell.bubbleImageView.frame.origin.x+13+3;//16;
+//        messageLabelFrame.origin.y=cell.bubbleImageView.frame.origin.y+4;//6;
+//        messageLabelFrame.size.width=textWidth+5;//isFromUser?labelSize.width+5:labelSize.width+5;
+//        messageLabelFrame.size.height=textHeight+3;//isFromUser?labelSize.height:labelSize.height;
+//        cell.messageLabel.frame=messageLabelFrame;
+        
+        
+        
         CGRect messageLabelFrame=cell.messageLabel.frame;
         
-        messageLabelFrame.origin.x=cell.bubbleImageView.frame.origin.x+13+3;//16;
+        messageLabelFrame.origin.x=cell.bubbleImageView.frame.origin.x+11;//16;
         messageLabelFrame.origin.y=cell.bubbleImageView.frame.origin.y+4;//6;
         messageLabelFrame.size.width=textWidth+5;//isFromUser?labelSize.width+5:labelSize.width+5;
         messageLabelFrame.size.height=textHeight+3;//isFromUser?labelSize.height:labelSize.height;
         cell.messageLabel.frame=messageLabelFrame;
-        
-        
-       // cell.messageLabel.backgroundColor=[UIColor greenColor];
+
+     //   cell.messageLabel.backgroundColor=[UIColor greenColor];
         
         cell.pictureImageView.frame=CGRectZero;
         
         
+        
+        
+        
     }
     
+    if (newtext.length<3 && newtext.length>0 && !isImage) {
+        
+        CGRect messageLabelFrame=cell.messageLabel.frame;
+        
+        messageLabelFrame.origin.x=cell.bubbleImageView.frame.origin.x;
+        messageLabelFrame.origin.y=cell.bubbleImageView.frame.origin.y-2;
+        messageLabelFrame.size.width=cell.bubbleImageView.frame.size.width;
+        messageLabelFrame.size.height=cell.bubbleImageView.frame.size.height;
+        cell.messageLabel.frame=messageLabelFrame;
+
+
+        NSMutableAttributedString *fullString=[[NSMutableAttributedString alloc]initWithString:newtext];
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        [paragraphStyle setAlignment:NSTextAlignmentCenter];
+        
+        NSRange range=NSMakeRange(0, fullString.length);
+        if (range.location!=NSNotFound) {
+            [fullString addAttribute:(NSString *)NSParagraphStyleAttributeName value:paragraphStyle range:range];
+            [fullString addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)[Utility colorWithHexString:@"000000"].CGColor range:range];
+            [fullString addAttribute:(NSString *)kCTFontAttributeName value:(id)[UIFont fontWithName:kHelVeticaNeueRegular size:16] range:range];
+            
+            
+            [cell.messageLabel setAttributedText:fullString];
   
+        }
+        
+        
+        
+    }
     
                             
     

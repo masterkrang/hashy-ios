@@ -362,7 +362,7 @@
         if (![object isEqual:[NSNull null]] && [object isKindOfClass:[NSArray class]]) {
             
             
-            if (selectedPageNumber==1)
+            if (createChatTableView.selectedPageNumber==1)
             [self.createChatArray removeAllObjects];
             
             if (!self.createChatArray) {
@@ -788,7 +788,6 @@
             
             
             NSString * searchString = [[textField text] stringByReplacingCharactersInRange:range withString:string];
-            selectedPageNumber=1;
             self.createChatTableView.selectedPageNumber=1;
             
             [self searchChannels:searchString forPageNumber:selectedPageNumber];

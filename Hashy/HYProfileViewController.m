@@ -49,6 +49,7 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden=NO;
     self.navigationItem.hidesBackButton=YES;
+    self.profilePageTableView.scrollEnabled=YES;
     NSNumber *login_user_id_num=[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id;
     int login_user_id_int=login_user_id_num.intValue;
     
@@ -79,17 +80,19 @@
     
     
     
-    self.view.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];
-    self.profilePageTableView.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];
+    self.view.backgroundColor=[UIColor whiteColor];//[Utility colorWithHexString:@"f2f2f2"];
+    self.profilePageTableView.backgroundColor=[UIColor whiteColor];//[Utility colorWithHexString:@"f2f2f2"];
     
-//    if (!IS_IPHONE_5) {
-//        
-//        CGRect tableFrame=self.profilePageTableView.frame;
-//        tableFrame.size.height=50;
-//        self.profilePageTableView.frame=tableFrame;
-//        
-//        
-//    }
+    if (!IS_IPHONE_5) {
+        
+        CGRect tableFrame=self.profilePageTableView.frame;
+        tableFrame.size.height=[[UIScreen mainScreen]bounds].size.height-(profileHeaderView.frame.size.height+profileHeaderView.frame.origin.y);
+        tableFrame.size.height=[[UIScreen mainScreen]bounds].size.height-(profileHeaderView.frame.size.height);
+
+        self.profilePageTableView.frame=tableFrame;
+        
+        
+    }
     
 }
 
@@ -110,7 +113,6 @@
    
     [profilePageTableView setupTablePaging];
     profilePageTableView.pagingDelegate=self;
-
     [self getProfileDetails:user_id];
     
 	// Do any additional setup after loading the view.
@@ -421,7 +423,7 @@
 
 -(CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     
-    return 3;
+    return 1;
     
     
 }
@@ -440,15 +442,17 @@
 
 -(UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
     
-    return nil;
+    UIView *headerView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen]bounds].size.width, 1)];
     
+    headerView.backgroundColor=[UIColor clearColor];
+    return headerView;
     
 }
 
 
 -(CGFloat) tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     
-    return 0.1;
+    return 1;
     
 }
 

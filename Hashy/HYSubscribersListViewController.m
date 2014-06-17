@@ -90,6 +90,7 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden=NO;
     self.navigationItem.hidesBackButton=YES;
+    subscribersTableView.scrollEnabled=YES;
     self.subscribersTableView.selectedPageNumber=1;
     [self getSubscribersListForChatID:chat_id_string forPageNumber:self.subscribersTableView.selectedPageNumber];
     
@@ -636,6 +637,7 @@
     [super viewWillDisappear:animated];
     selectedPageNumber=1;
     subscribersTableView.selectedPageNumber=1;
+    //subscribersTableView.scrollEnabled=NO;
     searchTextField.text=@"";
     [searchTextField resignFirstResponder];
     
