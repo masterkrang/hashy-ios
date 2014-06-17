@@ -331,7 +331,9 @@
     [bottomView addSubview:activityIndicatorView];
     [activityIndicatorView startAnimating];
     bottomView.hidden=YES;
-
+    bottomView.backgroundColor=[UIColor clearColor];
+    
+    
    // activityIndicatorView =[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(90, 90, 20, 20)];
    // activityIndicatorView.activityIndicatorViewStyle=UIActivityIndicatorViewStyleGray;
     
@@ -419,6 +421,25 @@
         NSLog(@"%@",object);
         
         
+        if ([object valueForKey:@"channel"] && ![[object valueForKey:@"channel"]isEqual:[NSNull null]]) {
+            
+            NSMutableDictionary *channelDict=[object valueForKey:@"channel"];
+            
+            if ([channelDict valueForKey:@"subscribers_count"] && ![[channelDict valueForKey:@"subscribers_count"]isEqual:[NSNull null]]) {
+                
+                
+                NSNumber *subscriber_num=[channelDict valueForKey:@"subscribers_count"];
+                
+                int subscriber_count_int=subscriber_num.intValue;
+                NSString *count=[NSString stringWithFormat:@"%d",subscriber_count_int];
+                if (count)
+                   [ subscriberButtonCount setTitle:count forState:UIControlStateNormal];
+                
+            }
+            
+        }
+        
+        
         [self getMessagesViaAPICall];
         
         
@@ -431,7 +452,121 @@
     
 }
 
+
+
+-(void)sendMessageOnHashyAPI{
+    
+    
+    
+    NSTimeInterval timeInMiliseconds = [[NSDate date] timeIntervalSince1970];
+    long long time=timeInMiliseconds;
+    NSString *dateString=[NSString stringWithFormat:@"%lld",time];
+    
+    
+    NSMutableDictionary *messageDict=[[NSMutableDictionary alloc]init];
+    [messageDict setValue:messagetextField.text forKey:@"body"];
+    [messageDict setValue:[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id.stringValue forKey:@"user_id"];
+    [messageDict setValue:dateString forKey:@"message_timestamp"];
+    [messageDict setValue:[[UpdateDataProcessor sharedProcessor]currentUserInfo].userName forKey:@"user_name"];
+    [messageDict setValue:@"text" forKey:@"message_type"];
+    
+    NSMutableDictionary *messageDetailDict=[[NSMutableDictionary alloc]init];
+    [messageDetailDict setValue:messageDict forKey:@"message"];
+    
+    messagetextField.text=@"";
+    
+    [[NetworkEngine sharedNetworkEngine]sendMessage:^(id object) {
+        
+        //NSLog(@"%@",object);
+        
+        
+    } onError:^(NSError *error) {
+        
+        
+        
+    } forChatID:chatIDString withParams:messageDetailDict];
+    
+}
+
+
+-(void) sendImageOnHashyAPI:(UIImage *)image andImageURL:(NSString *)url{
+    
+    
+    NSTimeInterval timeInMiliseconds = [[NSDate date] timeIntervalSince1970];
+    long long time=timeInMiliseconds;
+    NSString *dateString=[NSString stringWithFormat:@"%lld",time];
+    
+    
+    NSMutableDictionary *messageDict=[[NSMutableDictionary alloc]init];
+    [messageDict setValue:url forKey:@"body"];
+    [messageDict setValue:[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id.stringValue forKey:@"user_id"];
+    [messageDict setValue:dateString forKey:@"message_timestamp"];
+    [messageDict setValue:[[UpdateDataProcessor sharedProcessor]currentUserInfo].userName forKey:@"user_name"];
+    [messageDict setValue:@"image" forKey:@"message_type"];
+    //    [messageDict setValue:@"text" forKey:@"message_type"];
+    
+    NSMutableDictionary *messageDetailDict=[[NSMutableDictionary alloc]init];
+    [messageDetailDict setValue:messageDict forKey:@"message"];
+    
+    messagetextField.text=@"";
+    [[NetworkEngine sharedNetworkEngine]sendMessage:^(id object) {
+        
+        //NSLog(@"%@",object);
+        
+        
+    } onError:^(NSError *error) {
+        
+        
+        
+    } forChatID:chatIDString withParams:messageDetailDict];
+    
+    
+    
+}
+
 #pragma mark Pub Nub Methods
+
+-(void) sendImageonPubNub:(UIImage *) image andImageURL:(NSString *)url{
+    
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+    
+    NSTimeZone *gmt = [NSTimeZone timeZoneWithAbbreviation:@"GMT"];
+    [dateFormatter setTimeZone:gmt];
+    
+    
+    NSString *dateString=[dateFormatter stringFromDate:[NSDate date]];
+    
+    NSMutableDictionary *messageDict=[[NSMutableDictionary alloc]init];
+    [messageDict setValue:url forKey:@"message"];
+    [messageDict setValue:[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id.stringValue forKey:@"user_id"];
+    [messageDict setValue:dateString forKey:@"message_date"];
+    [messageDict setValue:[[UpdateDataProcessor sharedProcessor]currentUserInfo].userName forKey:@"user_name"];
+    [messageDict setValue:@"image" forKey:@"type"];
+    
+    NSMutableDictionary *imageDict=[[NSMutableDictionary alloc]init];
+    [imageDict setValue:image forKey:@"image"];
+    [imageDict setValue:url forKey:@"image_url"];
+    
+    
+    [imageArray addObject:imageDict];
+    
+    
+    [PubNub sendMessage:messageDict toChannel:masterChannel withCompletionBlock:^(PNMessageState messageState, id response) {
+        [kAppDelegate hideProgressHUD];
+        
+        NSLog(@"%@",response);
+        
+        if (messageState==PNMessageSent) {
+            
+            
+        }
+        
+        
+    }];
+    
+}
 
 
 
@@ -443,7 +578,7 @@
     backButton.enabled=YES;
 
 //    backButton.enabled=NO;
-    subscriberButtonCount.enabled=NO;
+//    subscriberButtonCount.enabled=NO;
     
   
    
@@ -1884,120 +2019,6 @@
     
 }
 
-
--(void)sendMessageOnHashyAPI{
-    
-
-    
-    NSTimeInterval timeInMiliseconds = [[NSDate date] timeIntervalSince1970];
-    long long time=timeInMiliseconds;
-    NSString *dateString=[NSString stringWithFormat:@"%lld",time];
-    
-    
-    NSMutableDictionary *messageDict=[[NSMutableDictionary alloc]init];
-    [messageDict setValue:messagetextField.text forKey:@"body"];
-    [messageDict setValue:[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id.stringValue forKey:@"user_id"];
-    [messageDict setValue:dateString forKey:@"message_timestamp"];
-    [messageDict setValue:[[UpdateDataProcessor sharedProcessor]currentUserInfo].userName forKey:@"user_name"];
-    [messageDict setValue:@"text" forKey:@"message_type"];
-
-    NSMutableDictionary *messageDetailDict=[[NSMutableDictionary alloc]init];
-    [messageDetailDict setValue:messageDict forKey:@"message"];
-   
-    messagetextField.text=@"";
-
-    [[NetworkEngine sharedNetworkEngine]sendMessage:^(id object) {
-
-        //NSLog(@"%@",object);
-        
-        
-    } onError:^(NSError *error) {
-        
-        
-        
-    } forChatID:chatIDString withParams:messageDetailDict];
-    
-}
-
-
--(void) sendImageOnHashyAPI:(UIImage *)image andImageURL:(NSString *)url{
-    
-    
-    NSTimeInterval timeInMiliseconds = [[NSDate date] timeIntervalSince1970];
-    long long time=timeInMiliseconds;
-    NSString *dateString=[NSString stringWithFormat:@"%lld",time];
-    
-    
-    NSMutableDictionary *messageDict=[[NSMutableDictionary alloc]init];
-    [messageDict setValue:url forKey:@"body"];
-    [messageDict setValue:[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id.stringValue forKey:@"user_id"];
-    [messageDict setValue:dateString forKey:@"message_timestamp"];
-    [messageDict setValue:[[UpdateDataProcessor sharedProcessor]currentUserInfo].userName forKey:@"user_name"];
-    [messageDict setValue:@"image" forKey:@"message_type"];
-//    [messageDict setValue:@"text" forKey:@"message_type"];
-
-    NSMutableDictionary *messageDetailDict=[[NSMutableDictionary alloc]init];
-    [messageDetailDict setValue:messageDict forKey:@"message"];
-    
-    messagetextField.text=@"";
-    [[NetworkEngine sharedNetworkEngine]sendMessage:^(id object) {
-        
-        //NSLog(@"%@",object);
-        
-        
-    } onError:^(NSError *error) {
-        
-        
-        
-    } forChatID:chatIDString withParams:messageDetailDict];
-    
-    
-    
-}
-
-
--(void) sendImageonPubNub:(UIImage *) image andImageURL:(NSString *)url{
-    
-    
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
-    
-    NSTimeZone *gmt = [NSTimeZone timeZoneWithAbbreviation:@"GMT"];
-    [dateFormatter setTimeZone:gmt];
-    
-    
-    NSString *dateString=[dateFormatter stringFromDate:[NSDate date]];
-    
-    NSMutableDictionary *messageDict=[[NSMutableDictionary alloc]init];
-    [messageDict setValue:url forKey:@"message"];
-    [messageDict setValue:[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id.stringValue forKey:@"user_id"];
-    [messageDict setValue:dateString forKey:@"message_date"];
-    [messageDict setValue:[[UpdateDataProcessor sharedProcessor]currentUserInfo].userName forKey:@"user_name"];
-    [messageDict setValue:@"image" forKey:@"type"];
-    
-    NSMutableDictionary *imageDict=[[NSMutableDictionary alloc]init];
-    [imageDict setValue:image forKey:@"image"];
-    [imageDict setValue:url forKey:@"image_url"];
-    
-    
-    [imageArray addObject:imageDict];
-    
-    
-    [PubNub sendMessage:messageDict toChannel:masterChannel withCompletionBlock:^(PNMessageState messageState, id response) {
-        [kAppDelegate hideProgressHUD];
-        
-        NSLog(@"%@",response);
-        
-        if (messageState==PNMessageSent) {
-            
-            
-        }
-        
-        
-    }];
-    
-}
-
 -(void)publishOnPubNubAPI:(NSMutableDictionary *)messageDict forChannel:(PNChannel *)channel{
  
     
@@ -2610,64 +2631,69 @@ didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result{
     {
         PNMessage *new_message=[messageDict valueForKey:@"message"];
         
-        if (!chatRoomMessageArray) {
-            chatRoomMessageArray =[[NSMutableArray alloc]init];
-        }
         
-        id messageDetails=new_message.message;
-        if (messageDetails) {
-            NSArray *array=[messageDetails componentsSeparatedByString:@":::"];
+        if (new_message.channel.name && [new_message.channel.name isEqualToString:chatIDString]) {
+            if (!chatRoomMessageArray) {
+                chatRoomMessageArray =[[NSMutableArray alloc]init];
+            }
             
-            
-            if (array.count==5) {
+            id messageDetails=new_message.message;
+            if (messageDetails) {
+                NSArray *array=[messageDetails componentsSeparatedByString:@":::"];
                 
                 
-                NSString *messageString=[array objectAtIndex:0];
-                NSString *userNameString=[array objectAtIndex:1];
-                NSString *user_id_str=[array objectAtIndex:2];
-                NSString *messageDate=[array objectAtIndex:3];
-                NSString *messageType=[array objectAtIndex:4];
-                
-                
-                NSMutableDictionary *messageDict=[[NSMutableDictionary alloc]init];
-                [messageDict setValue:messageString forKey:@"body"];
-                [messageDict setValue:userNameString forKey:@"user_name"];
-                [messageDict setValue:user_id_str forKey:@"user_id"];
-                [messageDict setValue:messageDate forKey:@"message_timestamp"];
-                [messageDict setValue:messageType forKey:@"message_type"];
-                
-                
-                NSMutableDictionary *messageDetailDict=[[NSMutableDictionary alloc]init];
-                
-                [messageDetailDict setValue:messageDict forKey:@"message"];
-                
-                
-                [chatRoomMessageArray  addObject:messageDetailDict];
-                [chatRoomTableView beginUpdates];
-                NSIndexPath *indexPath=[NSIndexPath indexPathForRow:chatRoomMessageArray.count-1 inSection:0];
-                
-                [chatRoomTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationBottom];
-                
-                [chatRoomTableView endUpdates];
-                if (chatRoomMessageArray.count) {
-                    // [self.chatRoomTableView beginUpdates];
-                    [chatRoomTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[chatRoomTableView numberOfRowsInSection:0]-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+                if (array.count==5) {
                     
                     
-                    //[self.chatRoomTableView endUpdates];
+                    NSString *messageString=[array objectAtIndex:0];
+                    NSString *userNameString=[array objectAtIndex:1];
+                    NSString *user_id_str=[array objectAtIndex:2];
+                    NSString *messageDate=[array objectAtIndex:3];
+                    NSString *messageType=[array objectAtIndex:4];
+                    
+                    
+                    NSMutableDictionary *messageDict=[[NSMutableDictionary alloc]init];
+                    [messageDict setValue:messageString forKey:@"body"];
+                    [messageDict setValue:userNameString forKey:@"user_name"];
+                    [messageDict setValue:user_id_str forKey:@"user_id"];
+                    [messageDict setValue:messageDate forKey:@"message_timestamp"];
+                    [messageDict setValue:messageType forKey:@"message_type"];
+                    
+                    
+                    NSMutableDictionary *messageDetailDict=[[NSMutableDictionary alloc]init];
+                    
+                    [messageDetailDict setValue:messageDict forKey:@"message"];
+                    
+                    
+                    [chatRoomMessageArray  addObject:messageDetailDict];
+                    [chatRoomTableView beginUpdates];
+                    NSIndexPath *indexPath=[NSIndexPath indexPathForRow:chatRoomMessageArray.count-1 inSection:0];
+                    
+                    [chatRoomTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationBottom];
+                    
+                    [chatRoomTableView endUpdates];
+                    if (chatRoomMessageArray.count) {
+                        // [self.chatRoomTableView beginUpdates];
+                        [chatRoomTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[chatRoomTableView numberOfRowsInSection:0]-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+                        
+                        
+                        //[self.chatRoomTableView endUpdates];
+                    }
+                    
+                    [chatRoomTableView reloadData];
+                    [self checkForTableOffset];
+                    
+                    
+                    
+                    
+                    
                 }
-                
-                [chatRoomTableView reloadData];
-                [self checkForTableOffset];
-                
-                
-                
-                
                 
             }
             
+            
+ 
         }
-        
         
      
         

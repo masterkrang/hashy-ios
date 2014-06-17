@@ -113,8 +113,7 @@
     [bottomView addSubview:activityIndicatorView];
     [activityIndicatorView startAnimating];
     bottomView.hidden=YES;
-    
-    bottomView.backgroundColor=[UIColor whiteColor];
+    bottomView.backgroundColor=[UIColor clearColor];
     
 
     subscribersTableView.separatorColor=[Utility colorWithHexString:@"cbcbcb"];
@@ -452,7 +451,7 @@
 
 -(UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
     
-    UIView *customFooterView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, 3)];
+    UIView *customFooterView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, 0.1)];
     customFooterView.backgroundColor=tableView.backgroundColor;// [UIColor greenColor];
     
     
@@ -464,7 +463,7 @@
 
 -(CGFloat) tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     
-    return 3;
+    return 0.1;
     
 }
 

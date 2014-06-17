@@ -136,8 +136,7 @@
     [activityIndicatorView startAnimating];
     bottomView.hidden=YES;
 
-    bottomView.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];
-
+    bottomView.backgroundColor=[UIColor clearColor];
     
     
     self.view.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];
@@ -687,6 +686,14 @@
     
 }
 
+-(CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    
+    return 0.01;
+    
+    
+}
+
+
 
 -(UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
 
@@ -710,7 +717,7 @@
 //    }
     
     
-    UIView *customFooterView= [[UIView alloc]initWithFrame:CGRectMake(0,0 , 0   ,  1)];
+    UIView *customFooterView= [[UIView alloc]initWithFrame:CGRectMake(0,0 , 0   ,  0.1)];
     customFooterView.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];;
     return customFooterView;
     
@@ -719,17 +726,10 @@
 
 -(CGFloat) tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
 
-    return 1;
+    return 0.1;
     
 }
 
-
--(CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-
-    return 0.01;
-    
-    
-}
 
 
 

@@ -58,12 +58,11 @@
     [bottomView addSubview:activityIndicatorView];
     [activityIndicatorView startAnimating];
     bottomView.hidden=YES;
-    bottomView.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];
+    bottomView.backgroundColor=[UIColor clearColor];
 
     searchContainerView.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];
     self.view.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];
     self.createChatTableView.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];
-    bottomView.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];
     createView.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];
     createButton.enabled=NO;
     createView.hidden=YES;
@@ -146,7 +145,7 @@
         
         
         CGRect channelNameAttFrame=self.channelNameAttributedLabel.frame;
-        channelNameAttFrame.origin.y-=132;
+        channelNameAttFrame.origin.y-=120;
         self.channelNameAttributedLabel.frame=channelNameAttFrame;
         
         
@@ -194,7 +193,7 @@
     
     [channelNameAttributedLabel setNumberOfLines:2];
     [channelNameAttributedLabel setAttributedText:fullString];
-    channelNameAttributedLabel.verticalAlignment=TTTAttributedLabelVerticalAlignmentCenter;
+    channelNameAttributedLabel.verticalAlignment=TTTAttributedLabelVerticalAlignmentTop;
   
 }
 

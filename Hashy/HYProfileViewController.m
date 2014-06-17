@@ -75,8 +75,7 @@
     [bottomView addSubview:activityIndicatorView];
     [activityIndicatorView startAnimating];
     bottomView.hidden=YES;
-    
-    bottomView.backgroundColor=[Utility colorWithHexString:@"f2f2f2"];
+    bottomView.backgroundColor=[UIColor clearColor];
     
     
     
