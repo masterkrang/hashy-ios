@@ -793,9 +793,14 @@
             
             [self searchChannels:searchString forPageNumber:selectedPageNumber];
 
-//        if (searchString && searchString.length>0) {
-//            
-//            }
+            if (searchString && searchString.length>0) {
+                [self searchChannels:searchString forPageNumber:self.createChatTableView.selectedPageNumber];
+                
+            }
+            else{
+                
+                [self getListOfChatsForPageNumber:self.createChatTableView.selectedPageNumber];
+           }
             return YES;
             
             

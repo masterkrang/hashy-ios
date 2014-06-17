@@ -17,7 +17,7 @@
 #import "ChatCustomPageTableView.h"
 
 
-@interface HYChatRoomDetailsViewController : UIViewController<UITableViewDataSource,PagingDelegate,UITextFieldDelegate,UIActionSheetDelegate,GKImagePickerDelegate,TTTAttributedLabelDelegate,UIGestureRecognizerDelegate>{
+@interface HYChatRoomDetailsViewController : UIViewController<UITableViewDataSource,PagingDelegate,UITextFieldDelegate,UIActionSheetDelegate,GKImagePickerDelegate,TTTAttributedLabelDelegate,UIGestureRecognizerDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>{
     
     BOOL isLoading;
     UIButton *backButton;

@@ -320,7 +320,12 @@
     [chatRoomTableView setupTablePaging];
     chatRoomTableView.selectedPageNumber=1;
     chatRoomTableView.pagingDelegate=self;
-    self.title=[NSString stringWithFormat:@"#%@",chatNameString];
+    
+    if (self.chatNameString) {
+        self.title=[NSString stringWithFormat:@"#%@",self.chatNameString];
+
+    }
+    
     [self setBarButtonItems];
     [self setPaddingView];
     [self getChatWithID:chatIDString];
@@ -369,7 +374,8 @@
     [[NetworkEngine sharedNetworkEngine]getChatMessagesForChatRoom:^(id object) {
         
         NSLog(@"%@",object);
-        
+        [kAppDelegate hideProgressHUD];
+
         if (isInChatRoom) {
             if (![object isEqual:[NSNull null]] && [object isKindOfClass:[NSArray class]]) {
                 
@@ -390,14 +396,13 @@
                 [self subscribeToPubNubChannel:chatIDString];
                 
             }
-
+            
+            chatRoomTableView.pageLocked=NO;
+            
+            bottomView.hidden=YES;
+            [activityIndicatorView stopAnimating];
         }
-        [kAppDelegate hideProgressHUD];
         
-        chatRoomTableView.pageLocked=NO;
-        
-        bottomView.hidden=YES;
-        [activityIndicatorView stopAnimating];
         
         
     } onError:^(NSError *error) {
@@ -507,6 +512,16 @@
     
     NSMutableDictionary *messageDetailDict=[[NSMutableDictionary alloc]init];
     [messageDetailDict setValue:messageDict forKey:@"message"];
+    
+    
+    NSMutableDictionary *imageDict=[[NSMutableDictionary alloc]init];
+    [imageDict setValue:image forKey:@"image"];
+    [imageDict setValue:url forKey:@"image_url"];
+    
+    
+    [imageArray addObject:imageDict];
+
+    
     
     messagetextField.text=@"";
     [[NetworkEngine sharedNetworkEngine]sendMessage:^(id object) {
@@ -1657,7 +1672,7 @@
         cell.pictureImageView.image=nil;
         UIImage *localImage;
         
-        NSPredicate *predicate=[NSPredicate predicateWithFormat:@"image_url == %@",[messageDict valueForKey:@"message"]];
+        NSPredicate *predicate=[NSPredicate predicateWithFormat:@"image_url == %@",[messageDict valueForKey:@"body"]];
         
         NSArray *predicateArray=[imageArray filteredArrayUsingPredicate:predicate];
         if (predicateArray.count) {
@@ -1920,16 +1935,18 @@
     
     
    // if (!chatRoomTableView.isScrolling) {
-        chatRoomTableView.scrollEnabled=NO;
-        chatRoomTableView.pagingDelegate=nil;
-        chatRoomTableView.dataSource=nil;
-        
+    
         [PubNub unsubscribeFromChannel:masterChannel];
        // [PubNub disconnect];
         
         //    [PubNub unsubscribeFromChannel:masterChannel withCompletionHandlingBlock:^(NSArray *array, PNError *error) {
         //        NSLog(@"%@",array);
         //    }];
+    
+        chatRoomTableView.scrollEnabled=NO;
+        chatRoomTableView.pagingDelegate=nil;
+        chatRoomTableView.dataSource=nil;
+
         [self.view removeKeyboardControl];
         [self.navigationController popViewControllerAnimated:YES];
 
@@ -2038,141 +2055,6 @@
 
 
 #pragma mark Image Upload Method
-
-#pragma mark UIactionSheet Delegate Methods
-
-- (void)actionSheet:(UIActionSheet *)popup clickedButtonAtIndex:(NSInteger)buttonIndex {
-    
-    switch (buttonIndex) {
-        case 0:
-            [self openCamera];
-            break;
-        case 1:
-            [self openPhotoLibrary];
-            break;
-            
-            break;
-        default:
-            break;
-    }
-}
-
-
-- (void)imagePicker:(GKImagePicker *)imagePicker pickedImage:(UIImage *)image{
-    
-    editedImage=image;
-    isImageSelectedFromDevice=YES;
-    
-    [self hideImagePicker];
-    
-    [self uploadImageOnAmazon:image];
-    
-    
-}
-
-- (void)hideImagePicker{
-    
-    [imagePicker.imagePickerController dismissViewControllerAnimated:YES completion:nil];
-    
-    
-    
-}
-
-
-#pragma mark UIImagePicker Contrller Methods
-
--(void) openCamera{
-    
-    
-    if (!imagePicker) {
-        imagePicker = [[GKImagePicker alloc] init];
-        
-    }
-    imagePicker.imagePickerController.sourceType= UIImagePickerControllerSourceTypeCamera;
-    imagePicker.resizeableCropArea = YES;
-    
-    // imagePicker.cropSize = CGSizeMake(300 ,300);
-    
-    imagePicker.delegate = self;
-    [self presentViewController:imagePicker.imagePickerController animated:YES completion:nil];
-    
-    
-    //    UIImagePickerController *pickerController;//=[[UIImagePickerController alloc]init];
-    //
-    //    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-    //        if (pickerController==nil) {
-    //            pickerController = [[UIImagePickerController alloc] init];
-    //            pickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-    //
-    //            pickerController.delegate = self;
-    //            pickerController.showsCameraControls = YES;
-    //            pickerController.allowsEditing = YES;
-    //
-    //        }// create once!
-    //
-    //        [self presentViewController:pickerController animated:YES completion:nil];
-    //    }
-    
-    
-    
-}
-
-
--(void)openPhotoLibrary{
-    
-    
-
-    if (!imagePicker) {
-        imagePicker = [[GKImagePicker alloc] init];
-        
-    }
-    imagePicker.imagePickerController.sourceType= UIImagePickerControllerSourceTypePhotoLibrary;
-    imagePicker.resizeableCropArea = YES;
-    
-    imagePicker.cropSize = CGSizeMake(300 ,300);
-    
-    imagePicker.delegate = self;
-    [self presentViewController:imagePicker.imagePickerController animated:YES completion:nil];
-    
-    
-    //    UIImagePickerController *pickerController;//=[[UIImagePickerController alloc]init];
-    //
-    //    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
-    //        if (pickerController==nil) {
-    //            pickerController = [[UIImagePickerController alloc] init];
-    //            pickerController.delegate = self;
-    ////            pickerController.showsCameraControls = NO;
-    ////            pickerController.allowsEditing = YES;
-    //        }// create once!
-    //
-    //        pickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-    //        [self presentViewController:pickerController animated:YES completion:nil];
-    //    }
-    
-}
-
-
--(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
-    
-    
-    UIImage *img = [info objectForKey:UIImagePickerControllerEditedImage];
-    if(!img)
-        img = [info objectForKey:UIImagePickerControllerOriginalImage];
-    
-    
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
-    
-    
-    
-}
-
--(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
-    
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
-    
-}
 
 
 #pragma mark TTTAttributedLabel
@@ -2406,90 +2288,198 @@ didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result{
     
 }
 
+
+
+#pragma mark UIactionSheet Delegate Methods
+
+- (void)actionSheet:(UIActionSheet *)popup clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    switch (buttonIndex) {
+        case 0:
+            //[self openCamera];
+            [self openPhoneCamera];
+            break;
+        case 1:
+            //[self openPhotoLibrary];
+            [self openPhonePhotoLibrary];
+            break;
+            
+            break;
+        default:
+            break;
+    }
+}
+
+
+- (void)imagePicker:(GKImagePicker *)imagePicker pickedImage:(UIImage *)image{
+    
+    editedImage=image;
+    isImageSelectedFromDevice=YES;
+    
+    [self hideImagePicker];
+    
+    [self uploadImageOnAmazon:image];
+    
+    
+}
+
+- (void)hideImagePicker{
+    
+    [imagePicker.imagePickerController dismissViewControllerAnimated:YES completion:nil];
+    
+    
+    
+}
+
+
+#pragma mark UIImagePicker Contrller Methods
+
+-(void) openCamera{
+    
+    
+    if (!imagePicker) {
+        imagePicker = [[GKImagePicker alloc] init];
+        
+    }
+    imagePicker.imagePickerController.sourceType= UIImagePickerControllerSourceTypeCamera;
+    imagePicker.resizeableCropArea = YES;
+    
+    // imagePicker.cropSize = CGSizeMake(300 ,300);
+    
+    imagePicker.delegate = self;
+    [self presentViewController:imagePicker.imagePickerController animated:YES completion:nil];
+    
+    
+    
+    
+    
+}
+
+
+-(void)openPhoneCamera{
+    
+    UIImagePickerController *pickerController;//=[[UIImagePickerController alloc]init];
+    
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        if (pickerController==nil) {
+            pickerController = [[UIImagePickerController alloc] init];
+            pickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+            
+            pickerController.delegate = self;
+            pickerController.showsCameraControls = YES;
+          //  pickerController.allowsEditing = YES;
+            
+        }// create once!
+        
+        [self presentViewController:pickerController animated:YES completion:nil];
+    }
+    
+}
+
+-(void)openPhonePhotoLibrary{
+    
+    
+    UIImagePickerController *pickerController;//=[[UIImagePickerController alloc]init];
+    
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+        if (pickerController==nil) {
+            pickerController = [[UIImagePickerController alloc] init];
+            pickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+
+            pickerController.delegate = self;
+           
+            //pickerController.allowsEditing = YES;
+        }// create once!
+        
+        [self presentViewController:pickerController animated:YES completion:nil];
+    }
+
+}
+
+
+-(void)openPhotoLibrary{
+    
+    
+    
+    if (!imagePicker) {
+        imagePicker = [[GKImagePicker alloc] init];
+        
+    }
+    imagePicker.imagePickerController.sourceType= UIImagePickerControllerSourceTypePhotoLibrary;
+    imagePicker.resizeableCropArea = YES;
+    
+    imagePicker.cropSize = CGSizeMake(300 ,300);
+    
+    imagePicker.delegate = self;
+    [self presentViewController:imagePicker.imagePickerController animated:YES completion:nil];
+    
+    
+}
+
+
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
+    
+    
+    UIImage *img = [info objectForKey:UIImagePickerControllerEditedImage];
+    if(!img)
+        img = [info objectForKey:UIImagePickerControllerOriginalImage];
+    
+    
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+    editedImage=img;
+
+    isImageSelectedFromDevice=YES;
+    
+
+    
+    [self uploadImageOnAmazon:editedImage];
+
+    
+    
+}
+
+-(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
+    
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+}
+
+
 #pragma mark Disappear Methods
 
 -(void)uploadImageOnAmazon:(UIImage *)image
 {
 
-    [[NetworkEngine sharedNetworkEngine]saveAmazoneURLImageInChatRoomScreen:image completionBlock:^(NSString *url) {
-        
-        
-        if (url) {
+    
+    if (image) {
+        [[NetworkEngine sharedNetworkEngine]saveAmazoneURLImageInChatRoomScreen:image completionBlock:^(NSString *url) {
             
-          //  [self sendImageonPubNub:image andImageURL:url];
-            [self sendImageOnHashyAPI:image andImageURL:url];
+            NSLog(@"Image Uploaded");
+            if (url) {
+                
+                //  [self sendImageonPubNub:image andImageURL:url];
+                [self sendImageOnHashyAPI:image andImageURL:url];
+                
+            }
+            else{
+                [kAppDelegate hideProgressHUD];
+                
+            }
             
-        }
-        else{
+        } onError:^(NSError *error) {
+            
+            
             [kAppDelegate hideProgressHUD];
             
-        }
-        
-    } onError:^(NSError *error) {
-        
-        
-        [kAppDelegate hideProgressHUD];
-        
-        
-    }];
+            
+        }];
+    }
     
     
-//    [[NetworkEngine sharedNetworkEngine]saveAmazoneURLImage:image completionBlock:^(NSString *url) {
-//        
-//        
-//        if (url) {
-//            
-//            
-//            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-//            dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
-//            
-//            NSTimeZone *gmt = [NSTimeZone timeZoneWithAbbreviation:@"GMT"];
-//            [dateFormatter setTimeZone:gmt];
-//            
-//            
-//            NSString *dateString=[dateFormatter stringFromDate:[NSDate date]];
-//            
-//            NSMutableDictionary *messageDict=[[NSMutableDictionary alloc]init];
-//            [messageDict setValue:url forKey:@"message"];
-//            [messageDict setValue:[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id.stringValue forKey:@"user_id"];
-//            [messageDict setValue:dateString forKey:@"message_date"];
-//            [messageDict setValue:[[UpdateDataProcessor sharedProcessor]currentUserInfo].userName forKey:@"user_name"];
-//            [messageDict setValue:@"image" forKey:@"type"];
-//            
-//            NSMutableDictionary *imageDict=[[NSMutableDictionary alloc]init];
-//            [imageDict setValue:image forKey:@"image"];
-//            [imageDict setValue:url forKey:@"image_url"];
-//            
-//            
-//            [imageArray addObject:imageDict];
-//            
-//            
-//            [PubNub sendMessage:messageDict toChannel:masterChannel withCompletionBlock:^(PNMessageState messageState, id response) {
-//                [kAppDelegate hideProgressHUD];
-//
-//                NSLog(@"%@",response);
-//                
-//                if (messageState==PNMessageSent) {
-//                    
-//                    
-//                }
-//                
-//                
-//            }];
-//            
-//        }
-//        else{
-//            [kAppDelegate hideProgressHUD];
-//
-//        }
-//        
-//    } onError:^(NSError *error) {
-//       
-//        
-//        [kAppDelegate hideProgressHUD];
-//        
-//        
-//    }];
+    
+ 
     
 }
 
@@ -2666,13 +2656,17 @@ didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result{
                     
                     
                     [chatRoomMessageArray  addObject:messageDetailDict];
-                    [chatRoomTableView beginUpdates];
-                    NSIndexPath *indexPath=[NSIndexPath indexPathForRow:chatRoomMessageArray.count-1 inSection:0];
-                    
-                    [chatRoomTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationBottom];
-                    
-                    [chatRoomTableView endUpdates];
-                    if (chatRoomMessageArray.count) {
+                   
+                    if (chatRoomMessageArray.count && isInChatRoom) {
+                        
+                        
+                        [chatRoomTableView beginUpdates];
+                        NSIndexPath *indexPath=[NSIndexPath indexPathForRow:chatRoomMessageArray.count-1 inSection:0];
+                        
+                        [chatRoomTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationBottom];
+                        
+                        [chatRoomTableView endUpdates];
+                        
                         // [self.chatRoomTableView beginUpdates];
                         [chatRoomTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[chatRoomTableView numberOfRowsInSection:0]-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
                         
@@ -2680,7 +2674,7 @@ didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result{
                         //[self.chatRoomTableView endUpdates];
                     }
                     
-                    [chatRoomTableView reloadData];
+                  //  [chatRoomTableView reloadData];
                     [self checkForTableOffset];
                     
                     
@@ -2710,6 +2704,7 @@ didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result{
     [super viewWillDisappear:animated];
     [self.view removeKeyboardControl];
     isInChatRoom=NO;
+    
     messagetextField.text=@"";
     [self lowerDownBottomView];
    // [self.view removeGestureRecognizer:panGestureRecognizer];

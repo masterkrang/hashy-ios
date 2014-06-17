@@ -529,7 +529,10 @@
 -(void)backButtonPressed:(UIButton *)sender {
     
     
-   // profilePageTableView.scrollEnabled=NO;
+    profilePageTableView.scrollEnabled=NO;
+    profilePageTableView.pagingDelegate=nil;
+    profilePageTableView.dataSource=nil;
+
     
     [self.navigationController popViewControllerAnimated:YES];
 }

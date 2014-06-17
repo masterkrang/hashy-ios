@@ -847,11 +847,15 @@
         selectedPageNumber=1;
         self.listChatTableView.selectedPageNumber=1;
         lastUpadteddate=[NSDate date];
-        [self searchChannels:searchString forPageNumber:selectedPageNumber];
 
-//        if (searchString && searchString.length>0) {
-//            
-//        }
+        if (searchString && searchString.length>0) {
+            [self searchChannels:searchString forPageNumber:self.listChatTableView.selectedPageNumber];
+ 
+        }
+        else{
+            
+            [self getListOfChatsForPageNumber:self.listChatTableView.selectedPageNumber];
+        }
         return YES;
         
         

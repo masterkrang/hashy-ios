@@ -1803,7 +1803,11 @@ withCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBloc
 
 + (void)unsubscribeFromChannel:(PNChannel *)channel {
     
-    [self unsubscribeFromChannels:@[channel]];
+    if (channel) {
+        [self unsubscribeFromChannels:@[channel]];
+
+    }
+    
 }
 
 + (void)unsubscribeFromChannel:(PNChannel *)channel withPresenceEvent:(BOOL)withPresenceEvent {
