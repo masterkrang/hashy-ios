@@ -47,9 +47,9 @@
 //    
 //    [navController setViewControllers:[NSArray arrayWithObject:profileVC] animated:YES];
     
-//    AddImageViewController *imageVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"addImage_vc"];
-//    
-//    [navController setViewControllers:[NSArray arrayWithObject:imageVC] animated:YES];
+    AddImageViewController *imageVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"addImage_vc"];
+    
+    [navController setViewControllers:[NSArray arrayWithObject:imageVC] animated:YES];
 
     
     
@@ -58,39 +58,39 @@
 //    [navController setViewControllers:[NSArray arrayWithObject:signInVC] animated:YES];
     
     // add bugsnag bug tracking
-    [Bugsnag startBugsnagWithApiKey:kBugSnagAPIKey];
+//    [Bugsnag startBugsnagWithApiKey:kBugSnagAPIKey];
 
     
      
     
-    if ([[UpdateDataProcessor sharedProcessor]currentUserInfo]) {
-        
-        HYListChatViewController *listChatVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"listChat_vc"];
-        //[navController setViewControllers:[NSArray arrayWithObject:listChatVC] animated:YES];
-        
-        
-        CustomNavigationController *navigationController = [[CustomNavigationController alloc] initWithRootViewController:listChatVC];
-        DEMOMenuViewController *menuController = [[DEMOMenuViewController alloc] initWithStyle:UITableViewStylePlain];
-        
-        // Create frosted view controller
-        //
-        REFrostedViewController *frostedViewController = [[REFrostedViewController alloc] initWithContentViewController:navigationController menuViewController:menuController];
-        frostedViewController.direction = REFrostedViewControllerDirectionLeft;
-        frostedViewController.liveBlurBackgroundStyle = REFrostedViewControllerLiveBackgroundStyleLight;
-        frostedViewController.liveBlur = YES;
-        frostedViewController.delegate = self;
-        self.window.rootViewController =frostedViewController;
-
-        
-    }
-    else{
-       
-        HYSignInViewController *signInVC = [kStoryBoard instantiateViewControllerWithIdentifier:@"signIn_vc"];
-        
-        [navController setViewControllers:[NSArray arrayWithObject:signInVC] animated:YES];
-
-        
-    }
+//    if ([[UpdateDataProcessor sharedProcessor]currentUserInfo]) {
+//        
+//        HYListChatViewController *listChatVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"listChat_vc"];
+//        //[navController setViewControllers:[NSArray arrayWithObject:listChatVC] animated:YES];
+//        
+//        
+//        CustomNavigationController *navigationController = [[CustomNavigationController alloc] initWithRootViewController:listChatVC];
+//        DEMOMenuViewController *menuController = [[DEMOMenuViewController alloc] initWithStyle:UITableViewStylePlain];
+//        
+//        // Create frosted view controller
+//        //
+//        REFrostedViewController *frostedViewController = [[REFrostedViewController alloc] initWithContentViewController:navigationController menuViewController:menuController];
+//        frostedViewController.direction = REFrostedViewControllerDirectionLeft;
+//        frostedViewController.liveBlurBackgroundStyle = REFrostedViewControllerLiveBackgroundStyleLight;
+//        frostedViewController.liveBlur = YES;
+//        frostedViewController.delegate = self;
+//        self.window.rootViewController =frostedViewController;
+//
+//        
+//    }
+//    else{
+//       
+//        HYSignInViewController *signInVC = [kStoryBoard instantiateViewControllerWithIdentifier:@"signIn_vc"];
+//        
+//        [navController setViewControllers:[NSArray arrayWithObject:signInVC] animated:YES];
+//
+//        
+//    }
     
 
     

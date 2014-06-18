@@ -346,7 +346,7 @@ static NetworkEngine *sharedNetworkEngine=nil;
     NSString *urlString=[NSString stringWithFormat:@"%@/chats/%@/messages.json?per=25&page=%@",kServerHostName,chat_id,pageNumberStr];
     
     [self.httpManager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"JSON: %@", responseObject);
+       // NSLog(@"JSON: %@", responseObject);
         
         NSHTTPURLResponse *response= operation.response;
         
@@ -383,7 +383,7 @@ static NetworkEngine *sharedNetworkEngine=nil;
     [self.httpManager.requestSerializer setValue:[NSString stringWithFormat:@"Token token=\"%@\"", [[UpdateDataProcessor sharedProcessor]currentUserInfo].user_authentication_token] forHTTPHeaderField:@"Authorization"];
     
     [self.httpManager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"JSON: %@", responseObject);
+      //  NSLog(@"JSON: %@", responseObject);
         
         NSHTTPURLResponse *response= operation.response;
         
@@ -565,7 +565,7 @@ static NetworkEngine *sharedNetworkEngine=nil;
     NSString *urlString=[NSString stringWithFormat:@"%@%@?term=%@&page=%@&per=25",kServerHostName,kSearchChannels,searched_text,pageNumberStr];
     
     [self.httpManager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"JSON: %@", responseObject);
+      //  NSLog(@"JSON: %@", responseObject);
         
         NSHTTPURLResponse *response= operation.response;
         

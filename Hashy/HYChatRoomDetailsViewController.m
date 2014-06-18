@@ -481,9 +481,10 @@
 -(void)getMessagesViaAPICall{
     
     [[NetworkEngine sharedNetworkEngine]getChatMessagesForChatRoom:^(id object) {
+        NSLog(@"Messages loaded");
         
-        NSLog(@"%@",object);
-        [kAppDelegate hideProgressHUD];
+       // NSLog(@"%@",object);
+  //      [kAppDelegate hideProgressHUD];
 
         if (isInChatRoom) {
             if (![object isEqual:[NSNull null]] && [object isKindOfClass:[NSArray class]]) {
@@ -495,12 +496,13 @@
                     self.chatRoomMessageArray= [[[self.chatRoomMessageArray reverseObjectEnumerator]allObjects]mutableCopy];
                 }
                 
-                [chatRoomTableView reloadData];
-                if (chatRoomMessageArray.count) {
-                    // [self.chatRoomTableView beginUpdates];
-                    [chatRoomTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[chatRoomTableView numberOfRowsInSection:0]-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
-                    //[self.chatRoomTableView endUpdates];
-                }
+             //   [chatRoomTableView reloadData];
+                
+//                if (chatRoomMessageArray.count) {
+//                    // [self.chatRoomTableView beginUpdates];
+//                    [chatRoomTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[chatRoomTableView numberOfRowsInSection:0]-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+//                    //[self.chatRoomTableView endUpdates];
+//                }
                 
                 [self subscribeToPubNubChannel:chatIDString];
                 
@@ -510,6 +512,11 @@
             
             bottomView.hidden=YES;
             [activityIndicatorView stopAnimating];
+        }
+        else{
+            
+            [kAppDelegate hideProgressHUD];
+            
         }
         
         
@@ -532,8 +539,9 @@
     
     [[NetworkEngine sharedNetworkEngine]getChatForChatRoom:^(id object) {
         
-        NSLog(@"%@",object);
-        
+       // NSLog(@"%@",object);
+        NSLog(@"Subscribers count upadted");
+
         
         if ([object valueForKey:@"channel"] && ![[object valueForKey:@"channel"]isEqual:[NSNull null]]) {
             
@@ -715,22 +723,32 @@
         
         if (isSubscribedOnChannel) {
             
+            
+            NSLog(@"Previously subscribed %@",masterChannel);
+            [self reConnectWithChannel:masterChannel];
+            
+            
             //[self getFullHistoryOfMessages:masterChannel];
+            
 
         }
         else{
             
             if (masterChannel) {
                 [PubNub subscribeOnChannel:masterChannel withCompletionHandlingBlock:^(PNSubscriptionProcessState state, NSArray *array, PNError *error) {
-                    
+                    [self reloadTableData];
                     if (!error) {
                        // [self getFullHistoryOfMessages:masterChannel];
-                        
+                        NSLog(@"Subscribed to channel: %@",masterChannel);
+                        [kAppDelegate hideProgressHUD];
+
                     }
                     else{
                         backButton.enabled=YES;
                         subscriberButtonCount.enabled=YES;
                         [kAppDelegate hideProgressHUD];
+                        [Utility showAlertWithString:@"Unable to subscribe to channel."];
+                        
                     }
                     
                     
@@ -739,7 +757,11 @@
                     
                 }];
             }
-            
+            else{
+                
+                [kAppDelegate hideProgressHUD];
+ 
+            }
         }
         
         
@@ -762,23 +784,47 @@
             masterChannel=[PNChannel channelWithName:channelName shouldObservePresence:YES];
             
             if (masterChannel) {
-                [PubNub subscribeOnChannel:masterChannel withCompletionHandlingBlock:^(PNSubscriptionProcessState state, NSArray *array, PNError *error) {
+                
+                BOOL isSubscribedOnChannel=[PubNub isSubscribedOnChannel:masterChannel];
+                
+                if (isSubscribedOnChannel) {
                     
-                    if (!error) {
-                       // [self getFullHistoryOfMessages:masterChannel];
+                    [self reConnectWithChannel:masterChannel];
+                    
+                    
+                }
+                else{
+                    [PubNub subscribeOnChannel:masterChannel withCompletionHandlingBlock:^(PNSubscriptionProcessState state, NSArray *array, PNError *error) {
+                        [self reloadTableData];
+                        if (!error) {
+                            // [self getFullHistoryOfMessages:masterChannel];
+                            NSLog(@"Subscribed to channel: %@",masterChannel);
+                            [kAppDelegate hideProgressHUD];
+
+                        }
+                        else{
+                            backButton.enabled=YES;
+                            subscriberButtonCount.enabled=YES;
+                            [kAppDelegate hideProgressHUD];
+                            [Utility showAlertWithString:@"Unable to subscribe to channel."];
+                            
+                        }
                         
-                    }
-                    else{
-                        backButton.enabled=YES;
-                        subscriberButtonCount.enabled=YES;
-                        [kAppDelegate hideProgressHUD];
-                    }
-                    
-                    
-                    
-                    //  NSLog(@"%@\n%@",array,error);
-                    
-                }];
+                        
+                        
+                        //  NSLog(@"%@\n%@",array,error);
+                        
+                    }];
+                }
+                
+                
+            }
+            else{
+                backButton.enabled=YES;
+                subscriberButtonCount.enabled=YES;
+                [kAppDelegate hideProgressHUD];
+                [Utility showAlertWithString:@"Unable to subscribe to channel."];
+                [self reloadTableData];
             }
             
             
@@ -786,6 +832,7 @@
             
      
         } errorBlock:^(PNError *error) {
+            [self reloadTableData];
             [kAppDelegate hideProgressHUD];
             backButton.enabled=YES;
             subscriberButtonCount.enabled=YES;
@@ -795,7 +842,7 @@
             connectionErrorAlert.message = [NSString stringWithFormat:@"Reason:\n%@\n\nSuggestion:\n%@",
                                             [error localizedFailureReason],
                                             [error localizedRecoverySuggestion]]; [connectionErrorAlert addButtonWithTitle:@"OK"];
-            [connectionErrorAlert show];
+            //[connectionErrorAlert show];
         }];
     }
 
@@ -815,6 +862,29 @@
     //[PubNub sendMessage:@"my_unique_channel_name" toChannel:masterChannel];
     
     
+}
+
+-(void)reloadTableData{
+    [chatRoomTableView reloadData];
+    [kAppDelegate hideProgressHUD];
+    
+    if (chatRoomMessageArray.count) {
+        // [self.chatRoomTableView beginUpdates];
+        
+      //  NSIndexPath *indexPath=[NSIndexPath indexPathForRow:[chatRoomTableView numberOfRowsInSection:0]-1 inSection:0];
+        NSLog(@"Rows Count%d",[chatRoomTableView numberOfRowsInSection:0]);
+        
+        if ([chatRoomTableView numberOfRowsInSection:0]>0) {
+            NSIndexPath *indexPath=[NSIndexPath indexPathForRow:chatRoomMessageArray.count-1 inSection:0];
+            
+            
+            [chatRoomTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+
+        }
+        
+              //[self.chatRoomTableView endUpdates];
+    }
+
 }
 
 
@@ -869,7 +939,64 @@
 //    
 
 
+-(void)reConnectWithChannel:(PNChannel *)channel{
+    
+    
+    if (channel) {
+        
+        
+        [PubNub unsubscribeFromChannel:channel withCompletionHandlingBlock:^(NSArray *channelArray, PNError *unsubsribeError) {
+            
+ 
+            
+            
+            if (!unsubsribeError) {
+                
+                
+                [PubNub subscribeOnChannels:[NSArray arrayWithObject:channel] withCompletionHandlingBlock:^(PNSubscriptionProcessState state, NSArray *subscriptionArray, PNError *subscriptionError) {
+                    
+                    
+                    
+                    if (!subscriptionError) {
+                        [self reloadTableData];
 
+                        NSLog(@"Re subscribed to channel %@",channel);
+                        [kAppDelegate hideProgressHUD];
+                        
+
+                        
+                    }
+                    else{
+                        [self reloadTableData];
+                        [Utility showAlertWithString:@"Unable to subscribe to channel."];
+                        [kAppDelegate hideProgressHUD];
+
+                    }
+                    
+                    
+                }];
+                
+                
+            }
+            else{
+                [self reloadTableData];
+                [Utility showAlertWithString:@"Unable to subscribe to channel."];
+                [kAppDelegate hideProgressHUD];
+
+            }
+            
+        }];
+        
+        
+        
+    }
+    else{
+        [kAppDelegate hideProgressHUD];
+
+        [self reloadTableData];
+    }
+    
+}
 
 -(void)getFullHistoryOfMessages:(PNChannel *)channel{
     //float startDateTimeInterval=-CGFLOAT_MAX;
@@ -2113,7 +2240,8 @@
     
     
    // if (!chatRoomTableView.isScrolling) {
-    
+//    [[[[NetworkEngine sharedNetworkEngine]httpManager]operationQueue]cancelAllOperations];
+
         [PubNub unsubscribeFromChannel:masterChannel];
        // [PubNub disconnect];
         

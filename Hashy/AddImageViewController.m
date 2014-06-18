@@ -253,7 +253,7 @@
         randomAvatarImageURL=url;
         
         
-        [self postRandomAvatarImage];
+       // [self postRandomAvatarImage];
         
         
     } onError:^(NSError *error) {
@@ -342,11 +342,29 @@
 
 
 - (void)imagePicker:(GKImagePicker *)imagePicker pickedImage:(UIImage *)image{
-    avatarImageView.image = image;
-    editedImage=image;
+    editedImage=[self compressImage:image];
+
+//    editedImage=image;
+//    avatarImageView.image = image;
+
+//    editedImage=image;
+    avatarImageView.image = editedImage;
+
+    
     isImageSelectedFromDevice=YES;
     
     [self hideImagePicker];
+}
+
+-(UIImage *)compressImage:(UIImage *)image{
+    
+    
+    CGSize newSize=CGSizeMake(150, 150);
+    UIGraphicsBeginImageContext(newSize);
+    [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
+    UIImage *compressedImage= UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return compressedImage;
 }
 
 - (void)hideImagePicker{

@@ -333,7 +333,8 @@
 
     [[NetworkEngine sharedNetworkEngine]searchChannels:^(id object) {
         
-        NSLog(@"%@",object);
+      //  NSLog(@"%@",object);
+        NSLog(@"search Channels Data");
         
         if (![object isEqual:[NSNull null]] && [object isKindOfClass:[NSArray class]]) {
             
@@ -390,8 +391,9 @@
 
     [[NetworkEngine sharedNetworkEngine]getChatLists:^(id object) {
         
-        NSLog(@"%@",object);
-        
+      //  NSLog(@"%@",object);
+        NSLog(@"List Channels Data");
+
         if (![object isEqual:[NSNull null]] && [object isKindOfClass:[NSArray class]]) {
          
             if (pageNumber==1) {
@@ -594,7 +596,7 @@
         if (channelDict && ![channelDict isEqual:[NSNull null]]) {
             
             NSMutableDictionary *detailChannelDict=[channelDict valueForKey:@"channel"];
-            NSLog(@"%@",detailChannelDict);
+          //  NSLog(@"%@",detailChannelDict);
             
             HYChatRoomDetailsViewController *chatVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"chatRoomDetails_vc"];
             
