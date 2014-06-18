@@ -636,20 +636,20 @@ static NetworkEngine *sharedNetworkEngine=nil;
     NSString *urlString=[NSString stringWithFormat:@"%@/chats/%@/messages.json",kServerHostName,chat_id];
     
     [self.httpManager POST:urlString parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"JSON: %@", responseObject);
+     //   NSLog(@"JSON: %@", responseObject);
         
         if([responseObject objectForKey:@"message"] &&![[responseObject objectForKey:@"message"]isEqual:[NSNull null]])
         {
-            
-            NSHTTPURLResponse *response=operation.response;
-            
-            if (response.statusCode == 200 ) {
-                completionBlock(responseObject);
-                
-            }
-            else{
-                errorBlock(nil);
-            }
+            completionBlock(responseObject);
+//
+//            NSHTTPURLResponse *response=operation.response;
+//            
+//            if (response.statusCode == 200 ) {
+//                
+//            }
+//            else{
+//                errorBlock(nil);
+//            }
             
             //            if([[responseObject objectForKey:@"user"]isEqualToString:@"failed"])
             //            {

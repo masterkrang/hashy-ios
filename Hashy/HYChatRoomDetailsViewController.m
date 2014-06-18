@@ -139,8 +139,8 @@
             CGRect toolBarFrame = weakSelfMessageContainer.frame;
             toolBarFrame.origin.y = keyboardFrameInView.origin.y - toolBarFrame.size.height;
             weakSelfMessageContainer.frame = toolBarFrame;
-            NSLog(@"Origin %f",(-[[UIScreen mainScreen] bounds].size.height+toolBarFrame.size.height+toolBarFrame.origin.y));
-            NSLog(@"Table Content Size %f",weakSelfTableView.contentSize.height);
+           // NSLog(@"Origin %f",(-[[UIScreen mainScreen] bounds].size.height+toolBarFrame.size.height+toolBarFrame.origin.y));
+          //  NSLog(@"Table Content Size %f",weakSelfTableView.contentSize.height);
 
             if (keyboardFrameInView.origin.y==264 || keyboardFrameInView.origin.y==352) {
 
@@ -597,12 +597,49 @@
     
     messagetextField.text=@"";
     
+    
+    
+    [chatRoomMessageArray  addObject:messageDetailDict];
+    
+    if (chatRoomMessageArray.count && isInChatRoom) {
+        
+        [chatRoomTableView beginUpdates];
+        NSIndexPath *indexPath=[NSIndexPath indexPathForRow:chatRoomMessageArray.count-1 inSection:0];
+        [chatRoomTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationBottom];
+        [chatRoomTableView endUpdates];
+        [chatRoomTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[chatRoomTableView numberOfRowsInSection:0]-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+        
+    }
+    
+    [self checkForTableOffset:messageDict];
+
+    
+    
     [[NetworkEngine sharedNetworkEngine]sendMessage:^(id object) {
         
         //NSLog(@"%@",object);
         
         
     } onError:^(NSError *error) {
+        
+        
+        if (chatRoomMessageArray.count && isInChatRoom) {
+            
+            
+            
+            [chatRoomTableView beginUpdates];
+            NSIndexPath *indexPath=[NSIndexPath indexPathForRow:chatRoomMessageArray.count-1 inSection:0];
+            
+            [chatRoomTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationBottom];
+            [chatRoomMessageArray removeObjectAtIndex:chatRoomMessageArray.count-1];
+            [chatRoomTableView endUpdates];
+            [chatRoomTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[chatRoomTableView numberOfRowsInSection:0]-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+            
+        }
+        
+        [Utility showAlertWithString:@"There was an error occured while posting"];
+        
+
         
         
         
@@ -638,8 +675,24 @@
     
     [imageArray addObject:imageDict];
 
+    //Newly added
     
     
+    
+    [chatRoomMessageArray  addObject:messageDetailDict];
+    
+    if (chatRoomMessageArray.count && isInChatRoom) {
+        
+        [chatRoomTableView beginUpdates];
+        NSIndexPath *indexPath=[NSIndexPath indexPathForRow:chatRoomMessageArray.count-1 inSection:0];
+        [chatRoomTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationBottom];
+        [chatRoomTableView endUpdates];
+        [chatRoomTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[chatRoomTableView numberOfRowsInSection:0]-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+        
+    }
+    
+    [self checkForTableOffset:messageDict];
+    [kAppDelegate hideProgressHUD];
     messagetextField.text=@"";
     [[NetworkEngine sharedNetworkEngine]sendMessage:^(id object) {
         
@@ -647,8 +700,22 @@
         
         
     } onError:^(NSError *error) {
+        [kAppDelegate hideProgressHUD];
+        if (chatRoomMessageArray.count && isInChatRoom) {
+            
+            
+            
+            [chatRoomTableView beginUpdates];
+            NSIndexPath *indexPath=[NSIndexPath indexPathForRow:chatRoomMessageArray.count-1 inSection:0];
+            
+            [chatRoomTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationBottom];
+            [chatRoomMessageArray removeObjectAtIndex:chatRoomMessageArray.count-1];
+            [chatRoomTableView endUpdates];
+            [chatRoomTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[chatRoomTableView numberOfRowsInSection:0]-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+            
+        }
         
-        
+        [Utility showAlertWithString:@"There was an error occured while posting"];
         
     } forChatID:chatIDString withParams:messageDetailDict];
     
@@ -1970,6 +2037,7 @@
             
             NSURLRequest *request=[NSURLRequest requestWithURL:[NSURL URLWithString:[messageDict valueForKey:@"body"]]];
             
+            
             typeof (cell.pictureImageView) weakSelf=(cell.pictureImageView);
             typeof (cell.activityIndicatorView) weakSelfIndicator=(cell.activityIndicatorView);
 
@@ -1985,6 +2053,7 @@
             } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
                 //[activityIndicatorView stopAnimating];
                 [weakSelfIndicator stopAnimating];
+                NSLog(@"Error while downloading the image");
 
             }];
         }
@@ -2738,7 +2807,7 @@ didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result{
     isImageSelectedFromDevice=YES;
     
 
-    
+    [kAppDelegate showProgressHUDWithText:@"Uploading Image..." inView:self.view];
     [self uploadImageOnAmazon:editedImage];
 
     
@@ -2760,6 +2829,10 @@ didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result{
 
     
     if (image) {
+        
+        
+        
+        
         [[NetworkEngine sharedNetworkEngine]saveAmazoneURLImageInChatRoomScreen:image completionBlock:^(NSString *url) {
             
             NSLog(@"Image Uploaded");
@@ -2781,6 +2854,10 @@ didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result{
             
             
         }];
+    }
+    else{
+        
+            [kAppDelegate hideProgressHUD];
     }
     
     
@@ -3198,33 +3275,45 @@ didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result{
                     [messageDict setValue:messageDate forKey:@"message_timestamp"];
                     [messageDict setValue:messageType forKey:@"message_type"];
                     
-                    
-                    NSMutableDictionary *messageDetailDict=[[NSMutableDictionary alloc]init];
-                    
-                    [messageDetailDict setValue:messageDict forKey:@"message"];
-                    
-                    
-                    [chatRoomMessageArray  addObject:messageDetailDict];
-                   
-                    if (chatRoomMessageArray.count && isInChatRoom) {
+                    if (user_id_str.intValue && user_id_str.intValue==[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id.intValue) {
+                       
+                        
+                        NSLog(@"Donot insert message");
                         
                         
-                        [chatRoomTableView beginUpdates];
-                        NSIndexPath *indexPath=[NSIndexPath indexPathForRow:chatRoomMessageArray.count-1 inSection:0];
+                    }
+                    else{
                         
-                        [chatRoomTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationBottom];
+                        NSMutableDictionary *messageDetailDict=[[NSMutableDictionary alloc]init];
                         
-                        [chatRoomTableView endUpdates];
-                        
-                        // [self.chatRoomTableView beginUpdates];
-                        [chatRoomTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[chatRoomTableView numberOfRowsInSection:0]-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+                        [messageDetailDict setValue:messageDict forKey:@"message"];
                         
                         
-                        //[self.chatRoomTableView endUpdates];
+                        [chatRoomMessageArray  addObject:messageDetailDict];
+                        
+                        if (chatRoomMessageArray.count && isInChatRoom) {
+                            
+                            
+                            [chatRoomTableView beginUpdates];
+                            NSIndexPath *indexPath=[NSIndexPath indexPathForRow:chatRoomMessageArray.count-1 inSection:0];
+                            
+                            [chatRoomTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationBottom];
+                            
+                            [chatRoomTableView endUpdates];
+                            
+                            // [self.chatRoomTableView beginUpdates];
+                            [chatRoomTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[chatRoomTableView numberOfRowsInSection:0]-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+                            
+                            
+                            //[self.chatRoomTableView endUpdates];
+                        }
+                        
+                        //  [chatRoomTableView reloadData];
+                        [self checkForTableOffset:messageDict];
                     }
                     
-                  //  [chatRoomTableView reloadData];
-                    [self checkForTableOffset:messageDict];
+                    
+              
                     
                     
                     
