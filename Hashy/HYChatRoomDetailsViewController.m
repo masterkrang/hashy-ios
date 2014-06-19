@@ -1314,7 +1314,7 @@
     cell.messageLabel.numberOfLines=0;
     cell.messageLabel.textVerticalAlignment=UITextVerticalAlignmentTop;
     [cell.activityIndicatorView stopAnimating];
-    
+    cell.pictureImageView.contentMode=UIViewContentModeScaleAspectFit;
     if (self.chatRoomMessageArray.count>indexPath.row) {
         
         

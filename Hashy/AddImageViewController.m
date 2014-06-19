@@ -329,9 +329,11 @@
     switch (buttonIndex) {
         case 0:
             [self openCamera];
+  //          [self openPhoneCamera];
             break;
         case 1:
             [self openPhotoLibrary];
+//            [self openPhonePhotoLibrary];
             break;
             
             break;
@@ -462,7 +464,9 @@
         
     }
     
-    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    
+    //[self dismissViewControllerAnimated:YES completion:nil];
     
     
     
@@ -472,6 +476,56 @@
     
     
     [self dismissViewControllerAnimated:YES completion:nil];
+    
+}
+
+-(void)openPhoneCamera{
+    
+    UIImagePickerController *pickerController;//=[[UIImagePickerController alloc]init];
+    
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        if (pickerController==nil) {
+            pickerController = [[UIImagePickerController alloc] init];
+            pickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+            
+            pickerController.delegate = self;
+            pickerController.showsCameraControls = YES;
+              pickerController.allowsEditing = YES;
+            
+        }// create once!
+        
+        [self presentViewController:pickerController animated:YES completion:nil];
+    }
+    
+}
+
+-(void)openPhonePhotoLibrary{
+    
+    
+    UIImagePickerController *pickerController;//=[[UIImagePickerController alloc]init];
+    
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+        if (pickerController==nil) {
+            pickerController = [[UIImagePickerController alloc] init];
+            pickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            
+            pickerController.delegate = self;
+            
+            //pickerController.allowsEditing = YES;
+        }// create once!
+        
+        [self presentViewController:pickerController animated:YES completion:nil];
+    }
+    
+}
+
+#pragma mark NSNOtification Methods
+
+-(void)imageNotification:(NSNotification *)notification{
+    
+    
+    
+    
     
 }
 

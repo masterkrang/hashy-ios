@@ -37,7 +37,7 @@
     
     CGContextSetStrokeColorWithColor(ctx, [UIColor colorWithRed:1. green:1. blue:1. alpha:0.5].CGColor);
     CGContextSetLineWidth(ctx, 1.5f);
-    CGContextAddRect(ctx, CGRectMake(kHandleDiameter / 2, kHandleDiameter / 2, rect.size.width - kHandleDiameter, rect.size.height - kHandleDiameter));
+    CGContextAddRect(ctx, CGRectMake(kHandleDiameter / 2, (kHandleDiameter / 2), rect.size.width - kHandleDiameter, rect.size.height - kHandleDiameter));
     CGContextStrokePath(ctx);
     
 //    NSMutableArray* handleRectArray = [self _calculateAllNeededHandleRects];
