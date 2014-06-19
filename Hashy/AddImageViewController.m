@@ -109,7 +109,8 @@
     NSLog(@"%@",[kUserDefaults valueForKey:@"user_dict"]);
     
     [avatarImageButton setBackgroundImage:nil forState:UIControlStateHighlighted];
-    
+ //   avatarImageView.contentMode=UIViewContentModeScaleAspectFit;
+
     
 
     [self setFontsAndFrames];
@@ -253,7 +254,7 @@
         randomAvatarImageURL=url;
         
         
-       // [self postRandomAvatarImage];
+        [self postRandomAvatarImage];
         
         
     } onError:^(NSError *error) {
@@ -360,8 +361,23 @@
 
 -(UIImage *)compressImage:(UIImage *)image{
     
+    CGFloat maxSize = 180;
+    CGFloat width = image.size.width;
+    CGFloat height = image.size.height;
+    CGFloat newWidth = width;
+    CGFloat newHeight = height;
+    if (width > maxSize || height > maxSize) {
+        if (width > height) {
+            newWidth = maxSize;
+            newHeight = (height*maxSize)/width;
+        } else {
+            newHeight = maxSize;
+            newWidth = (width*maxSize)/height;
+        }
+    }
+
     
-    CGSize newSize=CGSizeMake(150, 150);
+    CGSize newSize=CGSizeMake(newWidth, newHeight);
     UIGraphicsBeginImageContext(newSize);
     [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
     UIImage *compressedImage= UIGraphicsGetImageFromCurrentImageContext();

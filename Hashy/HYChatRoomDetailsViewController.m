@@ -136,13 +136,16 @@
              when you are done with the view controller by calling:
              [self.view removeKeyboardControl];
              */
+            
+            
             CGRect toolBarFrame = weakSelfMessageContainer.frame;
             toolBarFrame.origin.y = keyboardFrameInView.origin.y - toolBarFrame.size.height;
-            weakSelfMessageContainer.frame = toolBarFrame;
-           // NSLog(@"Origin %f",(-[[UIScreen mainScreen] bounds].size.height+toolBarFrame.size.height+toolBarFrame.origin.y));
-          //  NSLog(@"Table Content Size %f",weakSelfTableView.contentSize.height);
+            //Commented for show keyboard
+            //weakSelfMessageContainer.frame = toolBarFrame;
+         
 
-            if (keyboardFrameInView.origin.y==264 || keyboardFrameInView.origin.y==352) {
+            if (keyboardFrameInView.origin.y==264 || keyboardFrameInView.origin.y==352){
+                
 
                 if (IS_IPHONE_5) {
                     //For iphone 5 keyboard show
@@ -429,7 +432,10 @@
     [chatRoomTableView setupTablePaging];
     chatRoomTableView.selectedPageNumber=1;
     chatRoomTableView.pagingDelegate=self;
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
     if (self.chatNameString) {
         self.title=[NSString stringWithFormat:@"#%@",self.chatNameString];
 
@@ -2232,27 +2238,27 @@
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField{
     
-    
+    if (chatRoomMessageArray.count>0) {
+        
+        [chatRoomTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[chatRoomTableView numberOfRowsInSection:0]-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+        
+        
+    }
+
  
     
-    [UIView animateWithDuration:0.2 delay:0.05 options:UIViewAnimationOptionCurveLinear animations:^{
-        CGRect messageContainerFrame=self.messageConatinerView.frame;
-        messageContainerFrame.origin.y-=216;
-        self.messageConatinerView.frame=messageContainerFrame;
-        
-        
-        
-        if (chatRoomMessageArray.count>0) {
-            
-            [chatRoomTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[chatRoomTableView numberOfRowsInSection:0]-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-            
-            
-        }
-        
-
-
-        
-    } completion:nil];
+//    [UIView animateWithDuration:0.2 delay:0.05 options:UIViewAnimationOptionCurveLinear animations:^{
+//        CGRect messageContainerFrame=self.messageConatinerView.frame;
+//        messageContainerFrame.origin.y-=216;
+//        self.messageConatinerView.frame=messageContainerFrame;
+//        
+//        
+//        
+//        
+//
+//
+//        
+//    } completion:nil];
     
     
     
@@ -2431,6 +2437,45 @@
 
 #pragma mark Image Upload Method
 
+-(void)animate{
+    
+    const int movementDistance = -216; // tweak as needed
+    const float movementDuration = 0.3f; // tweak as needed
+    
+    int movement = movementDistance;
+    
+    [UIView beginAnimations: @"anim" context: nil];
+    [UIView setAnimationBeginsFromCurrentState: YES];
+    [UIView setAnimationDuration: movementDuration];
+     self.messageConatinerView.frame = CGRectOffset(self.messageConatinerView.frame, 0, movement);
+    [UIView commitAnimations];
+}
+
+-(void)keyboardWillShow:(NSNotification *)notification{
+    
+    NSLog(@"%@",notification);
+    [self animate];
+    
+//    [UIView animateWithDuration:0.25 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+//        CGRect messageContainerFrame=self.messageConatinerView.frame;
+//        messageContainerFrame.origin.y-=216;
+//        self.messageConatinerView.frame=messageContainerFrame;
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//    } completion:nil];
+
+//    CGRect toolBarFrame = messageConatinerView.frame;
+//    toolBarFrame.origin.y = keyboardFrameInView.origin.y - toolBarFrame.size.height;
+//    
+//    weakSelfMessageContainer.frame = toolBarFrame;
+    
+    
+}
 
 #pragma mark TTTAttributedLabel
 
@@ -2822,6 +2867,33 @@ didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result{
 }
 
 
+-(UIImage *)compressImage:(UIImage *)image{
+    
+    CGFloat maxSize = 180;
+    CGFloat width = image.size.width;
+    CGFloat height = image.size.height;
+    CGFloat newWidth = width;
+    CGFloat newHeight = height;
+    if (width > maxSize || height > maxSize) {
+        if (width > height) {
+            newWidth = maxSize;
+            newHeight = (height*maxSize)/width;
+        } else {
+            newHeight = maxSize;
+            newWidth = (width*maxSize)/height;
+        }
+    }
+    
+    
+    CGSize newSize=CGSizeMake(newWidth, newHeight);
+    UIGraphicsBeginImageContext(newSize);
+    [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
+    UIImage *compressedImage= UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return compressedImage;
+}
+
+
 #pragma mark Disappear Methods
 
 -(void)uploadImageOnAmazon:(UIImage *)image
@@ -2831,9 +2903,10 @@ didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result{
     if (image) {
         
         
+        UIImage *compressedImage=[self compressImage:image];
         
         
-        [[NetworkEngine sharedNetworkEngine]saveAmazoneURLImageInChatRoomScreen:image completionBlock:^(NSString *url) {
+        [[NetworkEngine sharedNetworkEngine]saveAmazoneURLImageInChatRoomScreen:compressedImage completionBlock:^(NSString *url) {
             
             NSLog(@"Image Uploaded");
             if (url) {
