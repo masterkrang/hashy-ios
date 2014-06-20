@@ -314,7 +314,7 @@
                                 <rect key="frame" x="79" y="144" width="163" height="163"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <state key="normal" backgroundImage="605D7E9F-1AEB-46A7-8DF3-BD64BCF81F8C">
+                                <state key="normal" backgroundImage="C343B0C2-2060-483D-AB82-89C3BF3C17E4">
                                     <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -604,17 +604,6 @@
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="kbe-BY-xEI">
-                                        <rect key="frame" x="137" y="183" width="46" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="Edit">
-                                            <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="editButtonPressed:" destination="CZA-vB-cBH" eventType="touchUpInside" id="boJ-Ob-FJg"/>
-                                        </connections>
-                                    </button>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recent Chats" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="2iJ-2z-42U">
                                         <rect key="frame" x="20" y="217" width="109" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -644,7 +633,6 @@
                     </view>
                     <connections>
                         <outlet property="bottomView" destination="lMc-ow-7iy" id="CKH-de-jhf"/>
-                        <outlet property="editUserProfileImageButton" destination="kbe-BY-xEI" id="8An-09-kxW"/>
                         <outlet property="profileAvatarImageView" destination="fke-2q-jti" id="iEb-4p-nqs"/>
                         <outlet property="profileHeaderView" destination="ALe-4k-oV2" id="jxL-IQ-rNN"/>
                         <outlet property="profilePageTableView" destination="7ru-uB-Af8" id="QUh-gk-ap5"/>
@@ -858,7 +846,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="605D7E9F-1AEB-46A7-8DF3-BD64BCF81F8C" width="326" height="326">
+        <image name="C343B0C2-2060-483D-AB82-89C3BF3C17E4" width="326" height="326">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw

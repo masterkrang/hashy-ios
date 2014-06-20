@@ -447,13 +447,15 @@
    
     cell.hashTaglabel.font=[UIFont fontWithName:kHelVeticaBold size:22.2];
     cell.hashTaglabel.textColor=[Utility colorWithHexString:@"939393"];
-    
+    cell.hashTaglabel.minimumScaleFactor=5.0/22.2;
+    cell.hashTaglabel.adjustsFontSizeToFitWidth=NO;
+
     cell.userNameLabel.font=[UIFont fontWithName:kHelVeticaNeueMedium size:10.6];
-    
     
     cell.subscribersCount.textColor=[Utility colorWithHexString:@"2fc81e"];
     cell.subscribersCount.font=[UIFont fontWithName:kHelVeticaNeueMedium size:17];
-
+   
+   
     
     if (self.hashTagListArray.count>indexPath.row) {
         
@@ -476,6 +478,11 @@
                 
                 if (searchTextField.text.length<1) {
                     cell.hashTaglabel.text=[NSString stringWithFormat:@"#%@",[hashTagDict valueForKey:@"name"]];
+                    
+                    
+                
+                    
+                    
                 }
                 else{
                 searchedtext=[NSString stringWithFormat:@"#%@",searchTextField.text];

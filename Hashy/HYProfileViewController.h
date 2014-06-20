@@ -23,7 +23,6 @@
 
 @property(nonatomic,strong)    IBOutlet PageTableView *profilePageTableView;
 @property(nonatomic,strong)    IBOutlet UIButton *userProfileImageButton;
-@property(nonatomic,strong)    IBOutlet UIButton *editUserProfileImageButton;
 @property(nonatomic,strong)    IBOutlet UILabel *userNameLabel;
 @property(nonatomic,strong)    IBOutlet UIImageView *userStatusImageView;
 @property(nonatomic,strong)    IBOutlet UIImageView *profileAvatarImageView;
@@ -34,7 +33,6 @@
 @property(nonatomic,strong)NSMutableDictionary *userDetailDict;
 @property(strong,nonatomic)IBOutlet UIView *bottomView;
 
--(IBAction)editButtonPressed:(UIButton *)sender;
 
 
 

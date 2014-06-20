@@ -141,7 +141,7 @@
             CGRect toolBarFrame = weakSelfMessageContainer.frame;
             toolBarFrame.origin.y = keyboardFrameInView.origin.y - toolBarFrame.size.height;
             //Commented for show keyboard
-            //weakSelfMessageContainer.frame = toolBarFrame;
+            weakSelfMessageContainer.frame = toolBarFrame;
          
 
             if (keyboardFrameInView.origin.y==264 || keyboardFrameInView.origin.y==352){
@@ -418,7 +418,8 @@
     
     [super viewWillAppear:animated];
     isInChatRoom=YES;
-    
+   // [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+
     [self.view removeKeyboardControl];
     [self addDAKeyboardControl];
 
@@ -432,11 +433,7 @@
     [chatRoomTableView setupTablePaging];
     chatRoomTableView.selectedPageNumber=1;
     chatRoomTableView.pagingDelegate=self;
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillShow:)
-                                                 name:UIKeyboardWillShowNotification
-                                               object:nil];
-    if (self.chatNameString) {
+        if (self.chatNameString) {
         self.title=[NSString stringWithFormat:@"#%@",self.chatNameString];
 
     }
@@ -502,6 +499,11 @@
                     self.chatRoomMessageArray= [[[self.chatRoomMessageArray reverseObjectEnumerator]allObjects]mutableCopy];
                 }
                 
+              //  [self reloadTableData];
+              //  [kAppDelegate hideProgressHUD];
+                
+                
+                
              //   [chatRoomTableView reloadData];
                 
 //                if (chatRoomMessageArray.count) {
@@ -520,7 +522,8 @@
             [activityIndicatorView stopAnimating];
         }
         else{
-            
+            //[self reloadTableData];
+
             [kAppDelegate hideProgressHUD];
             
         }
@@ -897,7 +900,7 @@
                 subscriberButtonCount.enabled=YES;
                 [kAppDelegate hideProgressHUD];
                 [Utility showAlertWithString:@"Unable to subscribe to channel."];
-                [self reloadTableData];
+            [self reloadTableData];
             }
             
             
@@ -1323,9 +1326,7 @@
     cell.pictureImageView.contentMode=UIViewContentModeScaleAspectFit;
     if (self.chatRoomMessageArray.count>indexPath.row) {
         
-        
         id message=[self.chatRoomMessageArray objectAtIndex:indexPath.row];
-        
         
         if (message && [message isKindOfClass:[NSDictionary class]]) {
            
@@ -2238,27 +2239,27 @@
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField{
     
-    if (chatRoomMessageArray.count>0) {
-        
-        [chatRoomTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[chatRoomTableView numberOfRowsInSection:0]-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-        
-        
-    }
-
+   
  
     
-//    [UIView animateWithDuration:0.2 delay:0.05 options:UIViewAnimationOptionCurveLinear animations:^{
-//        CGRect messageContainerFrame=self.messageConatinerView.frame;
-//        messageContainerFrame.origin.y-=216;
-//        self.messageConatinerView.frame=messageContainerFrame;
-//        
-//        
-//        
-//        
-//
-//
-//        
-//    } completion:nil];
+    [UIView animateWithDuration:0.2 delay:0.05 options:UIViewAnimationOptionCurveLinear animations:^{
+        CGRect messageContainerFrame=self.messageConatinerView.frame;
+        messageContainerFrame.origin.y-=216;
+        self.messageConatinerView.frame=messageContainerFrame;
+        
+        
+        
+        if (chatRoomMessageArray.count>0) {
+            
+            [chatRoomTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[chatRoomTableView numberOfRowsInSection:0]-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+            
+            
+        }
+ 
+
+
+        
+    } completion:nil];
     
     
     
@@ -2869,7 +2870,7 @@ didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result{
 
 -(UIImage *)compressImage:(UIImage *)image{
     
-    CGFloat maxSize = 180;
+    CGFloat maxSize = 350;
     CGFloat width = image.size.width;
     CGFloat height = image.size.height;
     CGFloat newWidth = width;
@@ -3418,6 +3419,8 @@ didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result{
     
     messagetextField.text=@"";
     [self lowerDownBottomView];
+   // [[NSNotificationCenter defaultCenter]removeObserver:<#(id)#> name:<#(NSString *)#> object:<#(id)#>];
+    
    // [self.view removeGestureRecognizer:panGestureRecognizer];
 
     

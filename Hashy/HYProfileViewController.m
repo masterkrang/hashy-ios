@@ -14,7 +14,6 @@
 @implementation HYProfileViewController
 @synthesize profilePageTableView;
 @synthesize userProfileImageButton;
-@synthesize editUserProfileImageButton;
 @synthesize userNameLabel;
 @synthesize userStatusImageView;
 @synthesize profileHeaderView;
@@ -39,8 +38,8 @@
     self.navigationItem.leftBarButtonItem=leftBarButtonItem;
     
     
-    UIBarButtonItem *rightBarButtonItem=[[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"profile_settings_button.png"] style:UIBarButtonItemStyleDone target:self action:@selector(settingsButtonPressed:)];
-    self.navigationItem.rightBarButtonItem=rightBarButtonItem;
+//    UIBarButtonItem *rightBarButtonItem=[[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"profile_settings_button.png"] style:UIBarButtonItemStyleDone target:self action:@selector(settingsButtonPressed:)];
+//    self.navigationItem.rightBarButtonItem=rightBarButtonItem;
 
 }
 
@@ -53,15 +52,7 @@
     NSNumber *login_user_id_num=[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id;
     int login_user_id_int=login_user_id_num.intValue;
     
-    if (login_user_id_int ==user_id.intValue) {
-        
-        editUserProfileImageButton.hidden=NO;
-        
-    }
-    else{
-        editUserProfileImageButton.hidden=YES;
- 
-    }
+   
     
     profilePageTableView.selectedPageNumber=1;
     
@@ -100,7 +91,6 @@
 {
     [super viewDidLoad];
     self.title=@"Profile";
-    editUserProfileImageButton.hidden=YES;
 
     self.navigationController.navigationBarHidden=NO;
     self.navigationItem.hidesBackButton=YES;
@@ -552,11 +542,6 @@
 }
 
 
--(IBAction)editButtonPressed:(UIButton *)sender
-{
-    
-    
-}
 
 -(void)viewWillDisappear:(BOOL)animated{
     
