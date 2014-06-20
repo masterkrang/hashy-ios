@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "REFrostedViewController.h"
+#import "HYSubscriptionViewController.h"
 
 @interface DEMOMenuViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate>
 {

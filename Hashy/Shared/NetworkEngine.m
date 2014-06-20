@@ -418,7 +418,7 @@ static NetworkEngine *sharedNetworkEngine=nil;
     NSString *urlString=[NSString stringWithFormat:@"%@/chats/%@/subscribers.json?page=%@&per=15",kServerHostName,chat_id,pageNumberStr];
     
     [self.httpManager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"JSON: %@", responseObject);
+     //   NSLog(@"JSON: %@", responseObject);
         
         NSHTTPURLResponse *response= operation.response;
         
@@ -816,6 +816,25 @@ static NetworkEngine *sharedNetworkEngine=nil;
     
     NSURL *url = [s3 getPreSignedURL:gpsur];
     pathString=[NSString stringWithFormat:@"%@%@%@",@"https://",[url host],[url path]];
+    
+    
+}
+
+-(void)deleteSubscription:(completion_block)completionBlock onError:(error_block)errorBlock forChatID:(NSString *)chat_id{
+    
+    NSString *urlString=[NSString stringWithFormat:@"%@/chats/%@/remove_subscription.json",kServerHostName,chat_id];
+    [self.httpManager.requestSerializer setValue:[NSString stringWithFormat:@"Token token=\"%@\"", [[UpdateDataProcessor sharedProcessor]currentUserInfo].user_authentication_token] forHTTPHeaderField:@"Authorization"];
+
+    [self.httpManager DELETE:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        //   NSLog(@"JSON: %@", responseObject);
+        
+        completionBlock(responseObject);
+
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        //[Utility showAlertWithString:@"Network problem \n try again later"];
+        //[theAppDelegate hideProgressHUD];
+        errorBlock(error);
+    }];
     
     
 }

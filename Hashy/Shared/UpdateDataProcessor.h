@@ -20,6 +20,7 @@
 -(void) saveUserDetails:(NSDictionary *)userDict ;
 -(void)updateUserDetails:(NSDictionary *)userDict;
 -(NSArray *) fetchMultipleEntitiesByName:(NSString *)entityName withPredicate:(NSPredicate *)predicate;
+- (void) deleteAllObjects: (NSString *) entityDescription;
 
 //-(void) checkAndSave:(NSManagedObject *) managedObject;
 //-(NSManagedObject *) fetchEntityByName:(NSString *) entityName forAttribute:(NSString *) attribute Value:(NSString *) value;

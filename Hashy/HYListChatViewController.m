@@ -60,7 +60,7 @@
 
 -(void) setBarButtonItems{
     
-    UIBarButtonItem *leftBarButtonItem=[[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Hamburget_menu_ico.png"] style:UIBarButtonItemStyleDone target:(CustomNavigationController *)self.navigationController action:@selector(showMenu)];
+    UIBarButtonItem *leftBarButtonItem=[[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"side_bar_screen_hamburger_menu_icon.png"] style:UIBarButtonItemStyleDone target:(CustomNavigationController *)self.navigationController action:@selector(showMenu)];
     self.navigationItem.leftBarButtonItem=leftBarButtonItem;
     
     
@@ -448,7 +448,7 @@
     cell.hashTaglabel.font=[UIFont fontWithName:kHelVeticaBold size:22.2];
     cell.hashTaglabel.textColor=[Utility colorWithHexString:@"939393"];
     cell.hashTaglabel.minimumScaleFactor=5.0/22.2;
-    cell.hashTaglabel.adjustsFontSizeToFitWidth=NO;
+    //cell.hashTaglabel.adjustsFontSizeToFitWidth=YES;
 
     cell.userNameLabel.font=[UIFont fontWithName:kHelVeticaNeueMedium size:10.6];
     
@@ -478,11 +478,7 @@
                 
                 if (searchTextField.text.length<1) {
                     cell.hashTaglabel.text=[NSString stringWithFormat:@"#%@",[hashTagDict valueForKey:@"name"]];
-                    
-                    
-                
-                    
-                    
+                   
                 }
                 else{
                 searchedtext=[NSString stringWithFormat:@"#%@",searchTextField.text];

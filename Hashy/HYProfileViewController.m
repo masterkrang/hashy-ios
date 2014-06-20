@@ -33,9 +33,52 @@
     return self;
 }
 
+
+
+- (void)frostedViewController:(REFrostedViewController *)frostedViewController didRecognizePanGesture:(UIPanGestureRecognizer *)recognizer
+{
+    
+}
+
+- (void)frostedViewController:(REFrostedViewController *)frostedViewController willShowMenuViewController:(UIViewController *)menuViewController
+{
+    NSLog(@"willShowMenuViewController");
+}
+
+- (void)frostedViewController:(REFrostedViewController *)frostedViewController didShowMenuViewController:(UIViewController *)menuViewController
+{
+    NSLog(@"didShowMenuViewController");
+}
+
+- (void)frostedViewController:(REFrostedViewController *)frostedViewController willHideMenuViewController:(UIViewController *)menuViewController
+{
+    NSLog(@"willHideMenuViewController");
+}
+
+- (void)frostedViewController:(REFrostedViewController *)frostedViewController didHideMenuViewController:(UIViewController *)menuViewController
+{
+    NSLog(@"didHideMenuViewController");
+}
+
+
 -(void)setBarButtonItems{
-    UIBarButtonItem *leftBarButtonItem=[[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"profile_back_button.png"] style:UIBarButtonItemStyleDone target:self action:@selector(backButtonPressed:)];
-    self.navigationItem.leftBarButtonItem=leftBarButtonItem;
+    
+    
+    if (self.navigationController.viewControllers.count==1) {
+     
+        NSLog(@"Count %d",self.navigationController.viewControllers.count);
+        UIBarButtonItem *leftBarButtonItem=[[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"side_bar_screen_hamburger_menu_icon.png"] style:UIBarButtonItemStyleDone target:(CustomNavigationController *)self.navigationController action:@selector(showMenu)];
+        self.navigationItem.leftBarButtonItem=leftBarButtonItem;
+        
+    }
+    else{
+        NSLog(@"Multiple");
+        UIBarButtonItem *leftBarButtonItem=[[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"profile_back_button.png"] style:UIBarButtonItemStyleDone target:self action:@selector(backButtonPressed:)];
+        self.navigationItem.leftBarButtonItem=leftBarButtonItem;
+
+        
+    }
+    
     
     
 //    UIBarButtonItem *rightBarButtonItem=[[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"profile_settings_button.png"] style:UIBarButtonItemStyleDone target:self action:@selector(settingsButtonPressed:)];
@@ -50,7 +93,8 @@
     self.navigationItem.hidesBackButton=YES;
     self.profilePageTableView.scrollEnabled=YES;
     
-    
+    [self setBarButtonItems];
+
     profilePageTableView.selectedPageNumber=1;
     
     [self getUserRecentChats:user_id forPageNumber:profilePageTableView.selectedPageNumber];
@@ -92,7 +136,6 @@
     self.navigationController.navigationBarHidden=NO;
     self.navigationItem.hidesBackButton=YES;
     [userProfileImageButton setBackgroundImage:nil forState:UIControlStateHighlighted];
-    [self setBarButtonItems];
    
     [self setProfileScreenUI];
     

@@ -133,7 +133,7 @@
     
     [self setPaddingView];
     [self setFontsAndFrames];
-    
+    NSLog(@"%@",[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id);
 
     
     

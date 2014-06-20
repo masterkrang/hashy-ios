@@ -314,7 +314,7 @@
                                 <rect key="frame" x="79" y="144" width="163" height="163"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <state key="normal" backgroundImage="C343B0C2-2060-483D-AB82-89C3BF3C17E4">
+                                <state key="normal" backgroundImage="17B0EAF4-329E-4A03-811A-883C4A8B6DD3">
                                     <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -645,6 +645,69 @@
             </objects>
             <point key="canvasLocation" x="510" y="-781"/>
         </scene>
+        <!--Subscription View Controller-->
+        <scene sceneID="Bmv-1a-kPe">
+            <objects>
+                <viewController storyboardIdentifier="subscriptions_vc" useStoryboardIdentifierAsRestorationIdentifier="YES" id="FqC-uA-cc6" customClass="HYSubscriptionViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="emh-jT-nh8">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="67" sectionHeaderHeight="22" sectionFooterHeight="22" id="1ne-gn-fFY" customClass="PageTableView">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="SubscriptionCellIdentifier" rowHeight="40" id="eah-9d-aq0" customClass="SubscriptionCustomCell">
+                                        <rect key="frame" x="0.0" y="22" width="320" height="40"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eah-9d-aq0" id="yFl-Qj-qeB">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="39"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ATU-wI-fL5">
+                                                    <rect key="frame" x="20" y="9" width="231" height="22"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="ATh-b9-npX">
+                                                    <rect key="frame" x="259" y="4" width="51" height="31"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <connections>
+                                                        <action selector="subscriptionSwitchPressed:" destination="FqC-uA-cc6" eventType="valueChanged" id="t7W-wo-EgY"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="hashTitleLabel" destination="ATU-wI-fL5" id="ETG-CV-JsL"/>
+                                            <outlet property="subscriptionSwitch" destination="ATh-b9-npX" id="wJ8-uS-dPD"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="FqC-uA-cc6" id="aTQ-nc-dZf"/>
+                                </connections>
+                            </tableView>
+                            <view contentMode="scaleToFill" id="uHN-b2-z4Q">
+                                <rect key="frame" x="0.0" y="536" width="320" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="bottomView" destination="uHN-b2-z4Q" id="Fkq-wh-4rb"/>
+                        <outlet property="subscriptionTableView" destination="1ne-gn-fFY" id="002-h1-9cb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zWQ-jK-zQa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1098" y="-1395"/>
+        </scene>
         <!--Custom Navigation Controller-->
         <scene sceneID="QDU-bw-dKd">
             <objects>
@@ -846,7 +909,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="C343B0C2-2060-483D-AB82-89C3BF3C17E4" width="326" height="326">
+        <image name="17B0EAF4-329E-4A03-811A-883C4A8B6DD3" width="326" height="326">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw

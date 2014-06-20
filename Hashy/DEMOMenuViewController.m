@@ -37,7 +37,7 @@
         imageView.layer.shouldRasterize = YES;
         imageView.clipsToBounds = YES;
         
-       label  = [[UILabel alloc] initWithFrame:CGRectMake(0, 150, 0, 24)];
+        label  = [[UILabel alloc] initWithFrame:CGRectMake(0, 150, 0, 24)];
         label.text = [[UpdateDataProcessor sharedProcessor]currentUserInfo].userName;
         label.font = [UIFont fontWithName:@"HelveticaNeue" size:21];
         label.backgroundColor = [UIColor clearColor];
@@ -110,19 +110,84 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if ((indexPath.section == 0 && indexPath.row == 0)    || indexPath.row==1) {
-        HYListChatViewController *homeViewController = [[HYListChatViewController alloc] init];
-        CustomNavigationController *navigationController = [[CustomNavigationController alloc] initWithRootViewController:homeViewController];
-        self.frostedViewController.contentViewController = navigationController;
-    } else if ((indexPath.section == 0 && indexPath.row == 2)) {
-        HYProfileViewController *secondViewController = [[HYProfileViewController alloc] init];
-        CustomNavigationController *navigationController = [[CustomNavigationController alloc] initWithRootViewController:secondViewController];
-        self.frostedViewController.contentViewController = navigationController;
+    
+    
+    switch (indexPath.row) {
+        case 0:
+        {
+            HYListChatViewController *homeViewController =[kStoryBoard instantiateViewControllerWithIdentifier:@"listChat_vc"];;
+            
+            
+            //        HYListChatViewController *homeViewController = [[HYListChatViewController alloc] init];
+            CustomNavigationController *navigationController = [[CustomNavigationController alloc] initWithRootViewController:homeViewController];
+            self.frostedViewController.contentViewController = navigationController;
+        }
+            break;
+            
+        case 1:
+        {
+            HYProfileViewController *secondViewController = [kStoryBoard instantiateViewControllerWithIdentifier:@"profile_vc"];
+            CustomNavigationController *navigationController = [[CustomNavigationController alloc] initWithRootViewController:secondViewController];
+            NSNumber *user_id_num=[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id;
+            int user_id_int=user_id_num.intValue;
+            secondViewController.user_id=[NSString stringWithFormat:@"%d",user_id_int];
+            self.frostedViewController.contentViewController = navigationController;
+
+        }
+            break;
+
+            
+        case 2:
+        {
+            
+            HYSubscriptionViewController *secondViewController = [kStoryBoard instantiateViewControllerWithIdentifier:@"subscriptions_vc"];
+            CustomNavigationController *navigationController = [[CustomNavigationController alloc] initWithRootViewController:secondViewController];
+            NSNumber *user_id_num=[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id;
+            int user_id_int=user_id_num.intValue;
+            secondViewController.user_id=[NSString stringWithFormat:@"%d",user_id_int];
+            self.frostedViewController.contentViewController = navigationController;
+            
+        }
+            break;
+
+            
+        case 3:
+        {
+            
+            
+            [[UpdateDataProcessor sharedProcessor]deleteAllObjects:@"UserInfo"];
+            HYAppDelegate *appDelegate=kAppDelegate;
+            CustomNavigationController *navController =[kStoryBoard instantiateViewControllerWithIdentifier:@"custom_nav"];
+            appDelegate.window.rootViewController=navController;
+            HYSignInViewController *signInVC = [kStoryBoard instantiateViewControllerWithIdentifier:@"signIn_vc"];
+            
+            [navController setViewControllers:[NSArray arrayWithObject:signInVC] animated:YES];
+
+        }
+            break;
+
+            
+        default:
+            break;
     }
-    else if ((indexPath.section == 0 && indexPath.row == 3)) {
-        UIAlertView *alert =[[UIAlertView alloc]initWithTitle:@"Message" message:@"logout clicked" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-        [alert show];
-    }
+    
+//    if ((indexPath.section == 0 && indexPath.row == 0)    || indexPath.row==1) {
+//        
+//        HYListChatViewController *homeViewController =[kStoryBoard instantiateViewControllerWithIdentifier:@"listChat_vc"];;
+//
+//        
+////        HYListChatViewController *homeViewController = [[HYListChatViewController alloc] init];
+//        CustomNavigationController *navigationController = [[CustomNavigationController alloc] initWithRootViewController:homeViewController];
+//        self.frostedViewController.contentViewController = navigationController;
+//    } else if ((indexPath.section == 0 && indexPath.row == 2)) {
+//        HYProfileViewController *secondViewController = [[HYProfileViewController alloc] init];
+//        CustomNavigationController *navigationController = [[CustomNavigationController alloc] initWithRootViewController:secondViewController];
+//        self.frostedViewController.contentViewController = navigationController;
+//    }
+//    else if ((indexPath.section == 0 && indexPath.row == 3)) {
+//        UIAlertView *alert =[[UIAlertView alloc]initWithTitle:@"Message" message:@"logout clicked" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+//        [alert show];
+//    }
     
     [self.frostedViewController hideMenuViewController];
 }
@@ -130,10 +195,7 @@
 #pragma mark -
 #pragma mark UITableView Datasource
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 54;
-}
+
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -156,7 +218,7 @@
     }
     
     if (indexPath.section == 0) {
-        NSArray *titles = @[@"Chats", @"Subscriptions", @"Profile",@"logout"];
+        NSArray *titles = @[@"Home", @"Profile", @"Subscriptions",@"Logout"];
         cell.textLabel.text = titles[indexPath.row];
     } else {
         NSArray *titles = @[@"John Appleseed", @"John Doe", @"Test User"];
@@ -165,5 +227,11 @@
     
     return cell;
 }
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 54;
+}
+
 
 @end

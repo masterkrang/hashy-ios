@@ -30,6 +30,7 @@
     PNDate *pn_paging_endDate;
     UIActivityIndicatorView *activityIndicatorView;
     BOOL isInChatRoom;
+    BOOL isResultsObtained;
     
     
 //    UISwipeGestureRecognizer *panGestureRecognizer;

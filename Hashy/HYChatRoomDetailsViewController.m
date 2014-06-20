@@ -420,8 +420,25 @@
     isInChatRoom=YES;
    // [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
 
+    if (chatRoomMessageArray.count) {
+        
+   // NSLog(@"Chat room message count %d",chatRoomMessageArray.count);
+   // NSLog(@"%f",self.chatRoomTableView.contentSize.height);
+    
+        if (self.chatRoomTableView.contentSize.height<1) {
+            
+            [self reloadTableData];
+            
+            
+        }
+        
+    
+    }
+    
+    
     [self.view removeKeyboardControl];
     [self addDAKeyboardControl];
+    
 
     sendMessageButton.enabled=NO;
 }
@@ -440,6 +457,7 @@
     
     [self setBarButtonItems];
     [self setPaddingView];
+    
     [self getChatWithID:chatIDString];
    
     activityIndicatorView=[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
@@ -486,8 +504,7 @@
     [[NetworkEngine sharedNetworkEngine]getChatMessagesForChatRoom:^(id object) {
         NSLog(@"Messages loaded");
         
-       // NSLog(@"%@",object);
-  //      [kAppDelegate hideProgressHUD];
+        isResultsObtained=YES;
 
         if (isInChatRoom) {
             if (![object isEqual:[NSNull null]] && [object isKindOfClass:[NSArray class]]) {
@@ -498,32 +515,23 @@
                 if (self.chatRoomMessageArray.count) {
                     self.chatRoomMessageArray= [[[self.chatRoomMessageArray reverseObjectEnumerator]allObjects]mutableCopy];
                 }
-                
-              //  [self reloadTableData];
-              //  [kAppDelegate hideProgressHUD];
-                
-                
-                
-             //   [chatRoomTableView reloadData];
-                
-//                if (chatRoomMessageArray.count) {
-//                    // [self.chatRoomTableView beginUpdates];
-//                    [chatRoomTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[chatRoomTableView numberOfRowsInSection:0]-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
-//                    //[self.chatRoomTableView endUpdates];
-//                }
+
                 
                 [self subscribeToPubNubChannel:chatIDString];
                 
             }
             
             chatRoomTableView.pageLocked=NO;
-            
+            subscriberButtonCount.enabled=YES;
+
             bottomView.hidden=YES;
             [activityIndicatorView stopAnimating];
         }
         else{
-            //[self reloadTableData];
+            
 
+            //[self reloadTableData];
+            subscriberButtonCount.enabled=YES;
             [kAppDelegate hideProgressHUD];
             
         }
@@ -534,6 +542,7 @@
         NSLog(@"%@",error);
         [kAppDelegate hideProgressHUD];
         chatRoomTableView.pageLocked=NO;
+        isResultsObtained=YES;
 
     } forChatID:chatIDString forPageNumber:chatRoomTableView.selectedPageNumber];
     
@@ -821,7 +830,6 @@
                     }
                     else{
                         backButton.enabled=YES;
-                        subscriberButtonCount.enabled=YES;
                         [kAppDelegate hideProgressHUD];
                         [Utility showAlertWithString:@"Unable to subscribe to channel."];
                         
@@ -849,7 +857,7 @@
         
         PNConfiguration *configuration=[PNConfiguration configurationWithPublishKey:kPubNubPublishKey subscribeKey:kPubNubSubscribeKey secretKey:kPubNubSecretKey];
 
-      //  PNConfiguration *configuration=[PNConfiguration defaultConfiguration];
+       // PNConfiguration *configuration=[PNConfiguration defaultConfiguration];
         
         [PubNub setConfiguration:configuration];
         
@@ -880,7 +888,6 @@
                         }
                         else{
                             backButton.enabled=YES;
-                            subscriberButtonCount.enabled=YES;
                             [kAppDelegate hideProgressHUD];
                             [Utility showAlertWithString:@"Unable to subscribe to channel."];
                             
@@ -897,7 +904,6 @@
             }
             else{
                 backButton.enabled=YES;
-                subscriberButtonCount.enabled=YES;
                 [kAppDelegate hideProgressHUD];
                 [Utility showAlertWithString:@"Unable to subscribe to channel."];
             [self reloadTableData];
@@ -911,7 +917,6 @@
             [self reloadTableData];
             [kAppDelegate hideProgressHUD];
             backButton.enabled=YES;
-            subscriberButtonCount.enabled=YES;
             UIAlertView *connectionErrorAlert = [UIAlertView new]; connectionErrorAlert.title = [NSString stringWithFormat:@"%@(%@)",
                                                                                                  [error localizedDescription],
                                                                                                  NSStringFromClass([self class])];
@@ -1102,7 +1107,6 @@
             pn_paging_endDate=startDate;
             
             backButton.enabled=YES;
-            subscriberButtonCount.enabled=YES;
             
             if (!chatRoomMessageArray) {
                 chatRoomMessageArray=[[NSMutableArray alloc]init];
@@ -1163,7 +1167,6 @@
                 
                 [kAppDelegate hideProgressHUD];
                 backButton.enabled=YES;
-                subscriberButtonCount.enabled=YES;
                 
                 if (!chatRoomMessageArray) {
                     chatRoomMessageArray=[[NSMutableArray alloc]init];
@@ -2316,7 +2319,7 @@
     
     
    // if (!chatRoomTableView.isScrolling) {
-//    [[[[NetworkEngine sharedNetworkEngine]httpManager]operationQueue]cancelAllOperations];
+    [[[[NetworkEngine sharedNetworkEngine]httpManager]operationQueue]cancelAllOperations];
 
         [PubNub unsubscribeFromChannel:masterChannel];
        // [PubNub disconnect];
@@ -2340,11 +2343,16 @@
 
 -(void)subscribersCountButtonPressed:(UIButton *)sender{
    
-    HYSubscribersListViewController *subscribersVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"subscribers_vc"];
-    subscribersVC.chat_id_string=chatIDString;
-    subscribersVC.subscribersCountString=self.subscribersCountString;
     
-    [self.navigationController pushViewController:subscribersVC animated:YES];
+    if (isResultsObtained) {
+        HYSubscribersListViewController *subscribersVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"subscribers_vc"];
+        subscribersVC.chat_id_string=chatIDString;
+        subscribersVC.subscribersCountString=self.subscribersCountString;
+        
+        [self.navigationController pushViewController:subscribersVC animated:YES];
+    }
+    
+    
     
     
     
@@ -2373,7 +2381,8 @@
     }
     sender.enabled=NO;
     [self sendMessageOnHashyAPI ];
-
+   // [self sendImageonPubNub:nil andImageURL:self.messagetextField.text];
+    
     
 //    [messagetextField resignFirstResponder];
 //    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
