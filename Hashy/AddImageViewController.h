@@ -12,8 +12,9 @@
 #import "GKImagePicker.h"
 #import "HYSubscribersListViewController.h"
 #import "UpdateDataProcessor.h"
+#import "DEMOMenuViewController.h"
 
-@interface AddImageViewController : UIViewController<UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,GKImagePickerDelegate>
+@interface AddImageViewController : UIViewController<UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,GKImagePickerDelegate,REFrostedViewControllerDelegate>
 {
     
     GKImagePicker *imagePicker;

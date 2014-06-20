@@ -223,10 +223,24 @@
         
         
         
-        
-        
         HYListChatViewController *listChatVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"listChat_vc"];
-        [self.navigationController pushViewController:listChatVC animated:YES];
+        //[self.navigationController pushViewController:listChatVC animated:YES];
+        
+        CustomNavigationController *navigationController = [[CustomNavigationController alloc] initWithRootViewController:listChatVC];
+        DEMOMenuViewController *menuController = [[DEMOMenuViewController alloc] initWithStyle:UITableViewStylePlain];
+        
+        // Create frosted view controller
+        //
+        REFrostedViewController *frostedViewController = [[REFrostedViewController alloc] initWithContentViewController:navigationController menuViewController:menuController];
+        frostedViewController.direction = REFrostedViewControllerDirectionLeft;
+        frostedViewController.liveBlurBackgroundStyle = REFrostedViewControllerLiveBackgroundStyleLight;
+        frostedViewController.liveBlur = YES;
+        frostedViewController.delegate = self;
+        
+        [self.navigationController pushViewController:frostedViewController animated:YES];
+        
+//        HYListChatViewController *listChatVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"listChat_vc"];
+//        [self.navigationController pushViewController:listChatVC animated:YES];
         
         
         

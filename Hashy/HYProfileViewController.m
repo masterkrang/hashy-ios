@@ -49,10 +49,7 @@
     self.navigationController.navigationBarHidden=NO;
     self.navigationItem.hidesBackButton=YES;
     self.profilePageTableView.scrollEnabled=YES;
-    NSNumber *login_user_id_num=[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id;
-    int login_user_id_int=login_user_id_num.intValue;
     
-   
     
     profilePageTableView.selectedPageNumber=1;
     
