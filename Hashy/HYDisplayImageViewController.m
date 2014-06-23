@@ -61,7 +61,7 @@
     if(!IS_IPHONE_5){
         
         CGRect imageFrame=self.selectedImageView.frame;
-        imageFrame.size.height-=30;
+        imageFrame.size.height-=45;
         self.selectedImageView.frame=imageFrame;
         
     }

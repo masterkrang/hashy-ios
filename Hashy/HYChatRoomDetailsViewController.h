@@ -31,6 +31,8 @@
     UIActivityIndicatorView *activityIndicatorView;
     BOOL isInChatRoom;
     BOOL isResultsObtained;
+    BOOL isOpeningImage;
+    
     
     
 //    UISwipeGestureRecognizer *panGestureRecognizer;
