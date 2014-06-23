@@ -41,7 +41,7 @@
     NSLog(@"App started");
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
      (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
-    NSDictionary *notificationPayload = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
+    //NSDictionary *notificationPayload = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
     [PubNub setDelegate:self];
     CustomNavigationController *navController =[kStoryBoard instantiateViewControllerWithIdentifier:@"custom_nav"];
     self.window.rootViewController =navController;

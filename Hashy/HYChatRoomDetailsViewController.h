@@ -15,7 +15,7 @@
 #import "GKImagePicker.h"
 #import "DAKeyboardControl.h"
 #import "ChatCustomPageTableView.h"
-
+#import "HYDisplayImageViewController.h"
 
 @interface HYChatRoomDetailsViewController : UIViewController<UITableViewDataSource,PagingDelegate,UITextFieldDelegate,UIActionSheetDelegate,GKImagePickerDelegate,TTTAttributedLabelDelegate,UIGestureRecognizerDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>{
     
@@ -55,5 +55,6 @@
 
 -(IBAction)attachFileButtonPressed:(UIButton *)sender;
 -(IBAction)sendMessageButtonPressed:(UIButton *)sender;
+
 
 @end

@@ -47,7 +47,6 @@
 {
     [super viewDidLoad];
     self.title=@"Create";
-    [self setBarButtonItems];
   
     [self setBarButtonItems];
     [self setPaddingView];

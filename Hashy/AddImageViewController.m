@@ -205,7 +205,7 @@
     [kAppDelegate showProgressHUD:self.view];
     
     [[NetworkEngine sharedNetworkEngine]putRequestForNewUser:^(id object) {
-        
+            doneButton.enabled=YES;
         [kAppDelegate hideProgressHUD];
         NSLog(@"%@",object);
             [kAppDelegate hideProgressHUD];
@@ -260,7 +260,7 @@
     } onError:^(NSError *error) {
     [kAppDelegate hideProgressHUD];
         NSLog(@"%@",error);
-        
+            doneButton.enabled=YES;
         
     } withParams:userDict];
     
@@ -306,7 +306,7 @@
 
 -(IBAction)doneButtonPressed:(UIButton *)sender{
     
-    
+    doneButton.enabled=NO;
     if (!isImageSelectedFromDevice) {
         [self postRandomAvatarImage];
         

@@ -1932,8 +1932,28 @@
     if ([messageDict valueForKey:@"message_type"] && [[messageDict valueForKey:@"message_type"]isEqualToString:@"image"]) {
         isImage=YES;
         
-       
         
+        
+        
+       // NSLog(@"Gesture Count %d",cell.pictureImageView.gestureRecognizers.count);
+
+        if (!cell.pictureImageView.gestureRecognizers.count) {
+            UITapGestureRecognizer *tapGestureRecognizer=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showSelectedImage:)];
+
+            [cell.pictureImageView addGestureRecognizer:tapGestureRecognizer];
+
+        }
+        
+
+//        for (UIGestureRecognizer *recognizer in cell.pictureImageView.gestureRecognizers) {
+//            
+//            if ([recognizer isKindOfClass:[UITapGestureRecognizer class]]) {
+//               
+//                // [self.view removeGestureRecognizer:recognizer];
+//            }
+//            
+//        }
+
         
         
     }
@@ -2371,6 +2391,91 @@
     
 }
 
+-(IBAction)showSelectedImage:(UIGestureRecognizer *)sender{
+    
+    
+    ProfileCustomCell *cell;
+    
+    if (isIOSVersion7) {
+        cell=(ProfileCustomCell *) [[[sender.view superview]superview]superview];
+    }
+    else{
+        
+        cell=(ProfileCustomCell *) [[sender.view superview]superview];
+  
+    }
+    
+    
+    NSIndexPath *indexPath=[chatRoomTableView indexPathForCell:cell];
+    
+    if (chatRoomMessageArray.count>indexPath.row) {
+     
+        
+        
+        NSMutableDictionary *messageDict=[self.chatRoomMessageArray objectAtIndex:indexPath.row];
+        
+        
+        
+        if ([messageDict valueForKey:@"message"] && ![[messageDict valueForKey:@"message"]isEqual:[NSNull null]]) {
+            
+            
+            NSMutableDictionary *messageDetailDict=[messageDict valueForKey:@"message"];
+            
+            
+            if ([messageDetailDict valueForKey:@"message_type"] && [[messageDetailDict valueForKey:@"message_type"]isEqualToString:@"image"]) {
+                
+                UIImage *localImage;
+                
+                NSPredicate *predicate=[NSPredicate predicateWithFormat:@"image_url == %@",[messageDetailDict valueForKey:@"body"]];
+                
+                NSArray *predicateArray=[imageArray filteredArrayUsingPredicate:predicate];
+                if (predicateArray.count) {
+                    
+                    
+                    NSMutableDictionary *imageDict=[predicateArray objectAtIndex:0];
+                    
+                    if ([imageDict valueForKey:@"image"] && ![[imageDict valueForKey:@"image"]isEqual:[NSNull null]]) {
+                        
+                        localImage=(UIImage *)[imageDict valueForKey:@"image"];
+                        
+                        
+                    }
+                    
+                    
+                }
+
+                
+                
+                if ([messageDetailDict valueForKey:@"body"] && ![[messageDetailDict valueForKey:@"body"] isEqual:[NSNull null]]) {
+                    
+                    
+                    HYDisplayImageViewController *display_image_vc=[kStoryBoard instantiateViewControllerWithIdentifier:@"display_image_vc"];
+                    
+                    display_image_vc.image_url_string=[messageDetailDict valueForKey:@"body"];
+                    
+                    if (localImage) {
+                        display_image_vc.selected_image=localImage;
+                        
+                    }
+                    display_image_vc.chat_name_string=self.title;
+                    
+                    [self.navigationController pushViewController:display_image_vc animated:YES];
+                    
+                    
+                    
+                }
+                
+            }
+            
+            
+            
+        }
+        
+    }
+    
+    
+    
+}
 
 
 -(IBAction)sendMessageButtonPressed:(UIButton *)sender{

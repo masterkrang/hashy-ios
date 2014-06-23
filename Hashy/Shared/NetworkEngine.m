@@ -79,8 +79,8 @@ static NetworkEngine *sharedNetworkEngine=nil;
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
       
         
-        NSLog(@"%@",error);
-        NSLog(@"Failed to send APNS token to platform");
+//        NSLog(@"%@",error);
+//        NSLog(@"Failed to send APNS token to platform");
  
         
         

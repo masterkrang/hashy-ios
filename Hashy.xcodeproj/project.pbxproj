@@ -59,6 +59,8 @@
 		2686ECB719581A5300DD624E /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 2686ECB419581A5300DD624E /* Default.png */; };
 		2686ECB819581A5300DD624E /* Default~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 2686ECB519581A5300DD624E /* Default~iphone.png */; };
 		2686ECB919581A5300DD624E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2686ECB619581A5300DD624E /* Default-568h@2x.png */; };
+		2686ECBF195848B400DD624E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2686ECBD195848B400DD624E /* Main.storyboard */; };
+		2686ECC21958494200DD624E /* HYDisplayImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2686ECC11958494200DD624E /* HYDisplayImageViewController.m */; };
 		269347C31936FF150048CCA2 /* HYSignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 269347C21936FF150048CCA2 /* HYSignInViewController.m */; };
 		269347C61937067B0048CCA2 /* Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 269347C51937067B0048CCA2 /* Utility.m */; };
 		269347E519374CFF0048CCA2 /* GKCropBorderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 269347CA19374CFF0048CCA2 /* GKCropBorderView.m */; };
@@ -106,7 +108,6 @@
 		A380DF851934695100759039 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A380DF831934695100759039 /* InfoPlist.strings */; };
 		A380DF871934695100759039 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A380DF861934695100759039 /* main.m */; };
 		A380DF8B1934695100759039 /* HYAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A380DF8A1934695100759039 /* HYAppDelegate.m */; };
-		A380DF8E1934695100759039 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A380DF8C1934695100759039 /* Main.storyboard */; };
 		A380DF911934695100759039 /* HYViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A380DF901934695100759039 /* HYViewController.m */; };
 		A380DF931934695100759039 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A380DF921934695100759039 /* Images.xcassets */; };
 		A380DF9A1934695100759039 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A380DF991934695100759039 /* XCTest.framework */; };
@@ -203,6 +204,9 @@
 		2686ECB419581A5300DD624E /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		2686ECB519581A5300DD624E /* Default~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default~iphone.png"; sourceTree = "<group>"; };
 		2686ECB619581A5300DD624E /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		2686ECBE195848B400DD624E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		2686ECC01958494200DD624E /* HYDisplayImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDisplayImageViewController.h; sourceTree = "<group>"; };
+		2686ECC11958494200DD624E /* HYDisplayImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYDisplayImageViewController.m; sourceTree = "<group>"; };
 		269347C11936FF150048CCA2 /* HYSignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYSignInViewController.h; sourceTree = "<group>"; };
 		269347C21936FF150048CCA2 /* HYSignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYSignInViewController.m; sourceTree = "<group>"; };
 		269347C41937067B0048CCA2 /* Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utility.h; sourceTree = "<group>"; };
@@ -276,7 +280,6 @@
 		A380DF881934695100759039 /* Hashy-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Hashy-Prefix.pch"; sourceTree = "<group>"; };
 		A380DF891934695100759039 /* HYAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HYAppDelegate.h; sourceTree = "<group>"; };
 		A380DF8A1934695100759039 /* HYAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HYAppDelegate.m; sourceTree = "<group>"; };
-		A380DF8D1934695100759039 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A380DF8F1934695100759039 /* HYViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HYViewController.h; sourceTree = "<group>"; };
 		A380DF901934695100759039 /* HYViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HYViewController.m; sourceTree = "<group>"; };
 		A380DF921934695100759039 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -637,7 +640,7 @@
 				26ACF0281934C4A500C4BE9E /* Custom Cell */,
 				A380DF891934695100759039 /* HYAppDelegate.h */,
 				A380DF8A1934695100759039 /* HYAppDelegate.m */,
-				A380DF8C1934695100759039 /* Main.storyboard */,
+				2686ECBD195848B400DD624E /* Main.storyboard */,
 				A380DF8F1934695100759039 /* HYViewController.h */,
 				A380DF901934695100759039 /* HYViewController.m */,
 				2607A1D319346F8C000FBBDF /* CustomNavigationController.h */,
@@ -658,6 +661,8 @@
 				26674ED019384D1E00A032B3 /* HYSubscribersListViewController.m */,
 				2694CB25193F387000283DFA /* HYChatRoomDetailsViewController.h */,
 				2694CB26193F387000283DFA /* HYChatRoomDetailsViewController.m */,
+				2686ECC01958494200DD624E /* HYDisplayImageViewController.h */,
+				2686ECC11958494200DD624E /* HYDisplayImageViewController.m */,
 				26B362291954562300C8B69C /* HYSubscriptionViewController.h */,
 				26B3622A1954562300C8B69C /* HYSubscriptionViewController.m */,
 				266C382B19419BED00CD4F19 /* UILabel+VerticalAlignment.m */,
@@ -840,7 +845,6 @@
 				26F241491940AE370055AA89 /* profile_image_container@2x.png in Resources */,
 				A380DF851934695100759039 /* InfoPlist.strings in Resources */,
 				26ACF0321934CB9F00C4BE9E /* profile_settings_button@2x.png in Resources */,
-				A380DF8E1934695100759039 /* Main.storyboard in Resources */,
 				2615F1A01936173F0079687C /* listChat_search_container@2x.png in Resources */,
 				26597BD61948BBFD00918762 /* grayArrow@2x.png in Resources */,
 				2686ECB819581A5300DD624E /* Default~iphone.png in Resources */,
@@ -862,6 +866,7 @@
 				2686ECB719581A5300DD624E /* Default.png in Resources */,
 				26597BD41948BBFD00918762 /* blueArrow@2x.png in Resources */,
 				2615F19F1936173F0079687C /* listChat_hashtag_icon@2x.png in Resources */,
+				2686ECBF195848B400DD624E /* Main.storyboard in Resources */,
 				2694CB37193F3E7F00283DFA /* chat_room_back_icon@2x.png in Resources */,
 				26674ECD19384BD700A032B3 /* iTunesArtwork.png in Resources */,
 				26674EBF19384BD700A032B3 /* AppIcon29x29.png in Resources */,
@@ -951,6 +956,7 @@
 				2607A1E419346F8C000FBBDF /* TTTAttributedLabel.m in Sources */,
 				269E2D9C194B5584004C0C0C /* ChatCustomPageTableView.m in Sources */,
 				26EB89C6193C9475005258AB /* Hashy.xcdatamodeld in Sources */,
+				2686ECC21958494200DD624E /* HYDisplayImageViewController.m in Sources */,
 				26B3622B1954562300C8B69C /* HYSubscriptionViewController.m in Sources */,
 				BB0E6DA619470F5500E5185F /* UIView+REFrostedViewController.m in Sources */,
 				26674ED119384D1E00A032B3 /* HYSubscribersListViewController.m in Sources */,
@@ -1001,20 +1007,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		2686ECBD195848B400DD624E /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2686ECBE195848B400DD624E /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
 		A380DF831934695100759039 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				A380DF841934695100759039 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		A380DF8C1934695100759039 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				A380DF8D1934695100759039 /* Base */,
-			);
-			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 		A380DFA21934695100759039 /* InfoPlist.strings */ = {
