@@ -202,10 +202,11 @@
     
     NSMutableDictionary *userDict=[[NSMutableDictionary alloc]init];
     [userDict setValue:imageDict forKey:@"user"];
+    [kAppDelegate showProgressHUD:self.view];
     
     [[NetworkEngine sharedNetworkEngine]putRequestForNewUser:^(id object) {
         
-        
+        [kAppDelegate hideProgressHUD];
         NSLog(@"%@",object);
             [kAppDelegate hideProgressHUD];
         
@@ -237,6 +238,18 @@
         frostedViewController.liveBlur = YES;
         frostedViewController.delegate = self;
         
+        
+        if ([[UpdateDataProcessor sharedProcessor]currentUserInfo]) {
+            [[NetworkEngine sharedNetworkEngine]registerForPushNotifications:^(id object) {
+                
+                
+            } onError:^(NSError *error) {
+                
+            } for_device_token:[kAppDelegate device_token_string]];
+            
+        }
+
+        
         [self.navigationController pushViewController:frostedViewController animated:YES];
         
 //        HYListChatViewController *listChatVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"listChat_vc"];
@@ -245,7 +258,10 @@
         
         
     } onError:^(NSError *error) {
-            [kAppDelegate hideProgressHUD];
+    [kAppDelegate hideProgressHUD];
+        NSLog(@"%@",error);
+        
+        
     } withParams:userDict];
     
     

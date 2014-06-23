@@ -15,7 +15,6 @@
 		261365A9193DF0FC00655A7B /* AWSS3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 261365A8193DF0FC00655A7B /* AWSS3.framework */; };
 		261365AF193DF42600655A7B /* AWSRuntime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 261365AE193DF42600655A7B /* AWSRuntime.framework */; };
 		261365B2193DFDB000655A7B /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 261365B1193DFDB000655A7B /* UserInfo.m */; };
-		2615F1881935F1990079687C /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2615F1871935F1990079687C /* Default-568h@2x.png */; };
 		2615F190193600D70079687C /* profile_forward_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2615F18E193600D70079687C /* profile_forward_icon@2x.png */; };
 		2615F19419360C880079687C /* HYListChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2615F19319360C870079687C /* HYListChatViewController.m */; };
 		2615F19719360C9E0079687C /* HYCreateChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2615F19619360C9E0079687C /* HYCreateChatViewController.m */; };
@@ -24,6 +23,7 @@
 		2615F1A11936173F0079687C /* listChat_search_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2615F19E1936173F0079687C /* listChat_search_icon@2x.png */; };
 		261BF5A51946EABA00426AF2 /* create_image@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 261BF5A41946EABA00426AF2 /* create_image@2x.png */; };
 		261BF5AA19477EB800426AF2 /* subscribers_container@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 261BF5A919477EB800426AF2 /* subscribers_container@2x.png */; };
+		2634805319580B8E00824043 /* NSData+Conversion.m in Sources */ = {isa = PBXBuildFile; fileRef = 2634805219580B8E00824043 /* NSData+Conversion.m */; };
 		26597BD01948BBFD00918762 /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 26597BC61948BBFD00918762 /* EGORefreshTableHeaderView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		26597BD11948BBFD00918762 /* blackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 26597BC81948BBFD00918762 /* blackArrow.png */; };
 		26597BD21948BBFD00918762 /* blackArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 26597BC91948BBFD00918762 /* blackArrow@2x.png */; };
@@ -56,6 +56,9 @@
 		2669DB651949F247003D4AD4 /* DAKeyboardControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 2669DB641949F247003D4AD4 /* DAKeyboardControl.m */; };
 		266C3826194188B200CD4F19 /* chat_room_blue_bubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 266C3824194188B200CD4F19 /* chat_room_blue_bubble@2x.png */; };
 		266C382D19419BED00CD4F19 /* UILabel+VerticalAlignment.m in Sources */ = {isa = PBXBuildFile; fileRef = 266C382B19419BED00CD4F19 /* UILabel+VerticalAlignment.m */; };
+		2686ECB719581A5300DD624E /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 2686ECB419581A5300DD624E /* Default.png */; };
+		2686ECB819581A5300DD624E /* Default~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 2686ECB519581A5300DD624E /* Default~iphone.png */; };
+		2686ECB919581A5300DD624E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2686ECB619581A5300DD624E /* Default-568h@2x.png */; };
 		269347C31936FF150048CCA2 /* HYSignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 269347C21936FF150048CCA2 /* HYSignInViewController.m */; };
 		269347C61937067B0048CCA2 /* Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 269347C51937067B0048CCA2 /* Utility.m */; };
 		269347E519374CFF0048CCA2 /* GKCropBorderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 269347CA19374CFF0048CCA2 /* GKCropBorderView.m */; };
@@ -149,7 +152,6 @@
 		261365AE193DF42600655A7B /* AWSRuntime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSRuntime.framework; path = Hashy/AWSRuntime.framework; sourceTree = "<group>"; };
 		261365B0193DFDB000655A7B /* UserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfo.h; sourceTree = "<group>"; };
 		261365B1193DFDB000655A7B /* UserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfo.m; sourceTree = "<group>"; };
-		2615F1871935F1990079687C /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		2615F18E193600D70079687C /* profile_forward_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profile_forward_icon@2x.png"; sourceTree = "<group>"; };
 		2615F19219360C870079687C /* HYListChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYListChatViewController.h; sourceTree = "<group>"; };
 		2615F19319360C870079687C /* HYListChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYListChatViewController.m; sourceTree = "<group>"; };
@@ -160,6 +162,8 @@
 		2615F19E1936173F0079687C /* listChat_search_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "listChat_search_icon@2x.png"; sourceTree = "<group>"; };
 		261BF5A41946EABA00426AF2 /* create_image@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "create_image@2x.png"; sourceTree = "<group>"; };
 		261BF5A919477EB800426AF2 /* subscribers_container@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "subscribers_container@2x.png"; sourceTree = "<group>"; };
+		2634805119580B8E00824043 /* NSData+Conversion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Conversion.h"; sourceTree = "<group>"; };
+		2634805219580B8E00824043 /* NSData+Conversion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Conversion.m"; sourceTree = "<group>"; };
 		26597BC51948BBFD00918762 /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
 		26597BC61948BBFD00918762 /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
 		26597BC81948BBFD00918762 /* blackArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackArrow.png; sourceTree = "<group>"; };
@@ -196,6 +200,9 @@
 		266C3824194188B200CD4F19 /* chat_room_blue_bubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chat_room_blue_bubble@2x.png"; sourceTree = "<group>"; };
 		266C382B19419BED00CD4F19 /* UILabel+VerticalAlignment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+VerticalAlignment.m"; sourceTree = "<group>"; };
 		266C382C19419BED00CD4F19 /* UILabel+VerticalAlignment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+VerticalAlignment.h"; sourceTree = "<group>"; };
+		2686ECB419581A5300DD624E /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		2686ECB519581A5300DD624E /* Default~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default~iphone.png"; sourceTree = "<group>"; };
+		2686ECB619581A5300DD624E /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		269347C11936FF150048CCA2 /* HYSignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYSignInViewController.h; sourceTree = "<group>"; };
 		269347C21936FF150048CCA2 /* HYSignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYSignInViewController.m; sourceTree = "<group>"; };
 		269347C41937067B0048CCA2 /* Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utility.h; sourceTree = "<group>"; };
@@ -452,6 +459,16 @@
 			path = "App Icon";
 			sourceTree = "<group>";
 		};
+		2686ECB319581A5300DD624E /* Launch Images */ = {
+			isa = PBXGroup;
+			children = (
+				2686ECB419581A5300DD624E /* Default.png */,
+				2686ECB519581A5300DD624E /* Default~iphone.png */,
+				2686ECB619581A5300DD624E /* Default-568h@2x.png */,
+			);
+			path = "Launch Images";
+			sourceTree = "<group>";
+		};
 		269347C719374CFF0048CCA2 /* Custom Image Picker */ = {
 			isa = PBXGroup;
 			children = (
@@ -537,6 +554,7 @@
 		26ACF02C1934CB9F00C4BE9E /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				2686ECB319581A5300DD624E /* Launch Images */,
 				266544EF1954688D000CA345 /* Side bar Screen */,
 				261BF5A819477EB800426AF2 /* Subscribers Screen */,
 				261BF5A31946EABA00426AF2 /* Create Screen */,
@@ -572,7 +590,6 @@
 		A380DF6E1934695100759039 = {
 			isa = PBXGroup;
 			children = (
-				2615F1871935F1990079687C /* Default-568h@2x.png */,
 				A380DF801934695100759039 /* Hashy */,
 				A380DF9F1934695100759039 /* HashyTests */,
 				A380DF791934695100759039 /* Frameworks */,
@@ -645,6 +662,8 @@
 				26B3622A1954562300C8B69C /* HYSubscriptionViewController.m */,
 				266C382B19419BED00CD4F19 /* UILabel+VerticalAlignment.m */,
 				266C382C19419BED00CD4F19 /* UILabel+VerticalAlignment.h */,
+				2634805119580B8E00824043 /* NSData+Conversion.h */,
+				2634805219580B8E00824043 /* NSData+Conversion.m */,
 				2669DB631949F246003D4AD4 /* DAKeyboardControl.h */,
 				2669DB641949F247003D4AD4 /* DAKeyboardControl.m */,
 				A380DF921934695100759039 /* Images.xcassets */,
@@ -824,11 +843,12 @@
 				A380DF8E1934695100759039 /* Main.storyboard in Resources */,
 				2615F1A01936173F0079687C /* listChat_search_container@2x.png in Resources */,
 				26597BD61948BBFD00918762 /* grayArrow@2x.png in Resources */,
+				2686ECB819581A5300DD624E /* Default~iphone.png in Resources */,
 				26674EC219384BD700A032B3 /* AppIcon40x40@2x.png in Resources */,
+				2686ECB919581A5300DD624E /* Default-568h@2x.png in Resources */,
 				26674EC719384BD700A032B3 /* AppIcon60x60.png in Resources */,
 				26674EC819384BD700A032B3 /* AppIcon60x60@2x.png in Resources */,
 				266C3826194188B200CD4F19 /* chat_room_blue_bubble@2x.png in Resources */,
-				2615F1881935F1990079687C /* Default-568h@2x.png in Resources */,
 				2693AB6919507BD50028FE4B /* chat_room_grey_bubble@2x.png in Resources */,
 				26ACF0311934CB9F00C4BE9E /* profile_back_button@2x.png in Resources */,
 				26674ECB19384BD700A032B3 /* AppIcon76x76.png in Resources */,
@@ -839,6 +859,7 @@
 				2615F190193600D70079687C /* profile_forward_icon@2x.png in Resources */,
 				2694CB3F193F3E7F00283DFA /* chat_room_user_bottom_right@2x.png in Resources */,
 				2694CB3D193F3E7F00283DFA /* chat_room_text_conatiner@2x.png in Resources */,
+				2686ECB719581A5300DD624E /* Default.png in Resources */,
 				26597BD41948BBFD00918762 /* blueArrow@2x.png in Resources */,
 				2615F19F1936173F0079687C /* listChat_hashtag_icon@2x.png in Resources */,
 				2694CB37193F3E7F00283DFA /* chat_room_back_icon@2x.png in Resources */,
@@ -954,6 +975,7 @@
 				BB0E6DA719470F5500E5185F /* UIViewController+REFrostedViewController.m in Sources */,
 				BB0E6DA519470F5500E5185F /* UIImage+REFrostedViewController.m in Sources */,
 				2607A1E319346F8C000FBBDF /* OHParagraphStyle.m in Sources */,
+				2634805319580B8E00824043 /* NSData+Conversion.m in Sources */,
 				BB0E6DA219470F5500E5185F /* RECommonFunctions.m in Sources */,
 				A380DF8B1934695100759039 /* HYAppDelegate.m in Sources */,
 				BB0E6DA419470F5500E5185F /* REFrostedViewController.m in Sources */,
@@ -1090,7 +1112,7 @@
 				INFOPLIST_FILE = "Hashy/Hashy-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "A73F8372-B653-405A-8CAB-AF947873282F";
+				PROVISIONING_PROFILE = "0BFF8012-20DC-4D13-8BDA-5C42C4FFE0DD";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1109,7 +1131,7 @@
 				INFOPLIST_FILE = "Hashy/Hashy-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "A73F8372-B653-405A-8CAB-AF947873282F";
+				PROVISIONING_PROFILE = "0BFF8012-20DC-4D13-8BDA-5C42C4FFE0DD";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

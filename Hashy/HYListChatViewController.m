@@ -448,6 +448,7 @@
     cell.hashTaglabel.font=[UIFont fontWithName:kHelVeticaBold size:22.2];
     cell.hashTaglabel.textColor=[Utility colorWithHexString:@"939393"];
     cell.hashTaglabel.minimumScaleFactor=5.0/22.2;
+    cell.userNameLabel.text=@"";
     //cell.hashTaglabel.adjustsFontSizeToFitWidth=YES;
 
     cell.userNameLabel.font=[UIFont fontWithName:kHelVeticaNeueMedium size:10.6];

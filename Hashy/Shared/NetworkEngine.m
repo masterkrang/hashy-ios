@@ -50,6 +50,56 @@ static NetworkEngine *sharedNetworkEngine=nil;
     
 }
 
+#pragma mark Register For Push Notifications
+
+-(void)registerForPushNotifications:(completion_block)completionBlock onError:(error_block)errorBlock for_device_token:(NSString *)device_token{
+    if(!device_token || ![[device_token class] isSubclassOfClass:[NSString class]])
+        return;
+    NSString *urlString=[NSString stringWithFormat:@"%@/push_service_tokens",kServerHostName];
+
+
+    NSMutableDictionary *paramDict=[[NSMutableDictionary alloc]init];
+    [paramDict setValue:device_token forKey:@"device_token"];
+    [paramDict setValue:@"iOS" forKey:@"platform"];
+    
+    NSMutableDictionary *push_param_dict=[[NSMutableDictionary alloc]init];
+    [push_param_dict setValue:paramDict forKey:@"push_service_token"];
+    
+    NSLog(@"%@",[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_authentication_token);
+    
+    [self.httpManager.requestSerializer setValue:[NSString stringWithFormat:@"Token token=\"%@\"", [[UpdateDataProcessor sharedProcessor]currentUserInfo].user_authentication_token] forHTTPHeaderField:@"Authorization"];
+
+    
+    [self.httpManager POST:urlString parameters:push_param_dict success:^(AFHTTPRequestOperation *operation, id responseObject) {
+
+                  NSLog(@"%@",operation);
+          NSLog(@"%@",responseObject);
+
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+      
+        
+        NSLog(@"%@",error);
+        NSLog(@"Failed to send APNS token to platform");
+ 
+        
+        
+    }];
+    
+
+       
+//    
+//    [self.httpManager postPath:@"push_service_tokens" parameters:@{@"push_service_token":@{@"device_token":device_token, @"service":@"apns"}} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    //        NSLog(@"Failed to send APNS token to platform");
+//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//        NSLog(@"Failed to send APNS token to platform");
+//    }];
+
+    
+}
+
+#pragma mark Other API methods
+
 
 -(void)getRandomAvatar:(completion_block)completionBlock onError:(error_block)errorBlock{
 

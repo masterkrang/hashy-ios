@@ -314,7 +314,7 @@
                                 <rect key="frame" x="79" y="144" width="163" height="163"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <state key="normal" backgroundImage="17B0EAF4-329E-4A03-811A-883C4A8B6DD3">
+                                <state key="normal" backgroundImage="8324E184-B6D4-4282-87DA-5DAC6CCF3C50">
                                     <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -909,7 +909,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="17B0EAF4-329E-4A03-811A-883C4A8B6DD3" width="326" height="326">
+        <image name="8324E184-B6D4-4282-87DA-5DAC6CCF3C50" width="326" height="326">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw

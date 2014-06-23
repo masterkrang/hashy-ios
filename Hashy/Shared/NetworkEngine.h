@@ -50,6 +50,7 @@ typedef void (^upload_completeBlock)(NSString *url);
 - (void)saveAmazoneURLImageInChatRoomScreen:(UIImage*)image completionBlock:(upload_completeBlock)completionBlock onError:(error_block)errorBlock;
 -(void)sendMessage:(completion_block)completionBlock onError:(error_block)errorBlock forChatID:(NSString *)chat_id withParams:(NSMutableDictionary *)params;
 -(void)deleteSubscription:(completion_block)completionBlock onError:(error_block)errorBlock forChatID:(NSString *)chat_id;
+-(void)registerForPushNotifications:(completion_block)completionBlock onError:(error_block)errorBlock for_device_token:(NSString *)device_token;
 
 
 @end

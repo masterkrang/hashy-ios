@@ -60,7 +60,8 @@
 
 -(void)setFontsAndFrames{
     
-    
+    self.passwordTextField.returnKeyType=UIReturnKeyDone;
+
     NSString *hexColortexString=@"eaeaea";
     self.emailTextField.backgroundColor=[Utility colorWithHexString:hexColortexString];
     self.passwordTextField.backgroundColor=[Utility colorWithHexString:hexColortexString];
@@ -187,6 +188,16 @@
             frostedViewController.liveBlurBackgroundStyle = REFrostedViewControllerLiveBackgroundStyleLight;
             frostedViewController.liveBlur = YES;
             frostedViewController.delegate = self;
+            if ([[UpdateDataProcessor sharedProcessor]currentUserInfo]) {
+                [[NetworkEngine sharedNetworkEngine]registerForPushNotifications:^(id object) {
+                    
+                    
+                } onError:^(NSError *error) {
+                    
+                } for_device_token:[kAppDelegate device_token_string]];
+                
+            }
+
             
             [self.navigationController pushViewController:frostedViewController animated:YES];
 
@@ -230,6 +241,15 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     
     
+    
+    if (textField==passwordTextField) {
+        //HI;
+        [self detailsAdded];
+        return [textField resignFirstResponder];
+
+    }
+    else
+    
     return [textField resignFirstResponder];
     
     
@@ -252,23 +272,8 @@
 -(IBAction)doneButtonPressed:(UIButton *)sender{
     
     
-    if (emailTextField.text.length<1) {
-        
-        [Utility showAlertWithString:@"Please enter username."];
-        return;
-        
-    }
-    else if (passwordTextField.text.length<1){
-        [Utility showAlertWithString:@"Please enter password."];
-        return;
-        
-    }
+    [self detailsAdded];
     
-    [emailTextField resignFirstResponder];
-    [passwordTextField resignFirstResponder];
-    [kAppDelegate showProgressHUD:self.view];
-
-    [self checkLoginCredentials];
 
     
 //    HYListChatViewController *listChatVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"listChat_vc"];
@@ -284,6 +289,27 @@
     
 }
 
+
+-(void)detailsAdded{
+    
+    if (emailTextField.text.length<1) {
+        
+        [Utility showAlertWithString:@"Please enter username."];
+        return;
+        
+    }
+    else if (passwordTextField.text.length<1){
+        [Utility showAlertWithString:@"Please enter password."];
+        return;
+        
+    }
+    
+    [emailTextField resignFirstResponder];
+    [passwordTextField resignFirstResponder];
+    [kAppDelegate showProgressHUD:self.view];
+    
+    [self checkLoginCredentials];
+}
 
 
 

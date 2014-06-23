@@ -655,8 +655,8 @@
             
         }
         
-        [Utility showAlertWithString:@"There was an error occured while posting"];
-        
+//        [Utility showAlertWithString:@"There was an error occured while posting"];
+        [Utility showAlertWithString:@"An error occurred while posting your message."];
 
         
         
@@ -732,8 +732,9 @@
             [chatRoomTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[chatRoomTableView numberOfRowsInSection:0]-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
             
         }
-        
-        [Utility showAlertWithString:@"There was an error occured while posting"];
+        [Utility showAlertWithString:@"An error occurred while posting your message."];
+
+        //[Utility showAlertWithString:@"There was an error occured while posting"];
         
     } forChatID:chatIDString withParams:messageDetailDict];
     

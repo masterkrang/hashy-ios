@@ -14,6 +14,7 @@
 @synthesize managedObjectContext = __managedObjectContext;
 @synthesize managedObjectModel = __managedObjectModel;
 @synthesize persistentStoreCoordinator = __persistentStoreCoordinator;
+@synthesize device_token_string;
 
 
 -(void)addImage{
@@ -38,6 +39,9 @@
 {
    
     NSLog(@"App started");
+    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
+     (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+    NSDictionary *notificationPayload = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
     [PubNub setDelegate:self];
     CustomNavigationController *navController =[kStoryBoard instantiateViewControllerWithIdentifier:@"custom_nav"];
     self.window.rootViewController =navController;
@@ -125,6 +129,61 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+
+#pragma mark App Delegate Protocol
+- (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)devToken {
+    if(!devToken) return;
+    
+    
+    
+    
+    NSString* token=[devToken hexadecimalString];
+    NSLog(@"%@",token);
+    
+    if (token) {
+        
+        
+        device_token_string=token;
+        
+        
+        if ([[UpdateDataProcessor sharedProcessor]currentUserInfo]) {
+            [[NetworkEngine sharedNetworkEngine]registerForPushNotifications:^(id object) {
+                
+                
+            } onError:^(NSError *error) {
+                
+            } for_device_token:device_token_string];
+            
+        }
+
+        
+    }
+    
+    
+    
+//    [[TikrClient defaultClient] sendPushNotificationToken:token];
+
+
+}
+
+- (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)err {
+    
+    
+    NSLog(@"Error during APNS registration. Error: %@", err);
+    
+}
+
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
+    
+    
+    NSLog(@"%@",userInfo)
+    ;
+    
+    
+    
 }
 
 

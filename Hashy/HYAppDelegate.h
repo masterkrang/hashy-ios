@@ -16,6 +16,7 @@
 #import "MBProgressHUD.h"
 #import "HYProfileViewController.h"
 #import "REFrostedViewController.h"
+#import "NSData+Conversion.h"
 
 @interface HYAppDelegate : UIResponder <UIApplicationDelegate,MBProgressHUDDelegate,PNDelegate,REFrostedViewControllerDelegate>
 #import "REFrostedViewController.h"
@@ -27,6 +28,9 @@
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+@property (strong, nonatomic) NSString *device_token_string;
+
+
 
 + (NSString *)applicationDocumentsDirectory ;
 
