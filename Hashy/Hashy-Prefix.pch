@@ -15,5 +15,6 @@
     #import <Foundation/Foundation.h>
 #import "Constants.h"
 #import "PNImports.h"
+#import <float.h>
 
 #endif

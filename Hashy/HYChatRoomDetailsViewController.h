@@ -16,8 +16,9 @@
 #import "DAKeyboardControl.h"
 #import "ChatCustomPageTableView.h"
 #import "HYDisplayImageViewController.h"
+#import "REFrostedViewController.h"
 
-@interface HYChatRoomDetailsViewController : UIViewController<UITableViewDataSource,PagingDelegate,UITextFieldDelegate,UIActionSheetDelegate,GKImagePickerDelegate,TTTAttributedLabelDelegate,UIGestureRecognizerDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>{
+@interface HYChatRoomDetailsViewController : UIViewController<UITableViewDataSource,PagingDelegate,UITextFieldDelegate,UIActionSheetDelegate,GKImagePickerDelegate,TTTAttributedLabelDelegate,UIGestureRecognizerDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,REFrostedViewControllerDelegate>{
     
     BOOL isLoading;
     UIButton *backButton;
@@ -32,6 +33,7 @@
     BOOL isInChatRoom;
     BOOL isResultsObtained;
     BOOL isOpeningImage;
+    BOOL isChatRoomFirstTimeLoaded;
     
     
     

@@ -8,6 +8,7 @@
 #ifndef Hashy_Constants_h
 #define Hashy_Constants_h
 
+
 #define kAppDelegate (HYAppDelegate *)[[UIApplication sharedApplication]delegate]
 //#define kServerHostName @"www.hashy.co"
 #define kServerHostName @"http://www.hashy.co"
