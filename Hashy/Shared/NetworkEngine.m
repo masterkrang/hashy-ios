@@ -72,14 +72,14 @@ static NetworkEngine *sharedNetworkEngine=nil;
     
     [self.httpManager POST:urlString parameters:push_param_dict success:^(AFHTTPRequestOperation *operation, id responseObject) {
 
-                  NSLog(@"%@",operation);
-          NSLog(@"%@",responseObject);
+         //         NSLog(@"%@",operation);
+        //  NSLog(@"%@",responseObject);
 
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
       
         
-        NSLog(@"%@",error);
+      //  NSLog(@"%@",error);
 //        NSLog(@"Failed to send APNS token to platform");
  
         
@@ -106,7 +106,7 @@ static NetworkEngine *sharedNetworkEngine=nil;
     NSString *urlString=[NSString stringWithFormat:@"%@%@",kServerHostName,kGetRandomAvatar];
     
     [self.httpManager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"JSON: %@", responseObject);
+    //    NSLog(@"JSON: %@", responseObject);
         
         if([responseObject objectForKey:@"avatar_url"] &&![[responseObject objectForKey:@"avatar_url"]isEqual:[NSNull null]])
         {
@@ -146,7 +146,7 @@ static NetworkEngine *sharedNetworkEngine=nil;
     
     
     [self.httpManager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"JSON: %@", responseObject);
+     //   NSLog(@"JSON: %@", responseObject);
         
         if([responseObject objectForKey:@"status"] &&![[responseObject objectForKey:@"status"]isEqual:[NSNull null]])
         {
@@ -204,7 +204,7 @@ static NetworkEngine *sharedNetworkEngine=nil;
     
     
     [self.httpManager POST:urlString parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"JSON: %@", responseObject);
+      //  NSLog(@"JSON: %@", responseObject);
         
         if([responseObject objectForKey:@"session"] &&![[responseObject objectForKey:@"session"]isEqual:[NSNull null]])
         {
@@ -246,7 +246,7 @@ static NetworkEngine *sharedNetworkEngine=nil;
     [self.httpManager.requestSerializer setValue:[NSString stringWithFormat:@"Token token=\"%@\"", [[UpdateDataProcessor sharedProcessor]currentUserInfo].user_authentication_token] forHTTPHeaderField:@"Authorization"];
 
     [self.httpManager PUT:urlString parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"JSON: %@", responseObject);
+     //   NSLog(@"JSON: %@", responseObject);
         
         if(responseObject && ![responseObject isEqual:[NSNull null]])
         {
@@ -279,7 +279,7 @@ static NetworkEngine *sharedNetworkEngine=nil;
     NSString *urlString=[NSString stringWithFormat:@"%@%@",kServerHostName,kCreateNewUser];
     
     [self.httpManager POST:urlString parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"JSON: %@", responseObject);
+      //  NSLog(@"JSON: %@", responseObject);
         
         if([responseObject objectForKey:@"user"] &&![[responseObject objectForKey:@"user"]isEqual:[NSNull null]])
         {
@@ -316,13 +316,13 @@ static NetworkEngine *sharedNetworkEngine=nil;
 -(void)getUserProfile:(completion_block)completionBlock onError:(error_block)errorBlock forUserID:(NSString *)user_id{
     
     
-    NSLog(@"%@",[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_authentication_token);
+  //  NSLog(@"%@",[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_authentication_token);
     
     NSString *urlString=[NSString stringWithFormat:@"%@/users/%@/profile.json",kServerHostName,user_id];
    // [self.httpManager.requestSerializer setValue:[NSString stringWithFormat:@"Token token=\"%@\"", [[UpdateDataProcessor sharedProcessor]currentUserInfo].user_authentication_token] forHTTPHeaderField:@"Authorization"];
 
     [self.httpManager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"JSON: %@", responseObject);
+     //   NSLog(@"JSON: %@", responseObject);
         
         NSHTTPURLResponse *response= operation.response;
         
@@ -361,7 +361,7 @@ static NetworkEngine *sharedNetworkEngine=nil;
         
         NSHTTPURLResponse *response= operation.response;
         
-        NSLog(@"%@",response.allHeaderFields);
+      //  NSLog(@"%@",response.allHeaderFields);
         
         if (response.statusCode==200) {
             
@@ -504,7 +504,7 @@ static NetworkEngine *sharedNetworkEngine=nil;
     NSString *urlString=[NSString stringWithFormat:@"%@/users/%@/chats.json?page=%@&per=25",kServerHostName,user_id,pageNumberStr];
     
     [self.httpManager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"JSON: %@", responseObject);
+   //     NSLog(@"JSON: %@", responseObject);
         
         NSHTTPURLResponse *response= operation.response;
         
@@ -581,7 +581,7 @@ static NetworkEngine *sharedNetworkEngine=nil;
 
     
     [self.httpManager POST:urlString parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"JSON: %@", responseObject);
+     //   NSLog(@"JSON: %@", responseObject);
         
         if([responseObject objectForKey:@"channel"] &&![[responseObject objectForKey:@"channel"]isEqual:[NSNull null]])
         {
@@ -652,7 +652,7 @@ static NetworkEngine *sharedNetworkEngine=nil;
     NSString *urlString=[NSString stringWithFormat:@"%@/chats/%@/search_subscribers.json?term=%@&page=%@&per=15",kServerHostName,chat_id,searched_text,pageNumberStr];
     
     [self.httpManager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"JSON: %@", responseObject);
+ //       NSLog(@"JSON: %@", responseObject);
         
         NSHTTPURLResponse *response= operation.response;
         
@@ -889,36 +889,6 @@ static NetworkEngine *sharedNetworkEngine=nil;
     
 }
 
--(void) postSubCategory:(completion_block)completionBlock onError:(error_block)errorBlock categoryName:(NSArray *)categoryNameArray{
-    
-//    NSMutableURLRequest *request=[Utility makeRequestForservicePathArray:kAddSubcategory httpMethod:@"POST" params:categoryNameArray isSSL:NO withURLParam:nil];
-//    
-//    [AsyncURLConnection request:request completeBlock:^(NSData *data) {
-//        id object=[data objectFromJSONData];
-//        //NSLog(@"Object  %@",object);
-//        
-//        // id object1=[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-//        //NSLog(@"Object 1%@",object1);
-//        
-//        if (!object) {
-//            NSError *error=[NSError errorWithDomain:@"null response" code:1 userInfo:nil];
-//            errorBlock(error);
-//            
-//        }
-//        else
-//            completionBlock(object);
-//        
-//        
-//        
-//    } errorBlock:^(NSError *error) {
-//        NSLog(@"%@",[error localizedDescription]);
-//        errorBlock(error);
-//        
-//    }];
-    
-    
-    
-}
 
 
 

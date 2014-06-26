@@ -155,7 +155,7 @@
     
     
     NSString* token=[devToken hexadecimalString];
-    NSLog(@"%@",token);
+   // NSLog(@"%@",token);
     
     if (token) {
         
