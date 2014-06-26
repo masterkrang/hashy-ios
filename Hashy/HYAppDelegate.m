@@ -41,7 +41,6 @@
     NSLog(@"App started");
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
     
-    NSLog(@"Application Badge Number %d",[[UIApplication sharedApplication] applicationIconBadgeNumber]);
 //    UAConfig *config = [UAConfig config];
 //    
 //    config.developmentAppKey=kdevUrbanAirApplicationKey;
@@ -78,7 +77,7 @@
 //    [navController setViewControllers:[NSArray arrayWithObject:signInVC] animated:YES];
     
     // add bugsnag bug tracking
-//    [Bugsnag startBugsnagWithApiKey:kBugSnagAPIKey];
+    [Bugsnag startBugsnagWithApiKey:kBugSnagAPIKey];
 
     
      
