@@ -7,14 +7,14 @@
 //
 
 #import "HYChatRoomDetailsViewController.h"
-#define kUserTopLeft @"chat_room_user_top_left.png"
-#define kUserTopRight @"chat_room_user_top_right.png"
-#define kUserBottomLeft @"chat_room_user_bottom_left.png"
-#define kUserBottomRight @"chat_room_user_bottom_right.png"
-#define kOtherTopLeft @"chat_room_other_top_left.png"
-#define kOtherTopRight @"chat_room_other_top_right.png"
-#define kOtherBottomLeft @"chat_room_other_bottom_left.png"
-#define kOtherBottomRight @"chat_room_other_bottom_right.png"
+//#define kUserTopLeft @"chat_room_user_top_left.png"
+//#define kUserTopRight @"chat_room_user_top_right.png"
+//#define kUserBottomLeft @"chat_room_user_bottom_left.png"
+//#define kUserBottomRight @"chat_room_user_bottom_right.png"
+//#define kOtherTopLeft @"chat_room_other_top_left.png"
+//#define kOtherTopRight @"chat_room_other_top_right.png"
+//#define kOtherBottomLeft @"chat_room_other_bottom_left.png"
+//#define kOtherBottomRight @"chat_room_other_bottom_right.png"
 #define kBlueBubbleImage @"chat_room_blue_bubble.png"
 #define kGreyBubbleImage @"chat_room_grey_bubble.png"
 
@@ -73,6 +73,27 @@
 }
 
 
+-(void)updateBarButtonItemsFrame{
+    
+    
+    CGRect subscriber_count_frame=subscriberButtonCount.frame;
+    subscriber_count_frame.size.width=35+(subscribersCountString.length *6);
+    subscriberButtonCount.frame=subscriber_count_frame;
+
+    
+    CGRect green_dot_frame=greenDotImagaView.frame;
+    green_dot_frame.origin.x=(subscriberButtonCount.frame.size.width -5 - (subscribersCountString.length+1) *9);
+    greenDotImagaView.frame=green_dot_frame;
+    
+    
+    
+//    subscriberButtonCount.frame=CGRectMake(0, 0, 35+(subscribersCountString.length *6), 40);
+//
+//    greenDotImagaView=[[UIImageView alloc]initWithFrame:CGRectMake((subscriberButtonCount.frame.size.width -5 - (subscribersCountString.length+1) *9), 15, 10, 10)];
+    
+}
+
+
 -(void) setBarButtonItems{
     
     
@@ -86,10 +107,10 @@
     subscriberButtonCount.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
     
     
-    UIImageView *imageView=[[UIImageView alloc]initWithFrame:CGRectMake((subscriberButtonCount.frame.size.width -5 - (subscribersCountString.length+1) *9), 15, 10, 10)];
-    [imageView setImage:[UIImage imageNamed:kGreenDot]];
+    greenDotImagaView=[[UIImageView alloc]initWithFrame:CGRectMake((subscriberButtonCount.frame.size.width -5 - (subscribersCountString.length+1) *9), 15, 10, 10)];
+    [greenDotImagaView setImage:[UIImage imageNamed:kGreenDot]];
     
-    [subscriberButtonCount addSubview:imageView];
+    [subscriberButtonCount addSubview:greenDotImagaView];
     
     
     
@@ -420,11 +441,14 @@
     
     
     if (isChatRoomFirstTimeLoaded && !isOpeningImage   ) {
-        
-        [self getMessagesViaAPICall:NO];
+        chatRoomTableView.selectedPageNumber=1;
+        [self getMessagesViaAPICall:NO shouldReload:YES];
         
     }
-    
+    else{
+        
+        isChatRoomFirstTimeLoaded=YES;
+    }
     isInChatRoom=YES;
    // [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     isOpeningImage=NO;;
@@ -510,7 +534,7 @@
 
 
 
--(void)getMessagesViaAPICall:(BOOL) should_subscribe{
+-(void)getMessagesViaAPICall:(BOOL) should_subscribe shouldReload:(BOOL) reloadData{
     
     [[NetworkEngine sharedNetworkEngine]getChatMessagesForChatRoom:^(id object) {
         NSLog(@"Messages loaded");
@@ -529,6 +553,12 @@
 
                 if (should_subscribe)
                 [self subscribeToPubNubChannel:chatIDString];
+                
+            }
+            
+            
+            if (reloadData) {
+                [chatRoomTableView reloadData];
                 
             }
             
@@ -586,12 +616,20 @@
                 if (count)
                    [ subscriberButtonCount setTitle:count forState:UIControlStateNormal];
                 
+                else
+                count=@"0";
+                
+                
+                subscribersCountString=count;
+                
+                [self updateBarButtonItemsFrame];
+                
             }
             
         }
         
         
-        [self getMessagesViaAPICall:YES];
+        [self getMessagesViaAPICall:YES shouldReload:NO];
         
         
         

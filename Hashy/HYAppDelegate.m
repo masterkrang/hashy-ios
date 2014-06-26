@@ -39,6 +39,22 @@
 {
    
     NSLog(@"App started");
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+    
+    NSLog(@"Application Badge Number %d",[[UIApplication sharedApplication] applicationIconBadgeNumber]);
+//    UAConfig *config = [UAConfig config];
+//    
+//    config.developmentAppKey=kdevUrbanAirApplicationKey;
+//    config.developmentAppSecret=kdevUrbanAirApplicationSecret;
+//    config.productionAppKey=kProductionUrbanAirApplicationKey;
+//    config.productionAppSecret=kProductionUrbanAirApplicationSecret;
+//    
+//    [UAirship takeOff:config];
+//    [[UAPush shared] setBadgeNumber:1];//set to 1
+
+//
+//    application.applicationIconBadgeNumber=0;
+//    application.applicationIconBadgeNumber=-1;
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
      (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
     //NSDictionary *notificationPayload = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
@@ -178,9 +194,191 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
     
+    UIApplicationState state=[application applicationState ];
     
-    NSLog(@"%@",userInfo)
-    ;
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+
+    
+    
+    switch (state) {
+        case UIApplicationStateInactive:
+        {
+            NSLog(@"InActive State");
+
+            if ([[UpdateDataProcessor sharedProcessor]currentUserInfo]) {
+                
+                HYListChatViewController *listChatVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"listChat_vc"];
+                //[navController setViewControllers:[NSArray arrayWithObject:listChatVC] animated:YES];
+                
+                
+                CustomNavigationController *navigationController = [[CustomNavigationController alloc] initWithRootViewController:listChatVC];
+                DEMOMenuViewController *menuController = [[DEMOMenuViewController alloc] initWithStyle:UITableViewStylePlain];
+                
+                // Create frosted view controller
+                //
+                REFrostedViewController *frostedViewController = [[REFrostedViewController alloc] initWithContentViewController:navigationController menuViewController:menuController];
+                frostedViewController.direction = REFrostedViewControllerDirectionLeft;
+                frostedViewController.liveBlurBackgroundStyle = REFrostedViewControllerLiveBackgroundStyleLight;
+                frostedViewController.liveBlur = YES;
+                frostedViewController.delegate = self;
+                self.window.rootViewController =frostedViewController;
+                
+                
+                
+                
+                if ([userInfo valueForKey:@"aps"] && ![[userInfo valueForKey:@"aps"]isEqual:[NSNull null]]){
+                    
+                    
+                    NSMutableDictionary *apnsDict=[userInfo valueForKey:@"aps"];
+                    
+                    
+                    if ([apnsDict valueForKey:@"alert"] && ![[apnsDict valueForKey:@"alert"]isEqual:[NSNull null]]) {
+                        
+                        NSString *alertString=[apnsDict valueForKey:@"alert"];
+                        
+                        if (alertString && alertString.length) {
+                            
+                            
+                            NSMutableString *getHashTagMutableString=[[NSMutableString alloc]init];
+                            
+                            for (int i=alertString.length-1; i>0; i--) {
+                                char ch=[alertString characterAtIndex:i];
+                                NSString *charString=[NSString stringWithFormat:@"%c",ch];
+                                
+                                if ([charString isEqualToString:@"#"]) {
+                                    break;
+                                    
+                                }
+                                else{
+                                
+                                    NSString *appendedString=[NSString stringWithFormat:@"%c",ch];
+                                    [getHashTagMutableString insertString:appendedString atIndex:0];
+                                
+                                }
+                                
+                                
+                                
+                                
+                            }
+                          
+                            
+                            NSString *hashTagString= [NSString stringWithFormat:@"%@",getHashTagMutableString];// getHashTagMutableString.copy;
+                            
+                            
+                            
+                            
+                            
+                            
+                            if (hashTagString && hashTagString.length) {
+                                
+
+                                if ([apnsDict valueForKey:@"channel_id"] && ![[apnsDict valueForKey:@"channel_id"]isEqual:[NSNull null]]) {
+                                    
+                                    
+                                    NSNumber *chat_id_number=[apnsDict valueForKey:@"channel_id"];
+                                    int chat_id=chat_id_number.intValue;
+                                    
+                                    if (chat_id && chat_id>0) {
+                                        
+                                        HYChatRoomDetailsViewController *chatVC=[kStoryBoard instantiateViewControllerWithIdentifier:@"chatRoomDetails_vc"];
+
+                                        chatVC.chatNameString=hashTagString;
+
+                                        
+                                        chatVC.chatIDString=[NSString stringWithFormat:@"%d",chat_id];
+                                        NSString *count=@"";
+                                     
+                                        chatVC.subscribersCountString=count;
+                                        
+                                        NSLog(@"%@",frostedViewController);
+                                        NSLog(@"%@",frostedViewController.navigationController);
+                                        NSLog(@"%@",listChatVC.navigationController);
+
+                                        [listChatVC.navigationController pushViewController:chatVC animated:YES];
+                                        
+                                        
+
+                                    }
+                                    
+                                }
+
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                               // [self.navigationController pushViewController:chatVC animated:YES];
+                                
+                            }
+                            
+                            
+                            
+                        }
+                        
+                        
+                        
+                    }
+                    
+                    
+                    
+                }
+                
+               
+                
+                
+                
+                
+            }
+            else{
+                CustomNavigationController *navController =[kStoryBoard instantiateViewControllerWithIdentifier:@"custom_nav"];
+                self.window.rootViewController =navController;
+
+                HYSignInViewController *signInVC = [kStoryBoard instantiateViewControllerWithIdentifier:@"signIn_vc"];
+                
+                [navController setViewControllers:[NSArray arrayWithObject:signInVC] animated:YES];
+                
+                
+            }
+            
+
+        }
+            break;
+            
+            
+        case UIApplicationStateBackground:
+        {
+            NSLog(@"Background State");
+            
+
+        }
+            break;
+            
+        case UIApplicationStateActive:
+        {
+            
+
+            NSLog(@"Already Active State");
+
+            // [self scheduleForNextNotification];
+            
+            
+        }
+            break;
+            
+        default:{
+            
+
+        }
+            break;
+    }
+    
+    
+    NSLog(@"%@",userInfo) ;
     
     
     

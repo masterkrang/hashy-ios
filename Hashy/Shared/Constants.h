@@ -48,4 +48,13 @@
 
 #define kCharacterSetString @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
 #define kGreenDot @"list_screen_green_dot.png"
+#define kdevUrbanAirApplicationKey @"1b-4A-q1ReOlGuxToT-0JQ"
+#define kdevUrbanAirApplicationSecret @"JEMFFsYOTG-8mvGIt57Kyg"
+
+
+#define kProductionUrbanAirApplicationKey @"RSGrm3XDRKiytow5o0mUfw"
+#define kProductionUrbanAirApplicationSecret @"SSeaELfSDucU3dpZtg2nA"
+
+
+
 #endif

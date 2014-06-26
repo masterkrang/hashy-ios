@@ -65,7 +65,7 @@ static NetworkEngine *sharedNetworkEngine=nil;
     NSMutableDictionary *push_param_dict=[[NSMutableDictionary alloc]init];
     [push_param_dict setValue:paramDict forKey:@"push_service_token"];
     
-    NSLog(@"%@",[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_authentication_token);
+   // NSLog(@"%@",[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_authentication_token);
     
     [self.httpManager.requestSerializer setValue:[NSString stringWithFormat:@"Token token=\"%@\"", [[UpdateDataProcessor sharedProcessor]currentUserInfo].user_authentication_token] forHTTPHeaderField:@"Authorization"];
 
@@ -79,7 +79,7 @@ static NetworkEngine *sharedNetworkEngine=nil;
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
       
         
-//        NSLog(@"%@",error);
+        NSLog(@"%@",error);
 //        NSLog(@"Failed to send APNS token to platform");
  
         
