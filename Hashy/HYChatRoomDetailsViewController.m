@@ -2209,6 +2209,9 @@
                 
                 weakSelf.image=image;
                 [weakSelfIndicator stopAnimating];
+                
+                
+                
 
                 
             } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
