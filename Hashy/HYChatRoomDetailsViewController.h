@@ -34,6 +34,8 @@
     BOOL isResultsObtained;
     BOOL isOpeningImage;
     BOOL isChatRoomFirstTimeLoaded;
+    BOOL isNotUploadingImage;
+    
     UIImageView *greenDotImagaView;
     
     

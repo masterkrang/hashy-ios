@@ -440,7 +440,7 @@
     [super viewWillAppear:animated];
     
     
-    if (isChatRoomFirstTimeLoaded && !isOpeningImage   ) {
+    if (isChatRoomFirstTimeLoaded && !isOpeningImage  && isNotUploadingImage ) {
         chatRoomTableView.selectedPageNumber=1;
         [self getMessagesViaAPICall:NO shouldReload:YES];
         
@@ -448,6 +448,7 @@
     else{
         
         isChatRoomFirstTimeLoaded=YES;
+        isNotUploadingImage=YES;
     }
     isInChatRoom=YES;
    // [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
@@ -2779,10 +2780,14 @@ didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result{
     switch (buttonIndex) {
         case 0:
             //[self openCamera];
+            isNotUploadingImage=NO;
+
             [self openPhoneCamera];
             break;
         case 1:
             //[self openPhotoLibrary];
+            isNotUploadingImage=NO;
+
             [self openPhonePhotoLibrary];
             break;
             
@@ -2797,7 +2802,6 @@ didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result{
     
     editedImage=image;
     isImageSelectedFromDevice=YES;
-    
     [self hideImagePicker];
     
     [self uploadImageOnAmazon:image];
