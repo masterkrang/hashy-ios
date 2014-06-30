@@ -1678,7 +1678,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 60E69364A15E4105A48EFB66 /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: kurtis Braget (PD95BY7HF9)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: kurtis Braget (X783V48JKA)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/Hashy",
@@ -1693,7 +1693,7 @@
 					"/Users/attmac107/Documents/projects/Hashy/Hashy\\ Itesh\\ UI\\ Branch/hashy-ios/Hashy/Airship",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "CA8436DF-AE78-45E2-B369-16EC4215A9EE";
+				PROVISIONING_PROFILE = "08B82101-3690-4A0D-8C3E-19AB59E9B2D9";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1702,7 +1702,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 60E69364A15E4105A48EFB66 /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: kurtis Braget (PD95BY7HF9)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: kurtis Braget (X783V48JKA)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/Hashy",
@@ -1717,7 +1717,7 @@
 					"/Users/attmac107/Documents/projects/Hashy/Hashy\\ Itesh\\ UI\\ Branch/hashy-ios/Hashy/Airship",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "CA8436DF-AE78-45E2-B369-16EC4215A9EE";
+				PROVISIONING_PROFILE = "08B82101-3690-4A0D-8C3E-19AB59E9B2D9";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

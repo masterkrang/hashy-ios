@@ -495,6 +495,8 @@
     [self setPaddingView];
     
     [self getChatWithID:chatIDString];
+    [self subscribeToPubNubChannel:chatIDString];
+    
    
     activityIndicatorView=[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
     activityIndicatorView.frame=CGRectMake((self.view.frame.size.width/2)-10, 0, 20, 20);
@@ -562,6 +564,8 @@
                 [chatRoomTableView reloadData];
                 
             }
+            [self reloadTableData];
+            [kAppDelegate hideProgressHUD];
             
             chatRoomTableView.pageLocked=NO;
             subscriberButtonCount.enabled=YES;
@@ -630,7 +634,7 @@
         }
         
         
-        [self getMessagesViaAPICall:YES shouldReload:NO];
+        [self getMessagesViaAPICall:NO shouldReload:NO];
         
         
         
@@ -696,72 +700,64 @@
     
     [[NetworkEngine sharedNetworkEngine]sendMessage:^(id object) {
         
-//        NSLog(@"Message Send Response %@",object);
-//        
-//        if ([object valueForKey:@"message"] && ![[object valueForKey:@"message"] isEqual:[NSNull null]]) {
-//            
-//            
-//            NSMutableDictionary *responseMessageDetailDict=[[object valueForKey:@"message"]mutableCopy];
-//            
-//            
-//            if (chatRoomMessageArray.count && isInChatRoom) {
-//                
-//                long user_id_long=[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id.longValue;
-//                
-//         
-//                
-//                NSPredicate *predicate=[NSPredicate predicateWithFormat:@"message.body == %@ && message.message_timestamp == %@ && message.user_id == %ld",[responseMessageDetailDict valueForKey:@"body"],[responseMessageDetailDict valueForKey:@"message_timestamp"],user_id_long];
-//
-//                
-//
-//             
-//                
-//                NSArray *array=[self.chatRoomMessageArray filteredArrayUsingPredicate:predicate];
-//                
-//                
-//                if (array.count==1) {
-//                    
-//                    NSMutableDictionary *messageDict=[array objectAtIndex:0];
-//                    
-//                    
-//                    int index=[self.chatRoomMessageArray indexOfObject:messageDict];
-//                    
-//                    if (chatRoomMessageArray.count>index) {
-//                        
-//                        
-//                        NSMutableDictionary *fetch_messageDict=[[self.chatRoomMessageArray objectAtIndex:index]mutableCopy];
-//                        
-//                        if ([fetch_messageDict valueForKey:@"message"] && ![[fetch_messageDict valueForKey:@"message"]isEqual:[NSNull null]]) {
-//                            
-//                            NSMutableDictionary *fetch_message_details_dict=[fetch_messageDict valueForKey:@"message"];
-//                            
-//                            [fetch_message_details_dict setValue:@"NO" forKey:@"blur"];
-//                            
-//                            [fetch_messageDict setValue:fetch_message_details_dict forKey:@"message"];
-//
-//                            [chatRoomMessageArray replaceObjectAtIndex:index withObject:fetch_messageDict];
-//                            
-//                            [chatRoomTableView beginUpdates];
-//                            [chatRoomTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-//                            [chatRoomTableView endUpdates];
-//
-//                            
-//                        }
-//                        
-//                        
-//                    }
-//                    
-//
-//                    
-//                }
-//                
-//                
-// 
-//                
-//                
-//            }
-//        }
         
+        NSLog(@"Response from sending message");
+        
+        
+        
+        if (chatRoomMessageArray.count && isInChatRoom) {
+            
+            
+            long user_id_long=[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id.longValue;
+            
+            NSPredicate *predicate=[NSPredicate predicateWithFormat:@"message.body == %@ && message.message_timestamp == %@ && message.user_id == %ld  && message.blur == %@",[messageDict valueForKey:@"body"],dateString,user_id_long,@"YES"];
+            
+            
+            //  NSPredicate *predicate=[NSPredicate predicateWithFormat:@"message.body == %@ && message.message_timestamp == %@ && message.user_id == %ld  && message.blur",messageString,messageDate,user_id_long,@"YES"];
+            
+            
+            
+            
+            
+            NSArray *array=[self.chatRoomMessageArray filteredArrayUsingPredicate:predicate];
+            
+            
+            if (array.count==1) {
+                
+                NSMutableDictionary *messageDict=[array objectAtIndex:0];
+                
+                
+                int index=[self.chatRoomMessageArray indexOfObject:messageDict];
+                
+                if (chatRoomMessageArray.count>index) {
+                    
+                    
+                    NSMutableDictionary *fetch_messageDict=[[self.chatRoomMessageArray objectAtIndex:index]mutableCopy];
+                    
+                    if ([fetch_messageDict valueForKey:@"message"] && ![[fetch_messageDict valueForKey:@"message"]isEqual:[NSNull null]]) {
+                        
+                        NSMutableDictionary *fetch_message_details_dict=[fetch_messageDict valueForKey:@"message"];
+                        
+                        [fetch_message_details_dict setValue:@"NO" forKey:@"blur"];
+                        
+                        [fetch_messageDict setValue:fetch_message_details_dict forKey:@"message"];
+                        
+                        [chatRoomMessageArray replaceObjectAtIndex:index withObject:fetch_messageDict];
+                        
+                        [chatRoomTableView beginUpdates];
+                        [chatRoomTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+                        [chatRoomTableView endUpdates];
+                        
+                        
+                    }
+                    
+                    
+                }
+            }
+            
+            
+            
+        }
         
         
         
@@ -949,8 +945,14 @@
         else{
             
             if (masterChannel) {
+                
+                NSLog(@"Hit time %@",[NSDate date]);
+                
+                
                 [PubNub subscribeOnChannel:masterChannel withCompletionHandlingBlock:^(PNSubscriptionProcessState state, NSArray *array, PNError *error) {
-                    [self reloadTableData];
+                    NSLog(@"Response time %@",[NSDate date]);
+
+                  //  [self reloadTableData];
                     if (!error) {
                        // [self getFullHistoryOfMessages:masterChannel];
                         NSLog(@"Subscribed to channel: %@",masterChannel);
@@ -1007,8 +1009,12 @@
                     
                 }
                 else{
+                    NSLog(@"Hit time %@",[NSDate date]);
+
                     [PubNub subscribeOnChannel:masterChannel withCompletionHandlingBlock:^(PNSubscriptionProcessState state, NSArray *array, PNError *error) {
-                        [self reloadTableData];
+                        NSLog(@"Response time %@",[NSDate date]);
+
+                        //[self reloadTableData];
                         if (!error) {
                             // [self getFullHistoryOfMessages:masterChannel];
                             NSLog(@"Subscribed to channel: %@",masterChannel);
@@ -1035,7 +1041,7 @@
                 backButton.enabled=YES;
                 [kAppDelegate hideProgressHUD];
                 [Utility showAlertWithString:@"Unable to subscribe to channel."];
-            [self reloadTableData];
+           // [self reloadTableData];
             }
             
             
@@ -1043,7 +1049,7 @@
             
      
         } errorBlock:^(PNError *error) {
-            [self reloadTableData];
+           // [self reloadTableData];
             [kAppDelegate hideProgressHUD];
             backButton.enabled=YES;
             UIAlertView *connectionErrorAlert = [UIAlertView new]; connectionErrorAlert.title = [NSString stringWithFormat:@"%@(%@)",
@@ -1076,14 +1082,10 @@
 
 -(void)reloadTableData{
     [chatRoomTableView reloadData];
-    [kAppDelegate hideProgressHUD];
     
     if (chatRoomMessageArray.count) {
-        // [self.chatRoomTableView beginUpdates];
-        
-      //  NSIndexPath *indexPath=[NSIndexPath indexPathForRow:[chatRoomTableView numberOfRowsInSection:0]-1 inSection:0];
+      
         NSLog(@"Rows Count%d",[chatRoomTableView numberOfRowsInSection:0]);
-        
         if ([chatRoomTableView numberOfRowsInSection:0]>0) {
             NSIndexPath *indexPath=[NSIndexPath indexPathForRow:chatRoomMessageArray.count-1 inSection:0];
             
@@ -1095,58 +1097,11 @@
               //[self.chatRoomTableView endUpdates];
     }
 
+    [kAppDelegate hideProgressHUD];
+
 }
 
 
-//-(void)getMessages1{
-//    PNConfiguration *myConfig = [PNConfiguration configurationForOrigin:@"pubsub.pubnub.com"
-//                                                             publishKey:@"demo"
-//                                                           subscribeKey:@"demo"
-//                                                              secretKey:nil];
-//    [PubNub setConfiguration:myConfig];
-//    [PubNub connect];
-//    
-//    // #1 Define channel
-//    PNChannel *my_channel = [PNChannel channelWithName:@"blus"
-//                                 shouldObservePresence:YES];
-//    
-//    [[PNObservationCenter defaultCenter] addClientConnectionStateObserver:self withCallbackBlock:^(NSString *origin, BOOL connected, PNError *connectionError){
-//        if (connected)
-//        {
-//            NSLog(@"OBSERVER: Successful Connection!");
-//            // #2 Subscribe if client connects successfully
-//            [PubNub subscribeOnChannel:my_channel];
-//        }
-//        else if (!connected || connectionError)
-//        {
-//            NSLog(@"OBSERVER: Error %@, Connection Failed!", connectionError.localizedDescription);
-//        }
-//    }];
-//    
-//    // #3 Added Observer to look for subscribe events
-//    [[PNObservationCenter defaultCenter] addClientChannelSubscriptionStateObserver:self withCallbackBlock:^(PNSubscriptionProcessState state, NSArray *channels, PNError *error){
-//        switch (state) {
-//            case PNSubscriptionProcessSubscribedState:
-//                NSLog(@"OBSERVER: Subscribed to Channel: %@", channels[0]);
-//                break;
-//            case PNSubscriptionProcessNotSubscribedState:
-//                NSLog(@"OBSERVER: Not subscribed to Channel: %@, Error: %@", channels[0], error);
-//                break;
-//            case PNSubscriptionProcessWillRestoreState:
-//                NSLog(@"OBSERVER: Will re-subscribe to Channel: %@", channels[0]);
-//                break;
-//            case PNSubscriptionProcessRestoredState:
-//                NSLog(@"OBSERVER: Re-subscribed to Channel: %@", channels[0]);
-//                break;
-//        }
-//    }];
-//    
-//    // #4 Added Observer to look for message received events
-//    [[PNObservationCenter defaultCenter] addMessageReceiveObserver:self withBlock:^(PNMessage *message) {
-//        NSLog(@"OBSERVER: Channel: %@, Message: %@", message.channel.name, message.message);
-//    }];
-//}
-//    
 
 
 -(void)reConnectWithChannel:(PNChannel *)channel{
@@ -1162,13 +1117,15 @@
             
             if (!unsubsribeError) {
                 
-                
+                NSLog(@"Hit time %@",[NSDate date]);
+
                 [PubNub subscribeOnChannels:[NSArray arrayWithObject:channel] withCompletionHandlingBlock:^(PNSubscriptionProcessState state, NSArray *subscriptionArray, PNError *subscriptionError) {
                     
-                    
+                    NSLog(@"Response time %@",[NSDate date]);
+
                     
                     if (!subscriptionError) {
-                        [self reloadTableData];
+                        //[self reloadTableData];
 
                         NSLog(@"Re subscribed to channel %@",channel);
                         [kAppDelegate hideProgressHUD];
@@ -1177,7 +1134,7 @@
                         
                     }
                     else{
-                        [self reloadTableData];
+                       // [self reloadTableData];
                         [Utility showAlertWithString:@"Unable to subscribe to channel."];
                         [kAppDelegate hideProgressHUD];
 
@@ -1189,7 +1146,7 @@
                 
             }
             else{
-                [self reloadTableData];
+             //   [self reloadTableData];
                 [Utility showAlertWithString:@"Unable to subscribe to channel."];
                 [kAppDelegate hideProgressHUD];
 
@@ -1203,7 +1160,7 @@
     else{
         [kAppDelegate hideProgressHUD];
 
-        [self reloadTableData];
+        //[self reloadTableData];
     }
     
 }
@@ -3426,90 +3383,59 @@ didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result{
                     if (user_id_str.intValue && user_id_str.intValue==[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id.intValue) {
                         NSLog(@"Donot insert message");
 
-                        if (chatRoomMessageArray.count && isInChatRoom) {
-
-                            
-                            long user_id_long=[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id.longValue;
-                            
-                            NSPredicate *predicate=[NSPredicate predicateWithFormat:@"message.body == %@ && message.message_timestamp == %@ && message.user_id == %ld  && message.blur == %@",messageString,messageDate,user_id_long,@"YES"];
-
-                            
-                          //  NSPredicate *predicate=[NSPredicate predicateWithFormat:@"message.body == %@ && message.message_timestamp == %@ && message.user_id == %ld  && message.blur",messageString,messageDate,user_id_long,@"YES"];
-                            
-                            
-                            
-                            
-                            
-                            NSArray *array=[self.chatRoomMessageArray filteredArrayUsingPredicate:predicate];
-                            
-                            
-                            if (array.count==1) {
-                                
-                                NSMutableDictionary *messageDict=[array objectAtIndex:0];
-                                
-                                
-                                int index=[self.chatRoomMessageArray indexOfObject:messageDict];
-                                
-                                if (chatRoomMessageArray.count>index) {
-                                    
-                                    
-                                    NSMutableDictionary *fetch_messageDict=[[self.chatRoomMessageArray objectAtIndex:index]mutableCopy];
-                                    
-                                    if ([fetch_messageDict valueForKey:@"message"] && ![[fetch_messageDict valueForKey:@"message"]isEqual:[NSNull null]]) {
-                                        
-                                        NSMutableDictionary *fetch_message_details_dict=[fetch_messageDict valueForKey:@"message"];
-                                        
-                                        [fetch_message_details_dict setValue:@"NO" forKey:@"blur"];
-                                        
-                                        [fetch_messageDict setValue:fetch_message_details_dict forKey:@"message"];
-                                        
-                                        [chatRoomMessageArray replaceObjectAtIndex:index withObject:fetch_messageDict];
-                                        
-                                        [chatRoomTableView beginUpdates];
-                                        [chatRoomTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-                                        [chatRoomTableView endUpdates];
-                                        
-                                        
-                                    }
-                                    
-                                    
-                                }
-                            }
-                            
-//                            NSMutableDictionary *messageDict=[[self.chatRoomMessageArray objectAtIndex:chatRoomMessageArray.count-1]mutableCopy];
+//                        if (chatRoomMessageArray.count && isInChatRoom) {
+//
 //                            
-//                            if ([messageDict valueForKey:@"message"] && ![[messageDict valueForKey:@"message"]isEqual:[NSNull null]]) {
+//                            long user_id_long=[[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id.longValue;
+//                            
+//                            NSPredicate *predicate=[NSPredicate predicateWithFormat:@"message.body == %@ && message.message_timestamp == %@ && message.user_id == %ld  && message.blur == %@",messageString,messageDate,user_id_long,@"YES"];
+//
+//                            
+//                          //  NSPredicate *predicate=[NSPredicate predicateWithFormat:@"message.body == %@ && message.message_timestamp == %@ && message.user_id == %ld  && message.blur",messageString,messageDate,user_id_long,@"YES"];
+//                            
+//                            
+//                            
+//                            
+//                            
+//                            NSArray *array=[self.chatRoomMessageArray filteredArrayUsingPredicate:predicate];
+//                            
+//                            
+//                            if (array.count==1) {
+//                                
+//                                NSMutableDictionary *messageDict=[array objectAtIndex:0];
 //                                
 //                                
-//                                NSMutableDictionary *messageDetailDict=[[messageDict valueForKey:@"message"]mutableCopy];
+//                                int index=[self.chatRoomMessageArray indexOfObject:messageDict];
 //                                
-//                                
-//                                
-//                                if ([messageDetailDict valueForKey:@"blur"] && [[messageDetailDict valueForKey:@"blur"]isEqualToString:@"YES"]) {
+//                                if (chatRoomMessageArray.count>index) {
 //                                    
 //                                    
-//                                    [messageDetailDict setValue:@"NO" forKey:@"blur"];
+//                                    NSMutableDictionary *fetch_messageDict=[[self.chatRoomMessageArray objectAtIndex:index]mutableCopy];
 //                                    
-//                                    
-//                                    
-//                                    [messageDict setValue:messageDetailDict forKey:@"message"];
-//                                    
-//                                    
-//                                    [chatRoomMessageArray replaceObjectAtIndex:chatRoomMessageArray.count-1 withObject:messageDict];
-//                                    
-//                                    [chatRoomTableView beginUpdates];
-//                                    [chatRoomTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:chatRoomMessageArray.count-1 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-//                                    [chatRoomTableView endUpdates];
-//                                    
+//                                    if ([fetch_messageDict valueForKey:@"message"] && ![[fetch_messageDict valueForKey:@"message"]isEqual:[NSNull null]]) {
+//                                        
+//                                        NSMutableDictionary *fetch_message_details_dict=[fetch_messageDict valueForKey:@"message"];
+//                                        
+//                                        [fetch_message_details_dict setValue:@"NO" forKey:@"blur"];
+//                                        
+//                                        [fetch_messageDict setValue:fetch_message_details_dict forKey:@"message"];
+//                                        
+//                                        [chatRoomMessageArray replaceObjectAtIndex:index withObject:fetch_messageDict];
+//                                        
+//                                        [chatRoomTableView beginUpdates];
+//                                        [chatRoomTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+//                                        [chatRoomTableView endUpdates];
+//                                        
+//                                        
+//                                    }
 //                                    
 //                                    
 //                                }
-//                                
 //                            }
-                            
-                            
-                            
-                        }
+//                            
+//
+//                            
+//                        }
                         
                         
                         
