@@ -651,6 +651,12 @@
 -(void)sendMessageOnHashyAPI{
     
     
+    long image_width_long=0;
+    long image_height_long=0;
+    
+    NSNumber *widthNum=[NSNumber numberWithLong:image_width_long];
+    NSNumber *heightNum=[NSNumber numberWithLong:image_height_long];
+
     
     NSTimeInterval timeInMiliseconds = [[NSDate date] timeIntervalSince1970];
     long long time=timeInMiliseconds;
@@ -666,6 +672,8 @@
     [messageDict setValue:dateString forKey:@"message_timestamp"];
     [messageDict setValue:[[UpdateDataProcessor sharedProcessor]currentUserInfo].userName forKey:@"user_name"];
     [messageDict setValue:@"text" forKey:@"message_type"];
+    [messageDict setValue:widthNum forKey:@"image_width"];
+    [messageDict setValue:heightNum forKey:@"image_height"];
     
     NSMutableDictionary *messageDetailDict=[[NSMutableDictionary alloc]init];
     [messageDetailDict setValue:messageDict forKey:@"message"];
@@ -793,6 +801,19 @@
 -(void) sendImageOnHashyAPI:(UIImage *)image andImageURL:(NSString *)url{
     
     
+    CGSize imageSize=[self getCompressImageSize:image withMaxSize:200];
+    
+    
+    int image_width_int=imageSize.width;
+    int image_height_int=imageSize.height;
+    
+    long image_width_long=image_width_int;
+    long image_height_long=image_height_int;
+    
+    NSNumber *widthNum=[NSNumber numberWithLong:image_width_long];
+    NSNumber *heightNum=[NSNumber numberWithLong:image_height_long];
+
+    
     NSTimeInterval timeInMiliseconds = [[NSDate date] timeIntervalSince1970];
     long long time=timeInMiliseconds;
     NSString *dateString=[NSString stringWithFormat:@"%lld",time];
@@ -804,6 +825,10 @@
     [messageDict setValue:dateString forKey:@"message_timestamp"];
     [messageDict setValue:[[UpdateDataProcessor sharedProcessor]currentUserInfo].userName forKey:@"user_name"];
     [messageDict setValue:@"image" forKey:@"message_type"];
+    [messageDict setValue:widthNum forKey:@"image_width"];
+
+    [messageDict setValue:heightNum forKey:@"image_height"];
+
     //    [messageDict setValue:@"text" forKey:@"message_type"];
     
     NSMutableDictionary *messageDetailDict=[[NSMutableDictionary alloc]init];
@@ -1517,102 +1542,7 @@
             
         }
         
-        else if (message && [message isKindOfClass:[PNMessage class]]){
-            PNMessage *pn_message=[self.chatRoomMessageArray objectAtIndex:indexPath.row];
-            
-            if (pn_message && ![pn_message isEqual:[NSNull null]]) {
-                
-                id messageDict=[pn_message.message mutableCopy];
-                if (messageDict && [messageDict isKindOfClass:[NSString class]]) {
-                    
-                    NSData *data=[messageDict dataUsingEncoding:NSUTF8StringEncoding];
-                    
-                    messageDict =
-                    [NSJSONSerialization JSONObjectWithData: data
-                                                    options: NSJSONReadingMutableContainers
-                                                      error: nil];
-                    
-                    
-                }
-                
-                
-                if ([messageDict valueForKey:@"message"] && ![[messageDict valueForKey:@"message"]isEqual:[NSNull null]]) {
-                    cell.messageLabel.text=[messageDict valueForKey:@"message"];
-                    
-                }
-                
-                
-                NSString *userNameString;
-                
-                if ([messageDict valueForKey:@"user_name"] && ![[messageDict valueForKey:@"user_name"]isEqual:[NSNull null]]) {
-                    userNameString=[messageDict valueForKey:@"user_name"];
-                }
-                
-                
-                if ([messageDict valueForKey:@"message_date"] && ![[messageDict valueForKey:@"message_date"]isEqual:[NSNull null]]) {
-                    
-                    
-                    
-                    NSString *messageDate = [messageDict valueForKey:@"message_date"];
-                    NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
-                    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-                    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
-                    NSDate *message_date=[dateFormatter dateFromString:messageDate];
-                    
-                    
-                    NSDateFormatter *dateFormatterNew=[[NSDateFormatter alloc]init];
-                    [dateFormatterNew setDateFormat:@"h:mm a"];
-                    
-                    NSString *textLabelDate=[[dateFormatterNew stringFromDate:message_date]uppercaseString];
-                    //    NSLog(@"%@",textLabelDate);
-                    
-                    if (userNameString) {
-                        
-                        if(textLabelDate)
-                            
-                            userNameString=[NSString stringWithFormat:@"%@ at %@",userNameString,textLabelDate];
-                        
-                    }
-                    else{
-                        if(textLabelDate)
-                            
-                            userNameString=[NSString stringWithFormat:@"%@",textLabelDate];
-                        
-                    }
-                    
-                }
-                cell.userNameLabel.text=userNameString;
-                
-                
-                
-                
-                
-                NSString *userIDString;
-                
-                if ([[messageDict valueForKey:@"user_id"] isKindOfClass:[NSString class]]) {
-                    userIDString=[messageDict valueForKey:@"user_id"];
-                    
-                }
-                else{
-                    
-                    userIDString=[[messageDict valueForKey:@"user_id"] stringValue];
-                }
-                BOOL isFromLoginUser=NO;
-                
-                if(userIDString && userIDString.intValue && userIDString.intValue == [[UpdateDataProcessor sharedProcessor]currentUserInfo].user_id.intValue){
-                    isFromLoginUser=YES;
-                    
-                    
-                }
-                
-                
-                [self setChatCell:cell ForIndexPath:indexPath forDictionary:messageDict isUserMessage:isFromLoginUser];
-                
-                
-                
-            }
-            
-        }
+
        
         
         
@@ -1671,11 +1601,11 @@
             }
             
             if (!isFromLoginUser) {
-                height+=20;
+                height+=22;
             }
             else{
                 
-                height+=11;
+                height+=10;
             }
             
             CGSize messageSize=CGSizeMake(230, 999);
@@ -1683,7 +1613,23 @@
             if ([messageDict valueForKey:@"message_type"] && [[messageDict valueForKey:@"message_type"]isEqualToString:@"image"]) {
                 
                 
-                height+=215;
+                if ([messageDict valueForKey:@"image_height"] && ![[messageDict valueForKey:@"image_height"]isEqual:[NSNull null]]) {
+                    
+                    NSString *heightString=[messageDict valueForKey:@"image_height"];
+                    int heightOfImage=heightString.intValue;
+                    
+                    if (heightOfImage>0) {
+                        height+=heightOfImage+12;
+                    }
+                    else{
+                        height+=212;
+ 
+                    }
+                    
+                }
+                else
+                
+                height+=212;
                 
             }
             else{
@@ -1699,7 +1645,7 @@
                 
                 
                 CGSize labelSize=[Utility heightOfTextString:messageString andFont:[UIFont fontWithName:kHelVeticaNeueRegular size:16] maxSize:messageSize];
-                height+=labelSize.height+18;
+                height+=labelSize.height+19;
                 
             }
         }
@@ -2032,15 +1978,6 @@
         }
         
 
-//        for (UIGestureRecognizer *recognizer in cell.pictureImageView.gestureRecognizers) {
-//            
-//            if ([recognizer isKindOfClass:[UITapGestureRecognizer class]]) {
-//               
-//                // [self.view removeGestureRecognizer:recognizer];
-//            }
-//            
-//        }
-
         
         
     }
@@ -2050,15 +1987,6 @@
     
     
     int addedheight=20;
-    
-//    CGRect bubbleImageFrame=cell.bubbleImageView.frame;
-//    //bubbleImageFrame.origin.x=isFromUser?310-(textWidth+28+5):10;
-//    bubbleImageFrame.origin.x=isFromUser?305-(textWidth+28+5):15;
-//
-//    bubbleImageFrame.origin.y=isFromUser?8:addedheight;
-//    bubbleImageFrame.size.width=isImage?200+28+5: textWidth+28+5;//isFromUser?0:textWidth+28+5;
-//    bubbleImageFrame.size.height=isImage?200+28+5:textHeight+14;//isFromUser?0:textHeight+14;
-//    cell.bubbleImageView.frame=bubbleImageFrame;
 
     
     CGRect bubbleImageFrame=cell.bubbleImageView.frame;
@@ -2081,17 +2009,6 @@
     else
         cell.userNameLabel.frame=CGRectZero;
     
-    if (isImage) {
-        CGRect activityIndicatorRect=cell.activityIndicatorView.frame;
-        activityIndicatorRect.origin.x=150;
-        activityIndicatorRect.origin.y=(cell.bubbleImageView.frame.origin.y+6)+90;
-        cell.activityIndicatorView.frame=activityIndicatorRect;
-        [cell.activityIndicatorView startAnimating];
-    }
-    else{
-        cell.activityIndicatorView.frame=CGRectZero;
-        [cell.activityIndicatorView stopAnimating];
-    }
     
     //    //    UIEdgeInsetsMake(<#CGFloat top#>, <#CGFloat left#>, <#CGFloat bottom#>, <#CGFloat right#>)
 
@@ -2115,11 +2032,33 @@
         CGRect pictureFrame=cell.pictureImageView.frame;
         
 //        pictureFrame.origin.x=cell.bubbleImageView.frame.origin.x+16;
-        pictureFrame.origin.y=cell.bubbleImageView.frame.origin.y+6;
-        pictureFrame.origin.x=60;
-        pictureFrame.size.width=200;
-        pictureFrame.size.height=200;
+        NSNumber *pictureWidthNum=[messageDict valueForKey:@"image_width"];
+        NSNumber *pictureHeightNum=[messageDict valueForKey:@"image_height"];
+        
+        
+        int pictureWidth=0;
+        int pictureHeight=0;
+        
+        pictureWidth=pictureWidthNum.intValue;
+        pictureHeight=pictureHeightNum.intValue;
+
+        pictureWidth=(pictureWidth>0)?pictureWidth:200;
+        pictureHeight=(pictureHeight>0)?pictureHeight:200;
+        
+        pictureFrame.origin.y=isFromUser?10:22;
+       // pictureFrame.origin.y=cell.bubbleImageView.frame.origin.y+6;
+        pictureFrame.origin.x=([[UIScreen mainScreen]bounds].size.width-pictureWidth)/2;;
+        pictureFrame.size.width=pictureWidth;
+        pictureFrame.size.height=pictureHeight;
         cell.pictureImageView.frame=pictureFrame;
+        
+        CGRect activityIndicatorRect=cell.activityIndicatorView.frame;
+        activityIndicatorRect.origin.x=cell.pictureImageView.frame.origin.x+((cell.pictureImageView.frame.size.width/2)-10);
+        activityIndicatorRect.origin.y=cell.pictureImageView.frame.origin.y+((cell.pictureImageView.frame.size.height/2)-10);
+        cell.activityIndicatorView.frame=activityIndicatorRect;
+        [cell.activityIndicatorView startAnimating];
+        
+        
          cell.bubbleImageView.image=nil;
         cell.pictureImageView.image=nil;
         UIImage *localImage;
@@ -2196,7 +2135,9 @@
 //        messageLabelFrame.size.height=textHeight+3;//isFromUser?labelSize.height:labelSize.height;
 //        cell.messageLabel.frame=messageLabelFrame;
         
-        
+        cell.activityIndicatorView.frame=CGRectZero;
+        [cell.activityIndicatorView stopAnimating];
+
         
         CGRect messageLabelFrame=cell.messageLabel.frame;
         
@@ -2231,6 +2172,10 @@
         
         
     }
+    
+    
+
+
     
     if (newtext.length<3 && newtext.length>0 && !isImage) {
         
@@ -2920,6 +2865,36 @@ didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result{
 }
 
 
+
+-(CGSize) getCompressImageSize:(UIImage *)image withMaxSize:(float)maxSize{
+    
+    //CGFloat maxSize = 350;
+    CGFloat width = image.size.width;
+    CGFloat height = image.size.height;
+    CGFloat newWidth = width;
+    CGFloat newHeight = height;
+    if (width > maxSize || height > maxSize) {
+        if (width > height) {
+            newWidth = maxSize;
+            newHeight = (height*maxSize)/width;
+        } else {
+            newHeight = maxSize;
+            newWidth = (width*maxSize)/height;
+        }
+    }
+    
+    
+    CGSize newSize=CGSizeMake(newWidth, newHeight);
+    return newSize;
+    
+//    UIGraphicsBeginImageContext(newSize);
+//    [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
+//    UIImage *compressedImage= UIGraphicsGetImageFromCurrentImageContext();
+//    UIGraphicsEndImageContext();
+//    return compressedImage;
+}
+
+
 #pragma mark Disappear Methods
 
 -(void)uploadImageOnAmazon:(UIImage *)image
@@ -2938,6 +2913,9 @@ didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result{
             if (url) {
                 
                 //  [self sendImageonPubNub:image andImageURL:url];
+                
+                
+                
                 [self sendImageOnHashyAPI:image andImageURL:url];
                 
             }
@@ -3358,7 +3336,7 @@ didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result{
                 NSArray *array=[messageDetails componentsSeparatedByString:@":::"];
                 
                 
-                if (array.count==5) {
+                if (array.count==7) {
                     
                     
                     NSString *messageString=[array objectAtIndex:0];
@@ -3366,8 +3344,18 @@ didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result{
                     NSString *user_id_str=[array objectAtIndex:2];
                     NSString *messageDate=[array objectAtIndex:3];
                     NSString *messageType=[array objectAtIndex:4];
-                    NSString *channelName=new_message.channel.name;
+                    NSString *imageWidth=[array objectAtIndex:5];
+                    NSString *imageHeight=[array objectAtIndex:6];
+                    int image_width_int=imageWidth.intValue;
+                    int image_height_int=imageHeight.intValue;
                     
+                    long image_width_long=image_width_int;
+                    long image_height_long=image_height_int;
+
+                    NSNumber *widthNum=[NSNumber numberWithLong:image_width_long];
+                    NSNumber *heightNum=[NSNumber numberWithLong:image_height_long];
+                    
+                    NSString *channelName=new_message.channel.name;
                     
                     NSMutableDictionary *messageDict=[[NSMutableDictionary alloc]init];
                     [messageDict setValue:messageString forKey:@"body"];
@@ -3375,6 +3363,9 @@ didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result{
                     [messageDict setValue:user_id_str forKey:@"user_id"];
                     [messageDict setValue:messageDate forKey:@"message_timestamp"];
                     [messageDict setValue:messageType forKey:@"message_type"];
+                    [messageDict setValue:widthNum forKey:@"image_width"];
+                    [messageDict setValue:heightNum forKey:@"image_height"];
+
                     if (channelName) {
                         [messageDict setValue:channelName forKey:@"channel_name"];
 
