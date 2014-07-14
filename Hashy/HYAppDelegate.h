@@ -17,9 +17,9 @@
 #import "HYProfileViewController.h"
 #import "REFrostedViewController.h"
 #import "NSData+Conversion.h"
-#import "UAirship.h"
-#import "UAConfig.h"
-#import "UAPush.h"
+//#import "UAirship.h"
+//#import "UAConfig.h"
+//#import "UAPush.h"
 
 @interface HYAppDelegate : UIResponder <UIApplicationDelegate,MBProgressHUDDelegate,PNDelegate,REFrostedViewControllerDelegate>
 #import "REFrostedViewController.h"

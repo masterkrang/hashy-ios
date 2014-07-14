@@ -250,7 +250,6 @@
 		2697C223195ACA9F0020EC7D /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		2697C225195ACAAA0020EC7D /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		2697C227195ACAAF0020EC7D /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		2697C229195ACBAC0020EC7D /* libUAirship-iOS5-4.0.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libUAirship-iOS5-4.0.0.a"; path = "Hashy/libUAirship-iOS5-4.0.0.a"; sourceTree = "<group>"; };
 		2697C306195AD0930020EC7D /* AirshipConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AirshipConfig.plist; sourceTree = "<group>"; };
 		269E2D9A194B5584004C0C0C /* ChatCustomPageTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatCustomPageTableView.h; sourceTree = "<group>"; };
 		269E2D9B194B5584004C0C0C /* ChatCustomPageTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatCustomPageTableView.m; sourceTree = "<group>"; };
@@ -631,7 +630,6 @@
 		A380DF791934695100759039 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				2697C229195ACBAC0020EC7D /* libUAirship-iOS5-4.0.0.a */,
 				2697C227195ACAAF0020EC7D /* CoreLocation.framework */,
 				2697C225195ACAAA0020EC7D /* CoreTelephony.framework */,
 				2697C223195ACA9F0020EC7D /* libsqlite3.dylib */,
