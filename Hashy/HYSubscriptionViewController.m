@@ -347,12 +347,13 @@
                 
                 if (chat_id_string && ![chat_id_string isEqual:[NSNull null]] && chat_id_string.length>0) {
                     
-                    [kAppDelegate showProgressHUD:self.view];
-                    
+                   // [kAppDelegate showProgressHUD:self.view];
+                    [kAppDelegate showProgressAnimatedView];
                     [[NetworkEngine sharedNetworkEngine]deleteSubscription:^(id object) {
                         
                         NSLog(@"Deleted");
-                        [kAppDelegate hideProgressHUD];
+                     //   [kAppDelegate hideProgressHUD];
+                        [kAppDelegate hideProgressAnimatedView];
                         if (subscriptionsArray.count) {
                             
                             
@@ -380,8 +381,8 @@
                     } onError:^(NSError *error) {
                         
                     NSLog(@"error");
-                    [kAppDelegate hideProgressHUD];
-                        
+                  //  [kAppDelegate hideProgressHUD];
+                      [kAppDelegate hideProgressAnimatedView];  
                     } forChatID:chat_id_string];
                     
                     

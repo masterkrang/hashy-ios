@@ -8,6 +8,7 @@
 #import "Utility.h"
 #import <MediaPlayer/MediaPlayer.h>
 #import <AVFoundation/AVFoundation.h>
+#import "UIImage+animatedGIF.h"
 @implementation Utility
 
 
@@ -257,6 +258,7 @@ else formatted_number = [NSString stringWithFormat:@"%dK", (number/1000)];
 //}
 
 
+
 +(CGFloat)heightOfTextForString:(NSString *)aString andFont:(UIFont *)aFont maxSize:(CGSize)aSize
 {
     // iOS7
@@ -279,7 +281,6 @@ else formatted_number = [NSString stringWithFormat:@"%dK", (number/1000)];
 
 
 }
-
 
 
 +(CGSize)heightOfTextString:(NSString *)aString andFont:(UIFont *)aFont maxSize:(CGSize)aSize

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		20470F631973F00300B80E9D /* hashy_loader_image.gif in Resources */ = {isa = PBXBuildFile; fileRef = 20470F621973F00300B80E9D /* hashy_loader_image.gif */; };
+		20470F671973F6F600B80E9D /* UIImage+animatedGIF.m in Sources */ = {isa = PBXBuildFile; fileRef = 20470F661973F6F600B80E9D /* UIImage+animatedGIF.m */; };
+		20470F6A1973FE6800B80E9D /* UIView+Animation.m in Sources */ = {isa = PBXBuildFile; fileRef = 20470F691973FE6800B80E9D /* UIView+Animation.m */; };
 		2607A1E019346F8C000FBBDF /* CustomNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2607A1D419346F8C000FBBDF /* CustomNavigationController.m */; };
 		2607A1E219346F8C000FBBDF /* NSAttributedString+Attributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 2607A1D919346F8C000FBBDF /* NSAttributedString+Attributes.m */; };
 		2607A1E319346F8C000FBBDF /* OHParagraphStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2607A1DB19346F8C000FBBDF /* OHParagraphStyle.m */; };
@@ -61,6 +64,7 @@
 		2686ECB919581A5300DD624E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2686ECB619581A5300DD624E /* Default-568h@2x.png */; };
 		2686ECBF195848B400DD624E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2686ECBD195848B400DD624E /* Main.storyboard */; };
 		2686ECC21958494200DD624E /* HYDisplayImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2686ECC11958494200DD624E /* HYDisplayImageViewController.m */; };
+		268B486F1974680700BBC7EA /* HYTermsAndConditionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 268B486E1974680700BBC7EA /* HYTermsAndConditionsViewController.m */; };
 		269347C31936FF150048CCA2 /* HYSignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 269347C21936FF150048CCA2 /* HYSignInViewController.m */; };
 		269347C61937067B0048CCA2 /* Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 269347C51937067B0048CCA2 /* Utility.m */; };
 		269347E519374CFF0048CCA2 /* GKCropBorderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 269347CA19374CFF0048CCA2 /* GKCropBorderView.m */; };
@@ -145,6 +149,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		20470F621973F00300B80E9D /* hashy_loader_image.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = hashy_loader_image.gif; sourceTree = "<group>"; };
+		20470F651973F6F600B80E9D /* UIImage+animatedGIF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+animatedGIF.h"; sourceTree = "<group>"; };
+		20470F661973F6F600B80E9D /* UIImage+animatedGIF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+animatedGIF.m"; sourceTree = "<group>"; };
+		20470F681973FE6800B80E9D /* UIView+Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Animation.h"; sourceTree = "<group>"; };
+		20470F691973FE6800B80E9D /* UIView+Animation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Animation.m"; sourceTree = "<group>"; };
 		2607A1D319346F8C000FBBDF /* CustomNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomNavigationController.h; sourceTree = "<group>"; };
 		2607A1D419346F8C000FBBDF /* CustomNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomNavigationController.m; sourceTree = "<group>"; };
 		2607A1D819346F8C000FBBDF /* NSAttributedString+Attributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+Attributes.h"; sourceTree = "<group>"; };
@@ -213,6 +222,8 @@
 		2686ECBE195848B400DD624E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2686ECC01958494200DD624E /* HYDisplayImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDisplayImageViewController.h; sourceTree = "<group>"; };
 		2686ECC11958494200DD624E /* HYDisplayImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYDisplayImageViewController.m; sourceTree = "<group>"; };
+		268B486D1974680700BBC7EA /* HYTermsAndConditionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYTermsAndConditionsViewController.h; sourceTree = "<group>"; };
+		268B486E1974680700BBC7EA /* HYTermsAndConditionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYTermsAndConditionsViewController.m; sourceTree = "<group>"; };
 		269347C11936FF150048CCA2 /* HYSignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYSignInViewController.h; sourceTree = "<group>"; };
 		269347C21936FF150048CCA2 /* HYSignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYSignInViewController.m; sourceTree = "<group>"; };
 		269347C41937067B0048CCA2 /* Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utility.h; sourceTree = "<group>"; };
@@ -250,7 +261,6 @@
 		2697C223195ACA9F0020EC7D /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		2697C225195ACAAA0020EC7D /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		2697C227195ACAAF0020EC7D /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		2697C229195ACBAC0020EC7D /* libUAirship-iOS5-4.0.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libUAirship-iOS5-4.0.0.a"; path = "Hashy/libUAirship-iOS5-4.0.0.a"; sourceTree = "<group>"; };
 		2697C306195AD0930020EC7D /* AirshipConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AirshipConfig.plist; sourceTree = "<group>"; };
 		269E2D9A194B5584004C0C0C /* ChatCustomPageTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatCustomPageTableView.h; sourceTree = "<group>"; };
 		269E2D9B194B5584004C0C0C /* ChatCustomPageTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatCustomPageTableView.m; sourceTree = "<group>"; };
@@ -360,6 +370,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		20470F611973F00300B80E9D /* Hashy Loader Image */ = {
+			isa = PBXGroup;
+			children = (
+				20470F621973F00300B80E9D /* hashy_loader_image.gif */,
+			);
+			path = "Hashy Loader Image";
+			sourceTree = "<group>";
+		};
+		20470F641973F6DF00B80E9D /* Animator Image */ = {
+			isa = PBXGroup;
+			children = (
+				20470F651973F6F600B80E9D /* UIImage+animatedGIF.h */,
+				20470F661973F6F600B80E9D /* UIImage+animatedGIF.m */,
+			);
+			name = "Animator Image";
+			sourceTree = "<group>";
+		};
 		2607A1D719346F8C000FBBDF /* TTTAttributedLabel */ = {
 			isa = PBXGroup;
 			children = (
@@ -575,6 +602,7 @@
 		26ACF02C1934CB9F00C4BE9E /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				20470F611973F00300B80E9D /* Hashy Loader Image */,
 				2686ECB319581A5300DD624E /* Launch Images */,
 				266544EF1954688D000CA345 /* Side bar Screen */,
 				261BF5A819477EB800426AF2 /* Subscribers Screen */,
@@ -631,7 +659,6 @@
 		A380DF791934695100759039 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				2697C229195ACBAC0020EC7D /* libUAirship-iOS5-4.0.0.a */,
 				2697C227195ACAAF0020EC7D /* CoreLocation.framework */,
 				2697C225195ACAAA0020EC7D /* CoreTelephony.framework */,
 				2697C223195ACA9F0020EC7D /* libsqlite3.dylib */,
@@ -656,6 +683,7 @@
 		A380DF801934695100759039 /* Hashy */ = {
 			isa = PBXGroup;
 			children = (
+				20470F641973F6DF00B80E9D /* Animator Image */,
 				26597BC21948BBFD00918762 /* EGOTableViewPullRefresh */,
 				BB0E6D9319470E7300E5185F /* Side Menu */,
 				269347C719374CFF0048CCA2 /* Custom Image Picker */,
@@ -685,6 +713,8 @@
 				26674ED019384D1E00A032B3 /* HYSubscribersListViewController.m */,
 				2694CB25193F387000283DFA /* HYChatRoomDetailsViewController.h */,
 				2694CB26193F387000283DFA /* HYChatRoomDetailsViewController.m */,
+				268B486D1974680700BBC7EA /* HYTermsAndConditionsViewController.h */,
+				268B486E1974680700BBC7EA /* HYTermsAndConditionsViewController.m */,
 				2686ECC01958494200DD624E /* HYDisplayImageViewController.h */,
 				2686ECC11958494200DD624E /* HYDisplayImageViewController.m */,
 				26B362291954562300C8B69C /* HYSubscriptionViewController.h */,
@@ -695,6 +725,8 @@
 				2634805219580B8E00824043 /* NSData+Conversion.m */,
 				2669DB631949F246003D4AD4 /* DAKeyboardControl.h */,
 				2669DB641949F247003D4AD4 /* DAKeyboardControl.m */,
+				20470F681973FE6800B80E9D /* UIView+Animation.h */,
+				20470F691973FE6800B80E9D /* UIView+Animation.m */,
 				A380DF921934695100759039 /* Images.xcassets */,
 				A380DF811934695100759039 /* Supporting Files */,
 			);
@@ -888,6 +920,7 @@
 				2615F190193600D70079687C /* profile_forward_icon@2x.png in Resources */,
 				2694CB3F193F3E7F00283DFA /* chat_room_user_bottom_right@2x.png in Resources */,
 				2694CB3D193F3E7F00283DFA /* chat_room_text_conatiner@2x.png in Resources */,
+				20470F631973F00300B80E9D /* hashy_loader_image.gif in Resources */,
 				2686ECB719581A5300DD624E /* Default.png in Resources */,
 				26597BD41948BBFD00918762 /* blueArrow@2x.png in Resources */,
 				2615F19F1936173F0079687C /* listChat_hashtag_icon@2x.png in Resources */,
@@ -973,6 +1006,7 @@
 				2669DB651949F247003D4AD4 /* DAKeyboardControl.m in Sources */,
 				A380DF871934695100759039 /* main.m in Sources */,
 				26ACF014193488F300C4BE9E /* HYSignUpViewController.m in Sources */,
+				268B486F1974680700BBC7EA /* HYTermsAndConditionsViewController.m in Sources */,
 				269347E519374CFF0048CCA2 /* GKCropBorderView.m in Sources */,
 				2615F19419360C880079687C /* HYListChatViewController.m in Sources */,
 				BB0E6DB319470F5D00E5185F /* DEMOSecondViewController.m in Sources */,
@@ -1001,11 +1035,13 @@
 				BB0E6DB119470F5D00E5185F /* DEMOMenuViewController.m in Sources */,
 				26ACF0211934BE3F00C4BE9E /* UpdateDataProcessor.m in Sources */,
 				2615F19719360C9E0079687C /* HYCreateChatViewController.m in Sources */,
+				20470F671973F6F600B80E9D /* UIImage+animatedGIF.m in Sources */,
 				26ACF0201934BE3F00C4BE9E /* NetworkEngine.m in Sources */,
 				2607A1E219346F8C000FBBDF /* NSAttributedString+Attributes.m in Sources */,
 				269347C31936FF150048CCA2 /* HYSignInViewController.m in Sources */,
 				BB0E6DA719470F5500E5185F /* UIViewController+REFrostedViewController.m in Sources */,
 				BB0E6DA519470F5500E5185F /* UIImage+REFrostedViewController.m in Sources */,
+				20470F6A1973FE6800B80E9D /* UIView+Animation.m in Sources */,
 				2607A1E319346F8C000FBBDF /* OHParagraphStyle.m in Sources */,
 				2634805319580B8E00824043 /* NSData+Conversion.m in Sources */,
 				BB0E6DA219470F5500E5185F /* RECommonFunctions.m in Sources */,
@@ -1134,7 +1170,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 60E69364A15E4105A48EFB66 /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: kurtis Braget (PD95BY7HF9)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: kurtis Braget (X783V48JKA)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/Hashy",
@@ -1149,7 +1185,7 @@
 					"/Users/attmac107/Documents/projects/Hashy/Hashy\\ Itesh\\ UI\\ Branch/hashy-ios/Hashy/Airship",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "CA8436DF-AE78-45E2-B369-16EC4215A9EE";
+				PROVISIONING_PROFILE = "C68528C6-684D-4FBC-898A-1D693946CB15";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1158,7 +1194,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 60E69364A15E4105A48EFB66 /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: kurtis Braget (PD95BY7HF9)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: kurtis Braget (X783V48JKA)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/Hashy",
@@ -1173,7 +1209,7 @@
 					"/Users/attmac107/Documents/projects/Hashy/Hashy\\ Itesh\\ UI\\ Branch/hashy-ios/Hashy/Airship",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "CA8436DF-AE78-45E2-B369-16EC4215A9EE";
+				PROVISIONING_PROFILE = "C68528C6-684D-4FBC-898A-1D693946CB15";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

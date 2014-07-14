@@ -51,6 +51,6 @@ typedef void (^upload_completeBlock)(NSString *url);
 -(void)sendMessage:(completion_block)completionBlock onError:(error_block)errorBlock forChatID:(NSString *)chat_id withParams:(NSMutableDictionary *)params;
 -(void)deleteSubscription:(completion_block)completionBlock onError:(error_block)errorBlock forChatID:(NSString *)chat_id;
 -(void)registerForPushNotifications:(completion_block)completionBlock onError:(error_block)errorBlock for_device_token:(NSString *)device_token;
-
+-(void)setFlagForMessage:(completion_block)completionBlock onError:(error_block)errorBlock dict:(NSDictionary *)dict;
 
 @end

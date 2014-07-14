@@ -7,7 +7,7 @@
 //
 
 #import "ChatCustomCell.h"
-
+#define kLongPressMinimumDuration 1.0f
 @implementation ChatCustomCell
 @synthesize userNameLabel;
 @synthesize messageLabel;
@@ -17,8 +17,16 @@
 //@synthesize bottomRightImageView;
 @synthesize bubbleImageView;
 @synthesize pictureImageView;
-@synthesize activityIndicatorView;
-
+@synthesize activityIndicatorView,delegate;
+-(void)awakeFromNib
+{
+   UILongPressGestureRecognizer *longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPress:)];
+     longPressGestureRecognizer.delegate = self;
+    //longPressGestureRecognizer.minimumPressDuration = kLongPressMinimumDuration;
+    [self.messageLabel addGestureRecognizer:longPressGestureRecognizer];
+    
+    [self.pictureImageView addGestureRecognizer:longPressGestureRecognizer];
+}
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -35,5 +43,30 @@
 
     // Configure the view for the selected state
 }
-
+//-(void)longPress:(UILongPressGestureRecognizer*)gesture
+//{
+//    NSLog(@"Log press gesture call");
+//}
+- (void)longPress:(UILongPressGestureRecognizer*)gesture {
+    // BOOL isLongPressOpen;
+    if (gesture.state==UIGestureRecognizerStateBegan) {
+      
+        if([self.delegate respondsToSelector:@selector(startLongPressGestureCallForCell:)])
+            [self.delegate startLongPressGestureCallForCell:self];
+    }
+    
+    
+    
+//    if ( gesture.state == UIGestureRecognizerStateEnded ) {
+//        
+//        
+//        if([self.delegate respondsToSelector:@selector(startLongPressGestureCallForCell:)])
+//            [self.delegate startLongPressGestureCallForCell:self];
+//        
+//        
+//        //Do something on long press....for example ill code for UIAlertView.
+////        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Demo" message:@"Long Press Countered" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+////        [alert show];
+//    }
+}
 @end

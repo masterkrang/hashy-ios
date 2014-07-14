@@ -18,7 +18,7 @@
 #import "HYDisplayImageViewController.h"
 #import "REFrostedViewController.h"
 
-@interface HYChatRoomDetailsViewController : UIViewController<UITableViewDataSource,PagingDelegate,UITextFieldDelegate,UIActionSheetDelegate,GKImagePickerDelegate,TTTAttributedLabelDelegate,UIGestureRecognizerDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,REFrostedViewControllerDelegate>{
+@interface HYChatRoomDetailsViewController : UIViewController<UITableViewDataSource,PagingDelegate,UITextFieldDelegate,UIActionSheetDelegate,GKImagePickerDelegate,TTTAttributedLabelDelegate,UIGestureRecognizerDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,REFrostedViewControllerDelegate,ChatCustomCellDelegate,UIAlertViewDelegate>{
     
     BOOL isLoading;
     UIButton *backButton;
@@ -37,7 +37,11 @@
     BOOL isNotUploadingImage;
     
     UIImageView *greenDotImagaView;
-    
+    UILongPressGestureRecognizer *longPressGestureRecognizer;
+    BOOL isLongpress;
+    NSDictionary *flagDict;
+
+   // NSString *channelId;
     
     
 //    UISwipeGestureRecognizer *panGestureRecognizer;

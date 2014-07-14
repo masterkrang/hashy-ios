@@ -22,7 +22,7 @@
 @synthesize signUpLabel;
 @synthesize signInButton;
 @synthesize httpManager;
-
+@synthesize termsAcceptingLabel;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -84,6 +84,11 @@
     self.signUpLabel.textColor=[Utility colorWithHexString:@"000000"];
     //self.signUpLabel.textColor=[Utility colorWithHexString:@"74a6fd"];
 
+    if (!IS_IPHONE_5) {
+        self.signUpLabel.font=[UIFont fontWithName:kHelVeticaNeueUltralight size:28.5];
+
+    }
+    else
     self.signUpLabel.font=[UIFont fontWithName:kHelVeticaNeueUltralight size:38];
 
     
@@ -91,6 +96,9 @@
     self.passwordtextField.textColor=[Utility colorWithHexString:@"000000"];
     self.userNameTextField.textColor=[Utility colorWithHexString:@"000000"];
 
+  
+    
+    
 //    self.userNameTextField.font=[UIFont fontWithName:kHelVeticaLight size:16.5];
 //    self.emailTextField.font=[UIFont fontWithName:kHelVeticaLight size:16.5];
 //    self.passwordtextField.font=[UIFont fontWithName:kHelVeticaLight size:16.5];
@@ -99,47 +107,78 @@
     self.emailTextField.font=[UIFont fontWithName:kHelVeticaLight size:17.5];
     self.passwordtextField.font=[UIFont fontWithName:kHelVeticaLight size:17.5];
 
-    [self.signInButton setTitleColor:[Utility colorWithHexString:@"96b8ff"] forState:UIControlStateNormal];
-    [self.signInButton.titleLabel setFont:[UIFont fontWithName:kHelVeticaNeueLight size:15.5]];
+//    [self.signInButton setTitleColor:[Utility colorWithHexString:@"96b8ff"] forState:UIControlStateNormal];
+//    [self.signInButton.titleLabel setFont:[UIFont fontWithName:kHelVeticaNeueLight size:!IS_IPHONE_5?14: 15.5]];
+//    
+//    self.alreadySignedUpAttributedLabel.textColor=[Utility colorWithHexString:@"6c6c6c"];
+//    self.alreadySignedUpAttributedLabel.font=[UIFont fontWithName:kHelVeticaNeueLight size:!IS_IPHONE_5?14:15.5];
+//    
+//    
+//    self.termsAcceptingLabel.textColor=[Utility colorWithHexString:@"5a5a5a"];
+//    self.termsAcceptingLabel.font=[UIFont fontWithName:kHelVeticaNeueRegular size:11];
+//    
+//    [self.termsAndConditionsButton.titleLabel setFont:[UIFont fontWithName:kHelVeticaNeueRegular size:11]];
+//    [self.termsAndConditionsButton setTitleColor:[Utility colorWithHexString:@"62a8ff"] forState:UIControlStateNormal];
+
     
-    self.alreadySignedUpAttributedLabel.textColor=[Utility colorWithHexString:@"6c6c6c"];
-    self.alreadySignedUpAttributedLabel.font=[UIFont fontWithName:kHelVeticaNeueLight size:15.5];
+    [self.signInButton setTitleColor:[Utility colorWithHexString:@"62a8ff"] forState:UIControlStateNormal];
+    [self.signInButton.titleLabel setFont:[UIFont fontWithName:kHelVeticaNeueLight size:!IS_IPHONE_5?14: 15.5]];
+    
+    self.alreadySignedUpAttributedLabel.textColor=[Utility colorWithHexString:@"313131"];
+    self.alreadySignedUpAttributedLabel.font=[UIFont fontWithName:kHelVeticaNeueLight size:!IS_IPHONE_5?14:15.5];
     
     
+    self.termsAcceptingLabel.textColor=[Utility colorWithHexString:@"313131"];
+    self.termsAcceptingLabel.font=[UIFont fontWithName:kHelVeticaNeueRegular size:11];
+    
+    [self.termsAndConditionsButton.titleLabel setFont:[UIFont fontWithName:kHelVeticaNeueRegular size:11]];
+    [self.termsAndConditionsButton setTitleColor:[Utility colorWithHexString:@"62a8ff"] forState:UIControlStateNormal];
     
     if (!IS_IPHONE_5) {
         
         CGRect signUpFrame=self.signUpLabel.frame;
-        signUpFrame.origin.y-=40;
+        signUpFrame.origin.y-=33;
         self.signUpLabel.frame=signUpFrame;
         
         
         
         CGRect userNameFrame=self.userNameTextField.frame;
-        userNameFrame.origin.y-=49;
+        userNameFrame.origin.y-=41;
         self.userNameTextField.frame=userNameFrame;
         
         
         CGRect emailFrame=self.emailTextField.frame;
-        emailFrame.origin.y-=56;
+        emailFrame.origin.y-=48;
         self.emailTextField.frame=emailFrame;
         
         
         CGRect passwordFrame=self.passwordtextField.frame;
-        passwordFrame.origin.y-=63;
+        passwordFrame.origin.y-=55;
         self.passwordtextField.frame=passwordFrame;
         
         CGRect alreadySignUpFrame=self.alreadySignedUpAttributedLabel.frame;
-        alreadySignUpFrame.origin.y-=58;
+        alreadySignUpFrame.origin.y-=74;
+        alreadySignUpFrame.origin.x+=10;
         self.alreadySignedUpAttributedLabel.frame=alreadySignUpFrame;
         
         
         CGRect signInFrame=self.signInButton.frame;
-        signInFrame.origin.y-=58;
+        signInFrame.origin.y-=74;
+        signInFrame.origin.x-=5;
         self.signInButton.frame=signInFrame;
         
-     
+        CGRect termsConditionLabel=self.termsAcceptingLabel.frame;
+        termsConditionLabel.origin.y-=80;
+        self.termsAcceptingLabel.frame=termsConditionLabel;
         
+        
+        CGRect termsConditionButton=self.termsAndConditionsButton.frame;
+        termsConditionButton.origin.y-=80;
+        self.termsAndConditionsButton.frame=termsConditionButton;
+        
+//        CGRect termsConditionLabelFrame=self.termsConditionsLabel.frame;
+//        signInFrame.origin.y-=58;
+//        self.termsConditionsLabel.frame=termsConditionLabelFrame;
     
 
         
@@ -395,7 +434,8 @@
     [emailTextField resignFirstResponder];
     [passwordtextField resignFirstResponder];
     [userNameTextField resignFirstResponder];
-    [kAppDelegate showProgressHUD:self.view];
+    [kAppDelegate showProgressAnimatedView];
+    //[kAppDelegate showProgressHUD:self.view];
     
     [self registerUserOnServer];
 }
@@ -429,6 +469,18 @@
     
 }
 
+-(IBAction)termsAndConditionsButtonPressed:(UIButton *)sender{
+    
+    //terms_vc
+    
+    HYTermsAndConditionsViewController *termsVC = [kStoryBoard instantiateViewControllerWithIdentifier:@"terms_vc"];
+    termsVC.url_string=kTermsAndConditionsURLSTring;
+    
+    [self.navigationController pushViewController:termsVC animated:YES];
+    
+
+}
+
 
 -(void)showAlertViewWithMessaage:(NSString *)message{
     
@@ -455,8 +507,8 @@
     [[NetworkEngine sharedNetworkEngine]createNewUser:^(id object) {
         
         //NSLog(@"%@",object);
-        [kAppDelegate hideProgressHUD];
-
+     //   [kAppDelegate hideProgressHUD];
+[kAppDelegate hideProgressAnimatedView];
         id dataDict=[[object valueForKey:@"user"] mutableCopy];
         
         if (dataDict &&  ![dataDict isEqual:[NSNull null]]) {
@@ -481,7 +533,8 @@
     } onError:^(NSError *error) {
         
         NSLog(@"%@",error);
-        [kAppDelegate hideProgressHUD];
+        [kAppDelegate hideProgressAnimatedView];
+       // [kAppDelegate hideProgressHUD];
         [Utility showAlertWithString:@"Error while registering the user."];
 
     } withParams:userDict];

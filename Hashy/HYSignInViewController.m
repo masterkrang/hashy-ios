@@ -167,8 +167,8 @@
         
       //  NSLog(@"%@",object);
         doneButton.enabled=YES;
-        [kAppDelegate hideProgressHUD];
-        
+       // [kAppDelegate hideProgressHUD];
+        [kAppDelegate hideProgressAnimatedView];
         if ([object valueForKey:@"session"] && ![[object valueForKey:@"session"]isEqual:[NSNull null]]) {
            
             NSMutableDictionary *dict=[[object valueForKey:@"session"] mutableCopy];
@@ -209,8 +209,8 @@
         
     } onError:^(NSError *error) {
         doneButton.enabled=YES;
-        [kAppDelegate hideProgressHUD];
-
+      //  [kAppDelegate hideProgressHUD];
+[kAppDelegate hideProgressAnimatedView];
         NSLog(@"%@",error);
         [Utility showAlertWithString:@"Invalid username or password."];
         
@@ -306,8 +306,8 @@
     
     [emailTextField resignFirstResponder];
     [passwordTextField resignFirstResponder];
-    [kAppDelegate showProgressHUD:self.view];
-    
+    //[kAppDelegate showProgressHUD:self.view];
+    [kAppDelegate showProgressAnimatedView];
     [self checkLoginCredentials];
 }
 

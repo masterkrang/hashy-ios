@@ -19,8 +19,7 @@
     int selectedPageNumber;
     UIButton *subscriberButtonCount;
     UIActivityIndicatorView *activityIndicatorView;
-
-}
+    }
 
 @property(nonatomic,strong) IBOutlet PageTableView *subscribersTableView;
 @property(nonatomic,strong)  NSMutableArray *subscribersListArray;

@@ -11,6 +11,7 @@
 #import "HYSignInViewController.h"
 #import <AFNetworking/AFNetworking.h>
 #import "UpdateDataProcessor.h"
+#import "HYTermsAndConditionsViewController.h"
 
 @interface HYSignUpViewController : UIViewController<UITextFieldDelegate,TTTAttributedLabelDelegate>{
     
@@ -27,11 +28,16 @@
 @property(strong,nonatomic)IBOutlet UITextField *emailTextField;
 @property(strong,nonatomic)IBOutlet TTTAttributedLabel *alreadySignedUpAttributedLabel;
 @property(strong,nonatomic)IBOutlet UIButton *signInButton;
+@property(strong,nonatomic)IBOutlet UILabel *termsAcceptingLabel;
+@property(strong,nonatomic)IBOutlet UIButton *termsAndConditionsButton;
+
+
 @property(nonatomic,strong) AFHTTPRequestOperationManager *httpManager;
 
 
 -(IBAction)doneButtonPressed:(UIButton *)sender;
 -(IBAction)signInButtonPressed:(UIButton *)sender;
+-(IBAction)termsAndConditionsButtonPressed:(UIButton *)sender;
 
 
 @end

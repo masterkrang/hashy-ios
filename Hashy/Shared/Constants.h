@@ -44,7 +44,8 @@
 #define kPubNubPublishKey   @"pub-c-ebfa91f9-274b-4e4a-bb41-6c9c5dca8876"
 #define kPubNubSecretKey   @"sec-c-NmU0NWY3M2EtMTEzNC00NjM4LWFiMjgtYTczNzJhMTcwNzY5"
 #define kNewMessageReceived @"NewMessageReceivedNotification"
-
+#define kLoaderImage @"hashy_loader_image"
+#define kTermsAndConditionsURLSTring @"http://www.hashy.co/eula"
 
 #define kCharacterSetString @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
 #define kGreenDot @"list_screen_green_dot.png"

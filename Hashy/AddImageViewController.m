@@ -202,13 +202,16 @@
     
     NSMutableDictionary *userDict=[[NSMutableDictionary alloc]init];
     [userDict setValue:imageDict forKey:@"user"];
-    [kAppDelegate showProgressHUD:self.view];
+    
+    [kAppDelegate showProgressAnimatedView];
+    //[kAppDelegate showProgressHUD:self.view];
     
     [[NetworkEngine sharedNetworkEngine]putRequestForNewUser:^(id object) {
             doneButton.enabled=YES;
-        [kAppDelegate hideProgressHUD];
+      //  [kAppDelegate hideProgressHUD];
+        [kAppDelegate hideProgressAnimatedView];
         NSLog(@"%@",object);
-            [kAppDelegate hideProgressHUD];
+           // [kAppDelegate hideProgressHUD];
         
         if (object && ![object isEqual:[NSNull null]]) {
             
@@ -258,7 +261,8 @@
         
         
     } onError:^(NSError *error) {
-    [kAppDelegate hideProgressHUD];
+        [kAppDelegate hideProgressAnimatedView];
+   // [kAppDelegate hideProgressHUD];
         NSLog(@"%@",error);
             doneButton.enabled=YES;
         
@@ -275,8 +279,8 @@
         return;
     }
     
-    [kAppDelegate showProgressHUD:self.view];
-
+  //  [kAppDelegate showProgressHUD:self.view];
+[kAppDelegate showProgressAnimatedView];
     [[NetworkEngine sharedNetworkEngine]saveAmazoneURLImage:image completionBlock:^(NSString *url) {
         
         
@@ -288,7 +292,8 @@
         
         
     } onError:^(NSError *error) {
-            [kAppDelegate hideProgressHUD];
+        [kAppDelegate hideProgressAnimatedView];
+         //   [kAppDelegate hideProgressHUD];
         
         NSLog(@"%@",error);
         

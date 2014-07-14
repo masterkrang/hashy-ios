@@ -347,8 +347,85 @@ static NetworkEngine *sharedNetworkEngine=nil;
     }];
     
 }
+//-(void)setFlagForMessage:(completion_block)completionBlock onError:(error_block)errorBlock dict:(NSDictionary *)param{
+//    
+//    
+//    NSString *chatId=[NSString stringWithFormat:@"%@",[param valueForKey:@"channelId"]];
+// 
+//    NSString *messageId=[NSString stringWithFormat:@"%@",[param valueForKey:@"message_id"]];
+//
+//    
+//    NSString *urlString=[NSString stringWithFormat:@"%@/chats/%@/%@/%@%@",kServerHostName,chatId,@"messages",messageId,kGetChats];
+//    
+////    [self.httpManager.requestSerializer setValue:[NSString stringWithFormat:@"Token token=\"%@\"", [[UpdateDataProcessor sharedProcessor]currentUserInfo].user_authentication_token] forHTTPHeaderField:@"Authorization"];
+//    
+//    
+//    [self.httpManager POST:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//        //   NSLog(@"JSON: %@", responseObject);
+//        
+//        if([responseObject objectForKey:@"channel"] &&![[responseObject objectForKey:@"channel"]isEqual:[NSNull null]])
+//        {
+//            completionBlock(responseObject);
+//            
+//            //            NSHTTPURLResponse *response=operation.response;
+//            //
+//            //            if (response.statusCode == 200 ) {
+//            //
+//            //            }
+//            //            else{
+//            //                errorBlock(nil);
+//            //            }
+//            
+//            
+//        }
+//        else errorBlock(nil);
+//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//        //[Utility showAlertWithString:@"Network problem \n try again later"];
+//        //[theAppDelegate hideProgressHUD];
+//        errorBlock(error);
+//    }];
+//    
+//}
+-(void)setFlagForMessage:(completion_block)completionBlock onError:(error_block)errorBlock dict:(NSDictionary *)param{
+    
+    
+      
+    
+    NSString *urlString=[NSString stringWithFormat:@"%@/chats/%@/messages/%@/flag.json",kServerHostName,[param valueForKey:@"channelId"],[param valueForKey:@"message_id"]];
+    
+    [self.httpManager.requestSerializer setValue:[NSString stringWithFormat:@"Token token=\"%@\"", [[UpdateDataProcessor sharedProcessor]currentUserInfo].user_authentication_token] forHTTPHeaderField:@"Authorization"];
+    
+    //  /chats/chat_id/messages/messages_id
+    [self.httpManager PUT:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        //   NSLog(@"JSON: %@", responseObject);
 
+        completionBlock(responseObject);
 
+        
+//        if(responseObject &&![responseObject isEqual:[NSNull null]])
+//        {
+//            
+//            //            NSHTTPURLResponse *response=operation.response;
+//            //
+//            //            if (response.statusCode == 200 ) {
+//            //
+//            //            }
+//            //            else{
+//            //                errorBlock(nil);
+//            //            }
+//            
+//            
+//        }
+     //   else errorBlock(nil);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        //[Utility showAlertWithString:@"Network problem \n try again later"];
+        //[theAppDelegate hideProgressHUD];
+        errorBlock(error);
+    }];
+    
+    
+    
+}
 -(void)getChatLists:(completion_block)completionBlock onError:(error_block)errorBlock forPageNumber:(int) pageNumber forSearchedText:(NSString *)searchedText{
     NSString *pageNumberStr=[NSString stringWithFormat:@"%d",pageNumber];
 

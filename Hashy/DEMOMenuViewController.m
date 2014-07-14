@@ -157,6 +157,7 @@
             
             [[UpdateDataProcessor sharedProcessor]deleteAllObjects:@"UserInfo"];
             HYAppDelegate *appDelegate=kAppDelegate;
+            [appDelegate removeProgressAnimatedView];
             CustomNavigationController *navController =[kStoryBoard instantiateViewControllerWithIdentifier:@"custom_nav"];
             appDelegate.window.rootViewController=navController;
             HYSignInViewController *signInVC = [kStoryBoard instantiateViewControllerWithIdentifier:@"signIn_vc"];

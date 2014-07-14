@@ -113,11 +113,12 @@
 {
     [super viewDidLoad];
     self.title=@"#hashy";
+    [kAppDelegate showProgressAnimatedView];
     
     [self setPaddingView];
     [self setBarButtonItems];
     selectedPageNumber=1;
-    
+    self.listChatTableView.selectedPageNumber=1;
     
     [self.listChatTableView setupTablePaging];
     self.listChatTableView.pagingDelegate=self;
@@ -393,6 +394,7 @@
         
       //  NSLog(@"%@",object);
         NSLog(@"List Channels Data");
+        [kAppDelegate hideProgressAnimatedView];
 
         if (![object isEqual:[NSNull null]] && [object isKindOfClass:[NSArray class]]) {
          
@@ -426,7 +428,7 @@
         bottomView.hidden=YES;
         
         [activityIndicatorView stopAnimating];
-
+        [kAppDelegate hideProgressAnimatedView];
         NSLog(@"%@",error);
     } forPageNumber:pageNumber forSearchedText:nil];
     

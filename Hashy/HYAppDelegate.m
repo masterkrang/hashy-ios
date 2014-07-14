@@ -10,6 +10,7 @@
 #import "DEMOMenuViewController.h"
 #import "DEMOSecondViewController.h"
 #import "REFrostedViewController.h"
+#import "UIImage+animatedGIF.h"
 @implementation HYAppDelegate
 @synthesize managedObjectContext = __managedObjectContext;
 @synthesize managedObjectModel = __managedObjectModel;
@@ -77,7 +78,7 @@
 //    [navController setViewControllers:[NSArray arrayWithObject:signInVC] animated:YES];
     
     // add bugsnag bug tracking
- //   [Bugsnag startBugsnagWithApiKey:kBugSnagAPIKey];
+    [Bugsnag startBugsnagWithApiKey:kBugSnagAPIKey];
 
     
      
@@ -554,5 +555,55 @@
     }
 }
 
+-(void)showProgressAnimatedView
+{
+    if (!progressView) {
+        progressView=[[UIView alloc]init];
+        progressView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin
+        | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+        progressView.frame=CGRectMake(([[UIScreen mainScreen]bounds].size.width-100)/2, ([[UIScreen mainScreen]bounds].size.height-100)/2 , 100, 100);//232
+        progressView.backgroundColor=[UIColor clearColor];
+        
+        UIImageView *imageView=[[UIImageView alloc]initWithFrame:progressView.bounds];
+        imageView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin
+        | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+        
+        NSURL *url = [[NSBundle mainBundle] URLForResource:kLoaderImage withExtension:@"gif"];
+        imageView.image = [UIImage animatedImageWithAnimatedGIFData:[NSData dataWithContentsOfURL:url]];
+        
+        [progressView addSubview:imageView];
+        [self.window addSubview:progressView];
+
+    }
+    
+    [progressView showViewWithAnimation];
+    
+    
+    
+    
+    
+}
+-(void)hideProgressAnimatedView
+{
+    
+    //[progressView setHidden:YES];
+    [progressView hideViewWithAnimation];
+
+    
+//    if (progressView) {
+//        progressView=nil;
+//        [progressView removeFromSuperview];
+//    }
+    
+}
+
+
+-(void)removeProgressAnimatedView{
+    
+    
+    progressView=nil;
+    [progressView removeFromSuperview];
+    
+}
 
 @end

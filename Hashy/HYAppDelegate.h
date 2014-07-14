@@ -17,15 +17,16 @@
 #import "HYProfileViewController.h"
 #import "REFrostedViewController.h"
 #import "NSData+Conversion.h"
-#import "UAirship.h"
-#import "UAConfig.h"
-#import "UAPush.h"
+#import "UIView+Animation.h"
+//#import "UAirship.h"
+//#import "UAConfig.h"
+//#import "UAPush.h"
 
 @interface HYAppDelegate : UIResponder <UIApplicationDelegate,MBProgressHUDDelegate,PNDelegate,REFrostedViewControllerDelegate>
 #import "REFrostedViewController.h"
 {
     MBProgressHUD *HUD;
-
+    UIView *progressView;
 }
 @property (strong, nonatomic) UIWindow *window;
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
@@ -36,7 +37,9 @@
 
 
 + (NSString *)applicationDocumentsDirectory ;
-
+-(void)hideProgressAnimatedView;
+-(void)showProgressAnimatedView;
+-(void)removeProgressAnimatedView;
 
 -(void)showProgressHUDWithText:(NSString*)labelText inView:(UIView*)view;
 -(void)showProgressHUD ;

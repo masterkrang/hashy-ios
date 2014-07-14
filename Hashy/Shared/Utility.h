@@ -17,6 +17,9 @@
 
 
 @interface Utility : NSObject
+{
+   
+}
 
 
 + (UIColor *) colorWithHexString: (NSString *) hexString;

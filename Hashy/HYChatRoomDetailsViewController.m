@@ -17,7 +17,7 @@
 //#define kOtherBottomRight @"chat_room_other_bottom_right.png"
 #define kBlueBubbleImage @"chat_room_blue_bubble.png"
 #define kGreyBubbleImage @"chat_room_grey_bubble.png"
-
+#import "UIImage+animatedGIF.h"
 
 
 
@@ -483,6 +483,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+   // [kAppDelegate showProgressAnimatedView];
+    [kAppDelegate showProgressAnimatedView];
     [chatRoomTableView setupTablePaging];
     chatRoomTableView.selectedPageNumber=1;
     chatRoomTableView.pagingDelegate=self;
@@ -565,8 +567,8 @@
                 
             }
             [self reloadTableData];
-            [kAppDelegate hideProgressHUD];
-            
+        //    [kAppDelegate hideProgressHUD];
+            [kAppDelegate hideProgressAnimatedView];
             chatRoomTableView.pageLocked=NO;
             subscriberButtonCount.enabled=YES;
 
@@ -578,7 +580,8 @@
 
             //[self reloadTableData];
             subscriberButtonCount.enabled=YES;
-            [kAppDelegate hideProgressHUD];
+           // [kAppDelegate hideProgressHUD];
+             [kAppDelegate hideProgressAnimatedView];
             
         }
         
@@ -586,7 +589,8 @@
         
     } onError:^(NSError *error) {
         NSLog(@"%@",error);
-        [kAppDelegate hideProgressHUD];
+        //[kAppDelegate hideProgressHUD];
+         [kAppDelegate hideProgressAnimatedView];
         chatRoomTableView.pageLocked=NO;
         isResultsObtained=YES;
 
@@ -598,7 +602,7 @@
 -(void)getChatWithID:(NSString *)chat_id_String{
     
     
-    [kAppDelegate showProgressHUD:self.view];
+   // [kAppDelegate showProgressHUD:self.view];
     
     
     [[NetworkEngine sharedNetworkEngine]getChatForChatRoom:^(id object) {
@@ -612,7 +616,7 @@
             NSMutableDictionary *channelDict=[object valueForKey:@"channel"];
             
             if ([channelDict valueForKey:@"subscribers_count"] && ![[channelDict valueForKey:@"subscribers_count"]isEqual:[NSNull null]]) {
-                
+              //  channelId=[NSString stringWithFormat:@"%@",[channelDict valueForKey:@"id"]];
                 
                 NSNumber *subscriber_num=[channelDict valueForKey:@"subscribers_count"];
                 
@@ -640,8 +644,8 @@
         
     } onError:^(NSError *error) {
         NSLog(@"%@",error);
-        [kAppDelegate hideProgressHUD];
-        
+        //[kAppDelegate hideProgressHUD];
+         [kAppDelegate hideProgressAnimatedView];
     } forChatID:chat_id_String forPageNumber:chatRoomTableView.selectedPageNumber];
     
 }
@@ -859,7 +863,8 @@
     }
     
     [self checkForTableOffset:messageDict];
-    [kAppDelegate hideProgressHUD];
+   // [kAppDelegate hideProgressHUD];
+     [kAppDelegate hideProgressAnimatedView];
     messagetextField.text=@"";
     [[NetworkEngine sharedNetworkEngine]sendMessage:^(id object) {
         
@@ -867,7 +872,8 @@
         
         
     } onError:^(NSError *error) {
-        [kAppDelegate hideProgressHUD];
+        //[kAppDelegate hideProgressHUD];
+         [kAppDelegate hideProgressAnimatedView];
         if (chatRoomMessageArray.count && isInChatRoom) {
             
             
@@ -921,8 +927,8 @@
     
     
     [PubNub sendMessage:messageDict toChannel:masterChannel withCompletionBlock:^(PNMessageState messageState, id response) {
-        [kAppDelegate hideProgressHUD];
-        
+       // [kAppDelegate hideProgressHUD];
+         [kAppDelegate hideProgressAnimatedView];
         NSLog(@"%@",response);
         
         if (messageState==PNMessageSent) {
@@ -981,12 +987,14 @@
                     if (!error) {
                        // [self getFullHistoryOfMessages:masterChannel];
                         NSLog(@"Subscribed to channel: %@",masterChannel);
-                        [kAppDelegate hideProgressHUD];
+                   //     [kAppDelegate hideProgressHUD];
+                         [kAppDelegate hideProgressAnimatedView];
 
                     }
                     else{
                         backButton.enabled=YES;
-                        [kAppDelegate hideProgressHUD];
+                       // [kAppDelegate hideProgressHUD];
+                         [kAppDelegate hideProgressAnimatedView];
                         [Utility showAlertWithString:@"Unable to subscribe to channel."];
                         
                     }
@@ -999,7 +1007,8 @@
             }
             else{
                 
-                [kAppDelegate hideProgressHUD];
+               // [kAppDelegate hideProgressHUD];
+                 [kAppDelegate hideProgressAnimatedView];
  
             }
         }
@@ -1043,12 +1052,14 @@
                         if (!error) {
                             // [self getFullHistoryOfMessages:masterChannel];
                             NSLog(@"Subscribed to channel: %@",masterChannel);
-                            [kAppDelegate hideProgressHUD];
+                           // [kAppDelegate hideProgressHUD];
+                             [kAppDelegate hideProgressAnimatedView];
 
                         }
                         else{
                             backButton.enabled=YES;
-                            [kAppDelegate hideProgressHUD];
+                          //  [kAppDelegate hideProgressHUD];
+                             [kAppDelegate hideProgressAnimatedView];
                             [Utility showAlertWithString:@"Unable to subscribe to channel."];
                             
                         }
@@ -1064,7 +1075,8 @@
             }
             else{
                 backButton.enabled=YES;
-                [kAppDelegate hideProgressHUD];
+               // [kAppDelegate hideProgressHUD];
+                 [kAppDelegate hideProgressAnimatedView];
                 [Utility showAlertWithString:@"Unable to subscribe to channel."];
            // [self reloadTableData];
             }
@@ -1075,7 +1087,8 @@
      
         } errorBlock:^(PNError *error) {
            // [self reloadTableData];
-            [kAppDelegate hideProgressHUD];
+           // [kAppDelegate hideProgressHUD];
+             [kAppDelegate hideProgressAnimatedView];
             backButton.enabled=YES;
             UIAlertView *connectionErrorAlert = [UIAlertView new]; connectionErrorAlert.title = [NSString stringWithFormat:@"%@(%@)",
                                                                                                  [error localizedDescription],
@@ -1122,7 +1135,8 @@
               //[self.chatRoomTableView endUpdates];
     }
 
-    [kAppDelegate hideProgressHUD];
+  //  [kAppDelegate hideProgressHUD];
+     [kAppDelegate hideProgressAnimatedView];
 
 }
 
@@ -1153,7 +1167,8 @@
                         //[self reloadTableData];
 
                         NSLog(@"Re subscribed to channel %@",channel);
-                        [kAppDelegate hideProgressHUD];
+                     //   [kAppDelegate hideProgressHUD];
+                         [kAppDelegate hideProgressAnimatedView];
                         
 
                         
@@ -1161,7 +1176,8 @@
                     else{
                        // [self reloadTableData];
                         [Utility showAlertWithString:@"Unable to subscribe to channel."];
-                        [kAppDelegate hideProgressHUD];
+                      //  [kAppDelegate hideProgressHUD];
+                         [kAppDelegate hideProgressAnimatedView];
 
                     }
                     
@@ -1173,7 +1189,8 @@
             else{
              //   [self reloadTableData];
                 [Utility showAlertWithString:@"Unable to subscribe to channel."];
-                [kAppDelegate hideProgressHUD];
+               // [kAppDelegate hideProgressHUD];
+                 [kAppDelegate hideProgressAnimatedView];
 
             }
             
@@ -1183,7 +1200,8 @@
         
     }
     else{
-        [kAppDelegate hideProgressHUD];
+       // [kAppDelegate hideProgressHUD];
+         [kAppDelegate hideProgressAnimatedView];
 
         //[self reloadTableData];
     }
@@ -1202,7 +1220,8 @@
     
     
     if (!isInChatRoom) {
-        [kAppDelegate hideProgressHUD];
+      //  [kAppDelegate hideProgressHUD];
+         [kAppDelegate hideProgressAnimatedView];
 
         return;
     }
@@ -1235,7 +1254,8 @@
             
 
         }
-        [kAppDelegate hideProgressHUD];
+      //  [kAppDelegate hideProgressHUD];
+         [kAppDelegate hideProgressAnimatedView];
         chatRoomTableView.pageLocked=NO;
         
         
@@ -1275,8 +1295,8 @@
                 bottomView.hidden=YES;
                 [activityIndicatorView stopAnimating];
                 
-                
-                [kAppDelegate hideProgressHUD];
+                 [kAppDelegate hideProgressAnimatedView];
+               // [kAppDelegate hideProgressHUD];
                 backButton.enabled=YES;
                 
                 if (!chatRoomMessageArray) {
@@ -1419,8 +1439,9 @@
 -(UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     ChatCustomCell *cell=[tableView dequeueReusableCellWithIdentifier:@"ChatCellIdentifier"];
-    
-    
+//    longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPress:)];
+//    [cell.messageLabel addGestureRecognizer:longPressGestureRecognizer];
+    cell.delegate=self;
     cell.userNameLabel.textColor=[Utility colorWithHexString:@"616161"];
     cell.userNameLabel.font=[UIFont fontWithName:kHelVeticaNeueMedium size:10.5];
     cell.messageLabel.alpha=1.0;
@@ -1557,9 +1578,41 @@
     
     
 }
-
+//-(void)longPress:(UILongPressGestureRecognizer*)gesture 
+//{
+//    NSLog(@"Log press gesture call");
+//}
 
 //For PN message
+#pragma mark - ChatCustomCell Delegates.
+
+-(void)startLongPressGestureCallForCell:(ChatCustomCell *)cell
+{
+    
+    if (cell) {
+        isLongpress=YES;
+        UIActionSheet *popup = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Flag This Message",nil];
+        
+        [popup showInView:self.view];
+        
+        
+        
+        //   cell=(ChatCustomCell *)[[[sender superview]superview]superview];
+        NSIndexPath *indexpath=[chatRoomTableView indexPathForCell:cell];
+        flagDict=   [self.chatRoomMessageArray objectAtIndex:indexpath.row];
+    }
+   
+    
+    
+    
+    
+}
+
+
+
+
+
+
 
 
 
@@ -1893,8 +1946,8 @@
                 }
                 
             }
-            [kAppDelegate hideProgressHUD];
-
+         //   [kAppDelegate hideProgressHUD];
+ [kAppDelegate hideProgressAnimatedView];
             chatRoomTableView.pageLocked=NO;
 
             bottomView.hidden=YES;
@@ -1904,8 +1957,8 @@
             
         } onError:^(NSError *error) {
             NSLog(@"%@",error);
-            [kAppDelegate hideProgressHUD];
-            
+            //[kAppDelegate hideProgressHUD];
+             [kAppDelegate hideProgressAnimatedView];
             chatRoomTableView.pageLocked=NO;
             
             bottomView.hidden=YES;
@@ -2694,6 +2747,68 @@ didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result{
 
 
 
+#pragma mark UIAlertView Delegate Methods
+
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    
+    
+    
+    if (![alertView.message isEqual:[NSNull null]] && [alertView.message isEqualToString:@"Are you sure you want to flag this message?"]) {
+        
+        
+        switch (buttonIndex) {
+            case 0:
+            {
+                
+            }
+                break;
+                
+            case 1:{
+                
+                
+                if ([flagDict valueForKey:@"message"] && ![[flagDict valueForKey:@"message"]isEqual:[NSNull null]]) {
+                    
+                    NSDictionary *flagDetailDict=[flagDict valueForKey:@"message"];
+                    NSMutableDictionary *paramDict=[[NSMutableDictionary alloc]init];
+                    [paramDict setObject:[flagDetailDict valueForKey:@"id"] forKey:@"message_id"];
+                    [paramDict setObject:chatIDString forKey:@"channelId"];
+                    
+                    
+                    
+                    
+                    
+                    [[NetworkEngine sharedNetworkEngine]setFlagForMessage:^(id object) {
+                        
+                        NSLog(@"%@",object);
+                        UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:nil message:@"Message has been flagged, admins have been notified." delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+                        [alertView show];
+                        
+                        
+                    } onError:^(NSError *error) {
+                        
+                    } dict:paramDict];
+                }
+            }break;
+                
+                
+            default:{
+                
+                
+            }
+                
+                break;
+        }
+        
+    }
+    
+    else if (![alertView.message isEqual:[NSNull null]] && [alertView.message isEqualToString:@"Message has been flagged, admins have been notified."]){
+        
+        NSLog(@"Dismiss Buttons");
+    }
+    
+  
+}
 #pragma mark UIactionSheet Delegate Methods
 
 - (void)actionSheet:(UIActionSheet *)popup clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -2701,16 +2816,34 @@ didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result{
     switch (buttonIndex) {
         case 0:
             //[self openCamera];
-            isNotUploadingImage=NO;
-
-            [self openPhoneCamera];
+            if (isLongpress) {
+               //  NSLog(@"%@",flagDict);
+                
+                UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:nil message:@"Are you sure you want to flag this message?" delegate:self cancelButtonTitle:nil otherButtonTitles:@"NO",@"YES", nil];
+                [alertView show];
+                
+              
+                
+            }
+            else{
+                isNotUploadingImage=NO;
+                
+                [self openPhoneCamera];
+            }
+           
             break;
         case 1:
             //[self openPhotoLibrary];
-            isNotUploadingImage=NO;
-
-            [self openPhonePhotoLibrary];
-            break;
+            if (isLongpress) {
+                
+            }
+            else
+            {
+                isNotUploadingImage=NO;
+                
+                [self openPhonePhotoLibrary];
+            }
+            
             
             break;
         default:
@@ -2838,8 +2971,8 @@ didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result{
 
     isImageSelectedFromDevice=YES;
     
-
-    [kAppDelegate showProgressHUDWithText:@"Uploading Image..." inView:self.view];
+     [kAppDelegate showProgressAnimatedView];
+   // [kAppDelegate showProgressHUDWithText:@"Uploading Image..." inView:self.view];
     [self uploadImageOnAmazon:editedImage];
 
     
@@ -2936,21 +3069,22 @@ didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result{
                 
             }
             else{
-                [kAppDelegate hideProgressHUD];
+              //  [kAppDelegate hideProgressHUD];
+                 [kAppDelegate hideProgressAnimatedView];
                 
             }
             
         } onError:^(NSError *error) {
             
-            
-            [kAppDelegate hideProgressHUD];
+             [kAppDelegate hideProgressAnimatedView];
+            //[kAppDelegate hideProgressHUD];
             
             
         }];
     }
     else{
-        
-            [kAppDelegate hideProgressHUD];
+         [kAppDelegate hideProgressAnimatedView];
+           // [kAppDelegate hideProgressHUD];
     }
     
     
@@ -3605,7 +3739,7 @@ didSelectLinkWithTextCheckingResult:(NSTextCheckingResult *)result{
 
 -(IBAction)attachFileButtonPressed:(UIButton *)sender{
     
-    
+    isLongpress=NO;
     UIActionSheet *popup = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Take Photo",@"Existing",nil];
     
     [popup showInView:self.view];

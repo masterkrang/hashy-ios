@@ -789,7 +789,7 @@
             NSString * searchString = [[textField text] stringByReplacingCharactersInRange:range withString:string];
             self.createChatTableView.selectedPageNumber=1;
             
-            [self searchChannels:searchString forPageNumber:selectedPageNumber];
+            [self searchChannels:searchString forPageNumber:self.createChatTableView.selectedPageNumber];
 
             if (searchString && searchString.length>0) {
                 [self searchChannels:searchString forPageNumber:self.createChatTableView.selectedPageNumber];
