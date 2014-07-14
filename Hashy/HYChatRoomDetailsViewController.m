@@ -1615,8 +1615,10 @@
                 
                 if ([messageDict valueForKey:@"image_height"] && ![[messageDict valueForKey:@"image_height"]isEqual:[NSNull null]]) {
                     
-                    NSString *heightString=[messageDict valueForKey:@"image_height"];
-                    int heightOfImage=heightString.intValue;
+//                    NSString *heightString=[messageDict valueForKey:@"image_height"];
+                    NSNumber *image_height_num=[messageDict valueForKey:@"image_height"];
+
+                    int heightOfImage=image_height_num.intValue;
                     
                     if (heightOfImage>0) {
                         height+=heightOfImage+12;
@@ -2032,10 +2034,24 @@
         CGRect pictureFrame=cell.pictureImageView.frame;
         
 //        pictureFrame.origin.x=cell.bubbleImageView.frame.origin.x+16;
-        NSNumber *pictureWidthNum=[messageDict valueForKey:@"image_width"];
-        NSNumber *pictureHeightNum=[messageDict valueForKey:@"image_height"];
+        NSNumber *pictureWidthNum;
+        if ([messageDict valueForKey:@"image_width"] && ![[messageDict valueForKey:@"image_width"]isEqual:[NSNull null]]) {
+            pictureWidthNum=[messageDict valueForKey:@"image_width"];
+
+        }
+        else
+        pictureWidthNum=[NSNumber numberWithLong:0];
         
         
+        NSNumber *pictureHeightNum;
+        
+        if ([messageDict valueForKey:@"image_height"] && ![[messageDict valueForKey:@"image_height"]isEqual:[NSNull null]]) {
+            pictureHeightNum=[messageDict valueForKey:@"image_height"];
+            
+        }
+        else
+            pictureHeightNum=[NSNumber numberWithLong:0];
+
         int pictureWidth=0;
         int pictureHeight=0;
         
