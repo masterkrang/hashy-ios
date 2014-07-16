@@ -63,7 +63,8 @@
     
     //Load the request in the UIWebView.
     [webView loadRequest:requestObj];
-
+    [kAppDelegate showProgressAnimatedView];
+    
     
     // Do any additional setup after loading the view.
 }
@@ -81,7 +82,7 @@
 }
 - (void)webViewDidStartLoad:(UIWebView *)webView{
     
-    
+    [kAppDelegate hideProgressAnimatedView];
     
     
 }
@@ -91,7 +92,8 @@
     
 }
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
-    
+    [kAppDelegate hideProgressAnimatedView];
+
     // [Utility showAlertWithString:@"Error "];
     
 }

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HYAppDelegate.h"
 
 @interface HYTermsAndConditionsViewController : UIViewController<UIWebViewDelegate,UIScrollViewDelegate>
 {

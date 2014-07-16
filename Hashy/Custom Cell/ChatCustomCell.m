@@ -7,7 +7,9 @@
 //
 
 #import "ChatCustomCell.h"
-#define kLongPressMinimumDuration 1.0f
+//#define kLongPressMinimumDuration 1.0f
+#define kLongPressMinimumDuration 0.5f
+
 @implementation ChatCustomCell
 @synthesize userNameLabel;
 @synthesize messageLabel;
@@ -22,10 +24,15 @@
 {
    UILongPressGestureRecognizer *longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPress:)];
      longPressGestureRecognizer.delegate = self;
-    //longPressGestureRecognizer.minimumPressDuration = kLongPressMinimumDuration;
+    longPressGestureRecognizer.minimumPressDuration = kLongPressMinimumDuration;
     [self.messageLabel addGestureRecognizer:longPressGestureRecognizer];
     
-    [self.pictureImageView addGestureRecognizer:longPressGestureRecognizer];
+    
+    UILongPressGestureRecognizer *longPressPictureGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPress:)];
+    longPressPictureGestureRecognizer.delegate = self;
+    longPressPictureGestureRecognizer.minimumPressDuration = kLongPressMinimumDuration;
+
+    [self.pictureImageView addGestureRecognizer:longPressPictureGestureRecognizer];
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
